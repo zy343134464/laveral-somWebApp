@@ -1,2 +1,3 @@
 require('../css/div1.css')
-console.log(div1.innerHTML)
+var $ = require('jquery')
+console.log($('#div'))
