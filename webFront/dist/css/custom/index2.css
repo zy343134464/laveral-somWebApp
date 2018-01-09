@@ -28,20 +28,48 @@ body {
     margin-left: 244px;
 }
 
+
 .wrapper > .main-header > .navbar-static-top > .navbar-left ul{
     list-style: none;
     margin: 0;
     padding: 0;
 }
-.wrapper > .main-header > .navbar-static-top > .navbar-left ul li{
+
+.wrapper > .main-header .navbar-left ul li{
     float: left;
     padding-left: 37px;
     line-height: 70px;
 }
 
+.wrapper > .main-header .navbar-custom-menu ul li a{
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.wrapper > .main-header .navbar .nav>li>a>.label {
+    top: 19px;
+}
+
 .wrapper > .main-header .navbar-left ul .fa-bank{
     color: #000;
     font-size: 18px;
+}
+
+.wrapper > .main-header .navbar-left ul .fa-bank:hover{
+    color: red;
+}
+
+.wrapper .main-header .navbar .nav>li>a:hover{
+    background: none;
+    color: black;
+}
+
+.wrapper > .main-header .navbar-static-top .navbar-nav li a {
+    color: #000;
+}
+
+.wrapper > .main-header .navbar-static-top .navbar-nav li a:hover {
+    color: red;
 }
 
 /*主要侧边栏*/
@@ -57,3 +85,4 @@ body {
 .wrapper > .content-wrapper {
     margin-left: 244px;
 }
+
