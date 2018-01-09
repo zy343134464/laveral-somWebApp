@@ -1,0 +1,59 @@
+body {
+    font-family: "Microsoft YaHei";
+}
+/*清除浮动*/
+.clearfix {
+    content: '';
+    display: block;
+    clear: both;
+}
+/*头部导航*/
+.wrapper > .main-header > .logo {
+    color: #d0a45d;
+    line-height: 70px;
+    height:70px;
+    font-size: 16px;
+    width: 244px;
+    background-color: #191919;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.wrapper > .main-header > .logo:hover {
+    background-color: #191919;
+}
+
+.wrapper > .main-header > .navbar-static-top {
+    background-color: #fff;
+    margin-left: 244px;
+}
+
+.wrapper > .main-header > .navbar-static-top > .navbar-left ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.wrapper > .main-header > .navbar-static-top > .navbar-left ul li{
+    float: left;
+    padding-left: 37px;
+    line-height: 70px;
+}
+
+.wrapper > .main-header .navbar-left ul .fa-bank{
+    color: #000;
+    font-size: 18px;
+}
+
+/*主要侧边栏*/
+.wrapper > .main-sidebar {
+    width: 244px;
+}
+
+.wrapper > .main-sidebar > .sidebar{
+    padding-top: 20px;
+}
+
+/*右边内容*/
+.wrapper > .content-wrapper {
+    margin-left: 244px;
+}
