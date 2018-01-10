@@ -216,7 +216,21 @@ body {
 }
 
 .content-wrapper > .content-header .dropdown .dropdown-menu {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
     min-width: 109px;
     top: 94%;
 }
 
+.content-wrapper > .content-header .timefiltrate{
+    margin-left: -56px;
+}
+
+.content-wrapper > .content-header .statefiltrate{
+    margin-left: -70px;
+}
+
+.content-wrapper > .content-header .optionalfiltrate{
+    margin-left: -62px;
+}

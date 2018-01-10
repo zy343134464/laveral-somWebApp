@@ -216,7 +216,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-xs-2">
+                        <div class="col-xs-2 timefiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     按时间筛选
@@ -231,7 +231,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-xs-2">
+                        <div class="col-xs-2 statefiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     按状态筛选
@@ -246,28 +246,41 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-5 optionalfiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                     <span>自选显示信息</span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                                    <div class="">
+                                    <div class="form-group">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1
-                                        </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2
+                                            <input type="checkbox" id="inlineCheckbox1" value="option1" checked>比赛名称
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3
+                                            <input type="checkbox" id="inlineCheckbox2" value="option2" checked>征稿起止日期
                                         </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked> 选项 1
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox3" value="option3" checked>作品数量
                                         </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 选项 2
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox1" value="option1" checked>类别
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox2" value="option2" checked>赛果公布日期
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox3" value="option3" checked>是否付费
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox1" value="option1" checked>赛事阶段
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="inlineCheckbox2" value="option2" checked>参与人数
                                         </label>
                                     </div>
                                 </ul>
