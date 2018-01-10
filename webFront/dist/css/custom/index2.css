@@ -3,6 +3,12 @@ body {
     font-family: "Microsoft YaHei";
 }
 
+@media (min-width: 1400px) {
+    body .container {
+        width: 1380px;
+    }
+}
+
 .skin-blue .main-header .navbar .nav > li > a:hover,
 .skin-blue .main-header .navbar .nav > li > a:active,
 .skin-blue .main-header .navbar .nav > li > a:focus,
@@ -14,9 +20,9 @@ body {
     color: #000;
 }
 
-.skin-blue .sidebar-menu>li:hover>a,
-.skin-blue .sidebar-menu>li.active>a,
-.skin-blue .sidebar-menu>li.menu-open>a{
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.menu-open > a {
     background-color: #191919;
 }
 
@@ -90,7 +96,7 @@ body {
     background-color: #fff;
 }
 
-.wrapper > .main-header .navbar-collapse .navbar-nav .user-menu{
+.wrapper > .main-header .navbar-collapse .navbar-nav .user-menu {
     position: relative;
 }
 
@@ -114,64 +120,103 @@ body {
     padding-top: 20px;
 }
 
-.main-sidebar > .sidebar > .organization-logo{
+.main-sidebar > .sidebar > .organization-logo {
     width: 118px;
-    height:46px;
-    margin-top:58px;
+    height: 46px;
+    margin-top: 58px;
     margin-left: 22px;
 }
 
-.main-sidebar > .sidebar > .user-message{
+.main-sidebar > .sidebar > .user-message {
     padding-top: 44px;
     padding-left: 20px;
     color: #d0d0d0;
 }
 
-.main-sidebar > .sidebar > .user-message h4{
+.main-sidebar > .sidebar > .user-message h4 {
     font-size: 16px;
     margin-bottom: 0;
 }
 
-.main-sidebar > .sidebar > .user-message p{
+.main-sidebar > .sidebar > .user-message p {
     font-size: 12px;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu{
+.main-sidebar > .sidebar > .sidebar-menu {
     padding-top: 27px;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu li a{
+.main-sidebar > .sidebar > .sidebar-menu li a {
     border-left: none;
     padding-left: 5px;
     color: #73787b;
     font-size: 18px;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu li a:hover{
+.main-sidebar > .sidebar > .sidebar-menu li a:hover {
     color: #000;
     background-color: #d0a45d;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu .treeview-menu{
-    margin:0;
+.main-sidebar > .sidebar > .sidebar-menu .treeview-menu {
+    margin: 0;
     padding-left: 0;
     background-color: #191919;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li{
+.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li {
     line-height: 40px;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a{
+.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a {
     color: #bebebe;
 }
 
-.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a:hover{
+.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a:hover {
     color: #000;
 }
 
 /*右边内容*/
 .content-wrapper {
     margin-left: 244px;
+    background-color: #f5f5f5;
+}
+
+/*头部*/
+.content-wrapper > .content-header {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.content-wrapper > .content-header .nav-tabs {
+    border-bottom: 0;
+}
+
+.content-wrapper > .content-header .nav-tabs li a {
+    margin-left: -1px;
+    padding: 8px 20px;
+    color: #000;
+    margin-right: 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 0;
+}
+
+.content-wrapper > .content-header .dropdown .btn-default {
+    background-color: #fff;
+}
+
+.content-wrapper > .content-header #dropdownMenu3 {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+.content-wrapper > .content-header #dropdownMenu3 {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+.content-wrapper > .content-header .dropdown .dropdown-menu {
+    min-width: 109px;
+    top: 94%;
 }
 
