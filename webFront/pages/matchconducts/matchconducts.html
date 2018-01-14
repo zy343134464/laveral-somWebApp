@@ -3,27 +3,27 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> 首页 </title>
+    <title> 比赛管理 | 进行中比赛 </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
 
     <!--pages css-->
     <!-- DataTables -->
-    <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
     <!--custom css-->
-    <link rel="stylesheet" href="dist/css/custom/index2.css">
+    <link rel="stylesheet" href="../../dist/css/custom/matchconducts.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,7 +45,7 @@
             <header class="main-header">
                 <!-- Logo -->
                 <a href="index2.html" class="logo">
-                    <img src="./dist/img/images/som-logo.png" alt="som图标">
+                    <img src="../../dist/img/images/som-logo.png" alt="som图标">
                     <span>SOM赛事管理系统</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
@@ -109,13 +109,13 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                                 </a>
                                 <div class="circle"></div>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                         <p>
                                             Alexander Pierce - Web Developer
@@ -157,27 +157,27 @@
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <div class="organization-logo">
-                        <img src="./dist/img/images/som-somlogo.png" alt="机构图标">
+                        <img src="../../dist/img/images/som-organization.png" alt="机构图标">
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu text-center" data-widget="tree">
-                        <li class="treeview active">
-                            <a href="#">
+                        <li>
+                            <a href="../../index2.html">
                                 <span>首页</span>
                             </a>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview active">
                             <a href="#">
                                 <span>比赛管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/matchconducts/matchconducts.html">进行中比赛</a></li>
-                                <li><a href="pages/UI/icons.html">筹备中比赛</a></li>
-                                <li><a href="pages/UI/buttons.html">历史记录</a></li>
+                                <li class="active"><a href="javascript:void (0)">进行中比赛</a></li>
+                                <li><a href="">筹备中比赛</a></li>
+                                <li><a href="">历史记录</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="pages/membermanage/membermanage.html">
+                            <a href="../membermanage/membermanage.html">
                                 <span>会员管理</span>
                             </a>
                         </li>
@@ -196,33 +196,51 @@
                 <!-- 头部 -->
                 <section class="content-header">
                     <div class="row">
-                        <div class="col-xs-3 timefiltrate">
+                        <div class="col-xs-3">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#home" aria-controls="" role="tab" data-toggle="tab">
+                                        <span class="glyphicon glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#profile" aria-controls="" role="tab" data-toggle="tab">
+                                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-2 timefiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    按用户角色筛选
+                                    按时间筛选
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="#">评委</a></li>
-                                    <li><a href="#">管理员</a></li>
+                                    <li><a href="#">2016</a></li>
+                                    <li><a href="#">一年内</a></li>
+                                    <li><a href="#">一个月内</a></li>
+                                    <li><a href="#">一周内</a></li>
+                                    <li><a href="#">三天内</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-xs-3 statefiltrate">
+                        <div class="col-xs-2 statefiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    按会员等级筛选
+                                    按状态筛选
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <li><a href="#">普通会员</a></li>
-                                    <li><a href="#">优越会员</a></li>
-                                    <li><a href="#">至尊会员</a></li>
-                                    <li><a href="#">钻石会员</a></li>
+                                    <li><a href="#">征稿中</a></li>
+                                    <li><a href="#">即将截稿</a></li>
+                                    <li><a href="#">评审中</a></li>
+                                    <li><a href="#">已结束</a></li>
+                                    <li><a href="#">所有</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-xs-6 optionalfiltrate">
+                        <div class="col-xs-5 optionalfiltrate">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
@@ -231,29 +249,32 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
                                     <div class="form-group">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="1" checked/>名称
+                                            <input type="checkbox" class="toggle-vis" data-column="1" checked/>比赛名称
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="2" checked/>类别
+                                            <input type="checkbox" class="toggle-vis" data-column="2" checked/>赛事类别
                                         </label>
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="3" checked/>账号
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="4" checked/>多角色
-                                        </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="5" checked/>会员等级
-                                        </label>
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="6" checked/>编辑
+                                            <input type="checkbox" class="toggle-vis" data-column="3" checked/>赛事阶段
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" class="toggle-vis" data-column="7" checked/>站内信
+                                            <input type="checkbox" class="toggle-vis" data-column="4" checked/>征稿期
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="toggle-vis" data-column="5" checked/>公布期
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="toggle-vis" data-column="6" checked/>详情
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="toggle-vis" data-column="7" checked/>导出
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="toggle-vis" data-column="8" checked/>评审室
                                         </label>
                                     </div>
                                 </ul>
@@ -274,35 +295,28 @@
                             <!--批量导出-->
                             <div class="batch-export">
                                 <div class="dropdown">
-                                    <button class="btn btn-success dropdown-toggle toggle-vis" type="button">
-                                        导出
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="batch-enter">
-                                <div class="dropdown">
                                     <button class="btn btn-success dropdown-toggle toggle-vis" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        导入
-                                        <i class="fa fa-sort-down"></i>
+                                        批量导出
+                                        <i class="fa fa-share-square-o"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                                        <li><a href="#">下载模板</a></li>
+                                        <li><a href="#">仅数据</a></li>
                                         <li role="presentation" class="divider"></li>
-                                        <li><a href="#">上传模板</a></li>
+                                        <li><a href="#">仅缩略图</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a href="#">仅大图</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a href="#">数据+缩略图</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li><a href="#">所有</a></li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div class="hand-users">
-                                <div class="dropdown">
-                                    <button class="btn btn-success dropdown-toggle toggle-vis" type="button" id="dropdownMenu3">
-                                        手动添加用户
-                                    </button>
                                 </div>
                             </div>
                             <div class="tab-title">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">机构会员</a></li>
-                                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">普通用户</a></li>
+                                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">全部赛事</a></li>
+                                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">综合赛事</a></li>
+                                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">单项赛事</a></li>
                                 </ul>
                             </div>
                             <div class="box">
@@ -311,50 +325,103 @@
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>名称</th>
-                                            <th>类别</th>
-                                            <th>账号</th>
-                                            <th>多角色</th>
-                                            <th>会员等级</th>
-                                            <th>编辑</th>
-                                            <th>站内信</th>
+                                            <th>比赛名称</th>
+                                            <th>赛事类别</th>
+                                            <th>赛事阶段</th>
+                                            <th>
+                                                征稿期
+                                                <i class="fa fa-sort-asc"></i>
+                                                <i class="fa fa-sort-desc" style="margin-left: -12px;"></i>
+                                            </th>
+                                            <th>公布期</th>
+                                            <th>详情</th>
+                                            <th>导出</th>
+                                            <th>评审室</th>
                                         </tr>
                                         </thead>
                                         <tbody class="panel panel-default">
-                                        <tr>
+                                        <tr class="many-match many-active">
                                             <td>
                                                 <input type="checkbox">
                                             </td>
-                                            <td>martin</td>
+                                            <td>SOM测试比赛</td>
                                             <td>
-                                                个人
+                                                综合赛事
                                             </td>
-                                            <td>admin1</td>
-                                            <td>评委/管理员</td>
-                                            <td>卓越会员</td>
+                                            <td>---</td>
+                                            <td>2017年6月5日-7月5日</td>
+                                            <td>2017年8月5日</td>
                                             <td>
-                                                <a href="#"><i class="fa fa-edit"></i></a>
+                                                <a href="#"><i class="fa fa-search"></i></a>
                                             </td>
                                             <td>
-                                                <a href="#"><i class="fa fa-envelope-o"></i></a>
+                                                <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-sort-desc"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr class="only-match only-active">
+                                            <td class="text-right">
+                                                <input type="checkbox">
+                                            </td>
+                                            <td>SOM测试比赛</td>
+                                            <td>
+                                                史记
+                                            </td>
+                                            <td>征稿中</td>
+                                            <td>2017年8月5日-9月5日</td>
+                                            <td>2017年10月5日</td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-search"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-male"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr class="only-match only-active">
+                                            <td class="text-right">
+                                                <input type="checkbox">
+                                            </td>
+                                            <td>SOM测试比赛</td>
+                                            <td>
+                                                人像
+                                            </td>
+                                            <td>征稿中</td>
+                                            <td>2017年8月5日-9月5日</td>
+                                            <td>2017年10月5日</td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-search"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-male"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="text-right">
                                                 <input type="checkbox">
                                             </td>
-                                            <td>zhangyang</td>
+                                            <td>SOM测试比赛</td>
                                             <td>
-                                                团体
+                                                婚礼
                                             </td>
-                                            <td>admin2</td>
-                                            <td>评委</td>
-                                            <td>至尊会员</td>
+                                            <td>征稿中</td>
+                                            <td>2017年8月5日-9月5日</td>
+                                            <td>2017年10月5日</td>
                                             <td>
-                                                <a href="#"><i class="fa fa-edit"></i></a>
+                                                <a href="#"><i class="fa fa-search"></i></a>
                                             </td>
                                             <td>
-                                                <a href="#"><i class="fa fa-envelope-o"></i></a>
+                                                <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-male"></i></a>
                                             </td>
                                         </tr>
                                         </tfoot>
@@ -404,22 +471,22 @@
 </div>
 
 <!-- jQuery 3 -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!--page js-->
 <!-- DataTables -->
-<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <!-- SlimScroll -->
-<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
-<script src="bower_components/fastclick/lib/fastclick.js"></script>
+<script src="../../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+<script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="../../dist/js/demo.js"></script>
 <!--custom js-->
-<script src="dist/js/custom/index2.js"></script>
+<script src="../../dist/js/custom/matchconducts.js"></script>
 </body>
 </html>
