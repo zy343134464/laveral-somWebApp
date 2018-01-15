@@ -32,7 +32,9 @@ body .login-box {
     width: 400px;
     margin: 0;
 }
-
+body .login-box .login-box-body .nickname{
+    padding-right: 100px;
+}
 body .login-box .login-box-body .organization-logo {
     text-align: center;
     margin-top: 30px;
