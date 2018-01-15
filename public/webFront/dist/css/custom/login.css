@@ -1,0 +1,68 @@
+body.login-page {
+    background-color: #191919;
+    padding-top: 60px;
+    text-align: center;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+body.login-page .wrapper {
+    background: url("../../img/images/advertisement-pic.jpg") no-repeat center center;
+}
+
+body .wrapper .advertisement {
+    display: inline-block;
+    padding-right: 100px;
+    vertical-align: top;
+}
+
+body .login {
+    padding-top: 4%;
+    padding-left: 500px;
+}
+
+body .login-box {
+    vertical-align: top;
+    display: inline-block;
+    width: 400px;
+    margin: 0;
+}
+
+body .login-box .login-box-body .organization-logo {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 124px;
+}
+
+body .login-box .login-box-body .btn-primary {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    color: #767676;
+    background-color: #323232;
+    border: 1px solid #323232;
+}
+body .login-box .login-box-body .siginin{
+     margin-top: 10px;
+ }
+
+body .login-box .login-box-body .siginin a{
+    color: #a4a4a4;
+}
+
+body .login-box .login-box-body .other-login ul{
+    text-align: center;
+}
+body .login-box .login-box-body .other-login ul li{
+    font-size: 24px;
+    display: inline-block;
+    padding: 25px 20px;
+}
+body .login-box .login-box-body .other-login ul li a{
+    font-size:16px;
+    color: #000;
+}
