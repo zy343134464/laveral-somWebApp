@@ -44,20 +44,20 @@
                     {!! csrf_field() !!}
                     <div class="text-left " style="color:red" id="msg">{{ $errors->first() }}{{ session('msg') }}</div>
                     <div class="form-group has-feedback">
-                        <input type="text"  class="form-control" placeholder="手机号" name="phone">
+                        <input type="text"  class="form-control" placeholder="手机号" name="phone"  onblur="checkPhone(this)">
                     </div>
                     <div class="form-group has-feedback nickname">
                         <input type="text" class="form-control pull-left sryanzheng" placeholder="请输入验证码">
                         <button type="submit" class="btn btn-default yanzheng">发送验证码<tton>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text"  class="form-control" placeholder="昵称" name="name">
+                        <input type="text"  class="form-control" placeholder="昵称" name="name" onblur="checkName(this)">
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password"  class="form-control" placeholder="6-20位密码" name="password">
+                        <input type="password"  class="form-control" placeholder="6-20位密码" name="password" id="password">
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password"  class="form-control" placeholder="再次输入密码" name="password2">
+                        <input type="password"  class="form-control" placeholder="再次输入密码" name="password2" onblur="validPwd(this)">
                     </div>
                     <!-- /.col -->
                     <div class="row">
@@ -94,5 +94,54 @@
 <script src="{{ url('webFront/plugins/iCheck/icheck.min.js') }}"></script>
 <!--login js-->
 <script src="{{ url('webFront/dist/js/custom/sigin.js') }}"></script>
+<script>
+    function checkPhone(obj){ 
+        var phone = obj.value;
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+            msg.innerHTML = "请输入正确的手机号码"
+            return false; 
+        }else{
+            msg.innerHTML =""
+        } 
+    }
+
+    function validPwd(obj){
+      var pwd = obj.value;
+      if (pwd.length > 20 || pwd.length < 6)
+      {
+        msg.innerHTML = "密码长度为6~20个字符";
+        return false;
+      }
+      if(password.value != pwd){
+        msg.innerHTML = '两次密码不一致,请重新输入';
+        return false;
+      }
+        msg.innerHTML = ''
+    }
+    function checkName(obj)
+    {
+        msg.innerHTML =222;
+        $.post("{{ url('checkname') }}",
+        {
+          name:obj.value
+        },
+        function(data,status){
+          console.log()
+        });
+    }
+
+</script>
+<script>
+    function(){
+        $.post("/example/jquery/demo_test_post.asp",
+        {
+          name:"Donald Duck",
+          city:"Duckburg"
+        },
+        function(data,status){
+          alert("数据：" + data + "\n状态：" + status);
+        });
+      }
+</script>
 </body>
 </html>

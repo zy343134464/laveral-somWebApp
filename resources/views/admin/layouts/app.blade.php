@@ -27,8 +27,6 @@
 
     {{--主导航栏--}}
     @section('main-sidebar')
-
-    
     @show
 
     {{--中间部分--}}

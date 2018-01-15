@@ -1,0 +1,108 @@
+/*初始化*/
+body {
+    font-family: "Microsoft YaHei";
+}
+
+@media (min-width: 1400px) {
+    body .container {
+        width: 1380px;
+    }
+}
+
+ul, p {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+/*导航*/
+#header {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 24px;
+}
+
+#header .topbar .som-logo {
+    padding-top: 22px;
+}
+
+#header .navbar-collapse {
+    background-color: #ffffff;
+}
+
+#header .navbar-collapse a {
+    color: #818181;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 18px;
+    line-height: 40px;
+    background-color: transparent;
+}
+
+#header .navbar-collapse li.active a {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .navbar-collapse a:hover {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .topbar .som {
+    padding-top: 18px;
+    color: #aaa8a6;
+}
+
+#header .topbar .som button {
+    background-color: #fff;
+}
+
+#header .topbar .personal-home {
+    padding-top: 8px;
+}
+
+#header .topbar .personal-home a {
+    color: #abaaa7;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#header .topbar .personal-home a .fa-home {
+    font-size: 30px;
+    position: relative;
+    bottom: 6px;
+    vertical-align: top;
+}
+
+#header .topbar .personal-center img,
+#header .topbar .language-switch img,
+#header .topbar .personal-home img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    position: relative;
+    left: 10px;
+}
+
+#header .topbar .dropdown {
+    padding-left: 14px;
+}
+
+#header .topbar .language-switch {
+    padding-left: 30px;
+}
+
+/*轮播图*/
+#advertisement > #carousel-example-generic > .carousel-inner {
+    height: 630px;
+}
+
+#advertisement > #carousel-example-generic > .carousel-inner .item {
+    height: 100%;
+}
+
+#advertisement > #carousel-example-generic > .carousel-inner img {
+    height: 100%;
+}

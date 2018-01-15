@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome Aitoufinance</title>
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+
+    <!--carousel logo-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css"/>
+
+    <link rel="stylesheet" href="dist/css/custom/index.css"/>
+    <script src="dist/js/custom/index.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!--导航条-->
+<header id="header">
+    <div class="topbar clearfix">
+        <div class="col-sm-3">
+            <img class="som-logo" src="dist/img/images/som-index-logo.jpg" alt="首页图片">
+        </div>
+        <div class="col-xs-5 som-nav">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">关于SOM</a></li>
+                    <li><a href="#">导师</a></li>
+                    <li><a href="#">活动</a></li>
+                    <li><a href="#">赛事</a></li>
+                    <li><a href="#">展览</a></li>
+                    <li><a href="#">会员</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-4 clearfix som">
+            <div class="dropdown pull-right personal-center">
+                <img class="users-logo" src="dist/img/user2-160x160.jpg" alt="头像">
+                <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                        data-toggle="dropdown">
+                    Martin
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">个人中心</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">我的关注</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">修改密码</a>
+                    </li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">退出</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown pull-right language-switch">
+                <img class="chinese-logo" src="dist/img/images/chinese.jpg" alt="中国图标">
+                <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                        data-toggle="dropdown">
+                    中文
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">中文版</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="#">国际版</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown pull-right personal-home">
+                <a href="">
+                    <i class="fa fa-home"></i>
+                    <span>SOM首页</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!--banner 轮播-->
+<section id="advertisement">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="dist/img/images/banner1.jpg" alt="图片1" class="img-fluid" width=100%>
+            </div>
+            <div class="item">
+                <img src="dist/img/images/banner2.jpg" alt="图片2" class="img-fluid" width=100%>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script src="dist/js/custom/index.js"></script>
+</body>
+</html>
