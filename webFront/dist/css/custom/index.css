@@ -23,8 +23,8 @@ li {
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 24px;
-}
 
+}
 #header .topbar .som-logo {
     padding-top: 22px;
 }
@@ -49,7 +49,10 @@ li {
 #header .navbar-collapse a:hover {
     border-bottom: 4px solid #d0a45d;
 }
-
+#header .topbar  .som-nav{
+    position: relative;
+    left:250px;
+}
 #header .topbar .som {
     padding-top: 18px;
     color: #aaa8a6;
@@ -59,26 +62,9 @@ li {
     background-color: #fff;
 }
 
-#header .topbar .personal-home {
-    padding-top: 8px;
-}
-
-#header .topbar .personal-home a {
-    color: #abaaa7;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-#header .topbar .personal-home a .fa-home {
-    font-size: 30px;
-    position: relative;
-    bottom: 6px;
-    vertical-align: top;
-}
 
 #header .topbar .personal-center img,
-#header .topbar .language-switch img,
-#header .topbar .personal-home img {
+#header .topbar .language-switch img{
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -105,4 +91,45 @@ li {
 
 #advertisement > #carousel-example-generic > .carousel-inner img {
     height: 100%;
+}
+#advertisement .carousel-indicators{
+    margin-left: 0;
+}
+
+#advertisement .carousel-indicators li{
+    width: 40px;
+    height:4px;
+    margin:0;
+    margin: 5px;
+    background-color: white;
+}
+#advertisement .carousel-indicators li.active{
+    background-color: #d4b178;
+}
+#advertisement{
+    position: relative;
+}
+#advertisement .advertisement-text{
+    position: absolute;
+    left:20%;
+    top:25%;
+    color: white;
+}
+#advertisement .advertisement-text h2{
+    font-size: 79px;
+    margin-bottom: 0;
+}
+#advertisement .advertisement-text h3{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 34px;
+}
+#advertisement .advertisement-text .lastP{
+   margin-bottom: 40px;
+}
+#advertisement .advertisement-text a{
+    color: #fff;
+    background-color: transparent;
+    border: 1px solid white;
+    font-size: 18px;
 }
