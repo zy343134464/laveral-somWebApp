@@ -145,33 +145,26 @@ li {
 }
 
 /*点击轮播*/
-#collaborate .row{
+#collaborate{
     position: relative;
 }
-#collaborate .invest{
-    text-align: center;
+#collaborate .owl-carousel{
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
-#collaborate .invest li{
-    display: inline-block;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top:40px;
-    padding-bottom: 40px;
-}
-#collaborate .arrows-left{
+#collaborate .owl-prev{
     position: absolute;
-    left: 10px;
-    top:34px;
-    font-size: 30px;
-    color: #d9d9d9;
+    left: 0;
+    top: 10px;
+    border: 1px solid red;
 }
-#collaborate .arrows-right{
+#collaborate .owl-next{
     position: absolute;
-    right: 10px;
-    top:34px;
-    font-size: 30px;
-    color: #d9d9d9;
+    border: 1px solid red;
+    right: 0;
+    top: 10px;
 }
+
 /*主要内容*/
 #main .joinus li{
     display: inline-block;
