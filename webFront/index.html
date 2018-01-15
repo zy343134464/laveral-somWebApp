@@ -12,12 +12,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
 
-    <!--carousel logo-->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css"/>
-
     <link rel="stylesheet" href="dist/css/custom/index.css"/>
-    <script src="dist/js/custom/index.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -123,28 +118,153 @@
         </a>
     </div>
 </section>
-<section id="collaborate" class="hidden-sm hidden-xs">
+<!--投资方轮播-->
+<section id="collaborate">
     <div class="container">
-        <div class="row" style="border: 1px solid red;">
-            <h2>合作机构</h2>
-            <div class="owl-carousel owl-theme">
-                <img src="img/cn_hezuo1.jpg" alt="1" width=200 height=60/>
-                <img src="img/cn_hezuo2.png" alt="2" width=200 height=60/>
-                <img src="img/cn_hezuo3.png" alt="3" width=200 height=60/>
-                <img src="img/cn_hezuo4.jpg" alt="4" width=200 height=60/>
-                <img src="img/cn_hezuo5.png" alt="5" width=200 height=60/>
-                <img src="img/cn_hezuo6.png" alt="6" width=200 height=60/>
-                <img src="img/cn_hezuo7.png" alt="7" width=200 height=60/>
-                <img src="img/cn_hezuo8.jpg" alt="8" width=200 height=60/>
+        <div class="row">
+            <div class="arrows-left"><i class="fa fa-chevron-left"></i></div>
+            <div class="arrows-right"><i class="fa fa-chevron-right"></i></div>
+        </div>
+        <ul class="invest clearfix">
+            <li>
+                <a href="#"><img src="dist/img/images/invest1.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest2.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest3.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest4.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest5.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest1.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest2.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest3.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest4.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest5.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest1.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest2.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest3.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest4.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="dist/img/images/invest5.jpg" alt=""></a>
+            </li>
+        </ul>
+    </div>
+    </div>
+</section>
+<!--主内容-->
+<section id="main" style="margin-bottom: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <!--加入我们-->
+                <div class="joinus-main">
+                    <ul class="joinus" style="border: 1px solid red">
+                        <li>
+                            <a href="#"><img src="dist/img/images/joneus.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="#"><img src="dist/img/images/tutor.jpg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="#"><img src="dist/img/images/food.jpg" alt=""></a>
+                        </li>
+                    </ul>
+                </div>
+                <!--比赛-->
+                <div class="match text-center">
+                    <h3>
+                        赛事类目
+                    </h3>
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            全部赛事
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">综合赛事</a></li>
+                            <li><a href="#">单项赛事</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu2"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            按时间筛选
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <li><a href="#">2016</a></li>
+                            <li><a href="#">一年内</a></li>
+                            <li><a href="#">一个月内</a></li>
+                            <li><a href="#">一周内</a></li>
+                            <li><a href="#">三天内</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu3"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            按状态筛选
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                            <li><a href="#">征稿中</a></li>
+                            <li><a href="#">即将截稿</a></li>
+                            <li><a href="#">评审中</a></li>
+                            <li><a href="#">已结束</a></li>
+                            <li><a href="#">所有</a></li>
+                        </ul>
+                    </div>
+                    <ul class="match-main ">
+                        <li>
+
+                        </li>
+                        <li>
+
+                        </li>
+                        <li>
+
+                        </li>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                2
             </div>
         </div>
     </div>
 </section>
+
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
 <script src="dist/js/custom/index.js"></script>
 </body>
 </html>
