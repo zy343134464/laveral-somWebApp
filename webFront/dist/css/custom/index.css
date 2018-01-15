@@ -19,10 +19,15 @@ li {
 }
 
 /*导航*/
+#header .topbar{
+    width: 100%;
+    z-index: 9999;
+    background-color: white;
+}
 #header {
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 24px;
+    /*padding-left: 24px; */
 
 }
 
