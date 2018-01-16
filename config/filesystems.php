@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'local',
+    'default' => env('FILESYSTEM_DRIVER', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => 's3',
+    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,27 +48,25 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'profile' => [
+            'driver' => 'local',
+            'root' => public_path('profile'),
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key' => env('AWS_KEY'),
+            'secret' => env('AWS_SECRET'),
+            'region' => env('AWS_REGION'),
+            'bucket' => env('AWS_BUCKET'),
         ],
 
-        'qiniu' => [
-            'driver'     => 'qiniu',
-            'access_key' => env('QINIU_ACCESS_KEY', ''),
-            'secret_key' => env('QINIU_SECRET_KEY', ''),
-            'bucket'     => env('QINIU_BUCKET', 'zhihu'),
-            'domain'     => env('QINIU_DOMAIN', 'ontybwriq.bkt.clouddn.com'), // or host: https://xxxx.clouddn.com
-        ],
     ],
 
 ];

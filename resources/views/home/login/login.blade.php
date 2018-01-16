@@ -108,25 +108,25 @@
 <!--login js-->
 <script src="{{ url('webFront/dist/js/custom/login.js') }}"></script>
 <script>
-    // function checkPhone(obj){ 
-    //     var phone = obj.value;
-    //     if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
-    //         msg.innerHTML = "请输入正确的手机号码"
-    //         return false; 
-    //     }else{
-    //         msg.innerHTML =""
-    //     } 
-    // }
+    function checkPhone(obj){ 
+        var phone = obj.value;
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+            msg.innerHTML = "请输入正确的手机号码"
+            return false; 
+        }else{
+            msg.innerHTML =""
+        } 
+    }
 
-    // function validPwd(obj){
-    //   var pwd = obj.value;
-    //   if (pwd.length > 20 || pwd.length < 6)
-    //   {
-    //     msg.innerHTML = "密码长度为6~20个字符";
-    //     return false;
-    //   }
-    //     msg.innerHTML = ''
-    // }
+    function validPwd(obj){
+      var pwd = obj.value;
+      if (pwd.length > 20 || pwd.length < 6)
+      {
+        msg.innerHTML = "密码长度为6~20个字符";
+        return false;
+      }
+        msg.innerHTML = ''
+    }
 </script>
 </body>
 </html>
