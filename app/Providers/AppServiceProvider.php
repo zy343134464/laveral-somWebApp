@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Blade;
+use App\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,9 +14,17 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(User $user)
     {
         Schema::defaultStringLength(191);
+        Blade::directive('name', function () use ($user){
+            $name = 'error....';
+            $id = \Cookie::get('user_id');
+            if($id) {
+               $name = $user->getname($id);
+            }
+            return $name;
+        });
     }
 
     /**

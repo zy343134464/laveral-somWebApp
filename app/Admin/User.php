@@ -62,6 +62,7 @@ class User extends Authenticatable
     {
         $this->phone = $request->phone;
         $this->password = pw($request->password);
+        $this->name = $request->name;
         $this->source_organ_id = organ_info($request->getClientIp(),'id');
         $res = $this->save();
         return $res;

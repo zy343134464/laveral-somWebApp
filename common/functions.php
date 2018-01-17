@@ -31,6 +31,18 @@ function set_user_id_cookie($uid,$min)
 
 function logout()
 {
-	cookie::forget('user_id');
+	Cookie::queue(Cookie::forget('user_id'));
+}
+function organ($str)
+{
+	//$res = \DB::table('organs')->where('host',$_SERVER['SERVER_NAME'])->first();
+	$res = \DB::table('organs')->where('id',0)->first();
+
+	if(count($res)) {
+		return $res->$str;
+	} else {
+		return 'unknow';
+	}
+	
 }
 ?>

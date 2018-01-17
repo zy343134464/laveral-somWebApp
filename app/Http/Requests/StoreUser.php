@@ -25,10 +25,10 @@ class StoreUser extends FormRequest
     public function rules(Request $request)
     {
         return [
-            // 'phone'=>['required',env('RULE_PHONE')],
-            // 'name' => 'required|min:3|max:20',
-            // 'password' => 'required|min:6|max:20',
-            // 'password2' => 'same:password',
+            'phone'=>['required','unique:users,phone',env('RULE_PHONE')],
+            'name' => 'required|min:3|max:20',
+            'password' => 'required|min:6|max:20',
+            'password2' => 'same:password',
         ];
     }
     public function messages()

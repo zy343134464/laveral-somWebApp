@@ -79,7 +79,8 @@ class UserController extends Controller
     {
         $res = $user->login($request);
         if ($res) {
-            return redirect()->to('admin/user');
+            //dd(\Cookie::get('user_id'));
+            return redirect()->to('/');
         } else {
             return redirect()->to('login')->with('msg','密码错误,请重新登录');
         }

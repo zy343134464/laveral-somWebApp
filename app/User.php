@@ -67,4 +67,17 @@ class User extends Authenticatable
         $res = $this->save();
         return $res;
     }
+    public function getname($id)
+    {
+        $user = $this->find($id);
+        return $user->name;
+    }
+    public function is_admin($uid)
+    {
+        $res = DB::table('admins')->where(['user_id'=>$uid,'organ_id'=>$organ('id')])->first();
+        if(count($res)) {
+            return true;
+        }
+        return false;
+    }
 }
