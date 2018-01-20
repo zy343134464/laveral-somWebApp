@@ -1,0 +1,344 @@
+/*初始化*/
+body {
+    font-family: "Microsoft YaHei";
+}
+
+@media (min-width: 1400px) {
+    body .container {
+        width: 1380px;
+    }
+}
+
+ul, p, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+/*导航*/
+#header .topbar {
+    width: 100%;
+    z-index: 9999;
+    background-color: white;
+}
+
+#header {
+    padding-top: 0;
+    padding-bottom: 0;
+    /*padding-left: 24px; */
+
+}
+
+#header .topbar .som-logo {
+    padding-top: 22px;
+}
+
+#header .navbar-collapse {
+    background-color: #ffffff;
+}
+
+#header .navbar-collapse a {
+    color: #818181;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 18px;
+    line-height: 40px;
+    background-color: transparent;
+}
+
+#header .navbar-collapse li.active a {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .navbar-collapse a:hover {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .topbar .som-nav {
+    position: relative;
+    left: 250px;
+}
+
+#header .topbar .som {
+    padding-top: 18px;
+    color: #aaa8a6;
+}
+
+#header .topbar .som button {
+    background-color: #fff;
+}
+
+#header .topbar .personal-center img,
+#header .topbar .language-switch img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    position: relative;
+    left: 10px;
+}
+
+#header .topbar .dropdown {
+    padding-left: 14px;
+}
+
+#header .topbar .language-switch {
+    padding-left: 30px;
+}
+/*头部*/
+#users {
+    background-color: #2e2e2e;
+}
+
+#users .users-intro {
+    padding-top: 40px;
+    color: #9f865f;
+}
+
+#users .users-intro p {
+    padding-top: 15px;
+    font-size: 18px;
+}
+
+#users .users-intro .vip {
+    margin-top: 30px;
+}
+
+#users .users-intro .vip a {
+    text-decoration: none;
+    color: #9f865f;
+    font-size: 22px;
+    width: 170px;
+    line-height: 46px;
+    background-color: #1e1e1e;
+    display: inline-block;
+}
+
+#users .users-intro .vip a:first-child {
+    margin-right: 30px;
+}
+
+#users .users-intro .operate {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+#users .users-intro .operate span {
+    padding-left: 26px;
+    padding-right: 6px;
+    font-size: 18px;
+}
+
+#users .users-intro .operate .balance,
+#users .users-intro .operate .grade {
+    color: #939392;
+}
+
+/*主内容*/
+#personal {
+    padding-top: 15px;
+    background-color: #f5f5f5;
+}
+
+#personal .personal-tabs ul li a {
+    text-decoration: none;
+    display: block;
+    color: #bbbbbb;
+    line-height: 50px;
+    border: 1px solid #f8f8f8;
+    background-color: #fff;
+}
+
+#personal .personal-tabs ul li a:hover {
+    border-left: 5px solid #d0a45d;
+    color: #000;
+}
+
+#personal .personal-tabs ul li.active a {
+    border-left: 5px solid #d0a45d;
+    color: #000;
+}
+
+/*剩余消费*/
+/*搜索框*/
+.personal-search {
+    position: relative;
+}
+
+.personal-search .fa-search {
+    color: #8e8e8e;
+    font-size: 24px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.personal-search input {
+    border: none;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #c8c8c8;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 44px;
+    margin-bottom: 32px;
+    min-width: 400px;
+    outline: none;
+    font-size: 16px;
+}
+
+#personal table {
+    background-color: #fff;
+    border: 1px solid #f7f7f7;
+}
+
+#personal table th {
+    color: #cccccc;
+    line-height: 70px;
+    font-size: 16px;
+    border-bottom: 1px solid #f7f7f7;
+}
+
+#personal table td {
+    line-height: 50px;
+    border-bottom: 1px solid #f7f7f7;
+}
+
+#personal table th,
+#personal table td {
+    padding-left: 20px;
+}
+
+#personal .pagination {
+    margin-top: 20px;
+}
+
+#personal .pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+    background-color: #c9ab70;
+    border-color: #c9ab70;
+}
+
+#personal .pagination > li > a {
+    margin-left: 10px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: #d9d9d9;
+}
+
+/*个人信息*/
+#personal .box {
+    border-top: 0;
+}
+
+#personal .box .box-body {
+    padding-left: 125px;
+}
+#personal .box .box-header span{
+    padding-left: 20px;
+}
+#personal .box h3 {
+    font-size: 16px;
+    line-height: 50px;
+    color: #9a9895;
+}
+
+#personal .box .box-header {
+    padding-left: 80px;
+}
+
+#personal .box form label {
+    color: #9a9895;
+}
+#personal .box .box-body input{
+    background-color: #fafafa;
+}
+#personal .box .box-body input:focus{
+    background-color: transparent;
+}
+#personal .box .box-body .btn-warning{
+    position: relative;
+    left: 85px;
+    padding: 8px 36px;
+    background-color: #d0a45d;
+    border: none;
+    font-size: 18px;
+}
+#personal .box .box-body .fa-weixin,
+#personal .box .box-body .fa-qq,
+#personal .box .box-body .fa-weibo{
+    font-size: 20px;
+}
+    /*机构资料*/
+
+#personal .navbar-collapse a {
+    color: #bbbbbb;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 18px;
+    line-height: 30px;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+#personal .navbar-collapse li.active a {
+    border-bottom: 2px solid #d0a45d;
+    color: #000;
+}
+
+#personal .navbar-collapse a:hover {
+    border-bottom: 2px solid #d0a45d;
+    color: #000;
+}
+/*尾部*/
+#footer .about{
+    background-color: #343434;
+}
+#footer .about .aboutus li{
+    display: inline-block;
+    color: #fff;
+}
+#footer .footer-logo{
+    padding-top: 76px;
+    padding-bottom: 132px;
+}
+#footer .contactus{
+    padding-top: 58px;
+    vertical-align: top;
+}
+#footer .contactus ul li{
+    vertical-align: top;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#footer .contactus ul li p{
+    color: #505050;
+    line-height: 2;
+}
+#footer .blogroll{
+    font-size: 26px;
+}
+#footer .blogroll span{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#footer .som-message{
+    padding-top:10px;
+    padding-bottom:30px;
+    text-align: center;
+    color: #bcbcbc;
+}
+#footer .som-message .licence span{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#footer .som-message .licence,
+#footer .som-message .som-name,
+#footer .som-message .address {
+    padding-bottom: 6px;
+    padding-top:6px;
+}

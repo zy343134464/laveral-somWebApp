@@ -9,7 +9,6 @@ use App\Http\Controllers\ExcelController;
 use Illuminate\Support\Facades\Schema;
 use Excel;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
 class Usercontroller extends Controller
@@ -22,9 +21,6 @@ class Usercontroller extends Controller
      */
     public function index(Request $request, User $user)
     {
-    	
-    	//return view('home.login.login');
-        //dd($request);
         $type = $request->type;
         //搜索关键词
         $kw = $request->kw;
@@ -83,7 +79,6 @@ class Usercontroller extends Controller
         // $user->account = $request->account;
         // $user->save();
         $res = $user->reg($request);
-        dd($res);
         return redirect()->route('user_index');
     }
 
@@ -125,10 +120,6 @@ class Usercontroller extends Controller
             $user = User::find($request->id);
             $user->name = $request->name;
             $pic = $request->file('pic')->storeAs('/', 'profile'.$request->id.'.'.$request->file('pic')->getClientOriginalExtension(), 'profile');
-            //$filename = 'profile'.$request->id.'.';
-            // $realPath = $request->file('pic')->getRealPath();
-            // $res =Storage::disk('profile')->put($filename,file_get_contents($realPath));
-            // dd($res);
             $user->pic = 'profile/'.$pic;
             $user->email = $request->email;
             $user->account = $request->account;
@@ -153,18 +144,18 @@ class Usercontroller extends Controller
     }
 
     /**
-     * ajax判断用户账号是否占用
-     * @param  [string] $account 账号
+     * ajax判断用户手机是否占用
+     * @param  [string] $phone
      * @return [json字符串]
      */
-    public function account(User $user, $account)
+    public function account(User $user, $phone)
     {
-        $res = $user->where(['account'=>$account])->get();
+        $res = $user->where(['phone'=>$phone])->get();
 
         if (count($res)) {
-            $msg['msg'] = '账号已存在';
+            $msg['msg'] = '该手机已被注册';
         } else {
-            $msg['msg'] ='账号可用';
+            $msg['msg'] ='手机号可注册';
         }
         return json_encode($msg);
     }

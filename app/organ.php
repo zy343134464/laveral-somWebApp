@@ -8,12 +8,11 @@ class Organ extends Model
 {
     public function oid($str)
     {
-    	$res = $this->where('ip',$str)->first()->toArray();
-    	if(count($res)) {
-    		return $res['name'];
-    	} else {
-    		return no404();
-    	}
-    	
+        $res = $this->where('ip', $str)->first()->toArray();
+        if (count($res)) {
+            return $res['name'];
+        } else {
+            return no404();
+        }
     }
 }

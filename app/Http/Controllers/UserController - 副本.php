@@ -21,8 +21,8 @@ class UserController extends Controller
      */
     public function index(Request $request, User $user)
     {
-    	
-    	//return view('home.login.login');
+        
+        //return view('home.login.login');
         //dd($request);
         $type = $request->type;
         //搜索关键词
@@ -165,7 +165,7 @@ class UserController extends Controller
      */
     public function logout()
     {
-    	logout();
+        logout();
         return view('home.login.login');
     }
 
@@ -176,11 +176,11 @@ class UserController extends Controller
      */
     public function dologin(Request $request, User $user)
     {
-    	$res = $user->login($request);
+        $res = $user->login($request);
         if ($res) {
             return redirect()->to('admin/user');
         } else {
-            return redirect()->to('login')->with('msg','密码错误,请重新登录');
+            return redirect()->to('login')->with('msg', '密码错误,请重新登录');
         }
     }
 

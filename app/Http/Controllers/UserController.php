@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin\User;
+use App\Admin\User as Adminuser;
+use App\User as Homeuser;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUser;
 use App\Http\Controllers\ExcelController;
@@ -20,9 +21,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, User $user)
-   {
-
-   }
+    {
+    }
 
 
     /**
@@ -42,15 +42,14 @@ class UserController extends Controller
      * @param  storeUser 表单认证
      * @return 重定向
      */
-    public function doreg(StoreUser $request, User $user)
+    public function doreg(StoreUser $request, Homeuser $user)
     {
         $res = $user->reg($request);
-        if($res) {
+        if ($res) {
             return redirect()->to('/');
         } else {
-            return redirect()->back()->with('msg','服务器故障...请稍后再试...');
+            return redirect()->back()->with('msg', '服务器故障...请稍后再试...');
         }
-        
     }
 
     /**
@@ -75,14 +74,14 @@ class UserController extends Controller
      * 处理登录
      * @return 成功跳转到用户页，失败重新登录
      */
-    public function dologin(Request $request, User $user)
+    public function dologin(Request $request, Homeuser $user)
     {
         $res = $user->login($request);
         if ($res) {
             //dd(\Cookie::get('user_id'));
             return redirect()->to('/');
         } else {
-            return redirect()->to('login')->with('msg','密码错误,请重新登录');
+            return redirect()->to('login')->with('msg', '密码错误,请重新登录')->withInput();
         }
     }
 
@@ -104,7 +103,7 @@ class UserController extends Controller
      * @param  用户id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, $id)
+    public function edit(Adminuser $user, $id)
     {
         $user = $user->find($id);
         return view('admin.user.edit', ['user' => $user]);
@@ -117,7 +116,7 @@ class UserController extends Controller
      * @param  storeUser 表单认证
      * @return 返回用户列表
      */
-    public function update(StoreUser $request, User $user)
+    public function update(StoreUser $request, Adminuser $user)
     {
         try {
             $user = User::find($request->id);
@@ -138,23 +137,5 @@ class UserController extends Controller
     }
 
     
-
-    /**
-     * ajax判断用户账号是否占用
-     * @param  [string] $account 账号
-     * @return [json字符串]
-     */
-    public function account(User $user, $account)
-    {
-        $res = $user->where(['account'=>$account])->get();
-
-        if (count($res)) {
-            $msg['msg'] = '账号已存在';
-        } else {
-            $msg['msg'] ='账号可用';
-        }
-        return json_encode($msg);
-    }
-
 
 }

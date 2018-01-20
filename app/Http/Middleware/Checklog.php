@@ -15,15 +15,13 @@ class Checklog
      */
     public function handle($request, Closure $next)
     {
-        if (\Cookie::get('user_id')){
+        if (\Cookie::get('user_id') || \Cookie::get('user_id') === 0) {
             return $next($request);
         } else {
-            if($request->getRequestUri() == "/login") {
+            if ($request->getRequestUri() == "/login") {
                 return $next($request);
             }
-             return $next($request);
             return redirect('login');
         }
-        
     }
 }

@@ -1,0 +1,153 @@
+/*初始化*/
+body {
+    font-family: "Microsoft YaHei";
+}
+
+@media (min-width: 1400px) {
+    body .container {
+        width: 1380px;
+    }
+}
+
+ul, p {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+/*导航*/
+#header .topbar {
+    width: 100%;
+    z-index: 9999;
+    background-color: white;
+}
+
+#header {
+    padding-top: 0;
+    padding-bottom: 0;
+    /*padding-left: 24px; */
+
+}
+
+#header .topbar .som-logo {
+    padding-top: 22px;
+}
+
+#header .navbar-collapse {
+    background-color: #ffffff;
+}
+
+#header .navbar-collapse a {
+    color: #818181;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 18px;
+    line-height: 40px;
+    background-color: transparent;
+    border-bottom: 4px solid transparent;
+}
+
+#header .navbar-collapse li.active a {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .navbar-collapse a:hover {
+    border-bottom: 4px solid #d0a45d;
+}
+
+#header .topbar .som-nav {
+    position: relative;
+    left: 18%;
+}
+
+#header .topbar .som {
+    padding-top: 18px;
+    color: #aaa8a6;
+}
+
+#header .topbar .som button {
+    background-color: #fff;
+}
+
+#header .topbar .personal-center img,
+#header .topbar .language-switch img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    position: relative;
+    left: 10px;
+}
+
+#header .topbar .dropdown {
+    padding-left: 14px;
+}
+
+#header .topbar .language-switch {
+    padding-left: 30px;
+}
+/*回到顶部*/
+#go-top{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #292929;
+    padding: 10px;
+    cursor: pointer;
+    color: #73634b;
+    display: none;
+    border-radius: 8px;
+}
+#go-top .fa-arrow-up{
+    padding-right: 10px;
+}
+/*尾部*/
+#footer .about{
+    background-color: #343434;
+}
+#footer .about .aboutus li{
+    display: inline-block;
+    color: #fff;
+}
+#footer .footer-logo{
+    padding-top: 76px;
+    padding-bottom: 132px;
+}
+#footer .contactus{
+    padding-top: 58px;
+    vertical-align: top;
+}
+#footer .contactus ul li{
+    vertical-align: top;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#footer .contactus ul li p{
+    color: #505050;
+    line-height: 2;
+}
+#footer .blogroll{
+    font-size: 26px;
+}
+#footer .blogroll span{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#footer .som-message{
+    padding-top:10px;
+    padding-bottom:30px;
+    text-align: center;
+    color: #bcbcbc;
+}
+#footer .som-message .licence span{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#footer .som-message .licence,
+#footer .som-message .som-name,
+#footer .som-message .address {
+    padding-bottom: 6px;
+    padding-top:6px;
+}

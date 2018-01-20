@@ -25,7 +25,8 @@ class StoreUser extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'phone'=>['required','unique:users,phone',env('RULE_PHONE')],
+            //'phone'=>['required',env('RULE_PHONE')],
+            'phone' => 'required|unique:users',
             'name' => 'required|min:3|max:20',
             'password' => 'required|min:6|max:20',
             'password2' => 'same:password',
@@ -42,6 +43,7 @@ class StoreUser extends FormRequest
             'password.max' => '密码不能大于20位数',
             'password2.same' => '两次密码不一致,请重新输入',
             'phone.required' => '手机号不能为空',
+            'phone.unique' => '手机号已注册',
             'phone.regex' => '请输入正确的手机号码',
         ];
     }

@@ -1,0 +1,216 @@
+/*新建比赛导航*/
+.content-wrapper {
+    padding: 22px;
+}
+
+.match-nav #matchcreate {
+    border: 1px solid #f4f4f4;
+    background-color: #fff;
+}
+
+.match-nav #matchcreate a {
+    border-bottom: 4px solid transparent;
+    color: #818181;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    line-height: 40px;
+    background-color: transparent;
+}
+
+.match-nav #matchcreate li.active a {
+    border-bottom: 4px solid #d0a45d;
+}
+
+.match-nav #matchcreate a:hover {
+    border-bottom: 4px solid #d0a45d;
+}
+
+.match-nav #matchcreate .navbar-nav {
+    position: relative;
+    left: 50%;
+    margin-left: -268px;
+}
+
+/*赛事主题*/
+.match-theme {
+    border: 1px solid #f8f8f8;
+    margin-top: 10px;
+    padding-bottom: 25px;
+}
+
+.match-theme h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 66px;
+    padding-top: 24px;
+    padding-bottom: 15px;
+}
+.match-theme label{
+	font-size: 14px;
+	color: #d2d2d2;
+}
+
+.match-theme input,
+.match-theme textarea{
+	background-color: #fafafa;
+}
+.match-theme input:focus,
+.match-theme textarea:focus{
+	background-color: #fff;
+}
+.match-theme .match-poster,
+.match-theme .match-detailpage,
+.match-theme .match-time,
+.match-theme .match-partner{
+   background-color: #fff;
+   border-bottom: 1px solid #f8f8f8;
+   padding-bottom: 25px;
+}
+
+.match-theme #addVar{
+    position: relative;
+    left: 4px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar{
+    margin:auto;
+    padding: 1px 15px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+
+.match-theme #addVar:hover,
+.match-theme .removeVar:hover{
+    cursor: pointer;
+}
+
+.match-theme .alignRight{
+    text-align: right;
+}
+
+.match-theme input, textarea{
+    padding:5px;
+    font-size: 16px;
+}
+.match-theme .nextPage{
+    text-align: center
+}
+.match-theme .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #5f5038;
+    padding: 10px 35px;
+    margin-top: 20px;
+}
+
+/*组委会信息*/
+.match-partner .match-partner-add{
+    margin-bottom: 0;
+}
+.match-theme #addVar1{
+    position: relative;
+    left: 4px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar1{
+    margin:auto;
+    padding: 1px 15px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+.match-theme #addVar1:hover,
+.match-theme .removeVar1:hover{
+    cursor: pointer;
+}
+
+.match-theme #addVar2{
+    position: relative;
+    left: 4px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar2{
+    margin:auto;
+    padding: 1px 15px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+.match-theme #addVar2:hover,
+.match-theme .removeVar2:hover{
+    cursor: pointer;
+}
+
+/*评委/嘉宾*/
+.match-guest{
+    margin-top: 30px;
+    text-align: center
+}
+.match-guest .nextPage{
+    text-align: center
+}
+.match-guest .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #5f5038;
+    padding: 10px 35px;
+    margin-top: 20px;
+}
+.match-guest .nav-tabs{
+    border: none;
+    display: inline-block;
+}
+.match-guest .nav-tabs>li>a{
+    color: #000;
+    font-size: 16px;
+    line-height: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border: none;
+    margin-right: 0;
+}
+.match-guest .nav-tabs>li.active>a,
+.match-guest .nav-tabs>li.active>a:focus, 
+.match-guest .nav-tabs>li.active>a:hover{
+    font-size: 16px;
+    color: #000;
+    border: none;
+    margin-right: 0;
+}
+li{
+    list-style: none;
+}
+.match-guest .content .judge{
+    border: 1px solid red;
+}

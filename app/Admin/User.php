@@ -31,40 +31,18 @@ class User extends Authenticatable
         }
         return $str;
     }
-    /**
-     * [login 处理登录]
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
-    public function login(Request $request)
+    
+    public function getname($id)
     {
-        $user = $this->where(['phone'=>$request->phone])->first();
-        if(!count($user)) {
-            return false;
-        }
-        if (checkpw($request->password,$user->password)) {
-            $user->last_login_time = time();
-            $user->last_login_ip = $request->getClientIp();
-            $user->login = $user->login + 1;
-            $user->save();
-            set_user_id_cookie($user->id,env('COOKIETIME'));
-            return true;
-        } else {
-            return false;
-        }
+        $user = $this->find($id);
+        return $user->name;
     }
-    /**
-     * [reg 注册用户]
-     * @param  Request $request [description]
-     * @return [Boolean]        [注册结果]
-     */
-    public function reg(Request $request)
+    public function is_admin($uid)
     {
-        $this->phone = $request->phone;
-        $this->password = pw($request->password);
-        $this->name = $request->name;
-        $this->source_organ_id = organ_info($request->getClientIp(),'id');
-        $res = $this->save();
-        return $res;
+        $res = DB::table('admins')->where(['user_id'=>$uid,'organ_id'=>$organ('id')])->first();
+        if (count($res)) {
+            return true;
+        }
+        return false;
     }
 }

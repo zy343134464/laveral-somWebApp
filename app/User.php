@@ -39,16 +39,15 @@ class User extends Authenticatable
     public function login(Request $request)
     {
         $user = $this->where(['phone'=>$request->phone])->first();
-        if(!count($user)) {
+        if (!count($user)) {
             return false;
         }
-        //$res = checkpw($request->password,$res->password);
-        if ($user->password == $request->password) {
+        if (checkpw($request->password, $user->password)) {
             $user->last_login_time = time();
             $user->last_login_ip = $request->getClientIp();
             $user->login = $user->login + 1;
             $user->save();
-            set_user_id_cookie($user->id,env('COOKIETIME'));
+            set_user_id_cookie($user->id, env('COOKIETIME'));
             return true;
         } else {
             return false;
@@ -62,11 +61,19 @@ class User extends Authenticatable
     public function reg(Request $request)
     {
         $this->phone = $request->phone;
-        $this->password = pw($request->phone);
-        $this->source_organ_id = organ_ip($_SERVER['REMOTE_ADDR']);
+        $this->password = pw($request->password);
+        if ($request->name) {
+            $this->name = $request->name;
+        } else {
+            $this->name = '未命名用户'.time();
+        }
+        $this->source_organ_id = organ('id');
         $res = $this->save();
         return $res;
     }
+
+
+    
     public function getname($id)
     {
         $user = $this->find($id);
@@ -75,7 +82,7 @@ class User extends Authenticatable
     public function is_admin($uid)
     {
         $res = DB::table('admins')->where(['user_id'=>$uid,'organ_id'=>$organ('id')])->first();
-        if(count($res)) {
+        if (count($res)) {
             return true;
         }
         return false;

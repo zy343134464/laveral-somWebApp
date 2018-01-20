@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function index(Request $request)
     {
-    	//dd(organ('name'));
-    	return view('home.index');
+        //dd(organ('name'));
+        return view('home.index.index');
     }
 }
