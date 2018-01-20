@@ -57,14 +57,18 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //后台赛事模块
         //创建比赛页面
         Route::get('create/{type}','Admin\MatchController@create');
-        //处理创建比赛
+        Route::get('edit/{id}','Admin\MatchController@edit');
+        //处理新建比赛
         Route::post('store/{type}','Admin\MatchController@store');
+        //处理修改比赛
+        Route::post('mainedit/{id}','Admin\MatchController@mainedit');
         //合作方和联系方式
         Route::get('partner/{id}','Admin\MatchController@partner');
         Route::post('storepartner/{id}','Admin\MatchController@storepartner');
         //评委设定
         Route::get('rater/{id}','Admin\MatchController@rater');
         Route::get('findrater/{id}','Admin\MatchController@findrater');
+        Route::get('addrater/{id}','Admin\MatchController@addrater');
         Route::post('storerater/{id}','Admin\MatchController@rater');
         //嘉宾设定
         Route::get('guest/{id}','Admin\MatchController@guest');
@@ -72,7 +76,7 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::post('storeguest/{id}','Admin\MatchController@guest');
         //奖项设定
         Route::get('award/{id}','Admin\MatchController@award');
-        Route::post('storeaward/{id}','Admin\MatchController@award');
+        Route::post('storeaward/{id}','Admin\MatchController@storeaward');
         //个人投稿设定
         Route::get('require_personal/{id}','Admin\MatchController@require_personal');
         Route::post('storerequire_personal/{id}','Admin\MatchController@require_personal');

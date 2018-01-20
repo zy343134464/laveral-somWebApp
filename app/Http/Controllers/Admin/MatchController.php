@@ -11,23 +11,38 @@ class Matchcontroller extends Controller
 {
     public function create($type)
     {
-    	return view('admin.match.create.main',['type'=>$type]);
+        return view('admin.match.create.main',['type'=>$type]);
     }
-    
     public function store(Request $request,Match $match,$type)
     {
-    	$res = $match->main($request,$type);
-    	if($res) {
-    		return redirect('admin/match/partner/'.$res);
+
+        $id = $match->main($request,$type);
+        if($id) {
+            return redirect('admin/match/partner/'.$id);
+        }
+        return redirect()->back()->with('msg','添加数据失败...');
+    }
+    public function edit(Match $match,$id)
+    {
+        $match = $match->find($id);
+    	return view('admin.match.create.edit',['match'=>$match,'id'=>$id]);
+    }
+    
+    public function mainedit(Request $request,Match $match,$id)
+    {
+
+    	$id = $match->mainedit($request,$id);
+    	if($id) {
+    		return redirect('admin/match/partner/'.$id);
     	}
-    	return redirect()->back()->with('msg','添加数据失败...');
+    	return redirect()->back()->with('msg','修改数据失败...');
     }
 
     public function partner(Request $request,Match $match,$id)
     {
     	$partner = \DB::table('partners')->where('match_id',$id)->get();
     	$connection = \DB::table('connections')->where('match_id',$id)->get();
-    	return view('admin.match.create.partner',['partner'=>$partner,'connection'=>$connection]);
+    	return view('admin.match.create.partner',['partner'=>$partner,'connection'=>$connection,'id'=>$id]);
     }
 
     public function storepartner(Request $request,Match $match,$id)
@@ -40,9 +55,15 @@ class Matchcontroller extends Controller
 
     public function rater(Request $request,Match $match,$id)
     {
-    	$rater = \DB::table('raters')->where('match_id',$id)->get();
-    	return view('admin.match.create.rater',['rater'=>$rater]);
+        $rater = \DB::table('raters')->where('match_id',$id)->get();
+        return view('admin.match.create.rater',['rater'=>$rater,'id'=>$id]);
     }
+
+    public function addrater(Request $request,Match $match,$id)
+    {
+    	dd('新增rater');
+    }
+
 
     public function findrater(Request $request,Match $match,$id)
     {
@@ -53,7 +74,7 @@ class Matchcontroller extends Controller
     	} else {
     		$user = [];
     	}
-    	return view('admin.match.create.findrater',['rater'=>$user]);
+    	return view('admin.match.create.findrater',['rater'=>$user,'id'=>$id]);
     }
 
     public function storerater(Match $match,$id)
@@ -66,7 +87,7 @@ class Matchcontroller extends Controller
     public function guest(Request $request,Match $match,$id)
     {
     	$guest = \DB::table('guests')->where('match_id',$id)->get();
-    	return view('admin.match.create.guest',['guest'=>$guest]);
+    	return view('admin.match.create.guest',['guest'=>$guest,'id'=>$id]);
     }
 
     public function findguest(Request $request,Match $match,$id)
@@ -78,7 +99,7 @@ class Matchcontroller extends Controller
     	} else {
     		$user = [];
     	}
-    	return view('admin.match.create.findguest',['guest'=>$user]);
+    	return view('admin.match.create.findguest',['guest'=>$user,'id'=>$id]);
     }
 
     public function storeguest(Match $match,$id)
@@ -92,20 +113,20 @@ class Matchcontroller extends Controller
     public function award(Request $request,Match $match,$id)
     {
     	$award = \DB::table('awards')->where('match_id',$id)->get();
-    	return view('admin.match.create.award',['award'=>$award]);
+    	return view('admin.match.create.award',['award'=>$award,'id'=>$id]);
     }
 
-    public function storeaward(Match $match,$id)
+    public function storeaward(Request $request,Match $match,$id)
     {
     	//undefined
     	$match->award($request,$id);
     	return redirect('admin/match/require_personal/'.$id);
     }
      
-    public function require_personal(Request $request,Match $match,$id)
+    public function require_personal(Request $request,$id)
     {
     	$require_personal = \DB::table('require_personal')->where('match_id',$id)->get();
-    	return view('admin.match.create.require_personal',['require_personal'=>$require_personal]);
+    	return view('admin.match.create.require_personal',['require_personal'=>$require_personal,'id'=>$id]);
     }
 
     public function storerequire_personal(Match $match,$id)
@@ -118,7 +139,7 @@ class Matchcontroller extends Controller
      public function require_team(Request $request,Match $match,$id)
     {
     	$require_team = \DB::table('require_team')->where('match_id',$id)->get();
-    	return view('admin.match.create.require_team',['require_team'=>$require_team]);
+    	return view('admin.match.create.require_team',['require_team'=>$require_team,'id'=>$id]);
     }
 
     public function storerequire_team(Match $match,$id)
