@@ -35,11 +35,14 @@
 		</div>
 		<div class="match-detailpage">
 			<h4>赛事详情页设置</h4>
-			@foreach(json_decode($match->detail_title) as $v)
+			@foreach(@json_decode($match->detail_title) as $k=>$v)
 			<div class="form-group">
 				<label for="var1" id="var1" class="col-sm-2 control-label">赛事标题</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="firstname" placeholder="赛事标题"  name="detail_title[]"  value="{{ $v }}">
+				@if($k!=0)
+				<span class="removeVar">-</span>
+				@endif
 				</div>
 			</div>
 			@endforeach

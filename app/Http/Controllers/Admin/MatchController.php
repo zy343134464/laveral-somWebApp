@@ -47,7 +47,8 @@ class Matchcontroller extends Controller
 
     public function storepartner(Request $request,Match $match,$id)
     {
-    	$match->partner($request,$id);
+    	//dd('aa');
+        $match->partner($request,$id);
     	$match->connection($request,$id);
     	return redirect('admin/match/rater/'.$id);
     	
@@ -129,10 +130,11 @@ class Matchcontroller extends Controller
     	return view('admin.match.create.require_personal',['require_personal'=>$require_personal,'id'=>$id]);
     }
 
-    public function storerequire_personal(Match $match,$id)
+    public function storerequire_personal(Request $request,Match $match,$id)
     {
     	//undefined
     	$match->require_personal($request,$id);
+
     	return redirect('admin/match/require_team/'.$id);
     }
 
@@ -142,7 +144,7 @@ class Matchcontroller extends Controller
     	return view('admin.match.create.require_team',['require_team'=>$require_team,'id'=>$id]);
     }
 
-    public function storerequire_team(Match $match,$id)
+    public function storerequire_team(Request $request,Match $match,$id)
     {
     	//undefined
     	$match->require_team($request,$id);

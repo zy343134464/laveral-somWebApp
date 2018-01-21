@@ -79,10 +79,10 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::post('storeaward/{id}','Admin\MatchController@storeaward');
         //个人投稿设定
         Route::get('require_personal/{id}','Admin\MatchController@require_personal');
-        Route::post('storerequire_personal/{id}','Admin\MatchController@require_personal');
+        Route::post('storerequire_personal/{id}','Admin\MatchController@storerequire_personal');
         //团体投稿设定
         Route::get('require_team/{id}','Admin\MatchController@require_team');
-        Route::post('storerequire_team/{id}','Admin\MatchController@require_team');
+        Route::post('storerequire_team/{id}','Admin\MatchController@storerequire_team');
 
     });
 

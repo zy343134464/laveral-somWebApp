@@ -4,8 +4,8 @@
 @section('body2')
 <div class="match-guest">
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">评委</a></li>
-			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">嘉宾</a></li>
+			<li role="presentation" class="active"><a href="{{ url('admin/match/rater/'.$id) }}" >评委</a></li>
+			<li role="presentation"><a href="{{ url('admin/match/guest/'.$id) }}" >嘉宾</a></li>
 		</ul>
 		<div class="content">
 			<ul class="judgelist">

@@ -11,6 +11,7 @@ class Match extends Model
     {
 		$res = \DB::table('matches')->insertGetId([
 				"cat" => $type,
+				"type" => $request->type ? $request->type : '',
 		    	"show_title" => $request->show_title,
 		    	"show_introdution" => $request->show_introdution,
 		    	"detail_title" => json_encode($request->detail_title),
@@ -48,7 +49,7 @@ class Match extends Model
     		if(count($request->role)) {
 				foreach($request->role as $k=>$v)
 				{
-					if(is_null($v) || ($request->name)[$k]){
+					if(is_null($v) || is_null(($request->name)[$k])){
 						continue;
 					}
 					\DB::table('partners')->insertGetId([
@@ -69,7 +70,7 @@ class Match extends Model
     		if(count($request->type)) {
 		    	foreach($request->type as $k=>$v)
 		    	{
-		    		if(is_null($v) || ($request->value)[$k]){
+		    		if(is_null($v) ||  is_null(($request->value)[$k])){
 						continue;
 					}
 					\DB::table('connections')->insertGetId([
@@ -104,14 +105,38 @@ class Match extends Model
 
     public function require_personal(Request $request,$id)
     {
+    	\DB::table('require_personal')->where('match_id',$id)->delete();
     	\DB::table('require_personal')->insertGetId([
 			'match_id'=>$id,
+			'group_min'=>$request->group_min,
+			'group_max'=>$request->group_max,
+			'num_max'=>$request->num_max,
+			'num_min'=>$request->num_min,
+			'size_min'=>$request->size_min,
+			'size_max'=>$request->size_max,
+			'length'=>$request->length,
+			'pay'=>$request->pay,
+			'price'=>$request->price,
+			'introdution_title'=>$request->introdution_title,
+			'introdution_detail'=>$request->introdution_detail
 		]);
     }
     public function require_team(Request $request,$id)
     {
+    	\DB::table('require_team')->where('match_id',$id)->delete();
     	\DB::table('require_team')->insertGetId([
 			'match_id'=>$id,
+			'group_min'=>$request->group_min,
+			'group_max'=>$request->group_max,
+			'num_max'=>$request->num_max,
+			'num_min'=>$request->num_min,
+			'size_min'=>$request->size_min,
+			'size_max'=>$request->size_max,
+			'length'=>$request->length,
+			'pay'=>$request->pay,
+			'price'=>$request->price,
+			'introdution_title'=>$request->introdution_title,
+			'introdution_detail'=>$request->introdution_detail
 		]);
     }
 
