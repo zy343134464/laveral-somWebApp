@@ -82,10 +82,9 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <!--搜索框-->
-
 							<form action="<?php echo e(url('/admin/user')); ?>" >
 	                            <div class="search-form">
-	                                <button class="btn btn-sm btn-default fa fa-search"></button>
+	                                <button class="btn btn-sm btn-default fa fa-search" style="margin-left:-10px;"></button>
 	                                <input type="text" name="kw" placeholder="关键字搜索">
 	                            </div>
 							</form>
@@ -173,7 +172,7 @@
                                 <!-- /.box-body -->
                             </div>
                             <div class="paging text-center">
-                                <?php echo e($users->appends(['kw' => $kw])->links()); ?>
+                                <?php echo e($kw); ?>
 
                             </div>
                             <!-- /.box -->

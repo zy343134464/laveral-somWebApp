@@ -7,23 +7,27 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ url('lib/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ url('lib/font-awesome/css/font-awesome.min.css') }}">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ url('lib/Ionicons/css/ionicons.min.css') }}">
+    <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
 
     <!--pages css-->
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ url('lib/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    <link href="https://cdn.bootcss.com/datatables/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ url('css/AdminLTE.min.css') }}">
+    <link href="https://cdn.bootcss.com/admin-lte/2.4.2/css/AdminLTE.min.css" rel="stylesheet">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{ url('css/skins/_all-skins.min.css') }}">
+    <link href="https://cdn.bootcss.com/admin-lte/2.4.2/css/skins/_all-skins.min.css" rel="stylesheet">
     <!--custom css-->
     <link rel="stylesheet" href="{{ url('css/admin/layout.css') }}">
+    <!-- 时间选择器 -->
+    <link rel="stylesheet" href="{{ url('lib/amazeui/css/amazeui.datetimepicker.css') }}">
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,7 +50,7 @@
             <!--头部导航-->
             <header class="main-header">
                 <!-- Logo -->
-                <a href="index2.html" class="logo">
+                <a href="#" class="logo">
                     <img src="{{ url('img/images/som-logo.png') }}" alt="som图标">
                     <span>SOM赛事管理系统</span>
                 </a>
@@ -165,13 +169,13 @@
                                 <span>比赛管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/matchconducts/matchconducts.html">进行中比赛</a></li>
-                                <li><a href="pages/UI/icons.html">筹备中比赛</a></li>
-                                <li><a href="pages/UI/buttons.html">历史记录</a></li>
+                                <li><a href="#">进行中比赛</a></li>
+                                <li><a href="#">筹备中比赛</a></li>
+                                <li><a href="#">历史记录</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="pages/membermanage/membermanage.html">
+                            <a href="{{ url('admin')}}">
                                 <span>会员管理</span>
                             </a>
                         </li>
@@ -190,7 +194,16 @@
                                 <span>新建赛事(综合)</span>
                             </a>
                         </li>
-
+                        <li>
+                            <a href="{{ url('admin/information') }}">
+                                <span>资讯页管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/information/create') }}">
+                                <span>新建资讯页</span>
+                            </a>
+                        </li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -210,9 +223,9 @@
 </div>
 
 <!-- jQuery 3 -->
-<script src="{{ url('lib/jquery/dist/jquery.min.js') }}"></script>
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{{ url('lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--page js-->
 <!-- DataTables -->
 <script src="{{ url('lib/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -225,8 +238,14 @@
 <script src="{{ url('js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url('js/demo.js') }}"></script>
+<!-- 图片上传 -->
+<script src="{{ URL::asset('js/spark-md5.min.js') }}"></script><!--需要引入spark-md5.min.js-->
+<script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
+<!-- 时间选择器 -->
+<script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
+
 @section('other_js')
-    
+
 @show
 </body>
 </html>

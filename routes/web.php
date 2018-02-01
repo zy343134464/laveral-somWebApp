@@ -12,6 +12,21 @@
 */
 
 Route::get('/', 'Home\IndexController@index')->middleware('login');
+Route::get('/a', function () {
+    return view('test');
+});
+Route::get('/b', function () {
+    return view('admin.new.create');
+});
+Route::get('/c', 'Admin\MatchController@ajax_search_rater');
+
+//资讯页
+Route::get('informations/{id}', 'InformationConroller@show_information');
+//首页ajax获取资讯
+Route::get('get_information', 'InformationConroller@get_information');
+//首页ajax赛事(搜索$kw,$cat)
+Route::get('get_match', 'IndexConroller@get_match');
+
 //登录注册模块
 Route::get('/login', 'UserController@login');
 Route::post('/dologin', 'UserController@dologin');
@@ -22,18 +37,16 @@ Route::get('admin/user/find/{account}', 'Admin\UserController@account');
 
 
 Route::middleware(['login'])->prefix('user')->group(function () {
-    Route::get('/','Home\UserController@product');
-    Route::get('/info','Home\UserController@info');
-    Route::get('/consumes','Home\UserController@consumes');
-    Route::get('/organ','Home\UserController@organ');
+    Route::get('/', 'Home\UserController@product');
+    Route::get('/info', 'Home\UserController@info');
+    Route::get('/consumes', 'Home\UserController@consumes');
+    Route::get('/organ', 'Home\UserController@organ');
 });
-
 
 
 
 //后台模块
 Route::middleware(['login','admin'])->prefix('admin')->group(function () {
-
     Route::get('/', 'Admin\UserController@index');
     Route::prefix('user')->group(function () {
         //后台用户模块
@@ -51,39 +64,68 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //下载Excel表格（用于填写导入用户信息）
         Route::get('getfeild', 'Admin\UserController@getfeild');
     });
-
+    //后台咨询模块
+    Route::get('information', 'InformationController@index');
+    Route::get('information/create', 'InformationController@create');
+    Route::get('information/edit/{id}', 'InformationController@edit');
+    Route::post('information/edit/{id}', 'InformationController@doedit');
+    Route::post('information/store', 'InformationController@store');
+    Route::get('information/del/{id}', 'InformationController@del');
     //后台赛事模块
     Route::prefix('match')->group(function () {
         //后台赛事模块
+        
+        //后台赛事展示页
+        Route::get('show/{show}', 'Admin\MatchController@index');
         //创建比赛页面
-        Route::get('create/{type}','Admin\MatchController@create');
-        Route::get('edit/{id}','Admin\MatchController@edit');
+        Route::get('create/{type}', 'Admin\MatchController@create');
+        Route::get('edit/{id}', 'Admin\MatchController@edit');
         //处理新建比赛
-        Route::post('store/{type}','Admin\MatchController@store');
+        Route::post('store/{type}', 'Admin\MatchController@store');
         //处理修改比赛
-        Route::post('mainedit/{id}','Admin\MatchController@mainedit');
+        Route::post('mainedit/{id}', 'Admin\MatchController@mainedit');
         //合作方和联系方式
-        Route::get('partner/{id}','Admin\MatchController@partner');
-        Route::post('storepartner/{id}','Admin\MatchController@storepartner');
+        Route::get('partner/{id}', 'Admin\MatchController@partner');
+        Route::post('storepartner/{id}', 'Admin\MatchController@storepartner');
+
         //评委设定
-        Route::get('rater/{id}','Admin\MatchController@rater');
-        Route::get('findrater/{id}','Admin\MatchController@findrater');
-        Route::get('addrater/{id}','Admin\MatchController@addrater');
-        Route::post('storerater/{id}','Admin\MatchController@rater');
+        Route::get('rater/{id}', 'Admin\MatchController@rater');
+        //搜索评委
+        Route::get('findrater/{id}', 'Admin\MatchController@findrater');
+        //批量加入评委
+        Route::post('storerater/{id}', 'Admin\MatchController@storerater');
+        //新增评委
+        Route::post('newrater/{id}', 'Admin\MatchController@newrater');
+        Route::post('editnewrater', 'Admin\MatchController@editnewrater');
+        Route::get('delrater/{id}', 'Admin\MatchController@delrater');
+
         //嘉宾设定
-        Route::get('guest/{id}','Admin\MatchController@guest');
-        Route::get('findguest/{id}','Admin\MatchController@findguest');
-        Route::post('storeguest/{id}','Admin\MatchController@guest');
+        Route::get('guest/{id}', 'Admin\MatchController@guest');
+        //搜索嘉宾
+        Route::get('findguest/{id}', 'Admin\MatchController@findguest');
+        //批量加入嘉宾
+        Route::post('storeguest/{id}', 'Admin\MatchController@storeguest');
+        //新增嘉宾
+        Route::post('newguest/{id}', 'Admin\MatchController@newguest');
+        Route::post('editnewguest', 'Admin\MatchController@editnewguest');
+        Route::get('delguest/{id}', 'Admin\MatchController@delguest');
         //奖项设定
-        Route::get('award/{id}','Admin\MatchController@award');
-        Route::post('storeaward/{id}','Admin\MatchController@storeaward');
+        Route::get('award/{id}', 'Admin\MatchController@award');
+        Route::post('storeaward/{id}', 'Admin\MatchController@storeaward');
         //个人投稿设定
-        Route::get('require_personal/{id}','Admin\MatchController@require_personal');
-        Route::post('storerequire_personal/{id}','Admin\MatchController@storerequire_personal');
+        Route::get('require_personal/{id}', 'Admin\MatchController@require_personal');
+        Route::post('storerequire_personal/{id}', 'Admin\MatchController@storerequire_personal');
         //团体投稿设定
-        Route::get('require_team/{id}','Admin\MatchController@require_team');
-        Route::post('storerequire_team/{id}','Admin\MatchController@storerequire_team');
+        Route::get('require_team/{id}', 'Admin\MatchController@require_team');
+        Route::post('storerequire_team/{id}', 'Admin\MatchController@storerequire_team');
 
+        //赛事评审
+        Route::get('review/{id}', 'Admin\MatchController@review');
+        Route::post('storereview/{id}', 'Admin\MatchController@storereview');
+        //ajax搜索评委
+        Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
+        //ajax新建评委
+        Route::post('add_rater/{id}', 'Admin\MatchController@add_rater');
+        Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
     });
-
 });

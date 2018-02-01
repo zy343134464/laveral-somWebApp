@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ url('lib/bootstrap/dist/css/bootstrap.min.css') }}">
+     <!-- Bootstrap 3.3.7 -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ url('lib/font-awesome/css/font-awesome.min.css') }}">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ url('lib/Ionicons/css/ionicons.min.css') }}">
+    <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url('css/home/layout.css') }}"/>
 

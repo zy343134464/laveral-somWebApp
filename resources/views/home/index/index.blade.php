@@ -4,13 +4,9 @@
 
 
 @section('other_css') 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css"/>
+    <link href="https://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('css/home/index/index.css') }}"/>
 @endsection
-
-
-
-
 
 
 @section('body')
@@ -438,6 +434,6 @@
 
 
 @section('other_js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+    <script src="https://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.min.js"></script>
     <script src="{{ url('js/home/index/index.js') }}"></script>
 @endsection

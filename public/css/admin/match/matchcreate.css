@@ -1,4 +1,7 @@
 /*新建比赛导航*/
+span.sure{
+    color: red;
+}
 .content-wrapper {
     padding: 22px;
 }
@@ -60,12 +63,15 @@
 .match-theme textarea:focus{
 	background-color: #fff;
 }
+
 .match-theme .match-poster,
 .match-theme .match-detailpage,
 .match-theme .match-time,
 .match-theme .match-partner,
 .match-theme .match-award,
-.match-theme .match-review{
+.match-theme .match-require,
+.match-theme .match-review,
+.match-theme .match-winout{
    background-color: #fff;
    border-bottom: 1px solid #f8f8f8;
    padding-bottom: 25px;
@@ -117,11 +123,88 @@
     padding: 10px 35px;
     margin-top: 20px;
 }
-
-/*组委会信息*/
-.match-partner .match-partner-add{
-    margin-bottom: 0;
+.match-poster,
+.match-detailpage{
+    margin-bottom: 10px;
 }
+
+.match-poster .upload-pic{
+    text-align: center;
+    overflow: hidden;
+    border:1px solid #cccccc;
+}
+
+.match-poster .upload-pic .limit{
+    padding-top: 6px;
+    padding-bottom: 4px;
+    background-color:#999999;
+}
+.match-poster .upload-pic .limit p{
+    background-color:#999999;
+    margin-bottom: 0;
+    color: #ffffff;
+    font-size: 13px;
+}
+.match-poster .upload-wrapper{
+    position: relative;
+    padding-top: 30px;
+    width: 342px;
+    height: 140px;
+}
+.match-poster .upload-wrapper p{
+    font-size: 14px;
+    color: #999999;
+}
+.match-poster .closeposition{
+    position: absolute;
+    right: -15px;
+    top: -40px;
+}
+.match-poster .upload-wrapper .close{
+    padding-left: 0;
+    padding-top: 2px;
+    background-color: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #fff;
+    opacity:1;
+}
+.match-poster .file {
+    position: relative;
+    display: inline-block;
+    background: #cccccc;
+    border-radius: 50%;
+    padding: 8px 10px 11px 10px;
+    overflow: hidden;
+    font-size: 30px;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    vertical-align: center;
+}
+.match-poster .file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.upload-wrapper{
+    position: relative;
+}
+.match-poster #poster-pic{
+    position: absolute;
+    background: white;
+    top: -46px; 
+}
+.match-poster #poster-pic img{
+    width:342px;
+    height: 186px;
+}
+/*组委会信息*/
 .match-theme #addVar1{
     position: relative;
     left: 4px;
@@ -221,6 +304,7 @@ li{
     text-align: center;
 }
 .match-guest .content ul li{
+    background: #fff;
     vertical-align: top;
     display: inline-block;
     border: 1px solid #e9e9e9;
@@ -256,7 +340,6 @@ li{
     height: 195px;
 }
 .match-guest .content .judge-content{
-    border-bottom: 1px solid #e9e9e9;
     padding-left: 10px;
 }
 .match-guest .content .judge-content h4{
@@ -269,6 +352,17 @@ li{
 .match-guest .content .judge-content p:last-child{
     margin-bottom: 0;
 }
+.match-guest .content .judgelist li{
+    position: relative;
+}
+.match-guest .content .judge-edit a{
+    position: absolute;
+    bottom: 2px;
+    right: 10px;
+    font-size: 24px;
+    color: #999999;
+}
+
 .match-guest .content .footer{
     padding-left: 20px;
     padding-right: 20px;
@@ -291,7 +385,6 @@ li{
     position: relative;
 }
 .match-guest .content .close{
-    position: absolute;
     padding-top: 2px;
     background-color: #000;
     width: 30px;
@@ -299,10 +392,12 @@ li{
     border-radius: 50%;
     color: #fff;
     opacity:1;
-    right: 8px;
-    top: 7px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
     display: none;
 }
+
 
 /*嘉宾详情页*/
 .match-guestdata .search-form {
@@ -359,7 +454,6 @@ li{
     height: 195px;
 }
 .match-guestdata .content .judgedata-content{
-    border-bottom: 1px solid #e9e9e9;
     padding-left: 10px;
 }
 .match-guestdata .content .judgedata-content h4{
@@ -414,7 +508,107 @@ li{
     width: 100%;
     height: 100%;
     z-index: 100;
-    background-color: rgba(100,100,100,0.5);
+}
+
+/*新建嘉宾模态框*/
+.match-new {
+    position: relative;
+}
+.match-new input,
+.match-new textarea{
+    background-color: #fafafa;
+}
+
+.match-new input:focus,
+.match-new textarea:focus{
+    background-color: #fff;
+}
+
+#matchnew .modal-header{
+    border-bottom: none;
+}
+
+#matchnew h4{
+    font-size: 16px;
+    color: #070707;
+    font-weight: bold;
+}
+
+.match-new label{
+    font-size: 14px;
+    color: #999999;
+}
+
+#matchnew .modal-footer{
+    border-top: none;
+}
+#matchnew .modal-footer .btn-default{
+    color: #d0a45d;
+    font-size: 16px;
+    background-color: #262626;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 0;
+}
+.match-new .guestimg{
+    padding-top: 70px;
+    text-align: center;
+    border: 1px solid #cccccc;
+    position: absolute;
+    right: 37px;
+    top: 0px;
+    width: 200px;
+    height: 212px;
+    overflow: hidden;
+}
+.match-new .guestimg p{
+    font-size: 14px;
+    color: #999999;
+}
+.match-new #poster-pic{
+    position: absolute;
+    background: white;
+    top: -70px;
+}
+.match-new #poster-pic img{
+    width: 200px;
+    height: 212px;
+} 
+
+.match-new .closeposition{
+    position: absolute;
+    right: -15px;
+    top: -63px;
+}
+.match-new .close{
+    padding-top: 2px;
+    background-color: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    opacity:1;
+}
+.match-new .file {
+    position: relative;
+    display: inline-block;
+    background: #cccccc;
+    border-radius: 50%;
+    padding: 8px 10px 11px 10px;
+    overflow: hidden;
+    font-size: 30px;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    vertical-align: center;
+}
+.match-new .file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
 }
 
 /*奖项设置*/
@@ -445,12 +639,6 @@ li{
 }
 
 /*投稿要求*/
-/* .match-review input::-ms-input-placeholder{
-    text-align: center;
-} 
-.match-review input::-webkit-input-placeholder{
-    text-align: center;
-} */
 .nav-otherjob{
     border: none;
 }
@@ -473,6 +661,266 @@ li{
     margin-right: 0;
     color: #323232;
 }
-.match-review{
-    padding-top: 40px;
+.match-require{
+    padding-top: 20px;
 }
+
+/*评选设定*/
+
+/* .match-review input::-ms-input-placeholder{
+    text-align: center;
+} 
+.match-review input::-webkit-input-placeholder{
+    text-align: center;
+} */
+.match-review{
+    margin-bottom: 10px;
+    padding-top: 20px;
+}
+.match-review ul li{
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    padding-right: 20px;
+}
+.match-review ul li img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.match-review ul li p{
+    padding-top: 10px;
+    padding-left: 12px;
+    color: #000000;
+    font-size: 12px;
+}
+.match-review .close{
+    position: absolute;
+    padding-left: 4px;
+    padding-top: 2px;
+    background-color: #000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #fff;
+    opacity:1;
+    left: 65px;
+    top: 0px;
+}
+.match-review .addjudgethumb a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 50px;
+}
+.match-review .addjudgethumb .add-button{
+    padding-left: 22px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #cccccc;
+}
+
+@media (min-width: 768px){
+    #matchadd .modal-dialog.modal200 {
+        width: 1200px;
+        margin: 30px auto;
+    }
+}
+@media (min-width: 768px){
+    #matchadd .modal-dialog.moda360 {
+        width: 360px;
+        margin: 30px auto;
+    }
+}
+#matchadd .modal-dialog .modal-content{
+    background-color: #f5f5f5;
+}
+
+.match-theme .addVar4{
+    position: relative;
+    left: 4px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar4{
+    margin:auto;
+    padding: 1px 15px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+
+.match-theme .addVar4:hover,
+.match-theme .removeVar4:hover{
+    cursor: pointer;
+}
+
+.match-theme .addVar5{
+    position: relative;
+    left: 4px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar5{
+    margin:auto;
+    padding: 1px 15px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+
+.match-theme .addVar5:hover,
+.match-theme .removeVar5:hover{
+    cursor: pointer;
+}
+
+.match-theme .addVar6{
+    margin-right: 20px;
+    display:inline-block;
+    padding: 1px 15px;
+    background-color:#fff;
+    color:#f1f1f1;
+    font-size: 20px;
+    border:2px solid #eeeeee;
+    color: #dddddd;
+}
+.match-theme .removeVar6{
+    padding: 1px 18px;
+    font-size: 20px;
+    display:inline-block;
+    background-color:#fff;
+    color: #dddddd;
+    border:2px solid #eeeeee;
+}
+
+.match-theme .addVar6:hover,
+.match-theme .removeVar6:hover{
+    cursor: pointer;
+}
+
+/*综合赛事*/
+.match-synthesize{
+    margin-top: 5px;
+    text-align: center
+}
+.match-synthesize .nextPage{
+    text-align: center
+}
+.match-synthesize .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 10px 35px;
+    margin-top: 20px;
+}
+ul{
+    padding: 0;
+    margin: 0;
+}
+li{
+    list-style: none;
+}
+.match-synthesize .content ul{
+    text-align: center;
+}
+.match-synthesize .content ul li{
+    vertical-align: top;
+    display: inline-block;
+    border: 1px solid #e9e9e9;
+    width: 262px;
+    height: 350px;
+    margin-bottom:10px;
+}
+.match-synthesize .content ul li.addjudge{
+    background-color: #999999;
+    padding-top: 130px;
+}
+.match-synthesize .content .addjudge a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 30px;
+    padding-top: 50%;
+}
+.match-synthesize .content .addjudge a p{
+    margin-top: 10px;
+    font-size: 16px;
+}
+.match-synthesize .content .addjudge .add-button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: relative;
+    left: 50%;
+    margin-left: -25px;
+    background-color: #cccccc;
+}
+.match-synthesize .content img{
+    width: 262px;
+    height: 195px;
+}
+.match-synthesize .content .judge-content{
+    border-bottom: 1px solid #e9e9e9;
+    padding-left: 10px;
+}
+.match-synthesize .content .judge-content h4{
+    margin-bottom: 0;
+    color: #000;
+}
+.match-synthesize .content .judge-content p{
+    color: #666666;
+}
+.match-synthesize .content .judge-content p:last-child{
+    margin-bottom: 0;
+}
+.match-synthesize .content .footer{
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 12px;
+    color: #d2d2d2;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.match-synthesize .content .footer div{
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #c7c7c7;
+}
+.match-synthesize .content .footer .fa{
+    font-size: 16px;
+}
+.match-synthesize .content .judge-img{
+    position: relative;
+}
+.match-synthesize .content .close{
+    position: absolute;
+    padding-top: 2px;
+    background-color: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    opacity:1;
+    right: 8px;
+    top: 7px;
+    display: none;
+}
+

@@ -47,9 +47,7 @@ class Usercontroller extends Controller
             })
             //关键词筛选
             ->when($kw, function ($query) use ($kw) {
-                return $query->orWhere('name', 'like', '%'.$kw.'%')
-                            ->orWhere('account', 'like', '%'.$kw.'%')
-                            ->orWhere('phone', 'like', '%'.$kw.'%');
+                return $query->orWhere('name', 'like', '%'.$kw.'%')->orWhere('phone', 'like', '%'.$kw.'%');
             })
             ->Paginate(3);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);

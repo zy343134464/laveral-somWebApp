@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,10 @@ return [
 
         //2018-01-03
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        //上传大文件扩展20180123
+        AetherUpload\AetherUploadServiceProvider::class,
+        //ueditor20180124
+        Stevenyangecho\UEditor\UEditorServiceProvider::class,
 
     ],
 

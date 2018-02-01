@@ -135,7 +135,4 @@ class UserController extends Controller
         }
         return redirect()->route('user_index');
     }
-
-    
-
 }

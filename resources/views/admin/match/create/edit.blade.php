@@ -5,13 +5,42 @@
 <div class="match-theme">
 	<form class="form-horizontal" role="form" action="{{ url('admin/match/mainedit/'.$id) }}" method="post"  enctype="multipart/form-data">
 	 {{ csrf_field() }}
-		<div class="match-poster">
-			<h4>赛事海报设置</h4>
+	 	<div class="match-poster">
+			<div class="form-group" style="color:red;margin-left:40px;">
+			<!-- {{ $errors->first() }} -->{{ session('msg') }}
+			</div>
+			<h4>赛事海报</h4>
+			<div class="form-group" id="aetherupload-wrapper">
+				<div class="col-sm-4 col-sm-offset-2">
+					<div class="upload-pic">
+						<div class="limit">
+							<p>横板尺寸：1920 X 1080 像素</p>
+							<p>jpg png格式,不超过2m</p>
+						</div>
+						<div class="upload-wrapper">
+							<a class="file">+
+                                <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
+                            </a>
+                			<input type="hidden" name="pic" id="savedpath"><!--需要有一个名为savedpath的id，用以标识文件保存路径的表单字段，还需要一个任意名称的name-->
+                            <p class="help-block">点击添加海报</p>
+                            <span style="font-size:12px;color:#aaa;" id="output"></span><!--需要有一个名为output的id，用以标识提示信息-->
+                            <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 200px;margin-left:70px;">
+			                    <div id="progressbar" style="background:blue;height:6px;width:0;"></div><!--需要有一个名为progressbar的id，用以标识进度条-->
+			                </div>
+			                <div id="poster-pic"><img src="{{ url($match->pic ) }}"></div>
+			                <div class='form-group closeposition'><div class='col-sm-4 col-sm-offset-2'><div class='close'><i class='fa fa-close'></i></div></div></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="match-detailpage">
+			<h4 style="padding-bottom:0;">基本信息</h4>
 			<!-- {{ $errors->first() }} -->{{ session('msg') }}
 			<?php
 				if($match->cat != 1):
 			?>
-			<div class="form-group">
+			<div class="form-group" style="position:relative;top:20px;">
 				<label for="firstname" class="col-sm-2 control-label">赛事类别</label>
 				<div class="col-sm-2">
 					<input type="text" class="form-control" id="firstname" placeholder="" name="type" value="{{$match->type }}">
@@ -20,70 +49,46 @@
 			<?php
 				endif;
 			?>
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">赛事标题</label>
-				<div class="col-sm-5">
-					<input type="text" class="form-control" id="firstname" placeholder="20字内   海报赛事标题" name="show_title"  value="{{$match->show_title}}">
-				</div>
+			<div class="form-group" style="margin-bottom:0;position:relative;top:25px;">
+				<label for="firstname" class="col-sm-2 control-label">标题</label>
 			</div>
+			@foreach(@json_decode($match->title) as $k=>$v)
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">赛事简介</label>
-				<div class="col-sm-5">
-					<textarea class="form-control" rows="6" placeholder="50字内"  name="show_introdution" >{{$match->show_introdution}}</textarea>
-				</div>
-			</div>
-		</div>
-		<div class="match-detailpage">
-			<h4>赛事详情页设置</h4>
-			@foreach(@json_decode($match->detail_title) as $k=>$v)
-			<div class="form-group">
-				<label for="var1" id="var1" class="col-sm-2 control-label">赛事标题</label>
+				<label class="col-sm-2 control-label"></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname" placeholder="赛事标题"  name="detail_title[]"  value="{{ $v }}">
+					<input type="text" class="form-control" placeholder="赛事标题"  name="title[]"  value="{{ $v }}">
+				</div>
 				@if($k!=0)
 				<span class="removeVar">-</span>
 				@endif
-				</div>
 			</div>
 			@endforeach
 			<p><span id="addVar" class="col-sm-offset-2">+</span></p>
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">赛事详情内容</label>
+				<label for="firstname" class="col-sm-2 control-label">详情内容</label>
 				<div class="col-sm-5">
-					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail_introdution"  >{{$match->detail_introdution}}</textarea>
+					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail">{{$match->introdution}}</textarea>
 				</div>
 			</div>
 		</div>
 		<div class="match-time">
 			<h4>赛事时间设置</h4>
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">征稿开始时间</label>
+				<label class="col-sm-2 control-label">征稿开始时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname" placeholder="请选择日期和时间" name="collect_start"  value="{{$match->collect_start}}">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">征稿结束时间</label>
+				<label for="firstname" class="col-sm-2 control-label">征稿结束时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname" placeholder="请选择日期和时间" name="collect_end"  value="{{$match->collect_end}}">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">初审结束时间</label>
+				<label for="firstname" class="col-sm-2 control-label">赛果公布日期</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname" placeholder="请选择日期和时间" name="review_start"  value="{{$match->review_start}}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">评分截止时间</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname" placeholder="请选择日期和时间" name="review_end"  value="{{$match->review_end}}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">结果公布时间</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname" placeholder="请选择日期和时间" name="public_time"  value="{{$match->public_time}}">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="reviewstart-datetime-lang am-form-field form-control" name="public_time">
 				</div>
 			</div>
 		</div>
@@ -93,3 +98,116 @@
 	</form>
 </div>
 @endsection
+<script>
+    // 图片上传
+  someCallback = function(){
+    // 加载图片
+    var path = $('#savedpath')[0].defaultValue;
+    var image=$("<image src=\\uploadtemp\\"+path+"/>");
+    $("#poster-pic").append(image);
+
+    // 点击删除按钮
+    var $resetBtn = $("<div class='form-group closeposition'><div class='col-sm-4 col-sm-offset-2'><div class='close'><i class='fa fa-close'></i></div></div></div>");
+    $(".upload-wrapper").append($resetBtn);
+
+    $resetBtn.on('click',function(){
+      $('#poster-pic').children().remove();
+      $('.file').find('#file').removeAttr("disabled");
+      $resetBtn.remove();
+      $('#output').html('');
+      $('#progressbar').css('width','0');
+      $('#file').val('');
+    })
+  }
+
+  window.onload = function(){
+  	var collect_start = {{ $match->collect_start}};
+  	var collect_end = {{ $match->collect_end}};
+  	var public_time = {{ $match->public_time}};
+
+  	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes();
+        return Y+M+D+h+m;
+    }
+
+  	if(collect_start){
+  		$('.collectstart-datetime-lang').val(timestampToTime(collect_start))
+  	}
+
+  	if(collect_end){
+  		$('.collectend-datetime-lang').val(timestampToTime(collect_end))
+  	}
+
+  	if(public_time){
+  		$('.reviewstart-datetime-lang').val(timestampToTime(public_time))
+  	}
+
+
+  	$('.closeposition').on('click',function(){
+  		 $('#poster-pic').children().remove();
+	      $('.file').find('#file').removeAttr("disabled");
+	      $('.closeposition').remove();
+	      $('#output').html('');
+	      $('#progressbar').css('width','0');
+	      $('#file').val('');
+  	});
+  }
+    
+
+  //限制文件大小
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+    function fileChange(target,id) { 
+      var fileSize = 0; 
+      var filetypes =[".jpg",".png"]; 
+      var filepath = target.value; 
+    var filemaxsize = 1024*2;//2M 
+    if(filepath){ 
+      var isnext = false; 
+      var fileend = filepath.substring(filepath.indexOf(".")); 
+      if(filetypes && filetypes.length>0){ 
+        for(var i =0; i<filetypes.length;i++){ 
+          if(filetypes[i]==fileend){ 
+            isnext = true; 
+            break; 
+          } 
+        } 
+      } 
+      if(!isnext){ 
+        alert("不接受此文件类型！"); 
+        target.value =""; 
+        return false; 
+      } 
+    }else{ 
+      return false; 
+    } 
+    if (isIE && !target.files) { 
+      var filePath = target.value; 
+      var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
+      if(!fileSystem.FileExists(filePath)){ 
+        alert("附件不存在，请重新输入！"); 
+        return false; 
+      } 
+      var file = fileSystem.GetFile (filePath); 
+      fileSize = file.Size; 
+    } else { 
+      fileSize = target.files[0].size; 
+    } 
+
+    var size = fileSize / 1024; 
+    if(size>filemaxsize){ 
+      alert("附件大小不能大于"+filemaxsize/1024+"M！"); 
+      target.value =""; 
+      return false; 
+    } 
+    if(size<=0){ 
+      alert("附件大小不能为0M！"); 
+      target.value =""; 
+      return false; 
+    } 
+  } 
+</script>

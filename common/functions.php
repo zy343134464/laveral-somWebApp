@@ -1,48 +1,126 @@
 <?php
 
 use Illuminate\Support\Facades\Cookie;
+
+use Illuminate\Support\Facades\Storage;
+
+/**
+ * 密码加密
+ * @param  [type] $password [description]
+ * @return [type]           [description]
+ */
 function pw($password)
 {
-	return password_hash($password, PASSWORD_DEFAULT);
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+/**
+ * 对比密码是否一样
+ * @param  [type] $password 需要对比的密码
+ * @param  [type] $hash     经加密的hash密码
+ * @return 返回 true false
+ */
+function checkpw($password, $hash)
+{
+    return password_verify($password, $hash);
 }
 
-function checkpw($password,$hash)
+
+function organ_info($ip, $str)
 {
-	return password_verify($password, $hash);
-}
-function no404()
-{
-	return '<img src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=3593f3d9d8b44aed4d43b6b6d275ec64/2fdda3cc7cd98d10b262fca2233fb80e7aec90eb.jpg" alt="404" title="unknow 404" >';
-}
-function organ_info($ip,$str)
-{
-	$res = DB::table('organs')->where('host',$ip)->first();
-	if(count($res)) {
-		return $res->$str;
-	} else {
-		return no404();
-	}
-	
-}
-function set_user_id_cookie($uid,$min)
-{
-	Cookie::queue('user_id',$uid,$min);
+    $res = DB::table('organs')->where('host', $ip)->first();
+    if (count($res)) {
+        return $res->$str;
+    } else {
+        return null;
+    }
 }
 
+/**
+ * 保存用户ID到cookie
+ * @param [type] $uid [description]
+ * @param [type] $min 保存时长
+ */
+function set_user_id_cookie($uid, $min)
+{
+    Cookie::queue('user_id', $uid, $min);
+}
+
+/**
+ * 退出登录,删除cookie
+ * @return [type] [description]
+ */
 function logout()
 {
-	Cookie::queue(Cookie::forget('user_id'));
+    Cookie::queue(Cookie::forget('user_id'));
 }
+/**
+ * 查询机构信息
+ * @param  [type] $str 需要查询的内容
+ * @return [type]      返回结果
+ */
 function organ($str)
 {
-	//$res = \DB::table('organs')->where('host',$_SERVER['SERVER_NAME'])->first();
-	$res = \DB::table('organs')->where('id',0)->first();
+    //$res = \DB::table('organs')->where('host',$_SERVER['SERVER_NAME'])->first();
+    $res = \DB::table('organs')->select($str)->where('id', 0)->first();
 
-	if(count($res)) {
-		return $res->$str;
-	} else {
-		return 'unknow';
-	}
-	
+    if (count($res)) {
+        return $res->$str;
+    } else {
+        return 'unknow';
+    }
 }
-?>
+/**
+ * 查询比赛信息
+ * @param  [type] $id  赛事id
+ * @param  [type] $str 要查询的信息
+ * @return [type]      查询结果
+ */
+function match($id, $str)
+{
+    $res = \DB::table('matches')->select($str)->where('id', $id)->first();
+
+    if (count($res)) {
+        return $res->$str;
+    } else {
+        return null;
+    }
+}
+/**
+ * 保存新建比赛上传的图片
+ * @param  [type] $path 临时路径
+ * @return [type]       保存路径
+ */
+function save_match_pic($path)
+{
+    //过滤已经保存的图片
+    if($path[0] != 'f') {
+        return $path;
+    }
+    $path = 'uploadtemp/'.$path;
+    $new = 'img/match/'.substr($path, strripos($path, '\\') + 1);
+    if (!Storage::disk('pic')->exists($new)) {
+        if (Storage::disk('pic')->exists($path)) {
+            Storage::disk('pic')->move($path, $new);
+        }
+    }
+    return $new;
+}
+/**
+ * 处理富文本上传的图片路经
+ * @param  [str] $str 富文本内容
+ * @return [str]      处理后的富文本内容
+ */
+function save_ueditor($str)
+{
+    preg_match_all('#src="([^"]+?)"#', $str, $arr);
+    foreach ($arr[1] as $v) {
+        $new = 'img/ueditor/image/'.substr($v, strripos($v, '/') + 1);
+        if (Storage::disk('pic')->exists($new)) {
+            continue;
+        }
+        if (Storage::disk('pic')->exists($v)) {
+            Storage::disk('pic')->move($v, $new);
+        }
+    }
+    return preg_replace('#/uploadtemp/ueditor/image#', '/img/ueditor/image/', $str);
+}

@@ -9,32 +9,24 @@
 			<h4>比赛合作方信息</h4>
 			@if(count($partner))
 			@foreach($partner as $v)
-			<div class="two-wrapper">
 			<div class="form-group match-partner-add">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="合作角色" name="role[]" value="{{ $v->role }}" >
+				<div class="col-sm-2 col-sm-offset-2">
+					<input type="text" class="form-control" id="firstname" placeholder="主办方" name="role[]" value="{{ $v->role }}" >
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="合作信息" name="name[]" value="{{ $v->name }}">
+				<div class="col-sm-4" style="margin-left:-24px;">
+					<input type="text" class="form-control" id="firstname" placeholder="名称" name="name[]" value="{{ $v->name }}">
 				</div>
 				<span class="removeVar1">-</span>
 			</div>
-			</div>
 			@endforeach
 			@else
-			<div class="two-wrapper">
 			<div class="form-group match-partner-add">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="合作角色"   name="role[]" value="" >
+				<div class="col-sm-2 col-sm-offset-2">
+					<input type="text" class="form-control" id="firstname" placeholder="主办方"   name="role[]" value="" >
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="合作信息"  name="name[]" value="">
+				<div class="col-sm-4" style="margin-left:-24px;">
+					<input type="text" class="form-control" id="firstname" placeholder="名称"  name="name[]" value="">
 				</div>
-			</div>
 			</div>
 			@endif
 			<p><span id="addVar1" class="col-sm-offset-2">+</span></p>
@@ -43,32 +35,24 @@
 			<h4>主办方联系信息</h4>
 			@if(count($connection))
 			@foreach($connection as $cv)
-			<div class="two-wrapper">
 			<div class="form-group match-partner-add">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="QQ/电话/微信" name="type[]" value="{{ $cv->type }}">
+				<div class="col-sm-2 col-sm-offset-2">
+					<input type="text" class="form-control" id="firstname" placeholder="QQ/电话/微信/邮箱" name="type[]" value="{{ $cv->type }}">
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-5 col-sm-offset-2">
+				<div class="col-sm-4" style="margin-left:-24px;">
 					<input type="text" class="form-control" id="firstname" placeholder="" name="value[]" value="{{ $cv->value }}">
 				</div>
 				<span class="removeVar2">-</span>
 			</div>
-			</div>
 			@endforeach
 			@else
-			<div class="two-wrapper">
 			<div class="form-group match-partner-add">
-				<div class="col-sm-5 col-sm-offset-2">
-					<input type="text" class="form-control" id="firstname" placeholder="QQ/电话/微信"  name="type[]" value="">
+				<div class="col-sm-2 col-sm-offset-2">
+					<input type="text" class="form-control" id="firstname" placeholder="QQ/电话/微信/邮箱"  name="type[]" value="">
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-5 col-sm-offset-2">
+				<div class="col-sm-4" style="margin-left:-24px;">
 					<input type="text" class="form-control" id="firstname" placeholder=""  name="value[]" value="">
 				</div>
-			</div>
 			</div>
 			@endif
 			<p><span id="addVar2" class="col-sm-offset-2">+</span></p>
