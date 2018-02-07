@@ -19,24 +19,37 @@ class Matchcontroller extends Controller
      */
     public function index(Request $request, Match $match, $show)
     {
+        //dd(isset($request->cat));
         //0:未发布;1:赛事暂停;2:已发布;3:征稿中;4:征稿结束;5:评审中;6:结束
-        if ($request->status == 1) {
-            $status = [0];
-        } elseif ($request->status == 2) {
-            $status = [2,3,4,5];
+        // if ($request->status == 1) {
+        //     $status = [0];
+        // } elseif ($request->status == 2) {
+        //     $status = [2,3,4,5];
+        // } else {
+        //     $status = [6];
+        // }
+        // if ($$request->cat) {
+        //     $cat = [$cat];
+        // } else {
+        //     $cat = [0,1];
+        // }
+        // $res = $match->show($status);
+        $res = $match->when(isset($request->status),function($query) use ($request){
+                return $query->where('status',$request->status);
+            },function($query) use ($request){
+                return $query->whereIn('status',[2,3,4,5]);
+        })->when(isset($request->cat),function($query) use($request) {
+            return $query->where('cat',$request->cat);
+        },function($query) use($request) {
+            return $query->whereIn('cat',[1,0]);
+        })->Paginate(12);
+        return view('test', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
+        if ($show == 'list') {
+            return view('admin.match.show.list', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
+        } elseif($show == 'block') {
+            return view('admin.match.show.block', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
         } else {
-            $status = [6];
-        }
-        if ($$request->cat) {
-            $cat = [$cat];
-        } else {
-            $cat = [0,1];
-        }
-        $res = $match->show($status);
-        if ($show == 1) {
-            return view('admin.match.show', ['match'=>$res]);
-        } else {
-            return view('admin.match.show', ['match'=>$res]);
+            return redirect()->to('/');
         }
     }
 
@@ -49,6 +62,29 @@ class Matchcontroller extends Controller
     {
         return view('admin.match.create.main', ['type'=>$type]);
     }
+    /**
+     * 删除比赛
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function del(Match $match, $id)
+    {
+        $match->del_match($id);
+
+        return back();
+    }
+    /**
+     * copy比赛
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function copy(Match $match, $id)
+    {
+        $res = $match->copy($id);
+        if($res['data']) return redirect()->to('admin/match/edit/'.$res['data']);
+        return back()->with('msg', $res['msg']);
+    }
+
     /**
      * 处理创建比赛
      * @param  Request $request [description]
@@ -76,7 +112,12 @@ class Matchcontroller extends Controller
     public function edit(Match $match, $id)
     {
         $match = $match->find($id);
-        return view('admin.match.create.edit', ['match'=>$match,'id'=>$id]);
+        if(count($match)) {
+
+            return view('admin.match.create.edit', ['match'=>$match,'id'=>$id]);
+        } else {
+            return redirect()->back();
+        }
     }
     /**
      * 处理编辑比赛
@@ -115,7 +156,6 @@ class Matchcontroller extends Controller
      */
     public function storepartner(Request $request, Match $match, $id)
     {
-        //dd('aa');
         $match->partner($request, $id);
         $match->connection($request, $id);
         return redirect('admin/match/rater/'.$id);
@@ -148,7 +188,7 @@ class Matchcontroller extends Controller
         // }
 
         if (isset($request->kw)) {
-            $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->groupBy('id')->Paginate(12);
+            $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->Paginate(12);
         }
 
 
@@ -217,7 +257,7 @@ class Matchcontroller extends Controller
     public function findguest(Request $request, Match $match, $id)
     {
         if ($request->kw) {
-            $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->groupBy('id')->Paginate(12);
+            $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->Paginate(12);
         } else {
             $user = [];
         }
@@ -286,7 +326,6 @@ class Matchcontroller extends Controller
      */
     public function storeaward(Request $request, Match $match, $id)
     {
-        //undefined
         $match->award($request, $id);
         return redirect('admin/match/require_personal/'.$id);
     }
@@ -357,8 +396,11 @@ class Matchcontroller extends Controller
      */
     public function review(Request $request, Match $match, $id)
     {
-        $info = Review::where('match_id', $id)->get()->toArray();
-        return view('admin.match.create.review', ['id'=>$id]);
+        $review = Review::where('match_id', $id)->orderBy('round')->get();
+        $win = \DB::table('win')->where('match_id', $id)->orderBy('no')->get();
+        $pop = \DB::table('popularity')->where('match_id', $id)->first();
+
+        return view('admin.match.create.review', ['id'=>$id, 'review'=>$review, 'pop'=>$pop, 'win'=>$win]);
     }
     /**
      * 处理评审设置
@@ -369,11 +411,20 @@ class Matchcontroller extends Controller
      */
     public function storereview(Request $request, Match $match, $id)
     {
-        dd($request->min2);
+
+        //dd($request->setting2['dimension']);
         $match->review($request, $id);
+        $match->popularity($request, $id);
+        $match->win($request, $id);
+        return redirect()->to('admin/match/showedit/'.$id);
 
     }
-    
+    public function showedit(Request $request, Match $match, $id)
+    {
+        $res = $match->info($id);
+        if(!$res) return back();
+        return view('admin.match.create.show',['match'=>$res]);
+    }
     /**
      *
      * 获取评审信息(待定)
@@ -393,6 +444,7 @@ class Matchcontroller extends Controller
     public function store_match_review(Request $request, Match $match, $id)
     {
         $match->save_review($request, $id);
+
     }
 
     /**

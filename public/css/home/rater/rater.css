@@ -1,0 +1,308 @@
+ul{
+    margin: 0;
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+/*主内容头部*/
+.content-wrapper > .content-header {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.content-wrapper > .content-header .nav-tabs {
+    border-bottom: 0;
+}
+
+.content-wrapper > .content-header .nav-tabs li a {
+    margin-left: -1px;
+    padding: 8px 20px;
+    color: #000;
+    margin-right: 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 0;
+}
+
+/*主内容内容*/
+/*搜索框*/
+.content-wrapper > .content .search-form {
+    position: relative;
+}
+
+.content-wrapper > .content .search-form .fa-search {
+    color: #8e8e8e;
+    font-size: 24px;
+    position: absolute;
+    left: 10px;
+    top: 24px;
+}
+
+.content-wrapper > .content .search-form input {
+    border: none;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #c8c8c8;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 44px;
+    margin-top: 12px;
+    margin-bottom: 25px;
+    min-width: 100px;
+    outline: none;
+    font-size: 16px;
+}
+/* 赛事赛选 */
+.content {
+    position: relative;
+    top: -22px;
+}
+.content .matchkind .form-control,
+.content .matchtime .form-control,
+.content .matchstate .form-control,
+.content .rater .form-control{
+    width: 100px;
+    font-size:12px;
+}
+.content .infroview .dropdown .btn-default {
+    background-color: #fff;
+}
+
+.content .infroview #dropdownMenu3 {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+.content .infroview #dropdownMenu3 {
+    border: none;
+    background-color: #f5f5f5;
+}
+
+.content .infroview .dropdown .dropdown-menu {
+    min-width: 90px;
+    top: 94%;
+}
+
+.content .infroview .dropdown .dropdown-menu {
+    padding: 20px 20px 0 20px;
+}
+/*批量导出*/
+.content .batch-export .dropdown .btn-success {
+    background-color: #262626;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #d4b179;
+    border: none;
+}
+
+.content .batch-export .dropdown .dropdown-menu {
+    min-width: 120px;
+}
+
+.content .batch-export .dropdown-menu li {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.match-main {
+    margin-right: -30px;
+    margin-top: 10px;
+}
+
+.match-main > li {
+    position: relative;
+    background-color: #fff;
+    width: 358px;
+    height: 285px;
+    float: left;
+    border: 1px solid #f5f5f5;
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
+.match-main > li img{
+     width: 358px;
+     height: 200px;
+}
+
+.match-main .match-content {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 12px;
+    color: #d2d2d2;
+    padding-bottom: 10px;
+}
+
+.match-main .match-content h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 13px;
+    color: #000;
+}
+.match-main .match-content p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #191919;
+}
+.match-main .match-content .nostart{
+    color: #d0a45d;
+}
+.match-main .match-content .nofinish{
+    color: #ff4a3b;
+}
+.match-main .match-content .share-alt {
+    position: absolute;
+    right: 10px;
+    bottom: 7px;
+    font-size: 16px;
+}
+.match-main .footer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.match-main .footer span{
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #191919;
+}
+.match-main .footer span > a{
+    text-decoration: none;
+    color: #191919;
+}
+.match-main .footer .dropdown-menu{
+    min-width: 130px;
+    text-align: center;
+}
+.match-main .footer .dropdown-menu .divider{
+    margin:0;
+}
+
+/*审核中赛事*/
+/*标题*/
+.rater-title h3{
+    font-size: 20px;
+}
+@media (min-width: 768px){
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+/* 导航 */
+.rater-nav{
+    display: inline-block;
+    position: relative;
+}
+.rater-nav > ul{
+    border-bottom: 1px solid #ccc;
+}
+.rater-nav .progress{
+    position: absolute;
+    bottom: -6px;
+    width: 150px;
+    height: 4px;
+    background-color: #d0a45d;
+}
+.rater-nav > ul > li > a{
+    color: #323232;
+    font-size: 14px;
+}
+.rater-nav > ul > li:last-child >a{ 
+    color: #999999;
+}
+.rater-nav > ul > li:nth-last-child(2) >a{ 
+    color: #999999;
+}
+.rater-nav .time{
+    color:#d0a45d;
+    font-size:12px;
+    margin-left:-108px;
+    margin-top: 2px;
+}
+/*评审作品*/
+.rater-main {
+    margin-right: -30px;
+    margin-top: 10px;
+}
+
+.rater-main > li {
+    position: relative;
+    background-color: #fff;
+    width: 268px;
+    height: 280px;
+    float: left;
+    border: 1px solid #f5f5f5;
+    margin-right: 13px;
+    margin-bottom: 20px;
+}
+.rater-main > li img{
+     width: 266px;
+     height: 196px;
+}
+.rater-main .rater-content {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 6px;
+}
+.rater-main .img-Id{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    color: #999999;
+    font-size: 10px;
+}
+.rater-main .rater-btn .passbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #508c1b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #508c1b;
+}
+.rater-main .rater-btn .passbtn:hover{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+.rater-main .rater-btn .passbtn.active{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+.rater-main .rater-btn .whilebtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #666666;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #666666;
+}
+.rater-main .rater-btn .whilebtn:hover{
+    background-color: #666666;
+    color: #ffffff;
+}
+.rater-main .rater-btn .whilebtn.active{
+    background-color: #666666;
+    color: #ffffff;
+}
+.rater-main .rater-btn .outbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #ff4a3b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #ff4a3b;
+}
+.rater-main .rater-btn .outbtn:hover{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+.rater-main .rater-btn .outbtn.active{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}

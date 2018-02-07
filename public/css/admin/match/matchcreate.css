@@ -39,7 +39,7 @@ span.sure{
 .match-theme {
     border: 1px solid #f8f8f8;
     margin-top: 10px;
-    padding-bottom: 25px;
+    padding-bottom: 80px;
 }
 
 .match-theme h4 {
@@ -115,6 +115,9 @@ span.sure{
     text-align: center
 }
 .match-theme .nextPage .btn-default{
+    position: fixed;
+    bottom:20px;
+    margin-left: -59px;
     background-color: #262626;
     border: 0;
     border-radius: 0;
@@ -123,6 +126,7 @@ span.sure{
     padding: 10px 35px;
     margin-top: 20px;
 }
+
 .match-poster,
 .match-detailpage{
     margin-bottom: 10px;
@@ -261,9 +265,12 @@ span.sure{
     text-align: center
 }
 .match-guest .nextPage{
-    text-align: center
+    text-align: center;
 }
 .match-guest .nextPage .btn-default{
+    position: fixed;
+    bottom:20px;
+    margin-left: -59px;
     background-color: #262626;
     border: 0;
     border-radius: 0;
@@ -277,7 +284,8 @@ span.sure{
     display: inline-block;
 }
 .match-guest .nav-tabs>li>a{
-    color: #000;
+    background-color: #fff;
+    color: #d0a45d;
     font-size: 16px;
     line-height: 10px;
     padding-left: 25px;
@@ -289,7 +297,8 @@ span.sure{
 .match-guest .nav-tabs>li.active>a:focus, 
 .match-guest .nav-tabs>li.active>a:hover{
     font-size: 16px;
-    color: #000;
+    color: #fff;
+    background-color: #d0a45d;
     border: none;
     margin-right: 0;
 }
@@ -728,6 +737,12 @@ li{
     }
 }
 @media (min-width: 768px){
+    #newform .modal-dialog.modal200 {
+        width: 1200px;
+        margin: 30px auto;
+    }
+}
+@media (min-width: 768px){
     #matchadd .modal-dialog.moda360 {
         width: 360px;
         margin: 30px auto;
@@ -924,3 +939,41 @@ li{
     display: none;
 }
 
+/* 编辑表单 */
+#newform .nextPage{
+    padding-bottom: 30px;
+}
+#newform .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 4px 35px;
+    margin-top: 20px;
+}
+#newform .wrapperform{
+    background-color:white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+#newform .nav-otherjob>li.active>a,
+#newform .nav-otherjob>li.active>a:focus,
+#newform .nav-otherjob>li.active>a:hover{
+    font-size: 14px;
+    border: none;
+    margin-right: 0;
+    color: #323232;
+}
+#newform .handle{
+    text-align: right;
+}
+#newform .handle a{
+    margin-top: 10px;
+    padding: 4px 10px;
+    color: #cccccc;
+    font-size: 30px;
+    font-weight: normal;
+    margin-right: 10px;
+}

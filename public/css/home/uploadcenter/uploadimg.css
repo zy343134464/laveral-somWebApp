@@ -1,0 +1,186 @@
+/* 上传中心 */
+#uploadimg{
+	background-color: #f5f5f5;
+}
+#uploadimg .requireimg{
+	border-top: 1px solid #e9e9e9;
+	margin-top: 26px;
+	padding-left: 32px;
+	background-color: #fff;
+}
+#uploadimg .requireimg h3{
+	font-size: 20px;
+}
+#uploadimg .requireimg p{
+	font-size: 16px;
+	color: #aba9a8;
+	padding-top:2px;
+}
+#uploadimg .requireimg p:nth-of-type(1){
+	padding-top: 4px;
+}
+#uploadimg .requireimg p:last-of-type{
+	padding-bottom: 22px;
+}
+#uploadimg .warm{
+	color: #e67b7b;
+	font-size: 16px;
+	padding-left: 32px;
+	padding-top: 10px;
+	padding-bottom: 29px;
+}
+#uploadimg .alreadyimg {
+	background-color: #fff;
+    padding-bottom: 84px;
+}
+#uploadimg .alreadyimg h3{
+	font-size: 20px;
+	color: #494640;
+	padding-top: 40px; 
+	padding-bottom: 27px;
+	padding-left: 32px;
+}
+#uploadimg .alreadyimg .imgwrapper{
+    width: 345px;
+    height: 225px;
+    background-color: #e1e1e1;
+}
+/* 图片上传 */
+#uploadimg .guestimg{
+	margin-top: 100px;
+    padding-top: 70px;
+    text-align: center;
+    border: 1px solid #cccccc;
+    right: 37px;
+    top: 0px;
+    height: 225px;
+    overflow: hidden;
+    background-color: #e1e1e1;
+}
+#uploadimg .guestimg p{
+    font-size: 14px;
+    color: #999999;
+}
+#uploadimg #poster-pic{
+    position: absolute;
+    background: white;
+}
+#uploadimg #poster-pic img{
+    width: 345px;
+    height: 225px;
+} 
+
+#uploadimg .closeposition{
+    position: absolute;
+    right: -42px;
+    top: 0px;
+}
+#uploadimg .close{
+    padding-top: 7px;
+    padding-left: 11px;
+    background-color: #e25050;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #fff;
+    opacity:1;
+}
+#uploadimg .upload-wrapper a{
+	text-decoration: none;
+	color: #aaa;
+}
+#uploadimg .file {
+    position: relative;
+    display: inline-block;
+    background: #cccccc;
+    border-radius: 50%;
+    padding: 30px 30px;
+    overflow: hidden;
+    font-size: 50px;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    vertical-align: center;
+}
+#uploadimg .file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+
+#uploadimg .nextPage{
+    text-align: center
+}
+#uploadimg .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 10px 20px;
+    margin-top: 60px;
+    margin-bottom: 84px;
+}
+
+/*上传作品信息*/
+#imgdetail{
+    background-color: #f5f5f5;
+}
+#imgdetail .imgdetail-content{
+    margin-top: 32px;
+    background-color: #fff;
+    padding-left: 53px;
+    padding-top: 30px;
+    padding-bottom: 32px;
+}
+#imgdetail .imgdetail-content img{
+    width: 346px;
+    height: 222px;
+}
+#imgdetail .imgdetail-content .detail label{
+    font-size: 18px;
+    color: #494640;
+    font-weight: 600;
+}
+#imgdetail .imgdetail-content .detail label span{
+    color: red;
+}
+#imgdetail .imgdetail-content .detail textarea{
+    resize:none;
+}
+#imgdetail input,
+#imgdetail textarea{
+    background-color:#fafafa;
+}
+#imgdetail input:focus, 
+#imgdetail textarea:focus{
+    background-color: #fff;
+}
+#imgdetail .nextPage{
+    text-align: center
+}
+#imgdetail .nextPage .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    margin-right: 40px;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 5px 50px;
+    margin-top: 60px;
+    margin-bottom: 84px;
+}
+#imgdetail .apply .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    margin-right: 40px;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 10px 85px;
+    margin-top: 20px;
+}

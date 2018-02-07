@@ -19,7 +19,7 @@
 						</div>
 						<div class="upload-wrapper">
 							<a class="file">+
-                                <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
+                                <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}" >
                             </a>
                 			<input type="hidden" name="pic" id="savedpath"><!--需要有一个名为savedpath的id，用以标识文件保存路径的表单字段，还需要一个任意名称的name-->
                             <p class="help-block">点击添加海报</p>
@@ -50,14 +50,14 @@
 			<div class="form-group">
 				<label for="var1" id="var1" class="col-sm-2 control-label">标题<span class="sure">*</span></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname" placeholder="赛事标题"  name="title[]">
+					<input type="text" class="form-control" id="firstname" placeholder="赛事标题"  name="title[]" required>
 				</div>
 			</div>
 			<p><span id="addVar" class="col-sm-offset-2">+</span></p>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">详情内容<span class="sure">*</span></label>
 				<div class="col-sm-8">
-					<textarea class="form-control" rows="8" placeholder="400字内 赛事内容"  name="detail" style="resize:none;"></textarea>
+					<textarea class="form-control" rows="8" placeholder="400字内 赛事内容"  name="detail" style="resize:none;"  required></textarea>
 				</div>
 			</div>
 		</div>
@@ -66,13 +66,13 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">征稿开始时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start"  required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">征稿结束时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end"  required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -114,7 +114,7 @@
     var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
     function fileChange(target,id) { 
       var fileSize = 0; 
-      var filetypes =[".jpg",".png"]; 
+      var filetypes =[".jpg",".png",".jpeg",".jepg"]; 
       var filepath = target.value; 
     var filemaxsize = 1024*2;//2M 
     if(filepath){ 

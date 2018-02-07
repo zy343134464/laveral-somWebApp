@@ -125,11 +125,9 @@
     margin-right: 20px;
     margin-bottom: 20px;
 }
-#main .match .match-main li {
-    width: 314px;
-}
 #main .match .match-main li img{
      width: 314px;
+     height: 196px;
 }
 
 #main .match .match-main .match-content {

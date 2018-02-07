@@ -50,7 +50,7 @@
             <!--头部导航-->
             <header class="main-header">
                 <!-- Logo -->
-                <a href="#" class="logo">
+                <a href="{{url('/')}}" class="logo">
                     <img src="{{ url('img/images/som-logo.png') }}" alt="som图标">
                     <span>SOM赛事管理系统</span>
                 </a>
@@ -59,90 +59,36 @@
                     <!--右导航-->
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#"><span class="glyphicon glyphicon-subtitles" aria-hidden="true"></span></a>
-                            </li>
                             <!-- Notifications: style can be found in dropdown.less -->
                             <li class="dropdown notifications-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <a href="{{ url('admin')}}" class="dropdown-toggle">
                                     <i class="fa fa-bell-o"></i>
                                     <span class="label label-danger">37</span>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="header">您有37条待处理事项</li>
-                                    <li>
-                                        <!-- inner menu: contains the actual data -->
-                                        <ul class="menu">
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-warning text-yellow"></i> Very long description here that
-                                                    may not fit into the
-                                                    page and may cause design problems
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-users text-red"></i> 5 new members joined
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-user text-red"></i> You changed your username
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
                             </li>
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="{{ url('img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-                                </a>
-                                <div class="circle"></div>
-                                <ul class="dropdown-menu">
-                                    <!-- User image -->
-                                    <li class="user-header">
-                                        <img src="{{ url('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-
-                                        <p>
-                                            Alexander Pierce - Web Developer
-                                            <small>Member since Nov. 2012</small>
-                                        </p>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {{ user('name') }}
+                                        <img src="{{ user('pic') }}" class="user-image" alt="User Image">
+                                    </a>
+                                    <div class="circle"></div>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width:100px;border:1px solid #f5f5f5;">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
                                     </li>
-                                    <!-- Menu Body -->
-                                    <li class="user-body">
-                                        <div class="row">
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Followers</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Sales</a>
-                                            </div>
-                                            <div class="col-xs-4 text-center">
-                                                <a href="#">Friends</a>
-                                            </div>
-                                        </div>
-                                        <!-- /.row -->
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1"  href="{{ url('/') }}">前台首页</a>
                                     </li>
-                                    <!-- Menu Footer-->
-                                    <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>
-                                        <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                        </div>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="#">修改密码</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{{ url('logout') }}">退出</a>
                                     </li>
                                 </ul>
                             </li>
@@ -169,9 +115,9 @@
                                 <span>比赛管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#">进行中比赛</a></li>
-                                <li><a href="#">筹备中比赛</a></li>
-                                <li><a href="#">历史记录</a></li>
+                                <li><a href="{{url('admin/match/show/block')}}">进行中比赛</a></li>
+                                <li><a href="{{url('admin/match/show/block?status=0')}}">筹备中比赛</a></li>
+                                <li><a href="{{url('admin/match/show/block?status=6')}}">历史记录</a></li>
                             </ul>
                         </li>
                         <li>
@@ -182,16 +128,6 @@
                         <li>
                             <a href="#">
                                 <span>登录页管理</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('admin/match/create/0') }}">
-                                <span>新建赛事(单项)</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('admin/match/create/1') }}">
-                                <span>新建赛事(综合)</span>
                             </a>
                         </li>
                         <li>
@@ -243,7 +179,10 @@
 <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
 <!-- 时间选择器 -->
 <script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
-
+ <script>
+    var a ='{{ session('msg') }}';
+    if(a) alert(a);
+</script>
 @section('other_js')
 
 @show

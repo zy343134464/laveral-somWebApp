@@ -17,15 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(User $user)
     {
         Schema::defaultStringLength(191);
-        Blade::directive('name', function () use ($user) {
-            $name = 'error....';
-            $id = \Cookie::get('user_id');
-            if ($id || $id === 0) {
-                $name = $user->getname($id);
-            }
+        
 
-            return $name;
-        });
     }
 
     /**

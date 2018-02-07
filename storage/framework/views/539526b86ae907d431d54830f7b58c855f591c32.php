@@ -172,7 +172,7 @@
                                 <!-- /.box-body -->
                             </div>
                             <div class="paging text-center">
-                                <?php echo e($kw); ?>
+                                <?php echo e($users->appends(['kw' => $kw])->links()); ?>
 
                             </div>
                             <!-- /.box -->

@@ -52,7 +52,7 @@ class Match extends Model
         $res = \DB::table('matches')->insertGetId([
                 "cat" => $type,
                 "type" => $request->type ? $request->type : '',
-                "title" => json_encode($request->title),
+                "title" => json_encode($request->title,JSON_UNESCAPED_UNICODE),
                 "detail" => $request->detail,
                 "pic" =>$pic,
                 "collect_start" => $request->collect_start ? strtotime($request->collect_start) :0,
@@ -62,6 +62,82 @@ class Match extends Model
         ]);
         return $res;
     }
+    public function del_match($id)
+    {
+        $res = $this->where('id',$id)->get()->toArray();
+        if(!count($res)) return false;
+        $pic = $res[0]['pic'];
+        $else_pic = $this->where('pic',$pic)->where('id','<>',$id)->get();
+        if(!count($else_pic)) del_match_pic($pic);
+        \DB::table('partners')->where('match_id', $id)->delete();
+        \DB::table('connections')->where('match_id', $id)->delete();
+        \DB::table('awards')->where('match_id', $id)->delete();
+        \DB::table('require_personal')->where('match_id', $id)->delete();
+        \DB::table('require_team')->where('match_id', $id)->delete();
+        \DB::table('raters')->where('match_id', $id)->delete();
+        \DB::table('guests')->where('match_id', $id)->delete();
+        \DB::table('reviews')->where('match_id', $id)->delete();
+        \DB::table('matches')->where('id', $id)->delete();
+
+    }
+    public function copy($id)
+    {
+        try{
+            
+            $info = $this->where('id',$id)->get()->toArray();
+            if(!count($info)) return ['data'=>false,'msg'=>'服务器故障,加载赛事数据失败......'];
+            $title = json_decode($info[0]['title']);
+            $title[0] = '(复制) '.$title[0];
+            $new_id = \DB::table('matches')->insertGetId([
+                    "cat" => $info[0]['cat'],
+                    "type" => $info[0]['type'],
+                    "title" => json_encode($title,JSON_UNESCAPED_UNICODE),
+                    "detail" => $info[0]['detail'],
+                    "pic" =>$info[0]['pic'],
+                    "collect_start" => $info[0]['collect_start'],
+                    "collect_end" => $info[0]['collect_end'],
+                    "public_time" => $info[0]['public_time'],
+                    "status" => 0,
+            ]);
+
+            $this->copy_info('partners',$id,$new_id);
+            $this->copy_info('connections',$id,$new_id);
+            $this->copy_info('awards',$id,$new_id);
+            $this->copy_info('require_personal',$id,$new_id);
+            $this->copy_info('require_team',$id,$new_id);
+            $this->copy_info('raters',$id,$new_id);
+            $this->copy_info('guests',$id,$new_id);
+            $this->copy_info('reviews',$id,$new_id);
+
+            return ['data'=>$new_id,'msg'=>''];
+
+        }catch (\Exception $e){
+           return ['data'=>false,'msg'=>'复制失败'];
+
+        }
+    }
+    public function copy_info($str,$old_id,$new_id)
+    {
+        $res = \DB::table($str)->where('match_id', $old_id)->get()->toArray();
+        if(count($res)) {
+            foreach (json_decode(json_encode($res,JSON_UNESCAPED_UNICODE),true) as $vv)
+            {
+                $temp = [];
+                foreach ($vv as $k => $v)
+                {
+                    if($k == 'match_id') {
+                        $temp[$k] = $new_id;
+                    } elseif($k == 'id') {
+
+                    } else {
+                        $temp[$k] = $v;
+                    }
+                    
+                }
+                \DB::table($str)->insertGetId($temp);
+            }
+        }
+    }
     /**
      * 修改赛事
      * @param  Request $request [description]
@@ -70,20 +146,24 @@ class Match extends Model
      */
     public function mainedit(Request $request, $id)
     {
+        $info = \DB::table('matches')->select('pic')->where('id', $id)->first();
+        $opic = $info->pic;
         if ($request->pic) {
             $pic = save_match_pic($request->pic);
+            del_match_pic($opic);
         } else {
-            $pic = 'img\images\match-img4.jpg';
+            $pic = $opic;
         }
         $res = \DB::table('matches')->where('id', $id)->update([
                 "type" => $request->type ? $request->type : '',
-                "title" => json_encode($request->title),
+                "title" => json_encode($request->title,JSON_UNESCAPED_UNICODE),
                 "detail" => $request->detail,
+                "pic" =>$pic,
                 "collect_start" => $request->collect_start ? strtotime($request->collect_start) :0,
                 "collect_end" => $request->collect_end ? strtotime($request->collect_end) :0,
                 "public_time" => $request->public_time ? strtotime($request->public_time) :0,
-                "status" => 0,
         ]);
+        
         return $id;
     }
     /**
@@ -195,7 +275,7 @@ class Match extends Model
             'price'=>$request->price ? $request->price : 0,
             'currency'=>$request->currency ? $request->currency : 'rmb',
             'notice'=>$request->notice ? $request->notice : '',
-            'prodution_info'=>json_encode($prodution_info),
+            'production_info'=>json_encode($prodution_info,JSON_UNESCAPED_UNICODE),
             'pay_title'=>$request->pay_title ? $request->pay_title : '',
             'pay_detail'=>$request->pay_detail ? $request->pay_detail : '',
             'introdution_title'=>$request->introdution_title ? $request->introdution_title : '',
@@ -237,7 +317,7 @@ class Match extends Model
             'price'=>$request->price ? $request->price : 0,
             'currency'=>$request->currency ? $request->currency : 'rmb',
             'notice'=>$request->notice ? $request->notice : '',
-            'prodution_info'=>json_encode($prodution_info),
+            'production_info'=>json_encode($prodution_info,JSON_UNESCAPED_UNICODE),
             'pay_title'=>$request->pay_title ? $request->pay_title : '',
             'pay_detail'=>$request->pay_detail ? $request->pay_detail : '',
             'introdution_title'=>$request->introdution_title ? $request->introdution_title : '',
@@ -460,12 +540,12 @@ class Match extends Model
             if($v == 'vote') {
                 \DB::table('reviews')->insert([ 
                     'match_id' => $id,
-                    'round' => $k,
+                    'round' => $k +1,
                     'type' => 1,
-                    'end_time' => strtotime(($request->end_time1)[$k]),
-                    'promotion' => ($request->promotion1)[$k],
+                    'end_time' => ($request->end_time1)[$k] ? strtotime(($request->end_time1)[$k]) : 0,
+                    'promotion' => ($request->promotion1)[$k] ? ($request->promotion1)[$k] :0,
                     'setting' => ($request->setting1)['vote'][$k][0],
-                    'rater' => json_encode(($request->rater1)[$k]),
+                    'rater' => json_encode(($request->rater1)[$k],JSON_UNESCAPED_UNICODE),
                 ]);
             } else {
                 $temp = [];
@@ -475,14 +555,116 @@ class Match extends Model
                 $temp['percent'] = ($request->setting2)['percent'][$k];
                 \DB::table('reviews')->insert([ 
                     'match_id' => $id,
-                    'round' => $k,
+                    'round' => $k +1,
                     'type' => 2,
-                    'end_time' => ($request->end_time2)[$k],
-                    'promotion' => ($request->promotion2)[$k],
-                    'setting' => json_encode($temp),
-                    'rater' => json_encode(($request->rater2)[$k]),
+                    'end_time' => ($request->end_time2)[$k] ? strtotime(($request->end_time2)[$k]) : 0,
+                    'promotion' => ($request->promotion2)[$k] ? ($request->promotion2)[$k] : 0,
+                    'setting' => json_encode($temp,JSON_UNESCAPED_UNICODE),
+                    'rater' => json_encode(($request->rater2)[$k],JSON_UNESCAPED_UNICODE),
                 ]);
             }
         }
+        $this->save_rater_info($id);
+
+    }
+    /**
+     * 人气投票
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function popularity(Request $request, $id)
+    {
+        if($request->hot) {
+            \DB::table('popularity')->where('match_id', $id)->delete();
+
+            \DB::table('popularity')->insert([
+                'match_id'=>$id,
+                'start'=>$request->hot_start ? strtotime($request->hot_start) : 0,
+                'end'=>$request->hot_end ? strtotime($request->hot_end) : 0
+            ]);
+        }
+    }
+    public function win(Request $request, $id)
+    {
+        \DB::table('win')->where('match_id', $id)->delete();
+        if ($request->win_name) {
+            $no = 0;
+            foreach ($request->win_name as $k => $v) {
+                if(($request->win_number)[$k] and ($request->win_number)[$k] > 0) {
+                    $no += 1;
+                     \DB::table('win')->insert([
+                        'match_id'=>$id,
+                        'no'=>$no,
+                        'name'=>$request->win_name[$k],
+                        'num'=>$request->win_number[$k]
+                    ]);
+                }
+            }
+        }
+    }
+  
+    public function uploadimg(Request $request, $id)
+    {
+        try {
+            $user_id = \Cookie::get('user_id');
+            if(!isset($user_id) || !$request->pic) return false;
+            $res = $this->find($id);
+            if(!count($res)) return false;
+            $match_id = $res->id;
+            $pic_id = \DB::table('productions')->insertGetId([
+                    'match_id'=>$match_id,
+                    'user_id'=>$user_id,
+                    'pic'=>uploadimg($request->pic),
+                    'type'=>0,
+                ]);
+            return $pic_id;
+        } catch (\Exception $e) {
+            return false;
+        }
+        
+    }
+    public function editimg(Request $request, $id)
+    {
+        try {
+            $pic = \DB::table('productions')->where('id',$id)->first();
+            if(!$pic)  return false;
+            $info = \DB::table('require_personal')->where('match_id',$pic->match_id)->first();
+            $res = json_decode($info->production_info);
+            $temp = [];
+            foreach ($res[0] as $k => $v) {
+                if($res[1][$k]) if(!isset($request->$v)) return false;
+                $temp[$v] = $request->$v;
+            }
+            if(!$info)  return false;
+            \DB::table('productions')->where('id',$id)->update($temp);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+    public function info($id)
+    {
+         try {
+            $res = \DB::table('matches')->where('id', $id)->get()->toArray();
+            if(!count($res)) return false;
+            $info = $res[0];
+            $res = \DB::table('partners')->where('match_id', $id)->get()->toArray();
+            $info->partner = $res;
+            $res = \DB::table('raters')->where('match_id', $id)->get()->toArray();
+            $info->rater = $res;
+            $res = \DB::table('require_personal')->where('match_id', $id)->get()->toArray();
+            $info->personal = $res;
+            $res = \DB::table('awards')->where('match_id', $id)->get()->toArray();
+            $info->award = $res;
+            //$data = json_decode(json_encode($info,JSON_UNESCAPED_UNICODE),true);
+            return $info;
+        } catch (\Exception $e) {
+            dd(000,$e);
+            return false;
+        }
+    }
+    public function save_rater_info($mid)
+    {
+        $res = \DB::table('reviews')->where('match_id',$mid)->get();
     }
 }

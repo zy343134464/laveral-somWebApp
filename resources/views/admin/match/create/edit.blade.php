@@ -50,13 +50,13 @@
 				endif;
 			?>
 			<div class="form-group" style="margin-bottom:0;position:relative;top:25px;">
-				<label for="firstname" class="col-sm-2 control-label">标题</label>
+				<label for="firstname" class="col-sm-2 control-label">标题<span class="sure">*</span></label>
 			</div>
 			@foreach(@json_decode($match->title) as $k=>$v)
 			<div class="form-group">
 				<label class="col-sm-2 control-label"></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" placeholder="赛事标题"  name="title[]"  value="{{ $v }}">
+					<input type="text" class="form-control" placeholder="赛事标题"  name="title[]"  value="{{ $v }}" required>
 				</div>
 				@if($k!=0)
 				<span class="removeVar">-</span>
@@ -65,9 +65,9 @@
 			@endforeach
 			<p><span id="addVar" class="col-sm-offset-2">+</span></p>
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">详情内容</label>
+				<label for="firstname" class="col-sm-2 control-label">详情内容<span class="sure">*</span></label>
 				<div class="col-sm-5">
-					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail">{{$match->introdution}}</textarea>
+					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail" required>{{$match->detail}}</textarea>
 				</div>
 			</div>
 		</div>
@@ -76,13 +76,13 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">征稿开始时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start"  required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">征稿结束时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end">
+					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end"  required>
 				</div>
 			</div>
 			<div class="form-group">

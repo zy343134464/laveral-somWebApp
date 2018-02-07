@@ -122,29 +122,52 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu3"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            按状态筛选
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                            <li><a href="#">征稿中</a></li>
-                            <li><a href="#">即将截稿</a></li>
-                            <li><a href="#">评审中</a></li>
-                            <li><a href="#">已结束</a></li>
-                            <li><a href="#">所有</a></li>
-                        </ul>
+                        <select class="form-control" onchange="window.location=this.value">
+						<option value="./">所有阶段</option>
+						<option value="?status=3" {{ $status == 3 ? 'selected' :'' }}>征稿中</option>
+						<option value="?status=5" {{ $status == 5 ? 'selected' :'' }}>评审中</option>
+						<option value="?status=6" {{ $status == 6 ? 'selected' :'' }}>已结束</option>
+					</select>
                     </div>
                     <ul class="match-main text-left clearfix">
+						 @if( count($matches) )
+                @foreach($matches as $v)
                         <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img1.jpg') }}" alt="">
-                            </div>
+                            <a href="{{ url('match/detail/'.$v->id) }}">
+                                <div class="match-img">
+                                    <img src="{{ url($v->pic) }}">
+                                </div>
+                            </a>
                             <div class="match-content">
-                                <h4>SOM2018人物摄影年度大赛</h4>
-                                <span class="status status-solicit">征稿中</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
+                                <h4>{{ (json_decode($v->title))[0]}}</h4>
+                                <span class="status status-solicit">
+                                @if($v->status==0)
+                                未发布 
+                                @elseif($v->status==1)
+                                赛事暂停
+                                @elseif($v->status==2)
+                                已发布
+                                @elseif($v->status==3)
+                                征稿中
+                                @elseif($v->status==4)
+                                征稿结束
+                                @elseif($v->status==5)
+                                评审中
+                                @elseif($v->status==6)
+                                结束
+                                @endif</span>
+                                <p>{{ mb_substr($v->detail,0,50) }}</p>
+                                <span class="status-time">征稿期： @if($v->collect_start)
+                                {{ date('Y-m-s',$v->collect_start)}}
+                                @else
+                                未设置
+                                @endif
+                            -
+                                @if($v->collect_end)
+                                {{ date('Y-m-s',$v->collect_end)}}
+                                @else
+                                未设置
+                                @endif</span>
                                 <span class="share-alt"><i class="fa fa-share-alt"></i></span>
                             </div>
                             <div class="footer">
@@ -166,182 +189,16 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img2.jpg') }}" alt="">
-                            </div>
-                            <div class="match-content">
-                                <h4>海底摄影大赛</h4>
-                                <span class="status status-endsoon">即将结束</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
-                                <span class="share-alt"><i class="fa fa-share-alt"></i></span>
-                            </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img3.png') }}" alt="">
-                            </div>
-                            <div class="match-content">
-                                <h4>SOM2018人物摄影年度大赛</h4>
-                                <span class="status status-review">评审中</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
-                                <span class="share-alt"><i class="fa fa-share-alt"></i></span>
-                            </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img4.jpg') }}" alt="">
-                            </div>
-                            <div class="match-content">
-                                <h4>SOM2018人物摄影年度大赛</h4>
-                                <span class="status status-end">已结束</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
-                                <span class="share-alt"><i class="fa fa-share-alt"></i></span>
-                            </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img5.jpg') }}" alt="">
-                            </div>
-                            <div class="match-content">
-                                <h4>SOM2018人物摄影年度大赛</h4>
-                                <span class="status status-end">已结束</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
-                                <span class="share-alt"><i class="fa fa-share-alt"></i></span>
-                            </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="match-img">
-                                <img src="{{ url('img/images/match-img6.jpg') }}" alt="">
-                            </div>
-                            <div class="match-content">
-                                <h4>SOM2018人物摄影年度大赛</h4>
-                                <span class="status status-end">已结束</span>
-                                <p>此次赛事云集摄影界权威评委强强阻阵，将于三月底广州艺术馆开帷幕</p>
-                                <span class="status-time">征稿期：2018年1月5日——2月5日</span>
-                                <span class="share-alt"><i class="fa fa-share-alt"></i></span>
-                            </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
-                        </li>
+            			 @endforeach
+            			 
+	                @else
+	                <li>
+	                    <div style="color:red;">暂无数据</div>
+	                </li>
+	                @endif
                     </ul>
                     <div class="paging text-center">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">6</a></li>
-                                <li><a href="#">7</a></li>
-                                <li><a href="#">...</a></li>
-                                <li><a href="#">99</a></li>
-                                <li><a href="#">100</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        {{ $matches->links()}}
                     </div>
                 </div>
             </div>
@@ -356,70 +213,15 @@
                     </div>
                     <div class="news-list">
                         <ul class="clearfix">
+                        	@if( count($news) )
+                			@foreach($news as $nv)
                             <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
+                                <a href="#">{{$nv->title}}</a>
+                                <span>{{   date('m-s',strtotime($nv->created_at)) }}</span>
                             </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
-                            <li>
-                                <a href="#">XX摄影大赛于2018年完美落幕</a>
-                                <span>11-20</span>
-                            </li>
+                            @endforeach
+                            @endif
+
                         </ul>
                     </div>
                 </div>

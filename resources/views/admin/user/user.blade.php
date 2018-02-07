@@ -173,7 +173,7 @@
                                 <!-- /.box-body -->
                             </div>
                             <div class="paging text-center">
-                                {{ $kw}}
+                                {{ $users->appends(['kw' => $kw])->links() }}
                             </div>
                             <!-- /.box -->
                         </div>

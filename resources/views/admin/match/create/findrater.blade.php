@@ -28,7 +28,7 @@
                 <li>
                     <a>
                         <div class="judgedata-img">
-                            <img src="{{ url('img/images/som-judge1.jpg') }}">
+                            <img src="{{ url($v->pic) }}">
                             <div class="check"><i class="fa fa-check"></i></div>
                         </div>
                         <div class="judgedata-content text-left">

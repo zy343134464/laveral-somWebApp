@@ -49,7 +49,7 @@ class Usercontroller extends Controller
             ->when($kw, function ($query) use ($kw) {
                 return $query->orWhere('name', 'like', '%'.$kw.'%')->orWhere('phone', 'like', '%'.$kw.'%');
             })
-            ->Paginate(3);
+            ->Paginate(10);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);
     }
 

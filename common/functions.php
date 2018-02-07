@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * 密码加密
- * @param  [type] $password [description]
- * @return [type]           [description]
+ * @param  [type] $password 要加密的password
+ * @return [type]           加密后的password
  */
 function pw($password)
 {
@@ -61,7 +61,7 @@ function logout()
 function organ($str)
 {
     //$res = \DB::table('organs')->where('host',$_SERVER['SERVER_NAME'])->first();
-    $res = \DB::table('organs')->select($str)->where('id', 0)->first();
+    $res = \DB::table('organs')->select($str)->where('id', 1)->first();
 
     if (count($res)) {
         return $res->$str;
@@ -69,6 +69,16 @@ function organ($str)
         return 'unknow';
     }
 }
+function user($str)
+{
+    $id = \Cookie::get('user_id');
+    if (isset($id)) {
+        $res = \DB::table('users')->find($id);
+        return $res->$str;
+    }
+    return 'error';
+}
+
 /**
  * 查询比赛信息
  * @param  [type] $id  赛事id
@@ -105,6 +115,31 @@ function save_match_pic($path)
     }
     return $new;
 }
+function uploadimg($path)
+{
+    //过滤已经保存的图片
+    if($path[0] != 'f') {
+        return $path;
+    }
+    $path = 'uploadtemp/'.$path;
+    $new = 'img/produtions/'.substr($path, strripos($path, '\\') + 1);
+    if (!Storage::disk('pic')->exists($new)) {
+        if (Storage::disk('pic')->exists($path)) {
+            Storage::disk('pic')->move($path, $new);
+        }
+    }
+    return $new;
+}
+
+function del_match_pic($path)
+{
+    //过滤已经保存的图片
+    if (Storage::disk('pic')->exists($path)) {
+        Storage::disk('pic')->delete($path);
+    }
+    
+}
+
 /**
  * 处理富文本上传的图片路经
  * @param  [str] $str 富文本内容
@@ -123,4 +158,33 @@ function save_ueditor($str)
         }
     }
     return preg_replace('#/uploadtemp/ueditor/image#', '/img/ueditor/image/', $str);
+}
+
+/**
+ * 临时方案
+ * @param  [type] $arr  [description]
+ * @param  [type] $k    [description]
+ * @param  [type] $type [description]
+ * @return [type]       [description]
+ */
+function arrtorater($arr,$k,$type)
+{
+    return '';
+    if(is_array($arr)) {
+        $str = '';
+        foreach ($arr as  $v) {
+            $res = \DB::table('users')->where('id',$v)->first();
+            if(count($res)) {
+                 $str .= '<li>
+                <a href="#">
+                    <input type="hidden" name="raters'.$type.'['.($k - 1).'][]" value="'.$res->id.'">
+                    <img src="/'.$res->pic.'" alt="">
+                    <p>'.$res->name.'</p>
+                    <div class="close"><i class="fa fa-close"></i></div>
+                </a>
+            </li>';
+            }
+        }
+        return $str;
+    }
 }

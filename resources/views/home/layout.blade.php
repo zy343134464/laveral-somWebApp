@@ -42,16 +42,15 @@
                     <li><a href="#">赛事</a></li>
                     <li><a href="#">展览</a></li>
                     <li><a href="#">会员</a></li>
-                    <li><a href="{{ url('admin') }}">后台</a></li>
                 </ul>
             </div>
         </div>
         <div class="col-xs-4 clearfix som">
             <div class="dropdown pull-right personal-center">
-                <img class="users-logo" src="{{ url('img/user2-160x160.jpg') }}" alt="头像">
+                <img class="users-logo" src="{{ user('pic') }}" alt="头像">
                 <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
                         data-toggle="dropdown">
-                    @name()
+                    {{ user('name') }}
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -59,8 +58,12 @@
                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
                     </li>
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" href="#">我的关注</a>
+                        <a role="menuitem" tabindex="-1"  href="{{ url('admin') }}">后台</a>
                     </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
+                    </li>
+
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="#">修改密码</a>
                     </li>

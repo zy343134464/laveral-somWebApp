@@ -21,8 +21,11 @@
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname" placeholder="张/组"  name="group_max" value="{{ $v->group_max }}">
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-1">
 					<input type="checkbox" name="group_limit"  value="1"> 不限
+				</div>
+				<div class="col-sm-2" style="padding-top:6px;">
+					<input type="checkbox" name="" value=""> 仅限单张
 				</div>
 			</div>
 			<div class="form-group">
@@ -93,7 +96,7 @@
 			<div class="form-group">
                 <label class="col-sm-2 control-label">作品信息</label>
 				<div class="col-sm-9">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="author" name="info[]" checked> 作者姓名
 						</label>
@@ -101,7 +104,7 @@
 							<input type="checkbox"  value="author_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="detail" name="info[]" checked> 文字描述
 						</label>
@@ -109,17 +112,17 @@
 							<input type="checkbox"  value="detail_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="title" name="info[]" checked> 作品标题
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="tilte_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="title_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  name="" value="represent" name="info[]" > 代表单位
 						</label>
@@ -127,7 +130,7 @@
 							<input type="checkbox"  name="" value="represent_r"  name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  name="" value="year" name="info[]" > 年份
 						</label>
@@ -135,7 +138,7 @@
 							<input type="checkbox"  name="" value="year_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="country" name="info[]" > 国籍
 						</label>
@@ -145,7 +148,7 @@
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="lacation" name="info[]" > 拍摄地点
 						</label>
@@ -153,7 +156,7 @@
 							<input type="checkbox"  value="lacation_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="size" name="info[]" > 作品尺寸
 						</label>
@@ -161,11 +164,11 @@
 							<input type="checkbox"  value="size_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
-							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 英文
+							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 中英双语
 						</label>
-						<label class="checkbox-inline" style="padding-left:48px;">
+						<label class="checkbox-inline">
 							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 是否必填
 						</label>
 					</div>
@@ -198,8 +201,11 @@
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname" placeholder="张/组"  name="group_max" value="">
 				</div>
-				<div class="col-sm-2" style="padding-top:6px;">
+				<div class="col-sm-1" style="padding-top:6px;">
 					<input type="checkbox" value="1" name="group_limit"> 不限
+				</div>
+				<div class="col-sm-2" style="padding-top:6px;">
+					<input type="checkbox" name="" value=""> 仅限单张
 				</div>
 			</div>
 			<div class="form-group">
@@ -270,7 +276,7 @@
 			<div class="form-group">
                 <label class="col-sm-2 control-label">作品信息</label>
 				<div class="col-sm-9">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="author" name="info[]" checked> 作者姓名
 						</label>
@@ -278,7 +284,7 @@
 							<input type="checkbox"  value="author_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="detail" name="info[]" checked> 文字描述
 						</label>
@@ -286,17 +292,17 @@
 							<input type="checkbox"  value="detail_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="title" name="info[]" checked> 作品标题
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="tilte_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="title_r" name="required[]" checked> 是否必填
 						</label>
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"   value="represent" name="info[]" > 代表单位
 						</label>
@@ -304,7 +310,7 @@
 							<input type="checkbox"   value="represent_r"  name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox" value="year" name="info[]" > 年份
 						</label>
@@ -312,7 +318,7 @@
 							<input type="checkbox"  value="year_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="country" name="info[]" > 国籍
 						</label>
@@ -322,7 +328,7 @@
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="lacation" name="info[]" > 拍摄地点
 						</label>
@@ -330,7 +336,7 @@
 							<input type="checkbox"  value="lacation_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox"  value="size" name="info[]" > 作品尺寸
 						</label>
@@ -338,11 +344,11 @@
 							<input type="checkbox"  value="size_r" name="required[]" > 是否必填
 						</label>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="checkbox-inline">
-							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 英文
+							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 中英双语
 						</label>
-						<label class="checkbox-inline" style="padding-left:48px;">
+						<label class="checkbox-inline">
 							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 是否必填
 						</label>
 					</div>
@@ -358,16 +364,18 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 col-sm-offset-2">
-					<a class="btn btn-warning" style="background-color:#d4b179;color:#000;border:none;">创建表单</a>
+				<div class="col-sm-2 col-sm-offset-5">
+					<a class="btn btn-warning" style="background-color:#d4b179;color:#000;border:none;" title="创建团体表单">创建表单</a>
 				</div>
 			</div>
 		</div>
 		@endif
 		<div class="nextPage">
-			<button type="submit" class="btn btn-default">预览</button>
-			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:30px;">进入评选设定</button>
+			<button type="submit" class="btn btn-default" style="margin-left:-211px;">预览</button>
+			<button type="submit" class="btn btn-default" style="margin-left:-80px;">保存</button>
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:50px;">下一页</button>
 		</div>
 	</form>
 </div>
+
 @endsection

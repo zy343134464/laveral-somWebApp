@@ -1,0 +1,191 @@
+#matchview{
+	background-color: #f5f5f5;
+	padding-top: 52px;
+}
+#matchview .side{
+	position: fixed;
+	top: 14%;
+	left: 18%;
+	background-color: #fff;
+	border: 1px solid #f5f5f5;
+}
+#matchview .side input{
+	margin-right: 10px;
+}
+#matchview .side .introduce{
+	color: #999999;
+	font-size: 20px;
+	padding-right: 15px;
+}
+#matchview .side li{
+	padding-left: 40px;
+	padding-top: 20px;
+	border-bottom: 1px solid #f5f5f5;
+	padding-bottom: 20px;
+}
+#matchview .side li > a{
+	text-decoration: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #999999;
+	font-size: 18px;
+}
+#matchview .side li.current{
+	background: #323232;
+}
+#matchview .side .title{
+	font-size: 18px;
+	color: #b1b0b0;
+	padding-top: 30px;
+}
+#matchview .side .title .titlecontent{
+	margin-top: 10px;
+	margin-bottom: 16px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #f9f9f9;
+	border: 1px solid #ccc;
+}
+#matchview .addtitle{
+    text-align: center
+}
+#matchview .addtitle .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 6px 38px;
+    margin-bottom: 34px;
+}
+#matchview .edit{
+	padding-left: 30px;
+}
+#matchview .bigtitle h2{
+	font-size: 42px;
+	color: #d4b179;
+	padding-top: 26px;
+	padding-bottom: 26px;
+	margin: 0;
+	background-color: #fbfbfb;
+}
+#matchview .lift-target .addpadding{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+#matchview .lift-target{
+	background-color: #fff;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+#matchview .lift-target h3{
+	font-size: 30px;
+	font-weight: bold;
+	color: #d4b179;
+	padding-top: 46px;
+	padding-bottom: 46px;
+}
+#matchview .lift-target h4{
+	color: #323232;
+	padding-top: 30px;
+	padding-bottom: 10px;
+}
+#matchview .lift-target .t1 .content img{
+	width: 600px;
+	height: 400px;
+}
+#matchview .lift-target .t1 .content p{
+	line-height: 28px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+#matchview .lift-target .t2 .content h4{
+	color: #323232;
+	font-weight: 600;
+}
+#matchview .lift-target .t2 .content p{
+	font-size: 18px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#matchview .lift-target .t3 .content{
+	padding-top: 40px;
+}
+#matchview .lift-target .t3 .content ul li{
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    padding-right: 50px;
+}
+#matchview .lift-target .t3 .content ul li:last-child{
+    padding-right: 0;
+}
+#matchview .lift-target .t3 .content ul li img{
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+}
+#matchview .lift-target .t3 .content ul li p{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 12px;
+    color: #000000;
+    font-size: 20px;
+}
+#matchview .lift-target .t4 .content h4{
+	font-size: 28px;
+}
+#matchview .lift-target .t4 .content h5{
+	font-size: 20px;
+}
+#matchview .lift-target .t4 .content img{
+	width: 400px;
+	height: 200px;
+}
+#matchview .lift-target .t4 .content p{
+	padding-top: 20px;
+	line-height: 28px;
+	padding-left: 200px;
+	padding-right: 200px;
+	padding-bottom: 10px;
+}
+#matchview .lift-target .t4 .content .trigon{
+	margin: 0 auto;
+	width: 0;
+    height: 0;
+    border-top: 16px solid black;
+    border-right: 20px solid transparent;
+    border-left: 20px solid transparent;
+}
+#matchview .lift-target .t5 .content h4{
+	color: #323232;
+	font-weight: 600;
+}
+#matchview .lift-target .t5 .content p{
+	font-size: 18px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#matchview .lift-target .t6 .content h4{
+	color: #323232;
+	font-weight: 600;
+}
+#matchview .lift-target .t6 .content p{
+	font-size: 18px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#matchview .footer .btn-default{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 6px 38px;
+    margin-top: 84px;
+    margin-bottom: 140px;
+    margin-right: 20px;
+}

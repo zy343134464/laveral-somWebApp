@@ -12,14 +12,11 @@
 */
 
 Route::get('/', 'Home\IndexController@index')->middleware('login');
+Route::get('/news/{id}', 'Home\IndexController@news');
 Route::get('/a', function () {
+    return redirect()->to('admin/match/show/block?status=0');
     return view('test');
 });
-Route::get('/b', function () {
-    return view('admin.new.create');
-});
-Route::get('/c', 'Admin\MatchController@ajax_search_rater');
-
 //资讯页
 Route::get('informations/{id}', 'InformationConroller@show_information');
 //首页ajax获取资讯
@@ -36,11 +33,26 @@ Route::post('/doreg', 'UserController@doreg');
 Route::get('admin/user/find/{account}', 'Admin\UserController@account');
 
 
+//用户中心
 Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/', 'Home\UserController@product');
     Route::get('/info', 'Home\UserController@info');
     Route::get('/consumes', 'Home\UserController@consumes');
     Route::get('/organ', 'Home\UserController@organ');
+});
+
+//赛事模块
+Route::middleware(['login'])->prefix('match')->group(function () {
+    Route::get('/detail/{id}', 'Home\MatchController@detail');
+    Route::get('/join/{id}', 'Home\MatchController@join');
+    Route::get('/uploadimg/{id}', 'Home\MatchController@uploadimg');
+    Route::post('/douploadimg/{id}', 'Home\MatchController@douploadimg');
+    Route::get('/editimg/{id}', 'Home\MatchController@editimg');
+    Route::post('/doeditimg/{id}', 'Home\MatchController@doeditimg');
+});
+Route::middleware(['login','rater'])->prefix('rater')->group(function () {
+    Route::get('/room', 'Home\IndexController@room');
+
 });
 
 
@@ -74,9 +86,15 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
     //后台赛事模块
     Route::prefix('match')->group(function () {
         //后台赛事模块
-        
+        Route::get('/', function () {
+            return redirect()->to('admin/match/show/block');
+        });
         //后台赛事展示页
         Route::get('show/{show}', 'Admin\MatchController@index');
+        //删除
+        Route::get('del/{id}', 'Admin\MatchController@del');
+        //copy
+        Route::get('copy/{id}', 'Admin\MatchController@copy');
         //创建比赛页面
         Route::get('create/{type}', 'Admin\MatchController@create');
         Route::get('edit/{id}', 'Admin\MatchController@edit');
@@ -122,10 +140,15 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //赛事评审
         Route::get('review/{id}', 'Admin\MatchController@review');
         Route::post('storereview/{id}', 'Admin\MatchController@storereview');
+
+        Route::get('showedit/{id}', 'Admin\MatchController@showedit');
+        Route::post('storeshow/{id}', 'Admin\MatchController@storeshow');
+
         //ajax搜索评委
         Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
         //ajax新建评委
         Route::post('add_rater/{id}', 'Admin\MatchController@add_rater');
         Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
+
     });
 });
