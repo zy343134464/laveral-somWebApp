@@ -41,11 +41,11 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  value="{{ $v->size_min }}">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  min="0.01" value="{{ $v->size_min }}">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname4" placeholder="MB" name="size_max"  value="{{ $v->size_max }}">
+					<input type="number" class="form-control" id="firstname4" placeholder="MB" name="size_max"  min="0.01" value="{{ $v->size_max }}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -78,7 +78,7 @@
             <div class="form-group">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number" step="0.01" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
+					<input type="number"  min="0.01" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">
@@ -211,7 +211,7 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">每组张数</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="张"  name="num_min"   value="">
+					<input type="number" class="form-control" id="firstname3" placeholder="张"  name="num_min" value="">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
@@ -221,11 +221,11 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  value="">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  min="0.01" value="">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname4" placeholder="MB" name="size_max"  value="">
+					<input type="number" class="form-control" id="firstname4" placeholder="MB" name="size_max"  min="0.01" value="">
 				</div>
 			</div>
 			<div class="form-group">
@@ -258,7 +258,7 @@
             <div class="form-group">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number" step="0.01" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="">
+					<input type="number"  min="0.01" class="form-control" id="firstname5" placeholder="" name="price"  value="">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">
@@ -474,8 +474,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -521,6 +525,9 @@
 										<input type="text" class="form-control" id="firstname" 
 										placeholder="输入选项1内容">
 									</div>
+									<div class="col-sm-1 minus">
+										<span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+									</div>
 								</div>
 								<div class="form-group">
 									<label for="firstname" class="col-sm-2 control-label">选项2</label>
@@ -528,12 +535,23 @@
 										<input type="text" class="form-control" id="firstname" 
 										placeholder="输入选项2内容">
 									</div>
+									<div class="col-sm-1 minus">
+										<span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+									</div>
 								</div>
 								<div class="form-group">
 									<label for="firstname" class="col-sm-2 control-label">选项3</label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control" id="firstname" 
 										placeholder="输入选项3内容">
+									</div>
+									<div class="col-sm-1 minus">
+										<span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="additem">
+										<span><a href="#"><i class="fa fa-plus-square-o"></i></a></span>
 									</div>
 								</div>
 								 <div class="form-group">
@@ -547,8 +565,12 @@
 								 </div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -592,8 +614,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -645,8 +671,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -698,8 +728,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -751,8 +785,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -798,8 +836,12 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 
@@ -837,11 +879,20 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4" style="background-color:gold">
-							1
+						<div class="col-sm-4" style="margin-top:3px;">
+							<div class="handle">
+								<span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+	                            <span><a href="#"><i class="fa fa-arrow-down"></i></a><span>
+	                            <span><a href="#" style="margin-left:50px;"><i class="fa fa-minus-square-o"></i></a></span>
+                            </div>
 						</div>
 					</div>
 				</form>
+			</div>
+			<div class="col-sm-12">
+				<div class="addbtn">
+					<span><a href="#"><i class="fa fa-plus-square-o"></i></a></span>
+				</div>
 			</div>
 			<div class="nextPage">
 				<button type="submit" class="btn btn-default" style="margin-left:44px;margin-right:30px;">提交</button>

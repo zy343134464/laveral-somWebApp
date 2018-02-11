@@ -70,7 +70,7 @@
                             <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         {{ user('name') }}
-                                        <img src="{{ user('pic') }}" class="user-image" alt="User Image">
+                                        <img src="{{ url(user('pic')) }}" class="user-image" alt="User Image">
                                     </a>
                                     <div class="circle"></div>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width:100px;border:1px solid #f5f5f5;">
@@ -180,7 +180,7 @@
 <!-- 时间选择器 -->
 <script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
  <script>
-    var a ='{{ session('msg') }}';
+    var a ='{{ session("msg") }}';
     if(a) alert(a);
 </script>
 @section('other_js')

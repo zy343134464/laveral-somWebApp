@@ -170,24 +170,6 @@
                                 @endif</span>
                                 <span class="share-alt"><i class="fa fa-share-alt"></i></span>
                             </div>
-                            <div class="footer">
-                                <div class="remain-time">
-                                    <i class="fa fa-clock-o"></i>
-                                    <span>还剩15天</span>
-                                </div>
-                                <div class="views">
-                                    <i class="fa fa-eye"></i>
-                                    <span>25000</span>
-                                </div>
-                                <div class="users">
-                                    <i class="fa fa-user"></i>
-                                    <span>4800</span>
-                                </div>
-                                <div class="images">
-                                    <i class="fa fa-image"></i>
-                                    <span>3256</span>
-                                </div>
-                            </div>
                         </li>
             			 @endforeach
             			 

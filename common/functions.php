@@ -74,8 +74,13 @@ function user($str)
     $id = \Cookie::get('user_id');
     if (isset($id)) {
         $res = \DB::table('users')->find($id);
+        if(!count($res)) { 
+            logout();
+            return 'error';
+        }
         return $res->$str;
     }
+    logout();
     return 'error';
 }
 
@@ -169,7 +174,7 @@ function save_ueditor($str)
  */
 function arrtorater($arr,$k,$type)
 {
-    return '';
+    //return '';
     if(is_array($arr)) {
         $str = '';
         foreach ($arr as  $v) {
@@ -177,7 +182,7 @@ function arrtorater($arr,$k,$type)
             if(count($res)) {
                  $str .= '<li>
                 <a href="#">
-                    <input type="hidden" name="raters'.$type.'['.($k - 1).'][]" value="'.$res->id.'">
+                    <input type="hidden" name="rater'.$type.'['.($k - 1).'][]" value="'.$res->id.'">
                     <img src="/'.$res->pic.'" alt="">
                     <p>'.$res->name.'</p>
                     <div class="close"><i class="fa fa-close"></i></div>

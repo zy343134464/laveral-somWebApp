@@ -10,7 +10,6 @@
 	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">基本信息</h3>
-			<span>Martin</span>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
 					class="fa fa-minus"></i>
@@ -26,8 +25,7 @@
 					</div>
 					<label for="nationality" class="col-sm-1 control-label">国籍</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="nationality"
-						placeholder="" value="中国">
+						<input type="text" class="form-control" id="nationality" placeholder="" value="中国">
 					</div>
 				</div>
 				<div class="form-group">
@@ -67,15 +65,17 @@
 						<button type="submit" class="btn btn-warning">保存</button>
 					</div>
 				</div>
+				<div class="img">
+					<img src="{{url('img/images/infroimg.jpg')}}" alt="">
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <div class="email">
-	<div class="box collapsed-box">
+	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">邮箱</h3>
-			<span>22449499@qq.com</span>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
 					class="fa fa-minus"></i>
@@ -105,10 +105,9 @@
 	</div>
 </div>
 <div class="phone">
-	<div class="box collapsed-box">
+	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">绑定手机</h3>
-			<span>13539624211</span>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
 					class="fa fa-minus"></i>
@@ -133,10 +132,9 @@
 	</div>
 </div>
 <div class="password">
-	<div class="box collapsed-box">
+	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">密码</h3>
-			<span>******</span>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
 					class="fa fa-minus"></i>
@@ -173,12 +171,9 @@
 	</div>
 </div>
 <div class="thirdparty">
-	<div class="box collapsed-box">
+	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">第三方绑定</h3>
-			<span>微信</span>
-			<span>QQ</span>
-			<span>新浪微博</span>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i
 					class="fa fa-minus"></i>
@@ -216,4 +211,4 @@
 
 @section('other_js')
 
-@endsections
+@endsection

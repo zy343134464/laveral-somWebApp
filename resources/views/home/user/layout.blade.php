@@ -14,17 +14,9 @@
 	<header id="users">
 	    <div class="users-intro text-center">
 	        <h4>
-	            <img src="{{url('img/images/user-logo.jpg')}}" alt="">
+	            <img src="{{url(user('pic'))}}" alt="">
 	        </h4>
-	        <p>@name()</p>
-	        <div class="vip">
-	            <a href="#">充值</a>
-	            <a href="#">升级会员</a>
-	        </div>
-	        <div class="operate">
-	            <span class="balance">账户余额:</span><span class="second-item">99999</span>
-	            <span class="grade">下一级别:</span><span>优越会员</span>
-	        </div>
+	        <p>{{ user('name')}}</p>
 	    </div>
 	</header>
 	<section id="personal">
@@ -34,16 +26,19 @@
                 <div class="personal-tabs">
                     <ul class="text-center">
                         <li class="active">
-                            <a href="{{ url('user/prodution') }}">参赛作品</a>
+                            <a href="{{ url('user/') }}">参赛作品</a>
                         </li>
                         <li>
-                            <a href="{{ url('user/consumes') }}">消费明细</a>
+                            <a href="{{ url('user/award') }}">获奖记录</a>
                         </li>
                         <li>
                             <a href="{{ url('user/info') }}">个人信息</a>
                         </li>
                         <li>
                             <a href="{{ url('user/organ') }}">机构资料</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('user/consumes') }}">消费明细</a>
                         </li>
                         <li>
                             <a href="{{ url('logout') }}">退出登陆</a>

@@ -41,7 +41,7 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  value="{{ $v->size_min }}">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0.01" min="0.01" value="{{ $v->size_min }}">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
@@ -221,7 +221,7 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min"  value="">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0.01" min="0.01" value="">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">

@@ -31,7 +31,7 @@
 <header id="header">
     <div class="topbar clearfix">
         <div class="col-sm-2">
-            <img class="som-logo" src="{{ url('img/images/som-index-logo.jpg') }}" alt="首页图片">
+            <a href="{{url('/')}}"><img class="som-logo" src="{{ url('img/images/som-index-logo.jpg') }}" alt="首页图片"></a>
         </div>
         <div class="col-xs-6 som-nav">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -47,7 +47,7 @@
         </div>
         <div class="col-xs-4 clearfix som">
             <div class="dropdown pull-right personal-center">
-                <img class="users-logo" src="{{ user('pic') }}" alt="头像">
+                <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像">
                 <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
                         data-toggle="dropdown">
                     {{ user('name') }}
@@ -168,6 +168,10 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ url('lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('js/home/layout.js') }}"></script>
+<script>
+    var a ='{{ session("msg") }}';
+    if(a) alert(a);
+</script>
     @section('other_js')
             
     @show

@@ -29,13 +29,13 @@
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="___名" name="promotion1[]" value="@if($v->type == 1){{ $v->promotion}}@endif">
+							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion1[]" value="@if($v->type == 1){{ $v->promotion}}@endif">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">评委票数</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="" name="setting1[vote][0][]"  value="@if($v->type == 1){{ $v->setting}}@endif">
+							<input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote][0][]"  value="@if($v->type == 1){{ $v->setting}}@endif">
 						</div>
 					</div>
 					<div class="form-group">
@@ -71,7 +71,7 @@
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="___名" name="promotion2[]" value="@if($v->type == 2){{ $v->promotion}}@endif">
+							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]" value="@if($v->type == 2){{ $v->promotion}}@endif">
 						</div>
 					</div>
 					<div class="form-group">
@@ -96,10 +96,10 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">分数构成设定</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k+1}}][]" value="{{$vv}}">
+							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}">
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k+1}}][]"
+							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k}}][]"
 							value="{{(json_decode($v->setting,true))['dimension'][$kk]}}">
 						</div>
 						<span class="removeVar4">-</span>
@@ -109,10 +109,10 @@
 						<div class="form-group">
 						<label class="col-sm-2 control-label">分数构成设定{{$k+1}}</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k+1}}][]" >
+							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" >
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k+1}}][]"
+							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k}}][]"
 							>
 						</div>
 						<span class="removeVar4">-</span>
@@ -172,13 +172,13 @@
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="___名" name="promotion1[]">
+							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion1[]">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">评委票数</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="" name="setting1[vote][0][]">
+							<input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote][0][]">
 						</div>
 					</div>
 					<div class="form-group">
@@ -187,7 +187,7 @@
 							<ul class="judgethumb round1 typeSelectvote">
 							<!-- ssssss -->
 								<li class="addjudgethumb">
-									<a href="#">
+									<a>
 										<div class="add-button" data-toggle="modal" data-target="#matchadd" round="1" typeSelect="vote">+</div>
 										<!-- ssssss -->
 									</a>
@@ -207,7 +207,7 @@
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="___名" name="promotion2[]">
+							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]">
 						</div>
 					</div>
 					<div class="form-group">
@@ -244,7 +244,7 @@
 							<ul class="judgethumb round1 typeSelectgrade">
 							<!-- ssssss -->
 								<li class="addjudgethumb">
-									<a href="#">
+									<a>
 										<div class="add-button" data-toggle="modal" data-target="#matchadd" round="1" typeSelect="grade">+</div>
 										<!-- ssssss -->
 									</a>
@@ -284,7 +284,7 @@
 					<div class="form-group">
 						<label for="number" class="col-sm-2 control-label">评委票数</label>
 						<div class="col-sm-2">
-							<input type="number" min="1" class="form-control" id="number" placeholder="" name="setting1[vote][1][]">
+							<input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote][1][]">
 						</div>
 					</div>
 
@@ -293,7 +293,7 @@
 						<div class="col-sm-10">
 							<ul class="judgethumb round2 typeSelectvote">
 								<li class="addjudgethumb">
-									<a href="#">
+									<a>
 										<div class="add-button diyBtn" data-toggle="modal" data-target="#matchadd" round="2" typeSelect="vote">+</div>
 									</a>
 								</li>
@@ -346,7 +346,7 @@
 						<div class="col-sm-10">
 							<ul class="judgethumb round2 typeSelectgrade">
 								<li class="addjudgethumb">
-									<a href="#">
+									<a>
 										<div class="add-button" data-toggle="modal" data-target="#matchadd" round="2" typeSelect="grade">+</div>
 									</a>
 								</li>
@@ -375,7 +375,7 @@
 						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" value="{{ $wv->name }}">
 					</div>
 					<div class="col-sm-1" style="margin-left:-20px;">
-						<input type="number" class="form-control" placeholder="__名" min="1" name="win_number[]"  value="{{ $wv->num }}">
+						<input type="number" class="form-control" placeholder="__名" min="0" name="win_number[]"  value="{{ $wv->num }}">
 					</div>
 					<span class="removeVar5">-</span>
 				</div>
@@ -396,7 +396,7 @@
 						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]">
 					</div>
 					<div class="col-sm-1" style="margin-left:-20px;">
-						<input type="number" class="form-control" placeholder="__名" min="1" name="win_number[]">
+						<input type="number" class="form-control" placeholder="__名" min="0" name="win_number[]">
 					</div>
 					<span class="removeVar5">-</span>
 				</div>
@@ -596,7 +596,7 @@ window.onload = function(){
       $('.addVar5').on('click', function(){
         varCount5++;
         $node = '<div class="form-group"><div class="col-sm-2 col-sm-offset-2"><input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" value=""></div>'
-        + '<div class="col-sm-1" style="margin-left:-20px;"><input type="number" class="form-control" placeholder="__名" name="win_number[]" min="1" value=""></div>'
+        + '<div class="col-sm-1" style="margin-left:-20px;"><input type="number" class="form-control" placeholder="__名" name="win_number[]" min="0" value=""></div>'
         + '<span class="removeVar5">-</span></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().before($node);
@@ -620,9 +620,9 @@ window.onload = function(){
       + '</div><div class="reviewvote'+sheave+'" style="display:none;"><div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label>'
       + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div></div><div class="form-group">'
       + '<label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion1[]"></div></div>'
-      + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="1" class="form-control" id="number" placeholder="" name="setting1[vote]['+sheave+'][]"></div></div>'
+      + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote]['+sheave+'][]"></div></div>'
       + '<div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectvote"><li class="addjudgethumb">'
-      + '<a href="#"><div class="add-button" data-toggle="modal" data-target="#matchadd"  round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+'">'
+      + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd"  round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+'">'
       + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
@@ -631,7 +631,7 @@ window.onload = function(){
       + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
       + '</div><span class="removeVar4">-</span></div>'
       + '<p><span class="col-sm-offset-2 addVar4" index='+sheave+'>+</span></p><div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectgrade"><li class="addjudgethumb">'
-      + '<a href="#"><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="grade">+</div></a></li></ul></div></div><div class="removeadd text-right">'
+      + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="grade">+</div></a></li></ul></div></div><div class="removeadd text-right">'
       + '<span class="removeVar6">-</span> <span class="addVar6">+</span></div></div></div></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().parent().parent().parent().parent('.form-horizontal').children('.match-review').eq(-2).before($node);
@@ -705,6 +705,7 @@ window.onload = function(){
         $.ajax({
           url: '/admin/match/search_rater',
           method: 'get',
+          async: false,
           data: string,
           success: function(data){
             var oData = JSON.parse(data);
@@ -749,7 +750,8 @@ window.onload = function(){
       })
  
     /*添加评委到赛事*/
-    $('form').on('click','.add',function(){
+    $('form').on('click','.add',function(e){
+    	e.preventDefault();
         var liSelect = $('.judgedata li[index]');
         var aa = '.round' + $(this).attr('round');
         var bb = '.typeSelect' + $(this).attr('typeSelect');
@@ -794,7 +796,7 @@ window.onload = function(){
           a.append(close);
         }
         $('.modal').modal('hide');
-        $('.judgedata').html('');
+  		$('.judgedata').html('');
     })
 
   $('form').on('click','.close', function(e){

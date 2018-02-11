@@ -21,7 +21,7 @@ class Checklog
             if ($request->getRequestUri() == "/login") {
                 return $next($request);
             }
-            return redirect('login');
+            return redirect()->to('login');
         }
     }
 }

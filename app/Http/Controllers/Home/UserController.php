@@ -23,4 +23,9 @@ class UserController extends Controller
     {
         return view('home.user.info');
     }
+    public function award(Request $request)
+    {
+        return view('home.user.award');
+    }
+    
 }

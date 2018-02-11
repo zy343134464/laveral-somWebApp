@@ -102,7 +102,7 @@
         </div><!-- /.modal -->
     </div>
 	<div class="nextPage">
-		<a href="{{ url('admin/match/guest/'.$id) }}" class="btn btn-default">下一页</a>
+		<a href="{{ url('admin/match/award/'.$id) }}" class="btn btn-default">下一页</a>
 	</div>
 	
 </div>

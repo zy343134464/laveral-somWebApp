@@ -971,9 +971,39 @@ li{
 }
 #newform .handle a{
     margin-top: 10px;
-    padding: 4px 10px;
-    color: #cccccc;
+    color: #ccc;
     font-size: 30px;
-    font-weight: normal;
+    margin-right: 10px;
+}
+#newform .addbtn{
+    text-align: left;
+    padding-left: 26px;
+}
+#newform .addbtn a{
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 30px;
+    margin-right: 10px;
+}
+#newform .additem{
+    text-align: left;
+    padding-left: 26px;
+}
+#newform .additem a{
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 30px;
+    margin-right: 10px;
+}
+#newform .minus{
+    position: relative;
+    top: -2px;
+    text-align: left;
+    padding-left: 26px;
+}
+#newform .minus a{
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 30px;
     margin-right: 10px;
 }

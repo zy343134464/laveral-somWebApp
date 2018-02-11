@@ -224,12 +224,14 @@ li{
 }
 /*评审作品*/
 .rater-main {
+    position: relative;
     margin-right: -30px;
     margin-top: 10px;
 }
 
 .rater-main > li {
     position: relative;
+    overflow: hidden;
     background-color: #fff;
     width: 268px;
     height: 280px;
@@ -247,6 +249,11 @@ li{
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 6px;
+}
+.rater-main .rater-content h4{
+      white-space: nowrap; /* 文本不换行 */
+      overflow: hidden;    /* 溢出文本隐藏 */
+      text-overflow: ellipsis; /* 溢出文本省略 */
 }
 .rater-main .img-Id{
     position: absolute;
@@ -305,4 +312,250 @@ li{
 .rater-main .rater-btn .outbtn.active{
     background-color: #ff4a3b;
     color: #ffffff;
+}
+.rater-main .rater-footer{
+    position: absolute;
+    right: 5px;
+    bottom: 3px;
+}
+.rater-main .rater-footer a{
+    padding-left: 10px;
+    color: #d1d1d1;
+    font-size: 18px;
+}
+.rater-main .rater-img img{
+    cursor: pointer;
+}
+/*评委投票模态框*/
+#imgrater1 .modal-title{
+    font-size: 14px;
+    color: #999999;
+}
+#imgrater1 .modal-body >ul>li{
+    float: left;
+}
+#imgrater1 .modal-body >ul>li .img{
+    position: relative;
+    width: 480px;
+    height: 360px;
+}
+#imgrater1 .img img{
+    width: 480px;
+    height: 360px;
+}
+#imgrater1 .img span{
+    font-size: 30px;
+    position: absolute;
+    top: 45%;
+    color: #6a6a6a;
+    cursor: pointer;
+}
+#imgrater1 .img .prev{
+    left: -30px;
+}
+#imgrater1 .img .next{
+    right: -30px;
+}
+#imgrater1 .btnrater{
+    padding-top: 20px;
+
+}
+#imgrater1 .btnrater .passbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #508c1b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #508c1b;
+}
+#imgrater1 .btnrater .passbtn:hover{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .passbtn.active{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .whilebtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #666666;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #666666;
+}
+#imgrater1 .btnrater .whilebtn:hover{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .whilebtn.active{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .outbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #ff4a3b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #ff4a3b;
+}
+#imgrater1 .btnrater .outbtn:hover{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .outbtn.active{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater1 .nextbtn{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 3px 14px;
+    position: relative;
+    left: 130px;
+    top: 1px;
+    margin-bottom: 120px;
+}
+
+@media (min-width: 768px){
+    #imgrater1 .modal-dialog.modal100 {
+        width: 1200px;
+        margin: 30px auto;
+    }
+}
+#imgrater1 .wrapperinfro{
+    padding-left: 100px;
+    width: 500px;
+}
+#imgrater1 .wrapperinfro li{
+    padding-top: 20px;
+}
+#imgrater1 .wrapperinfro li span:first-child{
+    display: inline-block;
+    width: 80px;
+    color: #999999;
+}
+
+/*评委评分模态框*/
+#imgrater2 .modal-title{
+    font-size: 14px;
+    color: #999999;
+}
+#imgrater2 .modal-body >ul>li{
+    float: left;
+}
+#imgrater2 .modal-body >ul>li .img{
+    position: relative;
+    width: 480px;
+    height: 360px;
+}
+#imgrater2 .img img{
+    width: 480px;
+    height: 360px;
+}
+#imgrater2 .img span{
+    font-size: 30px;
+    position: absolute;
+    top: 45%;
+    color: #6a6a6a;
+    cursor: pointer;
+}
+#imgrater2 .img .prev{
+    left: -30px;
+}
+#imgrater2 .img .next{
+    right: -30px;
+}
+#imgrater2 .btnrater{
+    padding-top: 20px;
+
+}
+#imgrater2 .btnrater .passbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #508c1b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #508c1b;
+}
+#imgrater2 .btnrater .passbtn:hover{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater2 .btnrater .passbtn.active{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater2 .btnrater .whilebtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #666666;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #666666;
+}
+#imgrater2 .btnrater .whilebtn:hover{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater2 .btnrater .whilebtn.active{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater2 .btnrater .outbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #ff4a3b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #ff4a3b;
+}
+#imgrater2 .btnrater .outbtn:hover{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater2 .btnrater .outbtn.active{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater2 .nextbtn{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 3px 14px;
+    position: relative;
+    left: 130px;
+    top: 1px;
+    margin-bottom: 120px;
+}
+
+@media (min-width: 768px){
+    #imgrater2 .modal-dialog.modal100 {
+        width: 1200px;
+        margin: 30px auto;
+    }
+}
+#imgrater2 .wrapperinfro{
+    padding-left: 100px;
+    width: 500px;
+}
+#imgrater2 .wrapperinfro li{
+    padding-top: 20px;
+}
+#imgrater2 .wrapperinfro li span:first-child{
+    display: inline-block;
+    width: 80px;
+    color: #999999;
 }

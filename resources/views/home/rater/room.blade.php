@@ -1,15 +1,6 @@
-@extends('admin.layout')  
-@if(isset($status)) 
-    @if(@$status == 0)
-        @section('title', '筹备中比赛')
-    @elseif(@$status == 6)
-        @section('title', '历史记录')
-    @else
-        @section('title', '进行中比赛')
-    @endif
-@else
-    @section('title', '进行中比赛')
-@endif
+@extends('admin.layout') 
+
+@section('title', '评委室')
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
@@ -29,16 +20,8 @@
             </div>
         </div>
         <div class="col-xs-12">
-            <div class="col-xs-2" style="margin-left:-15px;">
-                <div class="matchkind">
-                    <select class="form-control"  onchange="window.location=this.value">
-                        <option value="?cat=" {{ isset($cat)   ? '' :'selected' }}>全部赛事</option>
-                        <option value="?cat=1" {{ $cat == 1 ? 'selected' :'' }}>综合赛事</option>
-                        <option value="?cat=0" {{ $cat === '0' ? 'selected' :'' }}>单项赛事</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-2" style="margin-left:-72px;">
+            
+            <div class="col-xs-2">
                 <div class="matchtime">
                     <select class="form-control">
                         <option>时间筛选</option>
@@ -54,9 +37,9 @@
                 <div class="matchstate">
                     <select class="form-control" onchange="window.location=this.value">
                         <option value="./block">进行中</option>
-                        <option value="?status=3" {{ $status == 3 ? 'selected' :'' }}>征稿中</option>
-                        <option value="?status=5" {{ $status == 5 ? 'selected' :'' }}>评审中</option>
-                        <option value="?status=6" {{ $status == 6 ? 'selected' :'' }}>已结束</option>
+                        <option value="?status=3" >征稿中</option>
+                        <option value="?status=5" >评审中</option>
+                        <option value="?status=6" >已结束</option>
                     </select>
                 </div>
             </div>
@@ -68,16 +51,27 @@
                 @foreach($matches as $v)
                 <li>
                     <div class="match-img">
-                        <img src="{{ url($v->pic) }}">
+                        <a href="{{ url('match/detail/'.$v->match->id) }}"><img src="{{ url($v->match->pic) }}"></a>
                     </div>
                     <div class="match-content">
-                        <h4>{{ (json_decode($v->title))[0]}}</h4>
+                        <h4>{{ (json_decode($v->match->title))[0]}}</h4>
                         <p>
-                            赛事阶段: <span>征稿中 第1轮 终审</span>
+                            赛事阶段: <span> 第{{ $v->round}}轮</span>
                         </p>
-                        <p class="nostart">
-                            评选状态: <span style="padding-right:40px;">未开始 未完成 已完成</span>
-                            <span>剩下<strong>2天 4:58</strong></span>
+                        <p class="nostart" style="margin-top: 4px;">
+                            评选状态: <span style="padding-right:40px;">
+                             @if($v->match->round < $v->round)
+                            未开始
+                            @elseif($v->match->round == $v->round)
+                            评审中 
+                            @else
+                            终审
+                            @endif
+                            </span>
+                            <span>评审时间：<strong>{{date('Y-m-d', $v->rater_time($v->match->id, $v->round))}}</strong></span>
+                            <span>
+                                <a href="{{ url('rater/review/'.$v->match->id.'/'.$v->round) }}">评</a>
+                            </span>
                         </p>
                     </div>
                 </li>

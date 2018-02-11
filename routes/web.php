@@ -14,9 +14,10 @@
 Route::get('/', 'Home\IndexController@index')->middleware('login');
 Route::get('/news/{id}', 'Home\IndexController@news');
 Route::get('/a', function () {
-    return redirect()->to('admin/match/show/block?status=0');
     return view('test');
-});
+})->middleware('login');
+Route::get('/b/{show}', 'Admin\MatchController@index')->middleware('login');
+
 //资讯页
 Route::get('informations/{id}', 'InformationConroller@show_information');
 //首页ajax获取资讯
@@ -33,13 +34,20 @@ Route::post('/doreg', 'UserController@doreg');
 Route::get('admin/user/find/{account}', 'Admin\UserController@account');
 
 
+
+
+
 //用户中心
 Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/', 'Home\UserController@product');
     Route::get('/info', 'Home\UserController@info');
+    Route::get('/award', 'Home\UserController@award');
     Route::get('/consumes', 'Home\UserController@consumes');
     Route::get('/organ', 'Home\UserController@organ');
 });
+
+
+
 
 //赛事模块
 Route::middleware(['login'])->prefix('match')->group(function () {
@@ -50,8 +58,15 @@ Route::middleware(['login'])->prefix('match')->group(function () {
     Route::get('/editimg/{id}', 'Home\MatchController@editimg');
     Route::post('/doeditimg/{id}', 'Home\MatchController@doeditimg');
 });
+
+
+//评委
 Route::middleware(['login','rater'])->prefix('rater')->group(function () {
     Route::get('/room', 'Home\IndexController@room');
+    Route::get('/review/{mid}/{round}', 'Home\IndexController@review');
+    Route::get('/rater_pic/{id}', 'Home\IndexController@rater_pic');
+    Route::post('/pic', 'Home\IndexController@pic');
+
 
 });
 
@@ -63,17 +78,21 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
     Route::prefix('user')->group(function () {
         //后台用户模块
         Route::get('/', 'Admin\UserController@index')->name('user_index');
+
         Route::get('create', 'Admin\UserController@create');
-        // Route::post('store', 'Admin\UserController@store');
-        // Route::get('edit/{id}', 'Admin\UserController@edit');
-        // Route::post('update', 'Admin\UserController@update');
-        // Route::get('del/{id}', 'Admin\UserController@destroy');
-        // //根据id，用户信息导出
-        // Route::get('info/{id}', 'Admin\UserController@info');
-        // //所有用户信息导出
-        // Route::get('infoall', 'Admin\UserController@infoall');
-        // Route::post('addusers', 'Admin\UserController@addusers');
-        //下载Excel表格（用于填写导入用户信息）
+
+        Route::post('store', 'Admin\UserController@store');
+
+        Route::get('edit/{id}', 'Admin\UserController@edit');
+        Route::post('update', 'Admin\UserController@update');
+
+        Route::get('del/{id}', 'Admin\UserController@destroy');
+        //根据id，用户信息导出
+        Route::get('info/{id}', 'Admin\UserController@info');
+        //所有用户信息导出
+        Route::get('infoall', 'Admin\UserController@infoall');
+        Route::post('addusers', 'Admin\UserController@addusers');
+       //下载Excel表格（用于填写导入用户信息）
         Route::get('getfeild', 'Admin\UserController@getfeild');
     });
     //后台咨询模块
@@ -95,6 +114,7 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::get('del/{id}', 'Admin\MatchController@del');
         //copy
         Route::get('copy/{id}', 'Admin\MatchController@copy');
+
         //创建比赛页面
         Route::get('create/{type}', 'Admin\MatchController@create');
         Route::get('edit/{id}', 'Admin\MatchController@edit');
@@ -141,14 +161,29 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::get('review/{id}', 'Admin\MatchController@review');
         Route::post('storereview/{id}', 'Admin\MatchController@storereview');
 
+        Route::get('review_room/{id}', 'Admin\MatchController@review_room');
+
         Route::get('showedit/{id}', 'Admin\MatchController@showedit');
         Route::post('storeshow/{id}', 'Admin\MatchController@storeshow');
+
+        Route::get('push_match/{id}', 'Admin\MatchController@push_match');
+
+        Route::get('end_collect/{id}', 'Admin\MatchController@end_collect');
+
+        Route::get('start_collect/{id}', 'Admin\MatchController@start_collect');
+
+        Route::get('result/{id}', 'Admin\MatchController@result');
+        
+        Route::get('next_round/{id}', 'Admin\MatchController@next_round');
+
+        Route::get('prev_round/{id}', 'Admin\MatchController@prev_round');
+
+        Route::get('end_match/{id}', 'Admin\MatchController@end_match');
 
         //ajax搜索评委
         Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
         //ajax新建评委
         Route::post('add_rater/{id}', 'Admin\MatchController@add_rater');
         Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
-
     });
 });

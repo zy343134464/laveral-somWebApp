@@ -139,9 +139,11 @@
                             </div>
                         </div>
                         <div class="footer">
-                            <input type="submit" value="初始化海报" class="btn btn-default">
-                            <input type="submit" value="保存" class="btn btn-default">
-                            <input type="submit" value="发布比赛" class="btn btn-default">
+                            <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default"> 初始化海报</a>
+                            <a href="{{ url('admin/match/edit/'.$id) }}" class="btn btn-default"> 返回编辑</a>
+                            <button class="btn btn-default">保存 </button>
+                            <a href="{{ url('admin/match/push_match/'.$id) }}" class="btn btn-default"> 发布比赛</a>
+                            <a href="{{ url('admin') }}" class="btn btn-default"> 返回后台</a>
                         </div>
                     </div>
                 </div>
