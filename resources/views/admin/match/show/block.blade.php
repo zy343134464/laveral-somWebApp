@@ -114,6 +114,7 @@
                                 赛事暂停
                                 @elseif($v->status==2)
                                 已发布
+                                    
                                 @elseif($v->status==3)
                                 征稿中
                                 @elseif($v->status==4)
@@ -150,10 +151,10 @@
                             </span>
                         </p>
                         <p>
-                            人数: <span>1000</span>
+                             
                         </p>
                         <p>
-                            作品: <span>1000</span>
+                             
                         </p>
                     </div>
                     <div class="footer">
@@ -183,7 +184,7 @@
                         <span>
                             <a href="{{ url('admin/match/review_room/'.$v->id) }}">评</a>
                         </span>
-
+                        
                         @endif
 
                         @else

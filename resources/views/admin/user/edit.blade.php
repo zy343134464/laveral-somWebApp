@@ -13,28 +13,27 @@
 			<div class="title">
 				<h5>个人注册信息</h5>
 			</div>
-			<form class="form-horizontal" role="form">
+			<form class="form-horizontal" role="form" action="{{ url('admin/user/editInfo/'.$user->id) }}"  method="post">
 				<div class="userbasic">
 					<div class="col-sm-8 user-infro">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">ID</label>
-							<label class="col-sm-3 control-label" style="color:#141414;">13539624211</label>
+							<label class="col-sm-3 control-label" style="color:#141414;">{{ $user->id }}</label>
 							<label class="col-sm-2 control-label">注册时间</label>
-							<label class="col-sm-3 control-label" style="color:#141414;">2018年04月03日 22:31</label>
+							<label class="col-sm-3 control-label" style="color:#141414;">{{ date("Y-m-d H:i", $user->reg_time)}}</label>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">用户名</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" placeholder="zhangyang">
+								<input type="text" class="form-control" placeholder="zhangyang" name="name" value="{{$user->name}}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">手机号</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" placeholder="13539624211">
+								<input type="text" class="form-control" placeholder="" value="{{$user->phone}}">
 							</div>
-							<label class="col-sm-2 control-label">微信ID</label>
-							<label class="col-sm-3 control-label" style="color:#141414;">123411111156</label>
+
 						</div>
 					</div>
 					<div class="col-sm-4 user-state" style="position: relative;left:10px;">
@@ -57,7 +56,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">用户密码</label>
 							<div class="col-sm-6">
-								<input type="password" class="form-control" value="13539624211">
+								<input type="password" class="form-control" value="">
 							</div>
 							<div class="col-sm-3">
 								<button type="button" class="btn btn-primary">重置密码</button>
@@ -81,35 +80,29 @@
 								<div class="col-sm-8">
 									<div class="form-group">
 										<label class="col-sm-2 control-label">姓名</label>
-										<label class="col-sm-3 control-label">陈大明</label>
+										<label class="col-sm-3 control-label">{{$user->name}}</label>
 										<label class="col-sm-2 control-label">性别</label>
-										<label class="col-sm-3 control-label">男性</label>
+										<label class="col-sm-3 control-label">{{$user->sex == 0 ? '男' : '女'}}</label>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">生日</label>
-										<label class="col-sm-3 control-label">1994年04月21日</label>
+										<label class="col-sm-3 control-label">{{$user->birthday}}</label>
 										<label class="col-sm-2 control-label">邮箱</label>
-										<label class="col-sm-3 control-label">343134464@qq.com</label>
+										<label class="col-sm-3 control-label">{{$user->email}}</label>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">国家</label>
-										<label class="col-sm-3 control-label">中国</label>
-										<label class="col-sm-2 control-label">常用地址</label>
-										<label class="col-sm-3 control-label">广东省-汕头市-金平区</label>
+										<label class="col-sm-3 control-label">{{$user->country}}</label>
+
 									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">个人网址</label>
-										<label class="col-sm-3 control-label">www.baidu.com</label>
-										<label class="col-sm-2 control-label">兴趣</label>
-										<label class="col-sm-3 control-label">摄影/音乐/乒乓球</label>
-									</div>
+
 									<div class="form-group">
 										<label class="col-sm-2 control-label">个人简介</label>
-										<label class="col-sm-8 control-label">勒布朗·詹姆斯（LeBron James），1984年12月30日出生在美国俄亥俄州阿克伦，美国职业篮球运动员，司职小前锋，绰号“小皇帝”，效力于NBA克利夫兰骑士队。</label>
+										<label class="col-sm-8 control-label">{{$user->introdution}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4">
-									<img src="{{ url('img/images/userimg.jpg')}}" alt="">
+									<img src="{{$user->pic}}" alt="">
 								</div>
 							</div>
 						</div>

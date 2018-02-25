@@ -49,7 +49,7 @@ class Usercontroller extends Controller
             ->when($kw, function ($query) use ($kw) {
                 return $query->orWhere('name', 'like', '%'.$kw.'%')->orWhere('phone', 'like', '%'.$kw.'%');
             })
-            ->Paginate(10);
+            ->orderBy('created_at')->Paginate(10);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);
     }
 
@@ -64,19 +64,17 @@ class Usercontroller extends Controller
         return view('admin.user.create');
     }
 
-
+    
     /**
      * 添加新用户
      *
      * @param  storeUser 表单认证
      * @return 返回用户列表
      */
-    public function store(StoreUser $request, User $user)
+    public function store(Request $request, User $user)
     {
-        // $user->name = $request->name;
-        // $user->account = $request->account;
-        // $user->save();
         $res = $user->reg($request);
+        
         return redirect()->route('user_index');
     }
 

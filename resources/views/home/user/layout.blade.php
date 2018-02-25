@@ -14,7 +14,7 @@
 	<header id="users">
 	    <div class="users-intro text-center">
 	        <h4>
-	            <img src="{{url(user('pic'))}}" alt="">
+	            <img src="{{url(user('pic'))}}" style="width: 100px;height: 100px;border-radius:50%;">
 	        </h4>
 	        <p>{{ user('name')}}</p>
 	    </div>
@@ -24,8 +24,8 @@
         <div class="row">
             <div class="col-xs-2">
                 <div class="personal-tabs">
-                    <ul class="text-center">
-                        <li class="active">
+                    <ul class="personalUl text-center">
+                        <li>
                             <a href="{{ url('user/') }}">参赛作品</a>
                         </li>
                         <li>
@@ -55,6 +55,16 @@
         </div>
     </div>
 </section>
+<script>
+    window.onload = function(){
+      $('.personalUl li a').each(function(){
+            if($($(this))[0].href==String(window.location)){
+                $(this).parent().parent().find('li').removeClass('active')
+                $(this).parent().addClass('active');
+            }
+        });  
+    }
+</script>
 
 @endsection
 

@@ -105,7 +105,7 @@
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu text-center" data-widget="tree">
-                        <li class="treeview active">
+                        <li class="treeview">
                             <a href="#">
                                 <span>首页</span>
                             </a>
@@ -182,6 +182,15 @@
  <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);
+
+    $('.treeview-menu li a').each(function(){
+        if($($(this))[0].href==String(window.location)){
+            $(this).parent().parent().parent().parent().find('li').removeClass('active');
+            $(this).parent().parent().parent().addClass('active');
+            $(this).parent().parent().find('li').removeClass('active')
+            $(this).parent().addClass('active');
+        }
+    });
 </script>
 @section('other_js')
 

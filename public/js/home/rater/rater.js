@@ -15,9 +15,8 @@ $(function(){
 		var raterbtnRound = raterbtn.attr('round');
 		var btnValue = $(this).attr('value');
 		var imgId = $(this).parent().prev().find('.img-Id').text();
-
-		console.log(raterbtnMatch,raterbtnRound,imgId,btnValue)
 		var _this = $(this);
+
 		$.ajax({
 			url:'/rater/pic',
 			type: 'post',
@@ -28,10 +27,10 @@ $(function(){
 				"match_id": ""+raterbtnMatch+""
 			},
 			success: function(data){
+				data = JSON.parse(data)
 				if (data.data) {
 					_this.parent().find('button').removeClass('active');
 					_this.addClass('active');
-					console.log(data.msg)
 				};
 			}
 		})
@@ -214,13 +213,13 @@ $(function(){
 					"match_id": ""+raterbtnMatch+""
 				},
 				success: function(data){
-					console.log(data)
+					data = JSON.parse(data)
 					if (data.data) {
 						_this1.parent().find('button').removeClass('active');
 						_this1.addClass('active');
-						_this2.find('button').removeClass('active')
-						_this2.find('button').eq(_this1.index()).addClass('active')
-						console.log(data.msg)
+						_this2.find('button').removeClass('active');
+						_this2.find('button').eq(_this1.index()).addClass('active');
+						console.log(data.msg);
 					};
 				}
 			})
@@ -257,6 +256,38 @@ $(function(){
 
 	       
 		})
+
+		/*评委评分确认*/
+		$('.btnrater').on('click','.sure',function(){
+	       		var raterbtn = $(this).parent().parent();
+				var raterbtnMatch = raterbtn.attr('match');
+				var raterbtnRound = raterbtn.attr('round');
+				var btnType = raterbtn.attr('type');
+				var btnValue = $('.score_input');
+				var imgId1 = _this.parent().parent().find('li').eq(index).find('.img-Id').text();
+				var arr = [];
+
+				for(var i=0 ;i<btnValue.length;i++){
+					arr[i] = btnValue.eq(i).val()
+				}
+				
+				console.log(raterbtnMatch,raterbtnRound,btnType,JSON.stringify(arr))
+
+				$.ajax({
+					url:'/rater/pic',
+					type: 'post',
+					data: {
+						"id": ""+imgId1+"",
+						"type": ""+btnType+"",
+						"round": ""+raterbtnRound+"",
+						"match_id": ""+raterbtnMatch+"",
+						"res": ""+JSON.stringify(arr)+""
+					},
+					success: function(data){
+						console.log(data);
+					}
+				})
+	       })
 
 	})
 })

@@ -475,6 +475,7 @@ li{
 }
 #imgrater2 .btnrater{
     padding-top: 20px;
+    width: 480px;
 
 }
 #imgrater2 .btnrater .passbtn{
@@ -558,4 +559,21 @@ li{
     display: inline-block;
     width: 80px;
     color: #999999;
+}
+/* 评分 */
+
+
+/* 会员评审室 */
+.content .btn-warning{
+    background-color: #d0a45d;
+    border: none;
+    color: white;
+}
+.content .btn-primary{
+    color: #d0a45d;
+    border: none;
+    background-color: #262626;
+}
+.content .dropdown-menu{
+    min-width: 100px;
 }

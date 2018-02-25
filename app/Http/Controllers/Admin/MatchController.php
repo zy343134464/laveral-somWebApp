@@ -87,7 +87,7 @@ class Matchcontroller extends Controller
     {
         $res = $match->copy($id);
         if ($res['data']) {
-            return redirect()->to('admin/match/edit/'.$res['data']);
+            return back();
         }
         return back()->with('msg', $res['msg']);
     }
@@ -485,7 +485,7 @@ class Matchcontroller extends Controller
         } else {
             $msg = '数据错误';
         }
-        return back()->with('msg', $res['msg']);
+        return redirect()->to('admin/match/review_room/'.$id)->with('msg',$res['msg']);
     }
     /**
      * 结束本轮评审,计算结果
@@ -496,16 +496,26 @@ class Matchcontroller extends Controller
      */
     public function result(Request $request, Match $match, $id)
     {
+        $result = $match->find($id);
+        $round = $result->round;
+        $num = Review::where(['match_id'=>$id])->get();
+
+        
+        if(count($num) == $result->round) {
+            return redirect()->to('admin/match/end_match/'.$id);
+        };
+
         $res = $match->result($id);
+        //dd($res);
         if($res) {
-            return back()->with('msg','success');
+            return back()->with('msg',$res);
         } else {
             return back()->with('msg','default');
         }
         
     }
     /**
-     * 征稿结束
+     * 下一轮
      * @param  Request $request [description]
      * @param  Match   $match   [description]
      * @param  [type]  $id      [description]
@@ -514,13 +524,10 @@ class Matchcontroller extends Controller
     public function next_round(Request $request, Match $match, $id)
     {
         $res = $match->next_round($id);
-        dd('$res');
-        if ($res) {
-            $msg = '结束征稿';
-        } else {
-            $msg = '数据错误';
-        }
-        return back()->with('msg', $msg);
+        //------------
+        //dd('$res');
+       
+        return back()->with('msg', $res['msg']);
     }
 
     /**
@@ -578,42 +585,160 @@ class Matchcontroller extends Controller
 
 
 
-    public function review_room(Request $request, Production $production, $id)
+    public function review_room(Request $request, Production $production, Match $mm, $id)
     {
         $match = Match::find($id);
         if(!count($match)) return back()->with('msg','获取数据失败');
         // 当前进行中的轮次
-        $rounding = $match->round;
-        if($rounding == 0 || $rounding > $match->sum_round($match->id)) return back();
+        $rounding = $match->round ? $match->round : 1;
+        if($rounding > $match->sum_round($match->id)) return back();
         // 查看的轮次
-        $round = $request->round ? $request->round : '';
+        $round = $request->round ? $request->round : $rounding;
         $round =( $round > $match->sum_round($match->id) ) ? $match->sum_round($match->id) : $round;
 
         //当前赛事状态
         $statusing = $match->status;
         $status = $request->status;
-        $type = $match->type;
-
+        $review = \DB::table('reviews')->where(['match_id'=>$id,'round'=>$round])->first();
+        $type = $review->type;
         if($status == 1) {
             $pic = $production->where('match_id', $id)->Paginate(16);
         } elseif($status == 3) {
-            dd('赛事结束');
+            $end = \DB::table('result')->where(['match_id'=>$id,'round'=>0])->get();
+            if(count($end)) {
+                return redirect()->to('admin/match/end_match/'.$id);
+            } else {
+                return back();
+            }
         } else {
-            $result = \DB::table('result')->when($round,function ($query) use ($id, $round) {
-                return $query->where(['match_id'=>$id, 'status'=>1, 'round'=>$round]);
-            },function ($query) use ($id, $rounding) {
-                return $query->where(['match_id'=>$id, 'status'=>1, 'round'=>$rounding]);
-            })->orderBy('round','desc')->first();
+            if(($statusing == 2 || $statusing == 3 || $statusing == 4) && $match->collect_end < time()){
+                $pic = $production->where('match_id', $id)->Paginate(16);
+            } else {
 
-            //$pic = $production->whereIn('id',json_decode($result->production_id))->where('match_id', $id)->with('sum_score')->Paginate(16);
+                $result = \DB::table('result')->when($round,function ($query) use ($id, $round) {
+                    return $query->where(['match_id'=>$id, 'status'=>1, 'round'=>$round]);
+                },function ($query) use ($id, $rounding) {
+                    return $query->where(['match_id'=>$id, 'status'=>1, 'round'=>$rounding]);
+                })->orderBy('round','desc')->first();
 
-
-            $pic = Production::where('match_id', $id)
-                ->whereIn('id',json_decode($result->production_id))->select(DB::raw('productions.*'))
-                ->leftJoin(DB::raw('(select sum, production_id from sum_score) as sum'), 'sum.production_id', '=', 'productions.id')
-                ->orderBy('sum', 'desc')->Paginate(16);
-        //dd($pic);
+                //$pic = $production->whereIn('id',json_decode($result->production_id))->where('match_id', $id)->with('sum_score')->Paginate(16);
+                if(count($result)) {
+                    $arr = json_decode($result->production_id);
+                } else {
+                    $arr =[];
+                }
+                $pic = Production::where('match_id', $id)
+                    ->whereIn('id',$arr)->select(DB::raw('productions.*'))
+                    ->leftJoin(DB::raw('(select sum, production_id from sum_score) as sum'), 'sum.production_id', '=', 'productions.id','sum.round','=',$round)
+                    ->orderBy('sum', 'desc')->Paginate(16);
+            }
         }
-        return view('admin.match.review.review',['status'=>$statusing,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$rounding,'type'=>$type]);
+        return view('admin.match.review.review',['status'=>$statusing,'pic'=>$pic,'kw'=>'','match'=>$match,'rounding'=>$rounding,'round'=>$round,'type'=>$type,'id'=>$id]);
+    }
+
+    public function edit_result(Production $production, Match $match, $id)
+    {
+        $res = $match->find($id);
+        $round = $res->round;
+        $bool = $match->last_round($id);
+        if ($bool) {
+            $win = \DB::table('win')->where('match_id',$id)->get();
+            foreach ($win as $wv) {
+                $result = \DB::table('result')->select('production_id')->where('win_id',$wv->id)->get();
+
+                
+            }
+        } else {
+            $result = \DB::table('result')->select('production_id')->where(['round'=>$res->round + 1, 'match_id'=>$res->id, ])->first();
+            $arr = $result->production_id ? json_decode($result->production_id) : [];
+            $pic = Production::where('match_id', $id)
+                        ->whereIn('id',$arr)->select(DB::raw('productions.*'))
+                        ->leftJoin(DB::raw('(select sum, production_id from sum_score) as sumTable'), 'sumTable.production_id', '=', 'productions.id','sumTable.round','=',$round)
+                        ->orderBy('sum', 'desc')->Paginate(16);
+        }
+        dd($arr,$pic);
+    }
+    
+    public function end_match(Request $request,  $id)
+    {
+        $win = \DB::table('win')->where(['match_id'=>$id])->orderBy('no','asc')->get();
+        $total = count($win);
+        $match = Match::find($id);
+        $res = $match->start_collect($id);
+        $res = $match->end_collect($id);
+        if(!count($match)) return back()->with('msg','获取数据失败');
+        // 当前进行中的轮次
+        $rounding = $match->round ? $match->round : 1;
+        if($rounding > $match->sum_round($match->id)) return back();
+        // 查看的轮次
+        $round = $request->round ? $request->round : $rounding;
+        $round =( $round > $match->sum_round($match->id) ) ? $match->sum_round($match->id) : $round;
+
+        //当前赛事状态
+        $statusing = $match->status;
+        $status = $request->status;
+        $review = \DB::table('reviews')->where(['match_id'=>$id,'round'=>$round])->first();
+        $type = $review->type;
+        if (!$total) return back()->with('msg','未设置胜出机制');
+        $result = \DB::table('result')->where(['match_id'=>$id,'status'=>1])->orderBy('round','desc')->get()->toArray();
+        for ($i=0; $i <count($result) ; $i++) { 
+            $pid = $result[$i]->production_id;
+            $round = $result[$i]->round;
+            if($pid) break;
+        }
+        $production = $pic = Production::where('match_id', $id)
+                    ->whereIn('id',json_decode($pid))->select(DB::raw('productions.*'))
+                    ->leftJoin(DB::raw('(select sum, production_id from sum_score) as sum'), 'sum.production_id', '=', 'productions.id','sum.round','=',$round)
+                    ->orderBy('sum', 'desc')->Paginate(16);
+        $pic = [];
+        $tag = 0;
+        $end = \DB::table('result')->where(['match_id'=>$id,'round'=>0])->get();
+        
+        foreach ($win as $win_v) {
+            $temp = [];
+           for ($i=$tag; $i < $win_v->num + $tag; $i++) { 
+               $temp[] = $production[$i];
+               if(!count($end)) {
+
+                   \DB::table('result')->insert([
+                        'match_id'=>$id,
+                        'round'=>0,
+                        'end'=>1,
+                        'user_id'=>$production[$i]->user_id,
+                        'production_id'=>$production[$i]->user_id,
+                        'win_id'=>$win_v->id,
+                        'status'=>1
+                    ]);
+               }
+
+           }
+            $tag += $win_v->num;
+           $pic[] = $temp;
+        } 
+        \DB::table('matches')->where('id',$id)->update(['status'=>6]);
+        return view('admin.match.review.end',['status'=>$statusing,'pic'=>$pic,'kw'=>'','match'=>$match,'rounding'=>$rounding,'round'=>$round,'type'=>$type,'id'=>$id,'win'=>$win]);
+
+    }
+    public function re_review(Request $request, Match $match, $id)
+    {
+        $res = $match->find($id);
+        if(!count($res)) return back()->with('msg','恢复失败');
+        $bool = $match->re_review($id,$res->round);
+        if($bool) {
+            return back()->with('msg','成功恢复本轮评审');
+        } else {
+            return back()->with('msg','恢复失败');
+        }
+    }
+    public function clear_result(Request $request, Match $match, $id)
+    {
+        $res = $match->find($id);
+        if(!count($res)) return back()->with('msg','清除失败');
+        $bool = $match->clear_result($id,$res->round);
+        if($bool) {
+            return back()->with('msg','成功清除评审数据');
+        } else {
+            return back()->with('msg','清除失败');
+        }
     }
 }

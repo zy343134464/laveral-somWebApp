@@ -4,7 +4,7 @@
 
 
 @section('other_css') 
-    <link href="https://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.min.css" rel="stylesheet">
+    <link href="{{url('lib/owl.carousel/dist/assets/owl.carousel.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('css/home/index/index.css') }}"/>
 @endsection
 
@@ -36,7 +36,7 @@
     </div>
     <div class="advertisement-text">
         <h2>SOM</h2>
-        <h3>国际展览及影赛服务系统</h3>
+        <h3>广告位</h3>
         <p>International exhibitions and.</p>
         <p class="lastP">Film game service system</p>
         <a href="#" class="btn btn-default">
@@ -49,26 +49,39 @@
 <section id="collaborate">
     <div class="container">
         <div class="owl-carousel owl-theme">
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item" style="width: 40px"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
+            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
         </div>
     </div>
 </section>
@@ -94,35 +107,21 @@
                 <!--比赛-->
                 <div class="match text-center">
                     <h3>
-                        赛事类目
+                        赛事
                     </h3>
-                    <div class="dropdown">
+                    <div class="dropdown" >
                         <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             全部赛事
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="font-size:13px;height:30px;">
                             <li><a href="#">综合赛事</a></li>
                             <li><a href="#">单项赛事</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu2"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            按时间筛选
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <li><a href="#">2016</a></li>
-                            <li><a href="#">一年内</a></li>
-                            <li><a href="#">一个月内</a></li>
-                            <li><a href="#">一周内</a></li>
-                            <li><a href="#">三天内</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <select class="form-control" onchange="window.location=this.value">
+                        <select class="form-control btn btn-default btn-sm dropdown-toggle" onchange="window.location=this.value" style="font-size:13px;height:30px;">
 						<option value="./">所有阶段</option>
 						<option value="?status=3" {{ $status == 3 ? 'selected' :'' }}>征稿中</option>
 						<option value="?status=5" {{ $status == 5 ? 'selected' :'' }}>评审中</option>
@@ -146,7 +145,7 @@
                                 @elseif($v->status==1)
                                 赛事暂停
                                 @elseif($v->status==2)
-                                已发布
+                                征稿中
                                 @elseif($v->status==3)
                                 征稿中
                                 @elseif($v->status==4)
@@ -156,15 +155,15 @@
                                 @elseif($v->status==6)
                                 结束
                                 @endif</span>
-                                <p>{{ mb_substr($v->detail,0,50) }}</p>
-                                <span class="status-time">征稿期： @if($v->collect_start)
-                                {{ date('Y-m-s',$v->collect_start)}}
+                                <p style="color:#666;">{{ mb_substr($v->detail,0,50) }}</p>
+                                <span class="status-time" style="color:#666;">征稿期： @if($v->collect_start)
+                                {{ date('Y-m-d',$v->collect_start)}}
                                 @else
                                 未设置
                                 @endif
                             -
                                 @if($v->collect_end)
-                                {{ date('Y-m-s',$v->collect_end)}}
+                                {{ date('Y-m-d',$v->collect_end)}}
                                 @else
                                 未设置
                                 @endif</span>
@@ -218,6 +217,6 @@
 
 
 @section('other_js')
-    <script src="https://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.min.js"></script>
+    <script src="{{ url('lib/owl.carousel/dist/owl.carousel.min.js')}}"></script>
     <script src="{{ url('js/home/index/index.js') }}"></script>
 @endsection

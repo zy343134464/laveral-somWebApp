@@ -36,7 +36,7 @@
         <div class="col-xs-6 som-nav">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">关于SOM</a></li>
+                    <li class="active"><a href="{{ url('/') }}">首页</a></li>
                     <li><a href="#">导师</a></li>
                     <li><a href="#">活动</a></li>
                     <li><a href="#">赛事</a></li>
@@ -58,7 +58,7 @@
                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
                     </li>
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1"  href="{{ url('admin') }}">后台</a>
+                        <a role="menuitem" tabindex="-1"  href="{{ url('admin') }}">管理员后台</a>
                     </li>
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
@@ -168,6 +168,9 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ url('lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('js/home/layout.js') }}"></script>
+<!-- 图片上传 -->
+<script src="{{ URL::asset('js/spark-md5.min.js') }}"></script><!--需要引入spark-md5.min.js-->
+<script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
 <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);

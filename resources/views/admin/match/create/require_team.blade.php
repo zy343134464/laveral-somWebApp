@@ -13,7 +13,7 @@
 		@foreach($require_team as $v)
 		<div class="match-require">
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">独照/组图</label>
+				<label for="firstname" class="col-sm-2 control-label">单张/组图</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname" placeholder="张/组" name="group_min" value="{{ $v->group_min }}">
 				</div>
@@ -25,10 +25,10 @@
 					<input type="checkbox" name="group_limit"  value="1"> 不限
 				</div>
 				<div class="col-sm-2" style="padding-top:6px;">
-					<input type="checkbox" name="" value=""> 仅限单张
+					<input type="checkbox" id="only"> 仅限单张
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group div1">
 				<label for="firstname3" class="col-sm-2 control-label">每组张数</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3" placeholder="张"  name="num_min"   value="{{ $v->num_min }}">
@@ -41,7 +41,7 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0.01" min="0.01" value="{{ $v->size_min }}">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0" min="0" value="{{ $v->size_min }}">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
@@ -65,20 +65,20 @@
                 <label for="firstname3" class="col-sm-2 control-label">收费类型</label>
 				<div class="col-sm-6">
 					<label class="radio-inline">
-						<input type="radio" name="pay" id="" value="1" checked>每张/组收费
+						<input type="radio" name="pay" value="1" checked id="only1">每张/组收费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay" id="" value="2">报名费
+						<input type="radio" name="pay" value="2" id="only3">报名费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay" id="" value="0">免费
+						<input type="radio" name="pay" value="0" id="only2">免费
 					</label>
 				</div>
             </div>
-            <div class="form-group">
+            <div class="form-group div2">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number" step="0.01" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
+					<input type="number" step="0" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">
@@ -86,7 +86,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group div2">
 				<label for="firstname7" class="col-sm-2 control-label">收费说明</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title"  value="{{ $v->introdution_title }}">
@@ -193,7 +193,7 @@
 		@else
 		<div class="match-require">
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">独照/组图</label>
+				<label for="firstname" class="col-sm-2 control-label">单张/组图</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname" placeholder="张/组" name="group_min" value="">
 				</div>
@@ -205,10 +205,10 @@
 					<input type="checkbox" value="1" name="group_limit"> 不限
 				</div>
 				<div class="col-sm-2" style="padding-top:6px;">
-					<input type="checkbox" name="" value=""> 仅限单张
+					<input type="checkbox" id="only"> 仅限单张
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group div1">
 				<label for="firstname3" class="col-sm-2 control-label">每组张数</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3" placeholder="张"  name="num_min"   value="">
@@ -221,7 +221,7 @@
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">图片大小</label>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0.01" min="0.01" value="">
+					<input type="number" class="form-control" id="firstname3" placeholder="MB" name="size_min" step="0" min="0" value="">
 				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
@@ -245,20 +245,20 @@
                 <label for="firstname3" class="col-sm-2 control-label">收费类型</label>
 				<div class="col-sm-6">
 					<label class="radio-inline">
-						<input type="radio" name="pay"  value="1" checked>每张/组收费
+						<input type="radio" name="pay"  value="1" checked id="only1">每张/组收费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay"  value="2">报名费
+						<input type="radio" name="pay"  value="2" id="only3">报名费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay"  value="0">免费
+						<input type="radio" name="pay"  value="0" id="only2">免费
 					</label>
 				</div>
             </div>
-            <div class="form-group">
+            <div class="form-group div2">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number" step="0.01" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="">
+					<input type="number" step="0" min="0.00" class="form-control" id="firstname5" placeholder="" name="price"  value="">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">
@@ -266,7 +266,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group div2">
 				<label for="firstname7" class="col-sm-2 control-label">收费说明</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="pay_title"  value="">

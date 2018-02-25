@@ -51,7 +51,7 @@
                 @foreach($matches as $v)
                 <li>
                     <div class="match-img">
-                        <a href="{{ url('match/detail/'.$v->match->id) }}"><img src="{{ url($v->match->pic) }}"></a>
+                        <a href="{{ url('rater/review/'.$v->match->id.'/'.$v->round) }}"><img src="{{ url($v->match->pic) }}"></a>
                     </div>
                     <div class="match-content">
                         <h4>{{ (json_decode($v->match->title))[0]}}</h4>
@@ -70,7 +70,7 @@
                             </span>
                             <span>评审时间：<strong>{{date('Y-m-d', $v->rater_time($v->match->id, $v->round))}}</strong></span>
                             <span>
-                                <a href="{{ url('rater/review/'.$v->match->id.'/'.$v->round) }}">评</a>
+                                
                             </span>
                         </p>
                     </div>

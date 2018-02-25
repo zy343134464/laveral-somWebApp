@@ -128,8 +128,11 @@
                 </div>
                 <div class="tab-title">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="<?php echo e($type ? 'active' : ''); ?>"><a href="<?php echo e(url('admin/user?type=1')); ?>">机构用户</li></a>
-                        <li role="presentation" class="<?php echo e($type ?  '':'active'); ?>"><a href="<?php echo e(url('admin/user?type=0')); ?>">普通用户</a></li>
+                        <!-- <li role="presentation" class="<?php echo e($type ? 'active' : ''); ?> "><a href="<?php echo e(url('admin/user?type=1')); ?>">机构用户</li></a>
+                        <li role="presentation" class="<?php echo e($type ?  '':'active'); ?>"><a href="<?php echo e(url('admin/user?type=0')); ?>">普通用户</a></li> -->
+                        <li role="presentation" class="active"><a href="<?php echo e(url('admin/user?type=1')); ?>">机构用户</li></a>
+                        <li role="presentation" class=""><a href="<?php echo e(url('admin/user?type=0')); ?>">普通用户</a></li>
+
                     </ul>
                 </div>
                 <div class="box">
@@ -139,11 +142,8 @@
                             <tr>
                                 <th></th>
                                 <th>用户名</th>
-                                <th>姓名</th>
-                                <th>账号</th>
                                 <th>手机</th>
                                 <th>角色</th>
-                                <th>等级</th>
                                 <th>注册时间</th>
                                 <th>编辑</th>
                                 <th>站内信</th>
@@ -157,13 +157,10 @@
                                 <td>
                                     <input type="checkbox">
                                 </td>
-                                <td>shane</td>
                                 <td><?php echo e($user->name); ?></td>
-                                <td><?php echo e($user->account); ?></td>
                                 <td><?php echo e($user->phone); ?></td>
                                 <td><?php echo e($user->role($user->id,0)); ?></td>
-                                <td>超级管理员</td>
-                                <td>2017年8月1日</td>
+                                <td><?php echo e(date('Y-m-d', $user->reg_time)); ?></td>
                                 <td>
                                     <a href="<?php echo e(url('admin/user/edit').'/'.$user->id); ?>"><i class="fa fa-edit"></i></a>
                                 </td>

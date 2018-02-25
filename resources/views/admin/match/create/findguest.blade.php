@@ -15,11 +15,11 @@
             <input type="text" placeholder="关键字搜索" name="kw">
         </div>
     </form>
-    <form action="{{ url('admin/match/storeguest/'.$id) }}" method="post">
+    <form action="{{ url('admin/match/storeguest/'.$id) }}" method="post" id="form">
     {{ csrf_field() }}
         <div class="addguest text-right">
             <a href="#" class="btn btn-default new" data-toggle="modal" data-target="#matchnew">新建嘉宾</a>
-            <input type="submit" value="添加到赛事" class="btn btn-default add">
+            <input type="submit" value="添加到赛事" class="btn btn-default add" style="display:none" id="add">
         </div>
             @if(count($user))
         <div class="content">
@@ -115,6 +115,13 @@
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
 @endsection
 <script>
+
+  window.onload = function(){
+    if ($('#form').find('.content').length > 0) {
+      $('#add').css('display','inline-block')
+    };
+    
+  }
     // 图片上传
   someCallback = function(){
     // 加载图片

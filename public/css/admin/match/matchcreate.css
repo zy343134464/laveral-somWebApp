@@ -310,7 +310,7 @@ li{
     list-style: none;
 }
 .match-guest .content ul{
-    text-align: center;
+    text-align: left;
 }
 .match-guest .content ul li{
     background: #fff;
@@ -322,6 +322,7 @@ li{
     margin-bottom:10px;
 }
 .match-guest .content ul li.addjudge{
+    text-align: center;
     background-color: #999999;
     padding-top: 130px;
 }
@@ -394,6 +395,7 @@ li{
     position: relative;
 }
 .match-guest .content .close{
+    text-align: center;
     padding-top: 2px;
     background-color: #000;
     width: 30px;
@@ -447,7 +449,7 @@ li{
 }
 
 .match-guestdata .content ul{
-    text-align: center;
+    text-align: left;
 }
 .match-guestdata .content ul li{
     position: relative;
@@ -495,6 +497,7 @@ li{
 }
 .match-guestdata .content .judgedata-img{
     position: relative;
+    text-align: center;
 }
 .match-guestdata .content .check{
     position: absolute;

@@ -69,15 +69,15 @@
                                 <div class="content">
                                     <img src="{{ url($match->pic) }}" alt="">
                                     @if(count(json_decode($match->title)) > 1)
-                                    @foreach(json_decode($match->title) as $tk =>$tv)
-                                    @if($tk == 0)
-                                    <h4>{{ $tv }}</h4>
+                                        @foreach(json_decode($match->title) as $tk =>$tv)
+                                            @if($tk == 0)
+                                                <h4>{{ $tv }}</h4>
+                                            @else
+                                                <h5>{{ $tv }}</h5>
+                                            @endif
+                                        @endforeach
                                     @else
-                                    <h5>{{ $tv }}</h5>
-                                    @endif
-                                    @endforeach
-                                    @else
-                                    <h4>{{json_decode($match->title)[0]}}</h4>
+                                        <h4>{{json_decode($match->title)[0]}}</h4>
                                     @endif
                                     <p>
                                         {{ $match->detail }}
@@ -139,11 +139,10 @@
                             </div>
                         </div>
                         <div class="footer">
-                            <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default"> 初始化海报</a>
+                            <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default"> 还原</a>
                             <a href="{{ url('admin/match/edit/'.$id) }}" class="btn btn-default"> 返回编辑</a>
                             <button class="btn btn-default">保存 </button>
                             <a href="{{ url('admin/match/push_match/'.$id) }}" class="btn btn-default"> 发布比赛</a>
-                            <a href="{{ url('admin') }}" class="btn btn-default"> 返回后台</a>
                         </div>
                     </div>
                 </div>

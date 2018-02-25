@@ -26,7 +26,7 @@
 						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]" value="@if($v->end_time && $v->type == 1){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 					</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="display:none;">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion1[]" value="@if($v->type == 1){{ $v->promotion}}@endif">
@@ -68,7 +68,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]" value="@if($v->end_time && $v->type == 2){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="display:none;">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]" value="@if($v->type == 2){{ $v->promotion}}@endif">
@@ -81,7 +81,7 @@
 						</div>
 						<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label>
 						<div class="col-sm-2" style="margin-left: -74px;">
-							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="">
+							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]" value="@if($v->type == 2){{(json_decode($v->setting,true))['max']}}@endif">
 						</div>
 						<div class="col-sm-6">
 							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
@@ -100,7 +100,7 @@
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
 							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k}}][]"
-							value="{{(json_decode($v->setting,true))['dimension'][$kk]}}">
+							value="{{(json_decode($v->setting,true))['percent'][$kk]}}">
 						</div>
 						<span class="removeVar4">-</span>
 					</div>
@@ -131,7 +131,7 @@
 							}
 							?>
 								<li class="addjudgethumb">
-									<a href="#">
+									<a>
 										<div class="add-button" data-toggle="modal" data-target="#matchadd" round="{{$k+1}}" typeSelect="grade">+</div>
 									</a>
 								</li>
@@ -204,7 +204,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="display:none;">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]">
@@ -217,7 +217,7 @@
 						</div>
 						<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label>
 						<div class="col-sm-2" style="margin-left: -74px;">
-							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="">
+							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]">
 						</div>
 						<div class="col-sm-6">
 							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
@@ -308,7 +308,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="display:none">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">
@@ -321,7 +321,7 @@
 						</div>
 						<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label>
 						<div class="col-sm-2" style="margin-left: -74px;">
-							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="">
+							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]">
 						</div>
 						<div class="col-sm-6">
 							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
@@ -618,15 +618,15 @@ window.onload = function(){
       $node = '<div class="match-review sheave"><div class="reviewsecond"><h4>第'+bigNumber+'轮</h4><div class="form-group"><label class="col-sm-2 control-label">评委方式</label><div class="col-sm-2">'
       + '<select class="form-control reviewselect'+sheave+'" name="type[]><option value="vote">评委投票</option><option value="grade" selected>评委评分</option></select></div>'
       + '</div><div class="reviewvote'+sheave+'" style="display:none;"><div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label>'
-      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div></div><div class="form-group">'
+      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div></div><div class="form-group" style="display:none">'
       + '<label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion1[]"></div></div>'
       + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote]['+sheave+'][]"></div></div>'
       + '<div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectvote"><li class="addjudgethumb">'
       + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd"  round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+'">'
       + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
-      + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
+      + '</div></div><div class="form-group" style="display:none;"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
-      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name=""></div><div class="col-sm-6"><label class="col-sm-2" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
+      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]"></div><div class="col-sm-6"><label class="col-sm-2" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
       + '<input type="text" class="form-control" name="reference2[]"></div></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div class="col-sm-2">'
       + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
       + '</div><span class="removeVar4">-</span></div>'

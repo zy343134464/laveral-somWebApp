@@ -13,15 +13,15 @@
     <div class="row clearfix">
         <div class="col-xs-12">
             <!--搜索框-->
-            <div class="search-form">
+            <!-- <div class="search-form">
                 <i class="fa fa-search"></i>
                 <input type="text" placeholder="关键字搜索" style="min-width:none;" name="kw">
-            </div>
+            </div> -->
         </div>
         <div class="col-xs-12 text-center">
             <div class="rater-title">
                
-            <h3>{{json_decode($match->title)[0]}}</h3>
+            <h2>{{json_decode($match->title)[0]}}</h2>
             <h3>{{@json_decode($match->title)[1]}}</h3>
             </div>
             <div class="rater-nav clearfix">
@@ -50,7 +50,6 @@
                 </div>
             </div>
             <div class="col-xs-10 text-right" style="padding-top:10px;">
-            
             赛事:
             @if($status < 5 && $status != 1)
             投稿中
@@ -59,8 +58,43 @@
             @elseif($status ==6)
             已结束
             @else
-            评审中 轮次:{{$round}}
+            评审中 轮次:{{$rounding}}
             @endif
+            </div>
+            <div class="col-xs-10 text-right" style="padding-top:10px;">
+            @if($round == $rounding )
+                @if($match->next_able($match->id,$match->round))
+                @if($match->last_round($match->id,$match->round))
+                <a href="{{url('admin/match/end_match/'.$id)}}"type="button" class="btn btn-warning">套用胜出机制</a>
+                @else
+                <a href="{{url('admin/match/next_round/'.$id)}}" type="button" class="btn btn-warning">下一轮</a>
+                @endif
+                <!-- <a href="{{url('admin/match/edit_result/'.$id)}}" type="button" class="btn btn-warning">编辑赛果</a> -->
+                @endif
+            @endif
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    操作
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                    @if($status == 2 || $status == 3 || $status == 4)
+                    <li><a href="{{url('admin/match/start_collect/'.$id)}}">开始征稿</a></li>
+                    <li><a href="{{url('admin/match/end_collect/'.$id)}}">启动初审</a></li>
+                    @else
+                        @if($round == $rounding )
+                        @if($match->next_able($match->id,$match->round))
+                            <li><a href="{{url('admin/match/re_review/'.$id)}}">恢复本轮评审</a></li>
+                            <li><a href="{{url('admin/match/end_match/'.$id)}}">套用胜出机制</a></li>
+                        @else
+                            <li><a href="{{url('admin/match/clear_result/'.$id)}}">清除评审数据</a></li>
+                            <li><a href="{{url('admin/match/result/'.$id)}}">结束本轮评审</a></li>
+                        @endif
+                        @endif
+                        <li><a href="#">导出</a></li>
+                    @endif
+
+                    <!-- <li><a>导出</a></li> -->
+                </ul>
             </div>
         </div>
         
@@ -68,18 +102,30 @@
             <ul class="rater-main text-left clearfix">
                 <!--   foreach start -->
                 @if( count($pic) )
+                <?php
+                    $arr = [];
+                ?>
                 @foreach($pic as $v)
+                <?php 
+                
+                   if(in_array($v->id, $arr)) {
+
+                        continue;
+                   } else {
+                        $arr[] = $v->id;
+                   }
+                ?>
                 @if($type == 2)
                 <li>
                     <div class="rater-img">
                         <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
                     </div>
                     <div class="rater-content">
-                        <h4>{{ $v->title}}</h4>
+                        <h4>{{ $v->title }}</h4>
                         <div class="img-Id">{{ $v->id }}</div>
                     </div>
-                    <div class="rater-btn text-center" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$round}}" >
-                        评分
+                    <div class="rater-btn text-center" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$rounding}}" >
+                        综合分 :{{$v->admin_score_sum($v->id,($round ? $round : $rounding)) ? $v->admin_score_sum($v->id,($round ? $round : $rounding))/100 : '未评分'}}
                     </div>
                 </li>
                 @else
@@ -91,9 +137,12 @@
                         <h4>{{ $v->title}}</h4>
                         <div class="img-Id">{{ $v->id }}</div>
                     </div>
-                    <div class="rater-content" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$round}}" >
+                    <div class="rater-content" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$rounding}}" >
                     作者:{{ @$v->author }}  <br>
-                    票数:{{ @$v->sum_score->sum }}
+                    @if($status == 2 || $status == 3 || $status == 4)
+                    @else
+                    票数:{{ (@$v->sum_score($v->id,($round ? $round : $rounding)) ) ? @$v->sum_score($v->id,($round ? $round : $rounding)) :0}}
+                    @endif
                     </div>
                     <div class="rater-footer">
                         <a href="#"><span><i class="fa fa-search"></i></span></a>
@@ -136,10 +185,8 @@
                             <span class="prev"><i class="fa fa-chevron-left"></i></span>
                             <span class="next"><i class="fa fa-chevron-right"></i></span>
                         </div>
-                        <div class="btnrater" match="{{ $match->id }}" round="{{ $round }}">
-                            <button class="passbtn" value='1'>入围</button>
-                            <button class="whilebtn" value='3'>待定</button>
-                            <button class="outbtn" value='2'>淘汰</button>
+                        <div class="btnrater" match="{{ $match->id }}" round="{{ $rounding }}">
+                           
                         </div>
                     </li>
                     <li class="wrapperinfro">

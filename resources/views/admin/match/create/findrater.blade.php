@@ -12,14 +12,14 @@
         <!--搜索框-->
         <div class="search-form">
             <i class="fa fa-search"></i>
-            <input type="text" placeholder="关键字搜索" name="kw">
+            <input type="text" placeholder="关键字搜索" name="kw" id="input">
         </div>
     </form>
-    <form action="{{ url('admin/match/storerater/'.$id) }}" method="post">
+    <form action="{{ url('admin/match/storerater/'.$id) }}" method="post" id="form">
     {{ csrf_field() }}
         <div class="addguest text-right">
             <a href="#" class="btn btn-default new" data-toggle="modal" data-target="#matchnew">新建评委</a>
-            <input type="submit" value="添加到赛事" class="btn btn-default add">
+            <input type="submit" value="添加到赛事" class="btn btn-default add" style="display:none;" id="add">
         </div>
             @if(count($user))
         <div class="content">
@@ -118,6 +118,13 @@
 @endsection
 
 <script>
+  window.onload = function(){
+    if ($('#form').find('.content').length > 0) {
+      $('#add').css('display','inline-block')
+    };
+    
+  }
+  
     // 图片上传
   someCallback = function(){
     // 加载图片

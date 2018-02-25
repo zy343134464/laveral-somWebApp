@@ -82,4 +82,64 @@ class User extends Authenticatable
         }
         return false;
     }
+    
+    /**
+     * [edit 编辑资料]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function edit(Request $request, $uid)
+    {
+        $user = $this->find($uid);
+        if ( $user ) {
+            $user->name = $request->name;
+            $user->country = $request->country;
+            $user->sex = $request->sex;
+            $user->city = $request->city;
+            $user->birthday = $request->birthday;
+            $user->introdution = $request->introdution;
+            if ( $request->pic != '' ) {
+                $path = save_match_pic($request->pic);
+                $user->pic = $path;
+            }
+            $user->job = $request->job;
+            $user->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * [edit 修改密码]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function editPassword(Request $request, $uid)
+    {
+        $result = [ 'status' => false, 'msg' => ''];
+        $user = $this->find($uid);
+        if ( $user ) {
+            if ( !checkpw($request->currentpassword, $user->password)) {
+                $result['msg'] = '原有密码错误';
+                return $result;
+            }
+            if ($request->surenewpassword == '' || $request->newpassword == '' ) {
+                $result['msg'] = '新密码不能为空';
+                return $result;
+            }
+            if ($request->surenewpassword != $request->newpassword ) {
+                $result['msg'] = '新密码输入不一致';
+                return $result;
+            }
+            $user->password = pw($request->surenewpassword);
+            $user->save();
+            $result['status'] = true;
+            return $result;
+        } else {
+            $result['msg'] = '找不到该账号';
+            return $result;
+        }
+    }
+    
 }

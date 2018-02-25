@@ -44,6 +44,9 @@ class MatchController extends Controller
     public function doeditimg(Request $request, Match $match, $id)
     {
         $match->editimg($request, $id);
-        return back();
+        $pic = \DB::table('productions')->where('id', $id)->first();
+        $match_id = $pic->match_id;
+        $require_personal = \DB::table('require_personal')->where('match_id', $match_id)->first();
+        return redirect()->to('/user');
     }
 }

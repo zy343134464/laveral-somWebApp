@@ -28,7 +28,7 @@ class IndexController extends Controller
         // ----------------------------评委评审室.获取评委赛事--------------------------------
         $matches = $rater_match->where('user_id', user('id'))->Paginate(15);
         if(!count($matches)) return back()->with('msg','获取数据失败');
-        
+        //dd($matches);
         return view('home.rater.room', ['matches'=>$matches,'kw'=>'','status'=>'',]);
     }
 
@@ -41,21 +41,27 @@ class IndexController extends Controller
         if(!count($match)) return back()->with('msg','获取数据失败');
 
         $arr = \DB::table('result')->select('production_id')->where(['match_id'=>$mid,'round'=>$round])->first();
-        if(!count($arr)) return back()->with('msg','获取数据失败');
+        if(!count($arr)) return back()->with('msg','该阶段尚未开始');
 
-        $type = \DB::table('reviews')->select('type')->where(['match_id'=>$mid,'round'=>$round])->first();
-        if(!count($type)) return back()->with('msg','获取数据失败');
-        $type = $type->type;
-
+        $review = \DB::table('reviews')->select('type','setting','end_time')->where(['match_id'=>$mid,'round'=>$round])->first();
+        if(!count($review)) return back()->with('msg','获取数据失败');
+        $type = $review->type;
         $pic = $production->whereIn('id',json_decode($arr->production_id))->Paginate(16);
 
-        return view('home.rater.review',['status'=>'','pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'secure'=>$secure,'type'=>$type]);
+        return view('home.rater.review',['status'=>'','pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'secure'=>$secure,'type'=>$type, 'review'=>$review]);
     }
 
     public function pic(Request $request, Production $production)
     {
-        return  $production->review($request);
+        $res = $production->review($request,$request->type);
+        return  json_encode($res, JSON_UNESCAPED_UNICODE);
     }
+
+    public function review_score(Request $request, Production $production)
+    {
+        return  $production->review_score($request);
+    }
+
     public function rater_pic(Request $request, $id)
     {
         $data = \DB::table('productions')->find($id);

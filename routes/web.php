@@ -44,6 +44,7 @@ Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/award', 'Home\UserController@award');
     Route::get('/consumes', 'Home\UserController@consumes');
     Route::get('/organ', 'Home\UserController@organ');
+    Route::post('/editInfo/{id}', 'Home\UserController@editInfo');
 });
 
 
@@ -66,6 +67,7 @@ Route::middleware(['login','rater'])->prefix('rater')->group(function () {
     Route::get('/review/{mid}/{round}', 'Home\IndexController@review');
     Route::get('/rater_pic/{id}', 'Home\IndexController@rater_pic');
     Route::post('/pic', 'Home\IndexController@pic');
+    Route::post('/pic_score', 'Home\IndexController@pic_score');
 
 
 });
@@ -176,7 +178,13 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         
         Route::get('next_round/{id}', 'Admin\MatchController@next_round');
 
+        Route::get('re_review/{id}', 'Admin\MatchController@re_review');
+        
+        Route::get('clear_result/{id}', 'Admin\MatchController@clear_result');
+
         Route::get('prev_round/{id}', 'Admin\MatchController@prev_round');
+
+        Route::get('edit_result/{id}', 'Admin\MatchController@edit_result');
 
         Route::get('end_match/{id}', 'Admin\MatchController@end_match');
 

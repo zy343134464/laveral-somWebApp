@@ -93,7 +93,6 @@
                         </div>
                         <div class="footer">
                             <a href="{{ url('match/join/'.$id) }}" class="btn btn-default"> 参加比赛</a>
-                            <a href="{{ url('/') }}" class="btn btn-default"> 返回首页</a>
                         </div>
                     </div>
                 </div>

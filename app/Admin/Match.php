@@ -374,11 +374,16 @@ class Match extends Model
      */
     public function newrater($request, $id)
     {
+        if ($request->pic) {
+            $pic = save_match_pic($request->pic);
+        } else {
+            $pic = 'img\images\user-logo.jpg';
+        }
         \DB::table('raters')->insertGetId([
                 'match_id'=>$id,
-                'name'=>$request->name,
-                'pic'=>save_match_pic($request->pic),
-                'detail'=>$request->detail,
+                'name'=>$request->name ? $request->name: '',
+                'pic'=>$pic,
+                'detail'=>$request->detail?$request->detail:'',
             ]);
     }
     /**
@@ -431,6 +436,7 @@ class Match extends Model
                 'detail'=>$v->introdution,
             ]);
         }
+
     }
     /**
      * 新增展示的嘉宾
@@ -440,11 +446,17 @@ class Match extends Model
      */
     public function newguest($request, $id)
     {
+        
+        if ($request->pic) {
+            $pic = save_match_pic($request->pic);
+        } else {
+            $pic = 'img\images\user-logo.jpg';
+        }
         \DB::table('guests')->insertGetId([
                 'match_id'=>$id,
-                'name'=>$request->name,
-                'pic'=>save_match_pic($request->pic),
-                'detail'=>$request->detail,
+                'name'=>$request->name ? $request->name: '',
+                'pic'=>$pic,
+                'detail'=>$request->detail?$request->detail:'',
             ]);
     }
     /**
@@ -552,6 +564,7 @@ class Match extends Model
                 } else {
                     $temp = [];
                     $temp['min'] = ($request->min2)[$k];
+                    $temp['max'] = ($request->max2)[$k];
                     $temp['reference'] = ($request->reference2)[$k];
                     $temp['dimension'] = ($request->setting2)['dimension'][$k];
                     $temp['percent'] = ($request->setting2)['percent'][$k];
@@ -660,7 +673,7 @@ class Match extends Model
 
                 if ($match->status > 4 ) return ['msg'=>'赛事已结束投稿','data'=>false];
 
-                \DB::table('matches')->where(['id'=>$id, 'status'=>$id, 'status'=>2])->update(['status'=>3]);
+                \DB::table('matches')->where(['id'=>$mid, 'status'=>2])->update(['status'=>3]);
 
                 return ['msg'=>'success','data'=>true];
             } else {
@@ -683,47 +696,52 @@ class Match extends Model
         try {
             $match = \DB::table('matches')->find($mid);
             if(count($match)) {
-                if ($match->status != 0 ) return ['msg'=>'该赛事尚未开始征稿,不能结束','data'=>false];
+                if ($match->status == 3 || $match->status == 2 ) {
+
+                    // 获取作品
+                    $res = \DB::table('productions')->select('id')->where('match_id',$mid)->get();
+                    $pid =[];
+                    if(count($res)) {
+                        foreach ($res as  $v) {
+                            $pid[] = $v->id;
+                        }
+                    }
+
+                    $review = \DB::table('reviews')->select(['setting', 'type'])->where([
+                        'match_id'=>$mid,
+                        'round'=>1,
+                    ])->first();
+                    if(!count($review)) return ['msg'=>'获取评审参数失败','data'=>false];
+
+                    if($review->type == 1) {
+                        $total = $review->setting < count($pid) ? $review->setting : count($pid);
+                    } else {
+                        $total = count($pid);
+                    }
+                    // 更新评委任务数量
+                    \DB::table('rater_match')->where([
+                        'match_id'=>$mid,
+                        'round'=> 1
+                    ])->update(['total'=>$total]);
+                    // 第一轮作品
+                    \DB::table('result')->insertGetId([
+                            'match_id'=>$mid,
+                            'round'=> 1,
+                            'status'=> 1,
+                            'production_id'=>json_encode($pid),
+                            'sum'=>count($pid),
+                    ]);
+
+                    \DB::table('matches')->where('id',$mid)->update(['status'=>5, 'round'=>1]);
+                    return ['msg'=>'success','data'=>true];
+                } else {
+                    return ['msg'=>'该赛事尚未开始征稿,不能结束','data'=>false];
+                    
+                }
             } else {
                 return ['msg'=>'数据获取失败','data'=>false];
 
             }
-            // 获取作品
-            $res = \DB::table('productions')->select('id')->where('match_id',$mid)->get();
-            $pid =[];
-            if(count($res)) {
-                foreach ($res as  $v) {
-                    $pid[] = $v->id;
-                }
-            }
-
-            $review = \DB::table('reviews')->select(['setting', 'type'])->where([
-                'match_id'=>$mid,
-                'round'=>1,
-            ])->first();
-            if(!count($review)) return ['msg'=>'获取评审参数失败','data'=>false];
-
-            if($review->type == 1) {
-                $total = $review->setting < count($pid) ? $review->setting : count($pid);
-            } else {
-                $total = count($pid);
-            }
-            // 更新评委任务数量
-            \DB::table('rater_match')->where([
-                'match_id'=>$mid,
-                'round'=> 1
-            ])->update(['total'=>$total]);
-            // 第一轮作品
-            \DB::table('result')->insertGetId([
-                    'match_id'=>$mid,
-                    'round'=> 1,
-                    'status'=> 1,
-                    'production_id'=>json_encode($pid),
-                    'sum'=>count($pid),
-            ]);
-
-            \DB::table('matches')->where('id',$id)->update(['status'=>4]);
-            return ['msg'=>'success','data'=>true];
         } catch (\Exception $e) {
             return ['msg'=>'default','data'=>false];
         }
@@ -756,8 +774,11 @@ class Match extends Model
             $review = Review::where(['match_id'=>$id,'round'=>$round])->first();
 
             $num = $review->promotion;
+            if($num == 0) {
+                return redirect()->to('admin/match/end_match/'.$id);
+            };
             $res = Sum::where(['match_id'=>$id,'round'=>$round])->orderBy('sum','desc')->get(['id','production_id','sum'])->toArray();
-
+            if(!count($res)) return '尚没有评委评分,不能统计赛果';
             $arr = [];
             if(count($res) <= $num) {
                 //作品少于或等于入围数,全部入围
@@ -788,9 +809,54 @@ class Match extends Model
                     'production_id'=>json_encode($arr),
                     'sum'=>count($arr),
             ]);
+            return 'success';
+        } catch (\Exception $e) {
+            dd($e);
+            return false;
+        }
+    }
+    public function next_able($mid, $round)
+    {
+        $res = \DB::table('result')->where(['match_id'=>$mid,'round'=>$round + 1])->get();
+        return count($res);
+        if(count($res)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    public function last_round($mid)
+    {
+        try {
+            $match = $this->find($mid);
+            $review = \DB::table('reviews')->select('id')->where('match_id', $mid)->get();
+            if(count($review) == $match->round) return true;
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+        
+    }
+    public function re_review($mid, $round)
+    {
+        try {
+            \DB::table('result')->where(['match_id'=>$mid,'round'=>$round + 1])->delete();
             return true;
         } catch (\Exception $e) {
             return false;
+        }
+        
+    }
+    public function clear_result($mid, $round)
+    {
+        try {
+            \DB::table('score')->where(['match_id'=>$mid,'round'=>$round])->delete();
+            \DB::table('sum_score')->where(['match_id'=>$mid,'round'=>$round])->delete();
+            \DB::table('sum_score')->where(['match_id'=>$mid,'round'=>$round])->update(['finish'=>0]);
+            return true;
+        } catch (\Exception $e) {
+            return true;
         }
     }
     public function editresult($mid, $round, $pic_id,$value)
@@ -801,19 +867,19 @@ class Match extends Model
     {
         try {
             // 获取当前轮次
-            $match = $this->find($id);
+            $match = $this->find($mid);
             $round = $match->round;
 
             // 非评审阶段 stop
             if($match->status != 5) return ['msg'=>'非评审阶段','data'=>false];
 
             $secure = \DB::table('result')->where([
-                    'match_id'=>$id,
+                    'match_id'=>$mid,
                     'round'=> ($round + 1),
                     'status'=> 1,
             ])->get();
-            $secure = \DB::table('result')->where([
-                    'match_id'=>$id,
+            $secure2 = \DB::table('result')->where([
+                    'match_id'=>$mid,
                     'round'=> ($round + 2),
                     'status'=> 1,
             ])->get();
@@ -821,7 +887,9 @@ class Match extends Model
             if(!count($secure) || count($secure2)) return ['msg'=>'非当前轮次','data'=>false];
 
             $this->where('id',$mid)->update(['round'=>($match->round + 1)]);
+            return ['msg'=>'','data'=>true];
         } catch (\Exception $e) {
+            dd($e);
             return ['msg'=>'获取数据失败','data'=>false];
         }
     }
@@ -953,8 +1021,4 @@ class Match extends Model
         }
     }
 
-    public function get_match_production($mid, $round)
-    {
-        
-    }
 }

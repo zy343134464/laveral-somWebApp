@@ -1,0 +1,40 @@
+/*登录页广告设置*/
+ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+#information{
+	padding-left: 46px;
+	padding-top: 50px;
+}
+#information .title{
+	font-size: 20px;
+	color: #797979;
+}
+#information input{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+}
+::-webkit-input-placeholder {
+	text-align: center;
+	color:#cdcdcd;
+}
+:-moz-placeholder {
+	text-align: center;
+　　color:#cdcdcd;
+}
+::-moz-placeholder {
+	text-align: center;
+	color:#cdcdcd;
+}
+:-ms-input-placeholder {
+	text-align: center; 
+	color:#cdcdcd;
+}
+#information .adviset-content{
+	width:316px;
+	background-color: #fff;
+}

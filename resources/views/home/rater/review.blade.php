@@ -13,7 +13,7 @@
     <div class="row clearfix">
         <div class="col-xs-12">
             <!--搜索框-->
-            <div class="search-form">
+            <div class="search-form"> 
                 <i class="fa fa-search"></i>
                 <input type="text" placeholder="关键字搜索" style="min-width:none;" name="kw">
             </div>
@@ -75,16 +75,14 @@
                 @else
                 <li>
                     <div class="rater-img">
-                        <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
+                        <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}" index="{{ $v->id }}">
                     </div>
                     <div class="rater-content">
                         <h4>{{ $v->title}}</h4>
                         <div class="img-Id">{{ $v->id }}</div>
                     </div>
                     <div class="rater-btn text-center" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$round}}" >
-                        <button class="passbtn {{ ($v->score($match->id,@$round,$v->id)) == 1 ? 'active':'' }}" value='1' >入围</button>
-                        <button class="whilebtn {{ ($v->score($match->id,@$round,$v->id)) == 3 ? 'active':'' }}" value='3' >待定</button>
-                        <button class="outbtn {{ ($v->score($match->id,@$round,$v->id)) == 2 ? 'active':'' }}" value='2'>淘汰</button>
+                        综合分:{{ $v->rater_score_sum($match->id,@$round,$v->id) ?  $v->rater_score_sum($match->id,@$round,$v->id) / 100 : '未评分'}}
                     </div>
                 </li>
                 @endif
@@ -123,7 +121,7 @@
                             <span class="prev"><i class="fa fa-chevron-left"></i></span>
                             <span class="next"><i class="fa fa-chevron-right"></i></span>
                         </div>
-                        <div class="btnrater" match="{{ $match->id }}" round="{{ $round }}">
+                        <div class="btnrater" match="{{ $match->id }}" round="{{ $round }}"  type="1">
                             <button class="passbtn" value='1'>入围</button>
                             <button class="whilebtn" value='3'>待定</button>
                             <button class="outbtn" value='2'>淘汰</button>
@@ -169,10 +167,20 @@
                             <span class="prev"><i class="fa fa-chevron-left"></i></span>
                             <span class="next"><i class="fa fa-chevron-right"></i></span>
                         </div>
-                        <div class="btnrater" match="{{ $match->id }}" round="{{ $round }}">
-                            <button class="passbtn" value='1'>入围</button>
-                            <button class="whilebtn" value='3'>待定</button>
-                            <button class="outbtn" value='2'>淘汰</button>
+                        <div class="btnrater" match="{{ $match->id }}" round="{{ $round }}" type="2">
+                            <div>
+                            @if($type == 2)
+                            @foreach((json_decode($review->setting,true))['dimension'] as $rk=>$rv)
+                                {{$rv}}: <input type="text" class="score_input"
+                                min="{{(json_decode($review->setting))->min }}" 
+                                max="{{ (json_decode($review->setting))->min }}" 
+                                index="{{ ((json_decode($review->setting,true)))['percent'][$rk] }}" style="width:40px;margin:5px 4px">
+                            @endforeach
+                            @endif
+                            </div>
+                            <div class="text-right" style="margin-top:10px;">
+                                <a class="btn btn-warning sure">确认</a>
+                            </div>
                         </div>
                     </li>
                     <li class="wrapperinfro">
@@ -204,5 +212,14 @@
             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
         });
     </script>
-    <script src="{{ url('js/home/rater/rater.js')}}"></script>
+    <script src="{{ url('js/home/rater/rater.js')}}">
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+        });
+    </script>
+    <script>
+    var setting = "{{$review->setting}}";
+    var type = "{{$type}}";
+    console.log(setting, type)
+    </script>
 @endsection

@@ -206,5 +206,31 @@ $(function () {
 
       /*投稿要求*/
 
+      /*点击仅限单张隐藏*/
+      $('#only').on('click',function(){
+        if($(this).is(":checked")){
+          $('.div1').hide();
+        }else{
+          $('.div1').show();
+        }
+      })
 
+      /*点击免费*/
+      $('#only2').on('click',function(){
+        if($(this).is(":checked")){
+          $('.div2').hide();
+        }
+      })
+
+      $('#only1').on('click',function(){
+        if($(this).is(":checked")){
+          $('.div2').show();
+        }
+      })
+
+      $('#only3').on('click',function(){
+        if($(this).is(":checked")){
+          $('.div2').show();
+        }
+      })
 })
