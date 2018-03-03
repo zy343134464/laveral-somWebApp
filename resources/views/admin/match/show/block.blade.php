@@ -28,7 +28,7 @@
             <!--搜索框-->
             <div class="search-form">
                 <i class="fa fa-search"></i>
-                <input type="text" placeholder="关键字搜索">
+                <input type="text" placeholder="请输入赛事标题">
             </div>
         </div>
         <div class="col-xs-12">
@@ -103,9 +103,15 @@
                         <img src="{{ url($v->pic) }}">
                     </div>
                     <div class="match-content">
-                        <h4>{{ (json_decode($v->title))[0]}}</h4>
+                        <h4>{{ (json_decode($v->title))[0]}} </h4>
                         <p>
-                            类别: <span>{{ $v->type }}</span>
+                            类别: <span>
+                            @if($v->cat == 0)
+                            {{ $v->type }}
+                            @else
+                            综合赛事
+                            @endif
+                            </span>
                         </p>
                         <p>
                             阶段: <span>@if($v->status==0)

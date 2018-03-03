@@ -19,8 +19,11 @@
                 <li><a href="{{ url('admin/match/require_personal/'.$id) }}">投稿要求</a></li>
                 @endif
                 @if(match($id,'cat') != 1)
+                <li class="active"><a href="{{ url ('admin/match/edit/'.$id) }}">赛事主题</a></li>
+                <li><a href="{{ url('admin/match/require_personal/'.$id) }}">投稿要求</a></li>
                 <li><a href="{{ url('admin/match/review/'.$id) }}">评选设定</a></li>
                 @endif
+
             @else
                 <li class="active"><a href="#">赛事主题</a></li>
                 <li><a href="#">组委会信息</a></li>

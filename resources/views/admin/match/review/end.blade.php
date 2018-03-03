@@ -7,7 +7,17 @@
 
 
 @section('body')
-
+<style>
+    @font-face {
+        font-family: 'msyh';
+        font-style: normal;
+        font-weight: normal;
+        src: url({{ storage_path('fonts/msyh.ttf') }}) format('truetype');
+    }
+    body {
+        font-family: msyh, DejaVu Sans,sans-serif;
+    }
+</style>
 <!-- 主内容 -->
 <section class="content">
     <div class="row clearfix">
@@ -39,22 +49,12 @@
             </div>
         </div>
         <div class="col-xs-12 clearfix">
-            <div class="col-xs-2" style="margin-left:-15px;">
-                <div class="rater">
-                    <select class="form-control"  onchange="window.location=this.value">
-                        <option value="" >所有奖项</option>
-                    </select>
-                </div>
-            </div>
             <div class="col-xs-10 text-right" style="padding-top:10px;">
-            
-            </div>
-            <div class="col-xs-10 text-right" style="padding-top:10px;">
-           
-                
-                    <a href="{{ url('admin/match/review_room/'.$id) }}" class="btn btn-default">返回评审室</a>
-                    <a href="#" class="btn btn-default">赛事已结束</a>
-               
+                @if(!$match->end_able($id))
+                <a href="{{ url('admin/match/edit_win/'.$id) }}" class="btn btn-default">返回编辑</a>
+                <a href="{{ url('admin/match/end_match/'.$id) }}" class="btn btn-default">结束赛事</a>
+                @endif
+                <a href="{{ url('admin/match/end_result_pdf/'.$id) }}" class="btn btn-default" target="_blank">导出</a>
             </div>
         </div>
         
@@ -62,23 +62,14 @@
            
                 <!--   foreach start -->
                 @if( count($pic) )
-                <?php
-                    $arr = [];
-                ?>
-                @foreach($pic as $kk => $vv)
+               
+                @foreach($win as $kk => $wv)
                 
                  <ul class="rater-main text-left clearfix">
-                 <h2>{{ @$win[$kk]->name}}</h2>
-                   @foreach($vv as $v)
-                <?php
-                    if(!$v) continue;
-                    if(in_array($v->id, $arr)) {
-
-                        continue;
-                   } else {
-                        $arr[] = $v->id;
-                   }
-                ?>
+                 <h2>{{ $wv->name}}</h2>
+                    @if(count($pic[@$wv->no]))
+                   @foreach($pic[$wv->no] as $v)
+                
                     <li>
                         <div class="rater-img">
                             <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
@@ -87,11 +78,17 @@
                             <h4>{{ $v->title }}</h4>
                             <div class="img-Id">{{ $v->id }}</div>
                         </div>
-                        <div class="rater-btn text-center" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$rounding}}" >
+                        <div class="rater-btn" style="padding-left:20px;">
+                        作者:{{ $v->author }}
                         </div>
                     </li>
                     
                     @endforeach
+                    @else
+                    <li>
+                    <div style="color:red;">暂无数据</div>
+                </li>
+                    @endif
                     </ul>
                 @endforeach
                @else
@@ -108,52 +105,6 @@
     </div>
 </section>
 <!-- /.content -->
-
-<!-- 评委投票（Modal） -->
-<div class="modal fade" id="imgrater1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal100">
-        <div class="modal-content">
-            <div class="modal-header" style="padding-left:66px;">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-              
-            </div>
-            <div class="modal-body" style="padding-left:66px;">
-                <ul class="clearfix">
-                    <li class="wrapperimg">
-                        <div class="img">
-                            <img src="">
-                            <span class="prev"><i class="fa fa-chevron-left"></i></span>
-                            <span class="next"><i class="fa fa-chevron-right"></i></span>
-                        </div>
-                        <div class="btnrater" match="{{ $match->id }}" round="{{ $rounding }}">
-                            <button class="passbtn" value='1'>入围</button>
-                            <button class="whilebtn" value='3'>待定</button>
-                            <button class="outbtn" value='2'>淘汰</button>
-                        </div>
-                    </li>
-                    <li class="wrapperinfro">
-                        <ul>
-                            <li style="padding-top:0;">
-                                <span>编号</span>
-                                <span class="imgId"></span>
-                            </li>
-                            <li>
-                                <span>作品标题</span>
-                                <span class="imgTitle"></span>
-                            </li>
-                            <li>
-                                <span>文字描述</span>
-                                <span class="imgDetail" style="width:300px;display:inline-block;vertical-align: top;"></span>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 
 @endsection
 

@@ -158,7 +158,7 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //团体投稿设定
         Route::get('require_team/{id}', 'Admin\MatchController@require_team');
         Route::post('storerequire_team/{id}', 'Admin\MatchController@storerequire_team');
-
+        Route::get('son/{id}','Admin\MatchController@son');
         //赛事评审
         Route::get('review/{id}', 'Admin\MatchController@review');
         Route::post('storereview/{id}', 'Admin\MatchController@storereview');
@@ -186,12 +186,25 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
 
         Route::get('edit_result/{id}', 'Admin\MatchController@edit_result');
 
+        Route::get('edit_win/{id}', 'Admin\MatchController@edit_win');
+
+        Route::get('reset_result/{id}', 'Admin\MatchController@reset_result');
+
+        Route::post('badboy', 'Admin\MatchController@badboy');
+
         Route::get('end_match/{id}', 'Admin\MatchController@end_match');
+
+        Route::get('show_end/{id}', 'Admin\MatchController@show_end');
+
+        Route::get('get_end_result/{id}', 'Admin\MatchController@get_end_result');
+        
+        Route::get('end_result_pdf/{id}', 'Admin\MatchController@end_result_pdf');
 
         //ajax搜索评委
         Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
         //ajax新建评委
         Route::post('add_rater/{id}', 'Admin\MatchController@add_rater');
+
         Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
     });
 });

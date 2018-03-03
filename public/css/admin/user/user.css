@@ -78,6 +78,7 @@
 }
 
 .content-wrapper > .content .box #example1 th {
+    font-size: 16px;
     border-bottom: 8px solid #f4f4f4;
 }
 
@@ -104,17 +105,15 @@
 }
 
 .content-wrapper > .content .tab-title .nav-tabs > li > a {
+    border: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding-left: 25px;
     padding-right: 25px;
     margin-right: 10px;
 }
-
-.pagination > li > a {
-    margin-left: 10px;
-    padding: 8px 15px;
-    border-radius: 6px;
+.tab-title ul{
+    border-bottom: none;
 }
 
 #matchnew .match-new .btn-default{

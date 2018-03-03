@@ -25,13 +25,13 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">用户名</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" placeholder="zhangyang" name="name" value="{{$user->name}}">
+								<input type="text" class="form-control" placeholder="zhangyang" name="name" value="{{$user->name}}" disabled>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">手机号</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" placeholder="" value="{{$user->phone}}">
+								<input type="text" class="form-control" placeholder="" value="{{$user->phone}}" disabled>
 							</div>
 
 						</div>
@@ -46,11 +46,20 @@
 									<option>管理员</option>
 								</select>
 							</div>
+							<div class="col-sm-3">
+								<button type="button" class="btn btn-primary" style="left:14px;padding-left:27px;padding-right:27px;">保存</button>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">用户状态</label>
 							<div class="col-sm-6">
-								<input type="text" class="form-control" value="有效">
+								<select class="form-control">
+									<option>有效</option>
+									<option>无效</option>
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<button type="button" class="btn btn-primary" style="padding-left:27px;padding-right:27px;">保存</button>
 							</div>
 						</div>
 						<div class="form-group">

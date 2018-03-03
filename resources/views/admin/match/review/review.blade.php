@@ -68,6 +68,7 @@
                 <a href="{{url('admin/match/end_match/'.$id)}}"type="button" class="btn btn-warning">套用胜出机制</a>
                 @else
                 <a href="{{url('admin/match/next_round/'.$id)}}" type="button" class="btn btn-warning">下一轮</a>
+                <a href="{{url('admin/match/edit_result/'.$id)}}" type="button" class="btn btn-warning">编辑赛果</a>
                 @endif
                 <!-- <a href="{{url('admin/match/edit_result/'.$id)}}" type="button" class="btn btn-warning">编辑赛果</a> -->
                 @endif
@@ -81,15 +82,22 @@
                     <li><a href="{{url('admin/match/start_collect/'.$id)}}">开始征稿</a></li>
                     <li><a href="{{url('admin/match/end_collect/'.$id)}}">启动初审</a></li>
                     @else
-                        @if($round == $rounding )
-                        @if($match->next_able($match->id,$match->round))
-                            <li><a href="{{url('admin/match/re_review/'.$id)}}">恢复本轮评审</a></li>
-                            <li><a href="{{url('admin/match/end_match/'.$id)}}">套用胜出机制</a></li>
-                        @else
-                            <li><a href="{{url('admin/match/clear_result/'.$id)}}">清除评审数据</a></li>
-                            <li><a href="{{url('admin/match/result/'.$id)}}">结束本轮评审</a></li>
+                        @if(!$match->end_able($id))
+                            @if($round == $rounding )
+                            @if($match->next_able($match->id,$match->round))
+                                <li><a href="{{url('admin/match/re_review/'.$id)}}">恢复本轮评审</a></li>
+                                <li><a href="{{url('admin/match/get_end_result/'.$id)}}">套用胜出机制</a></li>
+                            @else
+                                <li><a href="{{url('admin/match/clear_result/'.$id)}}">清除评审数据</a></li>
+                                @if($match->last_round($id))
+                                <li><a href="{{url('admin/match/get_end_result/'.$id)}}">套用胜出机制</a></li>
+                                @else
+                                <li><a href="{{url('admin/match/result/'.$id)}}">结束本轮评审</a></li>
+                                @endif
+                            @endif
+                            @endif
                         @endif
-                        @endif
+
                         <li><a href="#">导出</a></li>
                     @endif
 

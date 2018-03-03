@@ -184,6 +184,8 @@ return [
         AetherUpload\AetherUploadServiceProvider::class,
         //ueditor20180124
         Stevenyangecho\UEditor\UEditorServiceProvider::class,
+        //PDF20180301
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -236,6 +238,8 @@ return [
 
         //2018-01-03
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        //PDF
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

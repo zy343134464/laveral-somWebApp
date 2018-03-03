@@ -42,9 +42,13 @@ body .login-box .login-box-body .btn-primary {
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 20px;
-    color: #767676;
+    color: #cfcfcf;
     background-color: #323232;
     border: 1px solid #323232;
+}
+body .login-box .login-box-body .btn-primary:hover {
+    color: white;
+    background-color: black;
 }
 body .login-box .login-box-body .siginin{
      margin-top: 10px;

@@ -18,7 +18,7 @@
     <form action="{{ url('admin/match/storeguest/'.$id) }}" method="post" id="form">
     {{ csrf_field() }}
         <div class="addguest text-right">
-            <a href="#" class="btn btn-default new" data-toggle="modal" data-target="#matchnew">新建嘉宾</a>
+            <a href="#" class="btn btn-default new" data-toggle="modal" data-target="#matchnew" id="new">新建嘉宾</a>
             <input type="submit" value="添加到赛事" class="btn btn-default add" style="display:none" id="add">
         </div>
             @if(count($user))
@@ -119,6 +119,7 @@
   window.onload = function(){
     if ($('#form').find('.content').length > 0) {
       $('#add').css('display','inline-block')
+      $('#new').css('display','none')
     };
     
   }

@@ -60,6 +60,23 @@ class Production extends Model
             return false;
         }
     }
+
+    public function win($mid,$pid)
+    {
+        try {
+            
+            $result = \DB::table('result')->select('win_id')->where(['match_id'=>$mid, 'production_id'=>$pid])->get();
+            $string ='';
+            foreach ($result as $key => $value) {
+                $res = \DB::table('win')->select('name')->where('id',$value->win_id)->first();
+                if(count($res)) $string .= $res->name. ' ';
+                
+            }
+            return $string;
+        } catch (\Exception $e) {
+            return '';
+        }
+    }
     public function review($request, $type = 1)
     {
         try {

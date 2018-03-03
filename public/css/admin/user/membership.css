@@ -1,0 +1,27 @@
+.vip-rule{
+	padding-bottom: 10px;
+}
+.vip-content{
+	padding-top: 20px;
+	padding-bottom: 6px;
+	background-color: #fff;
+}
+.vip-rank{
+	padding-top: 20px;
+	padding-bottom: 4px;
+}
+.vip-detail{
+	position: absolute;
+	right: 48px;
+	top: 80px;
+}
+.content input,
+.content textarea,
+.content select{
+    background-color: #fafafa;
+}
+.content input:focus,
+.content textarea:focus,
+.content select:focus{
+    background-color: #fff;
+}

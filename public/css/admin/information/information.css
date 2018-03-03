@@ -1,40 +1,140 @@
-/*登录页广告设置*/
-ul{
-	padding: 0;
-	margin: 0;
-	list-style: none;
+/*主内容内容*/
+/*搜索框*/
+.content-wrapper > .content .search-form {
+    position: relative;
 }
-#information{
-	padding-left: 46px;
-	padding-top: 50px;
+
+.content-wrapper > .content .search-form .fa-search {
+    color: #8e8e8e;
+    font-size: 24px;
+    position: absolute;
+    left: 10px;
+    top: 6px;
 }
-#information .title{
-	font-size: 20px;
-	color: #797979;
+
+.content-wrapper > .content .search-form input {
+    border: none;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #c8c8c8;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 44px;
+    margin-bottom: 32px;
+    min-width: 400px;
+    outline: none;
+    font-size: 16px;
 }
-#information input{
-	padding-top: 10px;
-	padding-bottom: 10px;
-	border: none;
-	border-bottom: 1px solid #ccc;
+
+/*新建图文*/
+.content-wrapper > .content .batch-export .dropdown {
+    position: absolute;
+    right: 16px;
+    top: 47px;
 }
-::-webkit-input-placeholder {
-	text-align: center;
-	color:#cdcdcd;
+.content-wrapper > .content .batch-enter .dropdown {
+    position: absolute;
+    right: 118px;
+    top: 47px;
 }
-:-moz-placeholder {
-	text-align: center;
-　　color:#cdcdcd;
+.content-wrapper > .content .hand-users .dropdown {
+    position: absolute;
+    right: 234px;
+    top: 47px;
 }
-::-moz-placeholder {
-	text-align: center;
-	color:#cdcdcd;
+
+.content-wrapper > .content .batch-export .dropdown .btn-success,
+.content-wrapper > .content .batch-enter .dropdown .btn-success,
+.content-wrapper > .content .hand-users .dropdown .btn-success {
+    background-color: #262626;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: #d0a45d;
+    border: 1px solid #262626;
 }
-:-ms-input-placeholder {
-	text-align: center; 
-	color:#cdcdcd;
+
+.content-wrapper > .content .batch-export .dropdown .dropdown-menu {
+    min-width: 120px;
 }
-#information .adviset-content{
-	width:316px;
-	background-color: #fff;
+
+.content-wrapper > .content .batch-export .dropdown-menu li {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/*表格*/
+.content-wrapper > .content .box {
+    margin-top: 20px;
+    border-top: none;
+}
+
+.content-wrapper > .content .box .box-body {
+    padding: 0;
+}
+
+.content-wrapper > .content .box .box-body #example1_wrapper #example1 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.content-wrapper > .content .box #example1 th {
+    border-bottom: 8px solid #f4f4f4;
+}
+
+.content-wrapper > .content a {
+    color: #000
+}
+
+.content-wrapper > .content .box .many-match.many-active {
+    background-color: #666666;
+    color: #8d8d8d;
+}
+
+.content-wrapper > .content .box .many-match.many-active a {
+    color: #8d8d8d;
+}
+
+.content-wrapper > .content .box .only-match {
+    display: none;
+}
+
+.content-wrapper > .content .box .only-match.only-active {
+    display: table-row;
+    background-color: #dcdcdc;
+}
+
+.content-wrapper > .content .tab-title .nav-tabs > li > a {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-right: 10px;
+}
+
+#matchnew .match-new .btn-default{
+    background-color: #262626;
+    color: #d0a45d;
+    border: none;
+}
+#matchnew label{
+    color:#686868;
+}
+#matchnew input,
+#matchnew textarea,
+#matchnew select{
+    background-color: #fafafa;
+}
+#matchnew input:focus,
+#matchnew textarea:focus,
+#matchnew select:focus{
+    background-color: #fff;
+}
+#matchnew input::-ms-input-placeholder{text-align: left;}
+#matchnew input::-webkit-input-placeholder{text-align: left;}
+
+#example1 td span a{
+    vertical-align: top;
+    margin-left: 6px;
+    margin-right: 6px;
+    font-size: 20px;
 }

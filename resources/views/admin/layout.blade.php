@@ -111,7 +111,7 @@
                             </a>
                         </li>
                         <li class="treeview">
-                            <a href="#">
+                            <a>
                                 <span>比赛管理</span>
                             </a>
                             <ul class="treeview-menu">
@@ -120,10 +120,15 @@
                                 <li><a href="{{url('admin/match/show/block?status=6')}}">历史记录</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="{{ url('admin')}}">
-                                <span>会员管理</span>
+                        <li class="treeview">
+                            <a href="#">
+                                <span>用户管理</span>
                             </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{{ url('admin')}}">用户列表</a></li>
+                                <li><a>会籍管理</a></li>
+                                <!-- <li><a>会员表单编辑</a></li> -->
+                            </ul>
                         </li>
                         <li>
                             <a href="#">
@@ -179,7 +184,7 @@
 <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
 <!-- 时间选择器 -->
 <script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
- <script>
+<script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);
 
@@ -191,6 +196,7 @@
             $(this).parent().addClass('active');
         }
     });
+
 </script>
 @section('other_js')
 

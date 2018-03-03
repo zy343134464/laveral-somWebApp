@@ -58,13 +58,13 @@
                             <div class="form-group">
                                 <label for="username" class="col-sm-2 control-label">姓名</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratername" placeholder="" name="name">
+                                    <input type="text" class="form-control" id="ratername" name="name">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="grade" class="col-sm-2 control-label">头街</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratertag" placeholder="">
+                                    <input type="text" class="form-control" id="ratertag">
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0;">

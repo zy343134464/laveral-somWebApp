@@ -38,10 +38,7 @@
                             <a href="{{ url('user/organ') }}">机构资料</a>
                         </li>
                         <li>
-                            <a href="{{ url('user/consumes') }}">消费明细</a>
-                        </li>
-                        <li>
-                            <a href="{{ url('logout') }}">退出登陆</a>
+                            <a href="{{ url('user/consumes') }}">消费记录</a>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +54,7 @@
 </section>
 <script>
     window.onload = function(){
-      $('.personalUl li a').each(function(){
+        $('.personalUl li a').each(function(){
             if($($(this))[0].href==String(window.location)){
                 $(this).parent().parent().find('li').removeClass('active')
                 $(this).parent().addClass('active');

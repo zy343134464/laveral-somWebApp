@@ -28,9 +28,9 @@
 							</div>
 							<label class="col-sm-1 control-label">手机号</label>
 							<div class="col-sm-2">
-								<input type="text" class="form-control" name="phone" value="" required>
+								<input type="phone" class="form-control" name="phone" required onblur="checkPhone(this)">
 							</div>
-
+							<div class="text-left " style="color:red;margin-top:5px;" id="msg"></div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-1 control-label">用户密码</label>
@@ -53,4 +53,16 @@
 
 @section('other_js')
     <script src="{{ url('js/admin/user/user.js') }}"></script>
+    <script>
+    	function checkPhone(obj){ 
+	        var phone = obj.value;
+	        if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+	            msg.innerHTML = "请输入正确的手机号码"
+	            check()
+	            return false; 
+	        }else{
+	            msg.innerHTML =""
+	        } 
+	    }
+    </script>
 @endsection

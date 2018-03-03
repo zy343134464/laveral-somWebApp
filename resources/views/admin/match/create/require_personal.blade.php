@@ -101,7 +101,7 @@
 							<input type="checkbox"  value="author" name="info[]" checked> 作者姓名
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="author_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="author_r" name="required[]" checked> 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -109,7 +109,7 @@
 							<input type="checkbox"  value="detail" name="info[]" checked> 文字描述
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="detail_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="detail_r" name="required[]" checked> 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -117,7 +117,7 @@
 							<input type="checkbox"  value="title" name="info[]" checked> 作品标题
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="title_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="title_r" name="required[]" checked> 必填
 						</label>
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 							<input type="checkbox"  name="" value="represent" name="info[]" > 代表单位
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  name="" value="represent_r"  name="required[]" > 是否必填
+							<input type="checkbox"  name="" value="represent_r"  name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -135,7 +135,7 @@
 							<input type="checkbox"  name="" value="year" name="info[]" > 年份
 						</label>
 						<label class="checkbox-inline" style="padding-left:48px;">
-							<input type="checkbox"  name="" value="year_r" name="required[]" > 是否必填
+							<input type="checkbox"  name="" value="year_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -143,7 +143,7 @@
 							<input type="checkbox"  value="country" name="info[]" > 国籍
 						</label>
 						<label class="checkbox-inline" style="padding-left:48px;">
-							<input type="checkbox"  value="country_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="country_r" name="required[]" > 必填
 						</label>
 					</div>
 				</div>
@@ -153,7 +153,7 @@
 							<input type="checkbox"  value="lacation" name="info[]" > 拍摄地点
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="lacation_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="lacation_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -161,15 +161,15 @@
 							<input type="checkbox"  value="size" name="info[]" > 作品尺寸
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="size_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="size_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
 						<label class="checkbox-inline">
 							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 中英双语
 						</label>
-						<label class="checkbox-inline" style="padding-left:48px;">
-							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 是否必填
+						<label class="checkbox-inline">
+							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 必填
 						</label>
 					</div>
 				</div>
@@ -281,7 +281,7 @@
 							<input type="checkbox"  value="author" name="info[]" checked> 作者姓名
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="author_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="author_r" name="required[]" checked> 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -289,7 +289,7 @@
 							<input type="checkbox"  value="detail" name="info[]" checked> 文字描述
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="detail_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="detail_r" name="required[]" checked> 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -297,7 +297,7 @@
 							<input type="checkbox"  value="title" name="info[]" checked> 作品标题
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="title_r" name="required[]" checked> 是否必填
+							<input type="checkbox"  value="title_r" name="required[]" checked> 必填
 						</label>
 					</div>
 				</div>
@@ -307,7 +307,7 @@
 							<input type="checkbox"   value="represent" name="info[]" > 代表单位
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"   value="represent_r"  name="required[]" > 是否必填
+							<input type="checkbox"   value="represent_r"  name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -315,7 +315,7 @@
 							<input type="checkbox" value="year" name="info[]" > 年份
 						</label>
 						<label class="checkbox-inline" style="padding-left:48px;">
-							<input type="checkbox"  value="year_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="year_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -323,7 +323,7 @@
 							<input type="checkbox"  value="country" name="info[]" > 国籍
 						</label>
 						<label class="checkbox-inline" style="padding-left:48px;">
-							<input type="checkbox"  value="country_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="country_r" name="required[]" > 必填
 						</label>
 					</div>
 				</div>
@@ -333,7 +333,7 @@
 							<input type="checkbox"  value="lacation" name="info[]" > 拍摄地点
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="lacation_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="lacation_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -341,7 +341,7 @@
 							<input type="checkbox"  value="size" name="info[]" > 作品尺寸
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox"  value="size_r" name="required[]" > 是否必填
+							<input type="checkbox"  value="size_r" name="required[]" > 必填
 						</label>
 					</div>
 					<div class="col-sm-4">
@@ -349,7 +349,7 @@
 							<input type="checkbox" id="inlineCheckbox1" value="en" name="info[]" > 中英双语
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 是否必填
+							<input type="checkbox" id="inlineCheckbox2" value="en_r" name="required[]" > 必填
 						</label>
 					</div>
 				</div>
@@ -408,7 +408,7 @@
 											<option>附件</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline1" id="optionsRadios1" value="option1" checked> 是
 									</label>
@@ -451,7 +451,7 @@
 											<option>附件</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline2" id="optionsRadios2" value="option1" checked> 是
 									</label>
@@ -494,7 +494,7 @@
 											<option>附件</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline3" id="optionsRadios3" value="option1" checked> 是
 									</label>
@@ -585,7 +585,7 @@
 											<option selected>附件</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline6" id="optionsRadios6" value="option1" checked> 是
 									</label>
@@ -635,7 +635,7 @@
 											<option selected>其它</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline8" id="optionsRadios8" value="option1" checked> 是
 									</label>
@@ -692,7 +692,7 @@
 											<option selected>其它</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline9" id="optionsRadios9" value="option1" checked> 是
 									</label>
@@ -749,7 +749,7 @@
 											<option selected>其它</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline9" id="optionsRadios9" value="option1" checked> 是
 									</label>
@@ -807,7 +807,7 @@
 											<option selected>其它</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline10" id="optionsRadios10" value="option1" checked> 是
 									</label>
@@ -857,7 +857,7 @@
 											<option selected>其它</option>
 										</select>
 									</div>
-									<label for="firstname" class="col-sm-2 control-label">是否必填</label>
+									<label for="firstname" class="col-sm-2 control-label">必填</label>
 									<label class="radio-inline">
 										<input type="radio" name="optionsRadiosinline11" id="optionsRadios11" value="option1" checked> 是
 									</label>

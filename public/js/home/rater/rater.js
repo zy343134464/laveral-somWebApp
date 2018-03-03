@@ -1,5 +1,32 @@
 $(function(){
+/*管理员编辑赛果*/
+$('.edit-btn').on('click','button',function(){
+		var raterbtn = $(this).parent();
+		var raterbtnMatch = raterbtn.attr('match');
+		var raterbtnRound = raterbtn.attr('round');
+		var btnValue = $(this).attr('value');
+		var imgId = raterbtn.attr('index');;
+		console.log(imgId)
+		var _this = $(this);
 
+		$.ajax({
+			url:'/admin/match/badboy',
+			type: 'post',
+			data: {
+				"id": ""+imgId+"",
+				"value": ""+btnValue+"",
+				"round": ""+raterbtnRound+"",
+				"match_id": ""+raterbtnMatch+""
+			},
+			success: function(data){
+				data = JSON.parse(data)
+				if (data.data) {
+					_this.parent().find('button').removeClass('active');
+					_this.addClass('active');
+				};
+			}
+		})
+	})
 /*评委评审室首页*/
 	
 	/*切换按钮颜色*/
