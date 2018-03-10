@@ -44,6 +44,7 @@ Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/award', 'Home\UserController@award');
     Route::get('/consumes', 'Home\UserController@consumes');
     Route::get('/organ', 'Home\UserController@organ');
+    Route::get('/match', 'Home\UserController@user_match');
     Route::post('/editInfo/{id}', 'Home\UserController@editInfo');
 });
 
