@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\User_match;
 use App\Production;
 
 
@@ -38,6 +39,16 @@ class UserController extends Controller
         
         return view('home.user.product', ['product' => $product]);
     }
+
+    public function user_match(Request $request)
+    {
+
+        $user_id  = user('id');
+        if(!$user_id) return back();
+        $match = User_match::where('user_id',$user_id)->Paginate(12);
+        return view('home.user.match',['match'=>$match]);
+    }
+
     public function consumes(Request $request)
     {
         return view('home.user.consumes');
