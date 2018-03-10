@@ -1,5 +1,5 @@
-@extends('admin.layout')  
-@if(isset($status)) 
+@extends('admin.layout')
+@if(isset($status))
     @if(@$status == 0)
         @section('title', '筹备中比赛')
     @elseif(@$status == 6)
@@ -35,25 +35,23 @@
         	<div class="col-xs-2" style="margin-left:-15px;">
                 <div class="matchkind">
                     <select class="form-control"  onchange="window.location=this.value">
-                        <option value="?cat=" {{ isset($cat)   ? '' :'selected' }}>全部赛事</option>
-                        <option value="?cat=1" {{ $cat == 1 ? 'selected' :'' }}>综合赛事</option>
-                        <option value="?cat=0" {{ $cat === '0' ? 'selected' :'' }}>单项赛事</option>
+                        <option value="?cat={{ isset($_GET['status']) ? '&status='.$_GET['status'] : '' }}" {{ isset($cat)   ? '' :'selected' }}>全部赛事</option>
+                        <option value="?cat=1{{ isset($_GET['status']) ? '&status='.$_GET['status'] : '' }}" {{ $cat == 1 ? 'selected' :'' }}>综合赛事</option>
+                        <option value="?cat=0{{ isset($_GET['status']) ? '&status='.$_GET['status'] : '' }}" {{ $cat === '0' ? 'selected' :'' }}>单项赛事</option>
                     </select>
                 </div>
             </div>
-            @if(!isset($status) || ( $status != 0 && $status != 6) )
-	        <div class="col-xs-2" style="margin-left:-72px;">
-		        <div class="matchstate">
-		       	 	<select class="form-control" onchange="window.location=this.value">
-						<option value="./block">进行中</option>
-						<option value="?status=3" {{ $status == 3 ? 'selected' :'' }}>征稿中</option>
-						<option value="?status=5" {{ $status == 5 ? 'selected' :'' }}>评审中</option>
-					</select>
-		        </div>
-	        </div>
-            @endif
-	      
-             <!--批量导出-->
+            <div class="col-xs-2" style="margin-left:-75px;">
+                <div class="matchkind">
+                    <select class="form-control"  onchange="window.location=this.value">
+                        <option value="?status={{ isset($_GET['cat']) ? '&cat='.$_GET['cat'] : '' }}" {{ isset($status)   ? '' :'selected' }}>全部阶段</option>
+                        <option value="?status=1{{ isset($_GET['cat']) ? '&cat='.$_GET['cat'] : '' }}" {{ $status == 1 ? 'selected' :'' }}>征稿中</option>
+                        <option value="?status=2{{ isset($_GET['cat']) ? '&cat='.$_GET['cat'] : '' }}" {{ $status === 2 ? 'selected' :'' }}>评审中</option>
+                    </select>
+                </div>
+            </div>
+
+            <!--批量导出-->
             @if(!isset($status) || $status != 0  )
             <div class="col-xs-3 pull-right" style="padding-right:0">
                 <div class="batch-export pull-right">
@@ -103,24 +101,23 @@
                         <img src="{{ url($v->pic) }}">
                     </div>
                     <div class="match-content">
-                        <h4>{{ (json_decode($v->title))[0]}} </h4>
+                        <h4>{{ (json_decode($v->title))[0]}}</h4>
                         <p>
                             类别: <span>
                             @if($v->cat == 0)
                             {{ $v->type }}
                             @else
-                            综合赛事
+                                    综合赛事
                             @endif
                             </span>
                         </p>
                         <p>
                             阶段: <span>@if($v->status==0)
-                                未发布 
+                                未发布
                                 @elseif($v->status==1)
                                 赛事暂停
                                 @elseif($v->status==2)
-                                已发布
-                                    
+                                    征稿中
                                 @elseif($v->status==3)
                                 征稿中
                                 @elseif($v->status==4)
@@ -157,10 +154,14 @@
                             </span>
                         </p>
                         <p>
-                             
+                            参与人数: <span>
+                                {{ $v->author_sum($v->id) }}
+                            </span>
                         </p>
                         <p>
-                             
+                            作品数量: <span>
+                                {{ $v->production_sum($v->id) }}
+                            </span>
                         </p>
                     </div>
                     <div class="footer">
@@ -190,7 +191,7 @@
                         <span>
                             <a href="{{ url('admin/match/review_room/'.$v->id) }}">评</a>
                         </span>
-                        
+
                         @endif
 
                         @else
@@ -228,5 +229,5 @@
 
 @section('other_js')
     <script src="{{ url('js/admin/match/matchingblock.js')}}"></script>
-   
+
 @endsection

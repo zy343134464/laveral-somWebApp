@@ -70,4 +70,5 @@
 	<script src="{{url('lib/fastclick/lib/fastclick.js')}}"></script>
 	<script src="{{url('js/adminlte.min.js')}}"></script>
 	<script src="{{url('js/demo.js')}}"></script>
+	
 @endsection

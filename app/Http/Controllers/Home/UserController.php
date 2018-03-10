@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Production;
 
 
 
@@ -15,21 +16,27 @@ class UserController extends Controller
 {
     const PAGE_NUM = 10;
     
-    public function product(Request $request,  $page=1)
+    public function product(Request $request,  Production $production, $page=1)
     {
         $uid = user('id');
-        $product = DB::table('productions')
-        ->leftJoin('matches', 'matches.id', '=', 'productions.match_id')
-        ->select('productions.*', 'matches.collect_end', 'matches.collect_start', 'matches.status as match_status', 'matches.title as match_title')
-        ->where(['productions.user_id' => $uid]);
+        // $product = DB::table('productions')
+        // ->leftJoin('matches', 'matches.id', '=', 'productions.match_id')
+        // ->select('productions.*', 'matches.collect_end', 'matches.collect_start', 'matches.status as match_status', 'matches.title as match_title')
+        // ->where(['productions.user_id' => $uid]);
+        // if ( $request->search != '' ) {
+        //     $product = $product->where('productions.title', 'like', '%'. $request->search . '%');
+        // }
+        // $product = $product->offset( ($page-1) * self::PAGE_NUM )
+        // ->limit(self::PAGE_NUM)
+        // ->get();
+        $product = $production->select('id','pic','match_id','title')->where('user_id',$uid)->where('pid',0);
         if ( $request->search != '' ) {
             $product = $product->where('productions.title', 'like', '%'. $request->search . '%');
         }
-        $product = $product->offset( ($page-1) * self::PAGE_NUM )
-        ->limit(self::PAGE_NUM)
-        ->get();
-        $match_status = [0 => '未发布', 1=> '赛事暂停', 2=> '已发布', 3=> '征稿中', 4=> '征稿结束', 5=> '评审中', 6=> '结束'];
-        return view('home.user.product', ['product' => $product, 'match_status' => $match_status]);
+        $product = $product->with('match')->orderBy('id','desc')->Paginate(12);
+
+        
+        return view('home.user.product', ['product' => $product]);
     }
     public function consumes(Request $request)
     {
@@ -88,6 +95,7 @@ class UserController extends Controller
         $product->offset( ($page-1) * self::PAGE_NUM )
         ->limit(self::PAGE_NUM)
         ->get(); */
+        
         return view('home.user.award');
     }
     

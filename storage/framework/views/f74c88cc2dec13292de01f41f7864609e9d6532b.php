@@ -74,7 +74,6 @@
 <?php $__env->startSection('other_js'); ?>
 <script src="<?php echo e(url('js/home/login/login.js')); ?>"></script>
 <script>
-    
     function validPwd(obj){
       var pwd = obj.value;
       if (pwd.length > 20 || pwd.length < 6)
@@ -84,7 +83,6 @@
       }
         msg.innerHTML = ''
     }
-</script>
-
+</script> 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('home.login.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

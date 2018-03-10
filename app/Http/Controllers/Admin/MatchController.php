@@ -22,51 +22,56 @@ class Matchcontroller extends Controller
      */
     public function index(Request $request, Match $match, $show)
     {
-        //dd(isset($request->cat));
-        //0:未发布;1:赛事暂停;2:已发布;3:征稿中;4:征稿结束;5:评审中;6:结束
-        // if ($request->status == 1) {
-        //     $status = [0];
-        // } elseif ($request->status == 2) {
-        //     $status = [2,3,4,5];
-        // } else {
-        //     $status = [6];
-        // }
-        // if ($$request->cat) {
-        //     $cat = [$cat];
-        // } else {
-        //     $cat = [0,1];
-        // }
-        // $res = $match->show($status);
         $res = $match->when(isset($request->status), function ($query) use ($request) {
-            return $query->where('status', $request->status);
+            if($request->status == 1) {
+                return $query->where('status', $request->status);
+            } else {
+                return $query->where('status', $request->status);
+            }
         }, function ($query) use ($request) {
             return $query->whereIn('status', [2,3,4,5]);
         })->when(isset($request->cat), function ($query) use ($request) {
-            return $query->where('cat', $request->cat);
+            return $query->where('cat', (int) $request->cat);
         }, function ($query) use ($request) {
             return $query->whereIn('cat', [0,1]);
-        })->Paginate(12);
-        if ($show == 'b') {
-            return view('test2', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
-        }
-        if ($show == 'list') {
-            return view('admin.match.show.list', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
-        } elseif ($show == 'block') {
-            return view('admin.match.show.block', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
-        } else {
-            return redirect()->to('/');
-        }
-    }
+        })->orderBy('id','desc')->Paginate(6);
 
+        return view('admin.match.show.block', ['matches'=>$res,'kw'=>'','status'=>$request->status,'cat'=>$request->cat]);
+       
+    }
+    /**
+     * 查看子赛事
+     * @param  Request $request [description]
+     * @param  Match   $match   [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function show_son(Request $request, Match $match, $id)
+    {
+        $res = $match->find($id);
+        if(!count($res) || $res->cat != 1) return back();
+
+        $son = $match->where('pid',$id)->get();
+        return view('admin.match.show.son', ['son'=>$son, 'match'=>$res]);
+
+    }
     /**
      * 创建比赛页面
      * @param  [type] $type [description]
      * @return [type]       [description]
      */
-    public function create($type)
+    public function create(Request $request, $type)
     {
-        $type = $type ? 1 : 0 ;
-        return view('admin.match.create.main', ['type'=>$type]);
+        if ($type == 1) {
+            $type = 1;
+        } elseif ($type == 2) {
+            $type = 2;
+        } else {
+            $type = 0;
+        }
+        $pid = $request->pid ? $request->pid : 0;
+
+        return view('admin.match.create.main', ['type'=>$type, 'pid'=>$pid, ]);
     }
     /**
      * 删除比赛
@@ -107,7 +112,12 @@ class Matchcontroller extends Controller
         }
         $id = $match->main($request, $type);
         if ($id) {
-            return redirect('admin/match/partner/'.$id);
+            if($type == 2) {
+                return redirect('admin/match/required_personl/'.$id);
+            } else {
+                return redirect('admin/match/partner/'.$id);
+            }
+            
         }
         return redirect()->back()->with('msg', '添加数据失败...');
     }
@@ -135,11 +145,19 @@ class Matchcontroller extends Controller
      */
     public function mainedit(Request $request, Match $match, $id)
     {
-        $id = $match->mainedit($request, $id);
-        if ($id) {
-            return redirect('admin/match/partner/'.$id);
-        }
-        return redirect()->back()->with('msg', '修改数据失败...');
+        $res = $match->mainedit($request, $id);
+         
+            if($res == 2) {
+                return redirect('admin/match/review/'.$id);
+            } elseif($res == false) {
+                return redirect()->back()->with('msg', '修改数据失败...');
+            } else {
+                return redirect('admin/match/partner/'.$id);
+
+            }
+            
+        
+       
     }
     /**
      * 根据match_id显示合作伙伴和联系方式页面
@@ -188,11 +206,7 @@ class Matchcontroller extends Controller
      */
     public function findrater(Request $request, Match $match, $id)
     {
-        //dd($request->kw);
         $user = null ;
-        // if (isset($request->kw)) {
-        //     $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->groupBy('id')->Paginate(12);
-        // }
 
         if (isset($request->kw)) {
             $user = \DB::table('users')->orWhere('name', 'like', '%'.$request->kw.'%')->orWhere('phone', 'like', '%'.$request->kw.'%')->Paginate(12);
@@ -354,9 +368,27 @@ class Matchcontroller extends Controller
     public function son(Request $request, Match $match, $id)
     {
         $res = $match->find($id);
+        if(!count($res) || $res->cat != 1) {
+            return back();
+        }
+
         $son = $match->where(['cat'=> 2,'pid'=>$id])->get();
         return view('admin.match.create.son',['id'=>$id,'match'=>$res,'son'=>$son]);
     }
+    /**
+     * copy赛事列表
+     * @param  Request $request [description]
+     * @param  Match   $match   [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
+    public function copy_son(Request $request, Match $match, $id)
+    {
+        
+       $res = $match->copy_son($id);
+       return back()->with('msg',$res['msg']);
+    }
+
     /**
      * 个人投稿要求
      * @param  Request $request [description]
@@ -365,6 +397,10 @@ class Matchcontroller extends Controller
      */
     public function require_personal(Request $request, $id)
     {
+        $res = Match::find($id);
+
+        if(!count($res) || $res->cat == 2) return back();
+
         $require_personal = \DB::table('require_personal')->where('match_id', $id)->get();
         return view('admin.match.create.require_personal', ['require_personal'=>$require_personal,'id'=>$id]);
     }
@@ -377,7 +413,8 @@ class Matchcontroller extends Controller
      */
     public function storerequire_personal(Request $request, Match $match, $id)
     {
-        $match->require_personal($request, $id);
+        $res = $match->require_personal($request, $id);
+        //dd($res);
         return redirect('admin/match/review/'.$id);
     }
     /**
@@ -389,6 +426,10 @@ class Matchcontroller extends Controller
      */
     public function require_team(Request $request, Match $match, $id)
     {
+        $res = Match::find($id);
+
+        if(!count($res) || $res->cat == 2) return back();
+        
         $require_team = \DB::table('require_team')->where('match_id', $id)->get();
         return view('admin.match.create.require_team', ['require_team'=>$require_team,'id'=>$id]);
     }
@@ -402,10 +443,7 @@ class Matchcontroller extends Controller
     public function storerequire_team(Request $request, Match $match, $id)
     {
         $match->require_team($request, $id);
-        if (match($id, 'cat') == 0) {
-            return redirect()->to('admin/match/review/'.$id);
-        }
-        echo '综合赛事子赛事view';
+        return redirect()->to('admin/match/review/'.$id);
     }
     /**
      * 评审设置
@@ -431,14 +469,21 @@ class Matchcontroller extends Controller
      */
     public function storereview(Request $request, Match $match, $id)
     {
+        $res = $match->find($id);
 
-        //dd($request->type,$_POST);
-        $msg = '';
+        if(!count($res)) {
+            return back()->with('msg','false');
+        }
+
         $result = $match->review($request, $id);
-        //dd($result);
         $match->popularity($request, $id);
         $match->win($request, $id);
-        return redirect()->to('admin/match/showedit/'.$id)->with('msg', $msg);
+
+        if($res->cat == 2) {
+            return redirect()->to('admin/match/son/'.$res->pid);
+        } else {
+            return redirect()->to('admin/match/showedit/'.$id);
+        }
         
     }
     /**
@@ -604,6 +649,10 @@ class Matchcontroller extends Controller
         if(!count($match)) return back()->with('msg','获取数据失败');
         // 当前进行中的轮次
         $rounding = $match->round ? $match->round : 1;
+
+        if( $match->cat == 1) {
+            return redirect()->to('admin/match/show_son/'.$match->id);
+        }
         if($rounding > $match->sum_round($match->id)) return back();
         // 查看的轮次
         $round = $request->round ? $request->round : $rounding;
@@ -611,6 +660,12 @@ class Matchcontroller extends Controller
 
         //当前赛事状态
         $statusing = $match->status;
+        if($statusing == 0) {
+            return back()->with('msg','赛事未发布');
+        } elseif($statusing == 1) {
+            return redirect()->to('admin/match/review_room/'.$id.'?status=1');
+        }
+        
         $status = $request->status;
         $review = \DB::table('reviews')->where(['match_id'=>$id,'round'=>$round])->first();
         $type = $review->type;
@@ -716,6 +771,12 @@ class Matchcontroller extends Controller
             return back();
         }
     }
+    /**
+     * 套用胜出机制
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
     public function get_end_result(Request $request,  $id)
     {
         \DB::table('result')->where([

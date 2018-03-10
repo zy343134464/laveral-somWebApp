@@ -91,18 +91,21 @@ class User extends Authenticatable
     public function edit(Request $request, $uid)
     {
         $user = $this->find($uid);
+        if(!isset($request->name)) {
+            return false;
+        }
         if ( $user ) {
             $user->name = $request->name;
-            $user->country = $request->country;
-            $user->sex = $request->sex;
-            $user->city = $request->city;
+            $user->country = $request->country ? $request->country : '';
+            $user->sex = $request->sex ? $request->sex : 0;
+            $user->city = $request->city ? $request->city : '';
             $user->birthday = $request->birthday;
-            $user->introdution = $request->introdution;
+            $user->introdution = $request->introdution ? $request->introdution : '';
             if ( $request->pic != '' ) {
                 $path = save_match_pic($request->pic);
                 $user->pic = $path;
             }
-            $user->job = $request->job;
+            $user->job = $request->job ? $request->job : '';
             $user->save();
             return true;
         } else {

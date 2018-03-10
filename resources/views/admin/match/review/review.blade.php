@@ -79,7 +79,6 @@
                 </button>
                 <ul class="dropdown-menu pull-right">
                     @if($status == 2 || $status == 3 || $status == 4)
-                    <li><a href="{{url('admin/match/start_collect/'.$id)}}">开始征稿</a></li>
                     <li><a href="{{url('admin/match/end_collect/'.$id)}}">启动初审</a></li>
                     @else
                         @if(!$match->end_able($id))

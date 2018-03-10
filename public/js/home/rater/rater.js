@@ -69,7 +69,8 @@ $('.edit-btn').on('click','button',function(){
 	$('.rater-main').on('click','.rater-img',function(){
 		var imgSrc = $(this).find('img').attr('src');
 		var modelImg = $('.wrapperimg').find('img');
-
+		var btnrater = $('.btnrater button').removeClass('active')
+ 
 		modelImg.attr('src',imgSrc);
 
 		var btnactive = $(this).next().next();

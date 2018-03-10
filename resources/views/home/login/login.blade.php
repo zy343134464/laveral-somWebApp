@@ -74,7 +74,6 @@
 @section('other_js')
 <script src="{{ url('js/home/login/login.js') }}"></script>
 <script>
-    
     function validPwd(obj){
       var pwd = obj.value;
       if (pwd.length > 20 || pwd.length < 6)
@@ -84,5 +83,5 @@
       }
         msg.innerHTML = ''
     }
-</script>
+</script> 
 @endsection

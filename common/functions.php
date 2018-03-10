@@ -83,6 +83,21 @@ function user($str)
     logout();
     return 'error';
 }
+function is_admin()
+{
+    $id = \Cookie::get('user_id');
+    if(!isset($id)) return false;
+    $res = \DB::table('admins')->where('user_id',$id)->first();
+    if(!count($res) || !$res->is_admin) return false;
+    return true;
+
+}
+function is_rater()
+{
+    
+    return true;
+
+}
 
 /**
  * 查询比赛信息

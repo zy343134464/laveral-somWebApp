@@ -1,5 +1,5 @@
 @extends('admin.match.create.layout')
-@section('title', '评委/嘉宾')
+@section('title', '综合赛事编辑')
 
 @section('body2')
 <div class="match-guest">
@@ -33,7 +33,7 @@
         </a>
       </li>
 			<li class="addjudge">
-				<a href="{{ url('admin/match/findrater/'.$id) }}">
+				<a href="{{ url('admin/match/create/2?pid='.$id) }}">
 					<div class="add-button">+</div>
 					<p>添加子赛事</p>
 				</a>
@@ -44,8 +44,7 @@
 			<li>
         <a href="">
 					<div class="judge-img">
-						<img src="{{ url($v->pic)}}"  index="{{$v->pic}}" class="rater-img">
-                        <a href="{{ url('admin/match/delrater/'.$v->id)}}"><div class="close"><i class="fa fa-close"></i></div></a>
+						<img src="{{ url($v->pic)}}" class="rater-img">
 					</div>
           <div class="judge-content text-left">
             <h4 class="name">{{json_decode($v->title)[0]}}</h4>
@@ -66,7 +65,9 @@
            </p>
           </div>
           <div class="judge-edit">
-            <a href="{{ url('admin/match/edit/'.$v->id)}}" class="btn editraterBtn" ><i class="fa fa-edit"></i></a>
+            <a href="{{ url('admin/match/edit/'.$v->id)}}" class="btn" style="right:76px;"><i class="fa fa-edit"></i></a>
+            <a href="{{ url('admin/match/copy_son/'.$v->id)}}" class="btn" style="right:36px;"><i class="fa fa-copy"></i></a>
+            <a href="{{ url('admin/match/del/'.$v->id)}}" class="btn" style="right:0px;"><i class="fa fa-close"></i></a>
           </div>
         </a>
 			</li>

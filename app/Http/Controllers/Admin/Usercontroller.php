@@ -215,4 +215,9 @@ class Usercontroller extends Controller
             $this->temp = $reader->all()->toArray();
         });
     }
+
+    public function role_setting($value='')
+    {
+        return view('admin.user.role_setting');
+    }
 }

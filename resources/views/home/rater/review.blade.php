@@ -1,4 +1,4 @@
-@extends('admin.layout')  
+@extends('home.rater.layout')  
 @section('title', '评审室')
 
 @section('other_css')
@@ -46,7 +46,6 @@
                 </div>
             </div>
             <div class="col-xs-10 text-right" style="padding-top:10px;">
-                <a href="javascript:history.back(-1)" class="btn btn-default">返回</a>
                 已评: <span style="padding-right:20px;">{{ $secure->finish }}</span>
                 未评: <span>{{ $secure->total - $secure->finish }}</span>
             </div>
@@ -220,6 +219,5 @@
     <script>
     var setting = "{{$review->setting}}";
     var type = "{{$type}}";
-    console.log(setting, type)
     </script>
 @endsection

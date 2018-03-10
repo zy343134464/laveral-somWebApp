@@ -71,6 +71,7 @@
 				</div>
 			</div>
 		</div>
+    @if(match($id,'cat') != 2)
 		<div class="match-time">
 			<h4>赛事时间设置</h4>
 			<div class="form-group">
@@ -92,6 +93,7 @@
 				</div>
 			</div>
 		</div>
+    @endif
 		<div class="nextPage">
 		<input type="submit" value="下一页" class="btn btn-default">
 		</div>

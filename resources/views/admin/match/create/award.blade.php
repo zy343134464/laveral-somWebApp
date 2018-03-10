@@ -31,7 +31,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-2 col-sm-offset-1">
-					<input type="text" class="form-control" id="" placeholder="奖项等级" name="no[]" value="">
+					<input type="text" class="form-control" id="" placeholder="奖项等级" name="name[]" value="">
 				</div>
 				<div class="col-sm-2" style="margin-left:-20px;">
 					<input type="number" class="form-control" id="" placeholder="位" name="num[]" value="">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>@yield('title')</title>
      <!-- Bootstrap 3.3.7 -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
     <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url('css/home/layout.css') }}"/>
-
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
 </head>
 <body>
 <!--导航条-->
-<header id="header">
+<header id="header" class="hidden-sm hidden-xs">
     <div class="topbar clearfix">
         <div class="col-sm-2">
             <a href="{{url('/')}}"><img class="som-logo" src="{{ url('img/images/som-index-logo.jpg') }}" alt="首页图片"></a>
@@ -57,13 +57,16 @@
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
                     </li>
+                    @if(is_admin())
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1"  href="{{ url('admin') }}">管理员后台</a>
                     </li>
+                    @endif
+                    @if(is_rater())
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
                     </li>
-
+                    @endif
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="#">修改密码</a>
                     </li>
@@ -71,6 +74,7 @@
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('logout') }}">退出</a>
                     </li>
+
                 </ul>
             </div>
             <div class="dropdown pull-right language-switch">

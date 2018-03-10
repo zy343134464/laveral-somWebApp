@@ -1,14 +1,19 @@
 /*轮播图*/
+#advertisement .item .img-responsive{
+  display: inline-block;
+  height: auto;
+  max-width: auto;
+}
 #advertisement > #carousel-example-generic > .carousel-inner {
-    height: 630px;
+    /* height: 630px; */
 }
 
 #advertisement > #carousel-example-generic > .carousel-inner .item {
-    height: 100%;
+    /* height: 100%; */
 }
 
 #advertisement > #carousel-example-generic > .carousel-inner img {
-    height: 100%;
+    /* height: 100%; */
 }
 
 #advertisement .carousel-indicators {
@@ -35,7 +40,7 @@
 #advertisement .advertisement-text {
     position: absolute;
     left: 20%;
-    top: 25%;
+    top: 15%;
     color: white;
 }
 
@@ -51,7 +56,7 @@
 }
 
 #advertisement .advertisement-text .lastP {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 #advertisement .advertisement-text a {

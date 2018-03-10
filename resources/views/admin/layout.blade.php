@@ -105,8 +105,8 @@
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu text-center" data-widget="tree">
-                        <li class="treeview">
-                            <a href="#">
+                        <li class="active">
+                            <a href="{{ url('admin')}}">
                                 <span>首页</span>
                             </a>
                         </li>
@@ -125,8 +125,8 @@
                                 <span>用户管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{ url('admin')}}">用户列表</a></li>
-                                <li><a>会籍管理</a></li>
+                                <li><a href="{{ url('admin/user')}}">用户列表</a></li>
+                                <li><a href="{{ url('admin/user/role_setting')}}">会籍管理</a></li>
                                 <!-- <li><a>会员表单编辑</a></li> -->
                             </ul>
                         </li>

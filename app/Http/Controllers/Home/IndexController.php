@@ -18,27 +18,35 @@ class IndexController extends Controller
             return $query->where('status', $request->status);
         }, function ($query) use ($request) {
             return $query->whereIn('status', [2,3,4,5]);
-        })->Paginate(12);
+        })->orderBy('id','desc')->Paginate(12);
         $news = $info->limit(15)->get();
+        
         return view('home.index.index', ['matches'=>$res,'news'=>$news,'status'=>$request->status]);
     }
 
     public function room(Request $request, Rater_match $rater_match)
     {
+
+        $matches = $rater_match->where(['user_id'=> user('id'),'status'=>1])->Paginate(15);
+        return view('home.rater.room', ['matches'=>$matches,'kw'=>'','status'=>'',]);
+    }
+    public function history(Request $request, Rater_match $rater_match)
+    {
         // ----------------------------评委评审室.获取评委赛事--------------------------------
-        $matches = $rater_match->where('user_id', user('id'))->Paginate(15);
-        if(!count($matches)) return back()->with('msg','获取数据失败');
-        //dd($matches);
+        $matches = $rater_match->where(['user_id'=> user('id'),'status'=>2])->Paginate(15);
         return view('home.rater.room', ['matches'=>$matches,'kw'=>'','status'=>'',]);
     }
 
+
     public function review(Request $request, Production $production, $mid, $round)
     {
-        $secure = \DB::table('rater_match')->where(['match_id'=>$mid,'user_id'=>user('id'),'round'=>$round])->first();
-        if(!count($secure)) return back()->with('msg','获取数据失败');
-
         $match = Match::find($mid);
         if(!count($match)) return back()->with('msg','获取数据失败');
+
+        $secure = \DB::table('rater_match')->where(['match_id'=>$mid,'user_id'=>user('id'),'round'=>$round])->first();
+        if(!count($secure)) return back()->with('msg','获取数据失败');
+        if($secure->status == 2) return back()->with('msg','评审已结束');
+        if($secure->status == 0) return back()->with('msg','评审未开始');
 
         $arr = \DB::table('result')->select('production_id')->where(['match_id'=>$mid,'round'=>$round])->first();
         if(!count($arr)) return back()->with('msg','该阶段尚未开始');

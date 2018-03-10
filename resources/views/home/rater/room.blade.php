@@ -1,4 +1,4 @@
-@extends('admin.layout') 
+@extends('home.rater.layout') 
 
 @section('title', '评委室')
 
@@ -33,16 +33,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-2" style="margin-left:-72px;">
-                <div class="matchstate">
-                    <select class="form-control" onchange="window.location=this.value">
-                        <option value="./block">进行中</option>
-                        <option value="?status=3" >征稿中</option>
-                        <option value="?status=5" >评审中</option>
-                        <option value="?status=6" >已结束</option>
-                    </select>
-                </div>
-            </div>
+            
         </div>
         <div class="col-xs-12">
             <ul class="match-main text-left clearfix">

@@ -35,8 +35,9 @@
 		</div>
 		<div class="match-detailpage">
 			<h4>基本信息</h4>
+			<input type="hidden"  name="pid" value="{{ $pid }}">
 			<?php
-				if(@$type != 1):
+				if($type != 1):
 			?>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">赛事类别</label>
@@ -61,6 +62,7 @@
 				</div>
 			</div>
 		</div>
+		@if(!$_GET['pid'])
 		<div class="match-time">
 			<h4>赛事时间设置</h4>
 			<div class="form-group">
@@ -82,6 +84,7 @@
 				</div>
 			</div>
 		</div>
+		@endif
 		<div class="nextPage">
 			<input type="submit" value="下一页" class="btn btn-default">
 		</div>

@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label for="grade" class="col-sm-2 control-label">头街</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratertag">
+                                    <input type="text" class="form-control" id="ratertag" name="tag">
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0;">

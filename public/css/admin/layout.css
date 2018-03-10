@@ -9,7 +9,11 @@ body {
         width: 1380px;
     }
 }
-
+.line-limit-length{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
 .skin-blue .main-header .navbar .nav > li > a:hover,
 .skin-blue .main-header .navbar .nav > li > a:active,
 .skin-blue .main-header .navbar .nav > li > a:focus,
@@ -50,7 +54,18 @@ body {
     border-color: #c9ab70;
 }
 
-
+input::-webkit-input-placeholder{
+    color:#ccc;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#ccc;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#ccc;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+    color:#ccc;
+}
 /*清除浮动*/
 .clearfix {
     content: '';

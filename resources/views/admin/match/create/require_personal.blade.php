@@ -65,20 +65,20 @@
                 <label for="firstname3" class="col-sm-2 control-label">收费类型</label>
 				<div class="col-sm-6">
 					<label class="radio-inline">
-						<input type="radio" name="pay"  value="1" checked id="only1">每张/组收费
+						<input type="radio" name="pay"  value="1" id="only1" {{ $v->pay == 1 ? 'checked' : ''}} >每张/组收费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay"  value="2" id="only3">报名费
+						<input type="radio" name="pay"  value="2" id="only3" {{ $v->pay == 2 ? 'checked' : ''}} >报名费
 					</label>
 					<label class="radio-inline" style="padding-left:60px;">
-						<input type="radio" name="pay"  value="0" id="only2">免费
+						<input type="radio" name="pay"  value="0" id="only2" {{ $v->pay == 0 ? 'checked' : ''}} >免费
 					</label>
 				</div>
             </div>
             <div class="form-group div2">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number"  min="0" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
+					<input type="number"  min="0" step="0.01" class="form-control" id="firstname5" placeholder="" name="price"  value="{{ $v->price }}">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">
@@ -89,8 +89,8 @@
 			<div class="form-group div2">
 				<label for="firstname7" class="col-sm-2 control-label">收费说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="pay_title"  value="{{ $v->introdution_title }}">
-					<textarea class="form-control" rows="6" placeholder="400字内" name="pay_detail" >{{ $v->introdution_detail }}</textarea>
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="pay_title"  value="{{ $v->pay_title }}">
+					<textarea class="form-control" rows="6" placeholder="400字内" name="pay_detail" >{{ $v->pay_detail }}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -177,7 +177,7 @@
             <div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">赛事须知</label>
 				<div class="col-sm-8">
-					<textarea class="form-control" rows="6" placeholder="400字内" name="notice" >{{ $v->introdution_detail }}</textarea>
+					<textarea class="form-control" rows="6" placeholder="400字内" name="notice" >{{ $v->notice }}</textarea>
 				</div>
 				<div class="col-sm-8 col-sm-offset-2" style="color:#cccccc;">
 					(赛事须知为用户必须确认已知才能参与比赛的声明内容)
@@ -258,7 +258,7 @@
             <div class="form-group div2">
 				<label for="firstname5" class="col-sm-2 control-label">单价</label>
 				<div class="col-sm-2">
-					<input type="number"  min="0" class="form-control" id="firstname5" placeholder="" name="price"  value="">
+					<input type="number"  min="0" step="0.01" class="form-control" id="firstname5" placeholder="" name="price"  value="">
 				</div>
 				<div class="col-sm-2">
 					<select class="form-control">

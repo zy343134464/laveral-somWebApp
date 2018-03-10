@@ -34,7 +34,7 @@
                         <div class="judgedata-content text-left">
                             <input type="hidden" value="{{$v->id}}" class="input">
                             <h4>{{$v->name}}</h4>
-                            <p>国际职业摄影师--{{$v->id}}</p>
+                            
                             <p>{{$v->introdution}}</p>
                         </div>
                         <div class="model middle"></div>
@@ -75,7 +75,7 @@
                         <div class="form-group">
                             <label for="grade" class="col-sm-2 control-label">头街</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="grade" placeholder="" >
+                                <input type="text" class="form-control" id="grade" placeholder="" name="tag">
                             </div>
                         </div>
                         <div class="form-group" style="margin-bottom:0;">

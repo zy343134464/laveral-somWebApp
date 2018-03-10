@@ -64,6 +64,7 @@ Route::middleware(['login'])->prefix('match')->group(function () {
 //评委
 Route::middleware(['login','rater'])->prefix('rater')->group(function () {
     Route::get('/room', 'Home\IndexController@room');
+    Route::get('/history', 'Home\IndexController@history');
     Route::get('/review/{mid}/{round}', 'Home\IndexController@review');
     Route::get('/rater_pic/{id}', 'Home\IndexController@rater_pic');
     Route::post('/pic', 'Home\IndexController@pic');
@@ -76,7 +77,7 @@ Route::middleware(['login','rater'])->prefix('rater')->group(function () {
 
 //后台模块
 Route::middleware(['login','admin'])->prefix('admin')->group(function () {
-    Route::get('/', 'Admin\UserController@index');
+    Route::get('/', 'Admin\IndexController@index');
     Route::prefix('user')->group(function () {
         //后台用户模块
         Route::get('/', 'Admin\UserController@index')->name('user_index');
@@ -96,6 +97,9 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::post('addusers', 'Admin\UserController@addusers');
        //下载Excel表格（用于填写导入用户信息）
         Route::get('getfeild', 'Admin\UserController@getfeild');
+
+        Route::get('role_setting', 'Admin\UserController@role_setting');
+
     });
     //后台咨询模块
     Route::get('information', 'InformationController@index');
@@ -158,7 +162,12 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //团体投稿设定
         Route::get('require_team/{id}', 'Admin\MatchController@require_team');
         Route::post('storerequire_team/{id}', 'Admin\MatchController@storerequire_team');
+
         Route::get('son/{id}','Admin\MatchController@son');
+
+        Route::get('show_son/{id}','Admin\MatchController@show_son');
+
+        Route::get('copy_son/{id}','Admin\MatchController@copy_son');
         //赛事评审
         Route::get('review/{id}', 'Admin\MatchController@review');
         Route::post('storereview/{id}', 'Admin\MatchController@storereview');

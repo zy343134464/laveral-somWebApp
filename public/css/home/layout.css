@@ -13,11 +13,28 @@ ul, p {
     margin: 0;
     padding: 0;
 }
-
 li {
     list-style: none;
 }
-
+.line-limit-length{
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    display:-webkit-box; 
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2; 
+}
+input::-webkit-input-placeholder{
+    color:#ccc;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#ccc;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#ccc;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+    color:#ccc;
+}
 /*导航*/
 #header .topbar {
     width: 100%;
