@@ -91,6 +91,8 @@ $('.edit-btn').on('click','button',function(){
 			var state2 = raterbtn[0].getElementsByClassName('active')[0].value;			//获取按钮改变后状态
 			if(lock2==false){
 				lock=true;
+			}else{
+				lock=false;
 			}
 			if(state1!=state2&&btnValue==1){
 				commented.innerHTML = parseInt(commented.innerHTML)+1;

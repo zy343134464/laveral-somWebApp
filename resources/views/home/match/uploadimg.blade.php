@@ -93,17 +93,20 @@
         $imgObj.append($resetBtn);
         $(".imgwrapper").append($imgObj);
 
+        imgNumShow();
+
         $resetBtn.on('click',function(){
           var _this = $(this);
           var pid = _this.attr('data-id');
           _this.parents('.upload-item').remove();
+          imgNum --;
           $('#aetherupload-wrapper').show();
           for(var i=0; i<pathArr.length; i++) {
             if(pathArr[i].id === parseInt(pid)) {
               pathArr.splice(i, 1);
             }
           }
-          console.log(pathArr);
+          imgNumShow();
         });
 
         pathId ++;
