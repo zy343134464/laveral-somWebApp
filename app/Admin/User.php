@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
-    
-   public function member()
+    public function member()
     {
         return $this->hasMany('App\Member', 'uid', 'id');
     }
@@ -44,7 +43,7 @@ class User extends Authenticatable
         );
         return true;
     }
-     public function role($uid, $oid)
+    public function role($uid, $oid)
     {
         $rid = DB::table('members')
                     ->select('role_id')

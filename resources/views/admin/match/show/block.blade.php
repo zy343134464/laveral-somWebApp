@@ -24,13 +24,15 @@
 <!-- 主内容 -->
 <section class="content">
     <div class="row clearfix">
+    <form method="get">
         <div class="col-xs-12">
             <!--搜索框-->
             <div class="search-form">
                 <i class="fa fa-search"></i>
-                <input type="text" placeholder="请输入赛事标题">
+                <input type="text" placeholder="请输入赛事标题" name="kw" value="{{$kw ? $kw : ''}}">
             </div>
         </div>
+    </form>
         <div class="col-xs-12">
         	<div class="col-xs-2" style="margin-left:-15px;">
                 <div class="matchkind">
@@ -56,6 +58,7 @@
             <div class="col-xs-3 pull-right" style="padding-right:0">
                 <div class="batch-export pull-right">
                     <div class="dropdown">
+                        <!-- 
                         <button class="btn btn-success dropdown-toggle toggle-vis" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             批量导出
                             <i class="fa fa-share-square-o"></i>
@@ -70,7 +73,7 @@
                             <li><a href="#">数据+缩略图</a></li>
                             <li role="presentation" class="divider"></li>
                             <li><a href="#">所有</a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -98,7 +101,7 @@
                 @foreach($matches as $v)
                 <li>
                     <div class="match-img">
-                        <img src="{{ url($v->pic) }}">
+                        <a href="{{ url('match/detail/'.$v->id) }}"><img src="{{ url($v->pic) }}"></a>
                     </div>
                     <div class="match-content">
                         <h4>{{ (json_decode($v->title))[0]}}</h4>
@@ -167,42 +170,44 @@
                     <div class="footer">
                      @if(!isset($status) || $status != 0  )
                         <span>
-                            <a href="{{ url('admin/match/edit/'.$v->id) }}"><i class="fa fa-search"></i></a>
+                            <a href="{{ url('admin/match/edit/'.$v->id) }}"><i class="fa fa-edit" title="编辑"></i></a>
                         </span>
                         <span>
+                            <a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}" title="导出">导</a>
+                            <!-- 
                             <a href="#" class="dropdown-toggle toggle-vis" data-toggle="dropdown" id="dropdownMenu4" aria-haspopup="true" aria-expanded="true">导</a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
-                                <li><a href="#">仅数据</a></li>
+                                <li><a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}">仅数据</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="#">仅缩略图</a></li>
+                                <li><a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}">仅缩略图</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="#">仅大图</a></li>
+                                <li><a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}">仅大图</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="#">数据+缩略图</a></li>
+                                <li><a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}">数据+缩略图</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="#">所有</a></li>
-                            </ul>
+                                <li><a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}">所有</a></li>
+                            </ul> -->
                         </span>
                         @if($status == 6)
                         <span>
-                            <a href="{{ url('admin/match/copy/'.$v->id) }}"><i class="fa fa-copy"></i></a>
+                            <a href="{{ url('admin/match/copy/'.$v->id) }}"><i class="fa fa-copy"  title="复制"></i></a>
                         </span>
                         @else
                         <span>
-                            <a href="{{ url('admin/match/review_room/'.$v->id) }}">评</a>
+                            <a href="{{ url('admin/match/review_room/'.$v->id) }}" title="评审室">评</a>
                         </span>
 
                         @endif
 
                         @else
                          <span>
-                            <a href="{{ url('admin/match/edit/'.$v->id) }}"><i class="fa fa-edit"></i></a>
+                            <a href="{{ url('admin/match/edit/'.$v->id) }}"><i class="fa fa-edit" title="编辑"></i></a>
                         </span>
                         <span>
-                            <a href="{{ url('admin/match/copy/'.$v->id) }}"><i class="fa fa-copy"></i></a>
+                            <a href="{{ url('admin/match/copy/'.$v->id) }}"><i class="fa fa-copy"  title="复制"></i></a>
                         </span>
                         <span>
-                            <a href="{{ url('admin/match/del/'.$v->id) }}"><i class="fa fa-times"></i></a>
+                            <a href="{{ url('admin/match/del/'.$v->id) }}"><i class="fa fa-times"  title="删除"></i></a>
                         </span>
                         @endif
                     </div>

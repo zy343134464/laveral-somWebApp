@@ -18,6 +18,7 @@
                 <input type="text" placeholder="关键字搜索" style="min-width:none;" name="kw">
             </div>
         </div>
+        
         <div class="col-xs-12 text-center" style="margin-top:-70px;">
             <div class="rater-title">
             @if(count(json_decode($match->title)) > 1)
@@ -33,21 +34,47 @@
             @endif
             </div>
         </div>
+        <div class="col-xs-12 text-center">
+            <div class="rater-nav clearfix">
+                <ul class="nav navbar-nav">
+                    @for($i=1;$i<$match->sum_round($match->id) + 1;$i++)
+                    <li><a href="?round={{$i}}&status=2">第{{$i}}轮评审</a></li>
+                    @endfor
+                </ul>
+                <div class="progress"></div>
+                <div class="time" >
+                    <!-- 剩下:<span>2天 4:58</span> -->
+                    <span>　</span>
+                </div>
+            </div>
+        </div>
         <div class="col-xs-12 clearfix">
+            @if($type == 1)
             <div class="col-xs-2" style="margin-left:-15px;">
                 <div class="rater">
                     <select class="form-control"  onchange="window.location=this.value">
                         <option value="?status=" {{ isset($status)   ? '' :'selected' }}>全部作品</option>
-                        <option value="?status=1" {{ @$status == '1' ? 'selected' :'' }}>入围 </option>
-                        <option value="?status=3" {{ @$status === '3' ? 'selected' :'' }}>待定 </option>
-                        <option value="?status=2" {{ @$status === '2' ? 'selected' :'' }}>淘汰 </option>
-                        <option  value="?status=0" {{ @$status === '0' ? 'selected' :'' }}>未评 </option>
+                        <option value="?status=1" {{ @$status == '1' ? 'selected' :'' }}>入围 {{ $sum[1] }}</option>
+                        <option value="?status=2" {{ @$status === '2' ? 'selected' :'' }}>淘汰 {{ $sum[2] }}</option>
+                        <option  value="?status=3" {{ @$status === '3' ? 'selected' :'' }}>待定 {{ $sum[3] }}</option>
+                        <option  value="?status=0" {{ @$status === '0' ? 'selected' :'' }}>未评 {{ $sum[0] }}</option>
                     </select>
                 </div>
             </div>
+            @else
+             <div class="col-xs-2" style="margin-left:-15px;">
+                <div class="rater">
+                    <select class="form-control"  onchange="window.location=this.value">
+                        <option value="?status=" {{ isset($status)   ? '' :'selected' }}>全部作品</option>
+                        <option value="?status=1" {{ @$status == '1' ? 'selected' :'' }}>已评 {{ $sum[1] }}</option>
+                        <option  value="?status=0" {{ @$status === '0' ? 'selected' :'' }}>未评 {{ $sum[0] }}</option>
+                    </select>
+                </div>
+            </div>
+            @endif
             <div class="col-xs-10 text-right" style="padding-top:10px;">
-                已评: <span style="padding-right:20px;">{{ $secure->finish }}</span>
-                未评: <span>{{ $secure->total - $secure->finish }}</span>
+                已评: <span style="padding-right:20px;">{{ $sum[1] }}</span>
+                未评: <span>{{ $sum[0] }}</span>
             </div>
         </div>
         

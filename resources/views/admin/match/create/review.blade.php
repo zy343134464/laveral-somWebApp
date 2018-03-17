@@ -26,7 +26,7 @@
 						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]" value="@if($v->end_time && $v->type == 1){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 					</div>
 					</div>
-					<div class="form-group" style="display:none;">
+					<div class="form-group NameNum" style="display:none;">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion1[]" value="@if($v->type == 1){{ $v->promotion}}@endif">
@@ -68,7 +68,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]" value="@if($v->end_time && $v->type == 2){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 						</div>
 					</div>
-					<div class="form-group" style="display:none;">
+					<div class="form-group NameNum" style="display:none;">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]" value="@if($v->type == 2){{ $v->promotion}}@endif">
@@ -169,7 +169,7 @@
 						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]">
 					</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group NameNum">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion1[]">
@@ -204,7 +204,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 					</div>
-					<div class="form-group" style="display:none;">
+					<div class="form-group NameNum">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="number" min="0" class="form-control" id="number" placeholder="___名" name="promotion2[]">
@@ -275,7 +275,7 @@
 						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]">
 					</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group NameNum">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="number" placeholder="___名" name="promotion1[]">
@@ -300,6 +300,10 @@
 							</ul>
 						</div>
 					</div>
+					<div class="removeadd text-right a">
+						<span class="removeVar6">-</span>
+						<span class="addVar6">+</span>
+					</div>
 				</div>
 				<div class="reviewgrade2">
 					<div class="form-group">
@@ -308,7 +312,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 					</div>
-					<div class="form-group" style="display:none">
+					<div class="form-group NameNum">
 						<label for="number" class="col-sm-2 control-label">入围名额</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">
@@ -375,7 +379,7 @@
 						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" value="{{ $wv->name }}">
 					</div>
 					<div class="col-sm-1" style="margin-left:-20px;">
-						<input type="number" class="form-control" placeholder="__名" min="0" name="win_number[]"  value="{{ $wv->num }}">
+						<input type="number" class="form-control" placeholder="" min="0" name="win_number[]"  value="{{ $wv->num }}">
 					</div>
 					<span class="removeVar5">-</span>
 				</div>
@@ -607,7 +611,16 @@ window.onload = function(){
         $(this).parent().remove();
         varCount5--;
       });
-
+	  //最后一轮无入围名额
+		function conceal(){
+			var no = document.getElementsByClassName('NameNum');
+			for(let i=0;i<no.length;i++){
+			no[i].style.display = 'block';
+			}
+			no[no.length-1].style.display = 'none';
+			no[no.length-2].style.display = 'none';
+		}
+		conceal();
       /*增加删除轮数*/
       var sheave = $('.sheave').length;
     //新增按钮点击
@@ -616,15 +629,15 @@ window.onload = function(){
       var aBigNumber = ['一','二','三','四','五','六','七','八','九','十'];
       var bigNumber = aBigNumber[sheave-1];
       $node = '<div class="match-review sheave"><div class="reviewsecond"><h4>第'+bigNumber+'轮</h4><div class="form-group"><label class="col-sm-2 control-label">评委方式</label><div class="col-sm-2">'
-      + '<select class="form-control reviewselect'+sheave+'" name="type[]><option value="vote">评委投票</option><option value="grade" selected>评委评分</option></select></div>'
+      + '<select class="form-control reviewselect'+sheave+'" name="type[]"><option value="vote">评委投票</option><option value="grade" selected>评委评分</option></select></div>'
       + '</div><div class="reviewvote'+sheave+'" style="display:none;"><div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label>'
-      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div></div><div class="form-group" style="display:none">'
+      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div></div><div class="form-group NameNum">'
       + '<label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion1[]"></div></div>'
       + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote]['+sheave+'][]"></div></div>'
       + '<div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectvote"><li class="addjudgethumb">'
       + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd"  round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+'">'
       + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
-      + '</div></div><div class="form-group" style="display:none;"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
+      + '</div></div><div class="form-group NameNum"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
       + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]"></div><div class="col-sm-6"><label class="col-sm-2" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
       + '<input type="text" class="form-control" name="reference2[]"></div></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div class="col-sm-2">'
@@ -653,7 +666,7 @@ window.onload = function(){
 		    language:  'zh-CN',
 		    format: 'yyyy-mm-dd hh:ii'
 		  });
-
+		  conceal();
       });
 
   // 切换评选方式
@@ -692,7 +705,8 @@ window.onload = function(){
       $(this).parent().parent().parent().parent().remove();
       var sheaveprev = sheave-2;
       console.log($('.match-review').eq(sheaveprev).find('.removeadd').css("display","block"))
-      sheave--;
+	  sheave--;
+	  conceal();
     });
 
     /*参与评委搜索功能*/

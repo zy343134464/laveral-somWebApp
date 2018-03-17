@@ -1,0 +1,13 @@
+.choose-member{
+	background-color: #f5f5f5;
+}
+.choose-member .container h2{
+	margin-top: 100px;
+	line-height: 100px;
+	border-top: 1px solid #2b2b2b;
+}
+.grade ul li {
+	margin: 20px;
+	padding: 20px;
+	float: left;
+}

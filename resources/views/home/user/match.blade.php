@@ -1,5 +1,7 @@
 @extends('home.user.layout')   
 
+@section('title', '我的赛事')
+
 @section('more_css')
     
 @endsection
@@ -17,14 +19,12 @@
     <div class="row">
         <div class="col-sm-12">
             <ul class="match-main text-left clearfix">
-                @if( count($match) )
+                <!-- 原作品是的标签 -->
+
+                    @if( count($match) )
                     @foreach($match as $v)
-                        <li>
-                            <a>
-                                <div class="match-img">
-                                    <img src="{{ url($v->pic) }}">
-                                </div>
-                            </a>
+                        <!-- <li>
+                            <a href="#" style="background: url('{{ url($v->pic) }}') no-repeat center center;"></a>
                             <div class="match-content">
                                 <h4 class="line-limit-length" style="width:150px;">{{ $v->title }}</h4>
                                 <br>
@@ -36,13 +36,50 @@
                                 <a href="#"><i class="fa fa-comment-o"></i> 0</a>
                             </div>
                         </li>
-                    @endforeach
-                             
-                @else
+                         -->
+                        <li>
+                            <a href="{{ url('user/match/'.$v->id) }}">
+                                <div class="match-img">
+                                    <img src="{{ url($v->pic) }}" width="355" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
+                                </div>
+                            </a>
+                            <div class="match-content">
+                                <h4>{{ (json_decode($v->title))[0]}}</h4>
+                                <span class="status status-solicit">
+                                
+                                已投稿
+
+                                </span>
+                                <span class="status-time" style="color:#666;">
+                                征稿期： @if($v->collect_start)
+                                {{ date('Y-m-d',$v->collect_start)}}
+                                @else
+                                未设置
+                                @endif
+                                --
+                                @if($v->collect_end)
+                                {{ date('Y-m-d',$v->collect_end)}}
+                                @else
+                                未设置
+                                @endif
+                                
+                                </span>
+                            </div>
+                            <div class="footer">
+                                <a href="#"><i class="fa fa-eye"></i> 0</a>
+                                <a href="#"><i class="fa fa-thumbs-o-up"></i> 0</a>
+                                <a href="#"><i class="fa fa-comment-o"></i> 0</a>
+                            </div>
+                        </li>
+                         @endforeach
+                         
+                    @else
                     <li>
                         <div style="color:red;">暂无数据</div>
                     </li>
-                @endif
+                    @endif
+                             
+            
             </ul>
             <div class="page text-center">
                 {{ $match->links() }}
@@ -60,8 +97,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('other_js')
-    
 @endsection

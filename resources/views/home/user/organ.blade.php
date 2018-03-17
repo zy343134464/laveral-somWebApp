@@ -10,9 +10,9 @@
 	<form class="form-horizontal" role="form">
 		<div class="userdetail">
 			<ul class="nav nav-tabs" role="tablist">
-            @if( count($organ) )
-                @foreach($organ as $key => $v)
-                    <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{{$v->organ_name}}</a></li>
+            @if( count($organs) )
+                @foreach($organs as $key => $v)
+                    <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{{$v->name}}</a></li>
                 @endforeach
             @endif
 			</ul>

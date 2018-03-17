@@ -28,7 +28,7 @@
                            <div style="display:none;" id="hiddenId">{{ $v->id}}</div>
                             <h4 class="name">{{ $v->name}}</h4>
                             <p class="tag">{{ $v->tag}}</p>
-                            <p class="detail">{{ $v->detail}}</p>
+                            <p class="detail impose" style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ $v->detail}}</p>
                         </div>
                         <div class="judge-edit">
                             <a href="#" class="btn editguestBtn" data-toggle="modal" data-target="#matchnew"><i class="fa fa-edit"></i></a>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="grade" class="col-sm-2 control-label">头街</label>
+                                    <label for="grade" class="col-sm-2 control-label">头衔</label>
                                     <div class="col-sm-5">
                                         <input type="text" class="form-control" id="ratertag" name="tag">
                                     </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group" style="margin-bottom:0;">
                                     <label for="introduction" class="col-sm-2 control-label">简介</label>
                                     <div class="col-sm-5">
-                                        <textarea class="form-control" rows="5" placeholder="50字内" id="raterdetail" name="detail"></textarea>
+                                        <textarea class="form-control" rows="5" placeholder="50字内" id="raterdetail" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)"></textarea>
                                     </div>
                                 </div>
                                 <div class="guestimg" id="aetherupload-wrapper">

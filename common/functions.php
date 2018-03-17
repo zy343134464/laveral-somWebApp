@@ -24,15 +24,43 @@ function checkpw($password, $hash)
     return password_verify($password, $hash);
 }
 
-
-function organ_info($ip, $str)
+/**
+ * 机构信息
+ * @param  string $host  机构域名
+ * @param  string $field 字段
+ * @return [type]        [description]
+ */
+function organ_info($host = '' , $field = 'id')
 {
-    $res = DB::table('organs')->where('host', $ip)->first();
+    $exists = Storage::disk('config')->exists('organ.json');
+    if(!$exists) refresh_organ();
+    $host = $host ? $host : $_SERVER['HTTP_HOST'];
+    $date = Storage::disk('config')->get('organ.json');
+    $res = json_decode($date,true);
+
     if (count($res)) {
-        return $res->$str;
+
+        return isset($res[$host][$field]) ? $res[$host][$field] : null;
     } else {
-        return null;
+        return 'null';
     }
+    
+}
+/**
+ * 更新数据库机构信息到文件缓存
+ * @return [type] [description]
+ */
+function refresh_organ()
+{
+    $organ = DB::table('organs')->get();
+    $organ = json_decode(json_encode($organ),true);
+
+    $arr = [];
+    foreach ($organ as  $ov) {
+        $arr[$ov['host']] = $ov;
+    }
+    $str = json_encode($arr);
+    Storage::disk('config')->put('organ.json',$str);
 }
 
 /**
@@ -69,8 +97,16 @@ function organ($str)
         return 'unknow';
     }
 }
-function user($str)
+/**
+ * 用户信息
+ * @param  string $str 默认为空,获取id
+ * @return [type]      [description]
+ */
+function user($str = '')
 {
+    if($str == '') {
+        $str = 'id';
+    }
     $id = \Cookie::get('user_id');
     if (isset($id)) {
         $res = \DB::table('users')->find($id);
@@ -83,6 +119,10 @@ function user($str)
     logout();
     return 'error';
 }
+/**
+ * 判断管理员
+ * @return boolean [description]
+ */
 function is_admin()
 {
     $id = \Cookie::get('user_id');
@@ -92,13 +132,31 @@ function is_admin()
     return true;
 
 }
+/**
+ * 判断评委
+ * @return boolean [description]
+ */
 function is_rater()
 {
-    
-    return true;
+    $res = \DB::table('rater_match')->where(['user_id'=>user('id')])->whereIn('status',[1,2])->first();
+    if(count($res)) return true;
+
+    return false;;
 
 }
-
+/**
+ * 临时处理报名
+ * @param  [type] $match_id  赛事id
+ */
+function is_join_match($match_id)
+{
+    $user_id = user();
+    if($user_id) {
+        $res = \DB::table('productions')->select('id')->where('user_id',$user_id)->where('match_id',$match_id)->first();
+        if(count($res)) return true;
+    }
+    return false;
+}
 /**
  * 查询比赛信息
  * @param  [type] $id  赛事id
@@ -120,21 +178,132 @@ function match($id, $str)
  * @param  [type] $path 临时路径
  * @return [type]       保存路径
  */
-function save_match_pic($path)
+function save_match_pic($date)
 {
     //过滤已经保存的图片
-    if($path[0] != 'f') {
-        return $path;
+    //第一种上传:base64
+    if($date[0] == 'd') {
+        
+        list($msec, $sec) = explode(' ', microtime());
+
+        $url = explode(',', $date);
+
+        $name = 'img/match/'.md5($_SERVER["REQUEST_TIME"] .$msec.$sec).'.jpg';
+
+        file_put_contents($name, base64_decode($url[1]));//返回的是字节数
+
+        return $name;
     }
-    $path = 'uploadtemp/'.$path;
-    $new = 'img/match/'.substr($path, strripos($path, '\\') + 1);
-    if (!Storage::disk('pic')->exists($new)) {
-        if (Storage::disk('pic')->exists($path)) {
-            Storage::disk('pic')->move($path, $new);
+
+    //过滤已经保存的图片
+    //第二种即时上传
+    if($date[0] == 'f') {
+        $date = 'uploadtemp/'.$date;
+        $new = 'img/match/'.substr($date, strripos($date, '\\') + 1);
+        if (!Storage::disk('pic')->exists($new)) {
+            if (Storage::disk('pic')->exists($date)) {
+                Storage::disk('pic')->move($date, $new);
+            }
         }
+        return $new;
     }
-    return $new;
+    return $date;
+    // 即时上传插件  1
+    // //过滤已经保存的图片
+    // $path = 'uploadtemp/'.$path;
+    // $new = 'img/match/'.substr($path, strripos($path, '\\') + 1);
+    // if (!Storage::disk('pic')->exists($new)) {
+    //     if (Storage::disk('pic')->exists($path)) {
+    //         Storage::disk('pic')->move($path, $new);
+    //     }
+    // }
+    // return $new;
 }
+/**
+ * 保存用户头像图片
+ * @param  [type] $date [description]
+ * @return [type]       [description]
+ */
+function save_user_pic($date)
+{
+    //过滤已经保存的图片
+    //第一种上传:base64
+    if($date[0] == 'd') {
+        
+        list($msec, $sec) = explode(' ', microtime());
+
+        $url = explode(',', $date);
+
+        $name = 'img/user/'.md5($_SERVER["REQUEST_TIME"] .$msec.$sec).'.jpg';
+
+        file_put_contents($name, base64_decode($url[1]));//返回的是字节数
+
+        return $name;
+    }
+
+    //过滤已经保存的图片
+    //第二种即时上传
+    if($date[0] == 'f') {
+        $date = 'uploadtemp/'.$date;
+        $new = 'img/user/'.substr($date, strripos($date, '\\') + 1);
+        if (!Storage::disk('pic')->exists($new)) {
+            if (Storage::disk('pic')->exists($date)) {
+                Storage::disk('pic')->move($date, $new);
+            }
+        }
+        return $new;
+    }
+    return $date;
+    // 即时上传插件  1
+    // //过滤已经保存的图片
+    // $path = 'uploadtemp/'.$path;
+    // $new = 'img/match/'.substr($path, strripos($path, '\\') + 1);
+    // if (!Storage::disk('pic')->exists($new)) {
+    //     if (Storage::disk('pic')->exists($path)) {
+    //         Storage::disk('pic')->move($path, $new);
+    //     }
+    // }
+    // return $new;
+}
+/**
+ * 删除赛事海报图片
+ * @param  [type] $path [description]
+ * @return [type]       [description]
+ */
+function del_match_pic($path)
+{
+    
+    if(!$path) return false;
+    //过滤已经保存的图片
+    if (Storage::disk('pic')->exists($path)) {
+        $res = \DB::table('matches')->where('pic',$path)->limit(2)->get();
+        if(count($res) == 2) return false;
+        Storage::disk('pic')->delete($path);
+    }
+    
+}
+/**
+ * 删除用户头像
+ * @param  [type] $path [description]
+ * @return [type]       [description]
+ */
+function del_user_pic($path)
+{
+    
+    if(!$path) return false;
+    //过滤已经保存的图片
+    if (Storage::disk('pic')->exists($path)) {
+        $res = \DB::table('users')->select('pic')->where('pic',$path)->limit(2)->get();
+        if(count($res) == 2) return false;
+        Storage::disk('pic')->delete($path);
+    }
+    
+}
+/**
+ * 上传图片
+ * @param  [type] $path [description]
+ * @return [type]       [description]
+ */
 function uploadimg($path)
 {
     //过滤已经保存的图片
@@ -151,14 +320,7 @@ function uploadimg($path)
     return $new;
 }
 
-function del_match_pic($path)
-{
-    //过滤已经保存的图片
-    if (Storage::disk('pic')->exists($path)) {
-        Storage::disk('pic')->delete($path);
-    }
-    
-}
+
 
 /**
  * 处理富文本上传的图片路经
@@ -181,7 +343,7 @@ function save_ueditor($str)
 }
 
 /**
- * 临时方案
+ * 临时方案  新建赛事--评选设定--参与评委
  * @param  [type] $arr  [description]
  * @param  [type] $k    [description]
  * @param  [type] $type [description]

@@ -3,16 +3,16 @@
 
 @section('body2')
 <div class="match-guest">
-	<ul class="nav nav-tabs" role="tablist">
+	<!-- <ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="{{ url('admin/match/rater/'.$id) }}" >评委</a></li>
 		<li role="presentation"><a href="{{ url('admin/match/guest/'.$id) }}" >嘉宾</a></li>
-	</ul>
+	</ul> -->
 	<div class="content">
 		<ul class="judgelist">
 			<li class="addjudge">
 				<a href="{{ url('admin/match/findrater/'.$id) }}">
 					<div class="add-button">+</div>
-					<p>添加评委</p>
+					<p>添加评委/嘉宾</p>
 				</a>
 			</li>
             @if(count($rater))
@@ -25,9 +25,9 @@
 					</div>
 					 <div class="judge-content text-left">
                         <div style="display:none;" id="hiddenId">{{ $v->id}}</div>
-                        <h4 class="name">{{ $v->name}}</h4>
-                        <p class="tag">{{ $v->tag}}</p>
-                        <p class="detail">{{ $v->detail}}</p>
+                        <h4 class="name" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->name}}</h4>
+                        <p class="tag" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->tag}}</p>
+                        <p class="detail impose" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;word-wrap:break-word">{{ $v->detail}}</p>
                     </div>
                     <div class="judge-edit">
                         <a href="#" class="btn editraterBtn" data-toggle="modal" data-target="#matchnew"><i class="fa fa-edit"></i></a>
@@ -56,21 +56,21 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="id" id="hidden">
                             <div class="form-group">
-                                <label for="username" class="col-sm-2 control-label">姓名</label>
+                                <label for="username" class="col-sm-2 control-label">姓1名</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratername" name="name">
+                                    <input type="text" class="form-control" id="ratername" name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="grade" class="col-sm-2 control-label">头街</label>
+                                <label for="grade" class="col-sm-2 control-label">头衔</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratertag" name="tag">
+                                    <input type="text" class="form-control" id="ratertag" name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0;">
                                 <label for="introduction" class="col-sm-2 control-label">简介</label>
                                 <div class="col-sm-5">
-                                    <textarea class="form-control" rows="5" placeholder="50字内" id="raterdetail" name="detail"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="500字内" id="raterdetail" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)"></textarea>
                                 </div>
                             </div>
                            <div class="guestimg" id="aetherupload-wrapper">

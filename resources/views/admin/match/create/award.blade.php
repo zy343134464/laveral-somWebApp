@@ -16,13 +16,13 @@
 			@foreach($award as $v)
 			<div class="form-group">
 				<div class="col-sm-2 col-sm-offset-1">
-					<input type="text" class="form-control" id="" placeholder="奖项等级" name="name[]" value="{{ $v->name}}">
+					<input type="text" class="form-control" id="" placeholder="奖项等级" name="name[]" value="{{ $v->name}}" required>
 				</div>
 				<div class="col-sm-2" style="margin-left:-20px;">
-					<input type="number" class="form-control" id="" placeholder="位" name="num[]" min="1" value="{{ $v->num}}">
+					<input type="number" class="form-control" id="" placeholder="位" name="num[]" min="1" value="{{ $v->num}}" required>
 				</div>
 				<div class="col-sm-4" style="margin-left:-20px;">
-					<input type="text" class="form-control" id="" placeholder="" name="detail[]" value="{{ $v->detail}}">
+					<input type="text" class="form-control" id="" placeholder="" name="detail[]" value="{{ $v->detail}}" required>
 				</div>
 				<span class="removeVar3">-</span>
 			</div>
@@ -31,13 +31,13 @@
 
 			<div class="form-group">
 				<div class="col-sm-2 col-sm-offset-1">
-					<input type="text" class="form-control" id="" placeholder="奖项等级" name="name[]" value="">
+					<input type="text" class="form-control" id="" placeholder="奖项等级" name="name[]" value="" required>
 				</div>
 				<div class="col-sm-2" style="margin-left:-20px;">
-					<input type="number" class="form-control" id="" placeholder="位" name="num[]" value="">
+					<input type="number" class="form-control" id="" placeholder="位" name="num[]" value="" required>
 				</div>
 				<div class="col-sm-4" style="margin-left:-20px;">
-					<input type="text" class="form-control" id="" placeholder="" name="detail[]" value="">
+					<input type="text" class="form-control" id="" placeholder="" name="detail[]" value="" required>
 				</div>
 				<span class="removeVar3">-</span>
 			</div>

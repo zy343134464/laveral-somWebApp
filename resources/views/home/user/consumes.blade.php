@@ -70,7 +70,3 @@
     </div>
 </div>
 @endsection
-
-@section('other_js')
-
-@endsection

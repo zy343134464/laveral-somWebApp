@@ -7,7 +7,6 @@ var AetherUpload = {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             }
         });
-
         this.fileDom = this.wrapperDom.find("#file"),
 
             this.outputDom = this.wrapperDom.find("#output"),

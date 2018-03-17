@@ -234,11 +234,13 @@ li{
     overflow: hidden;
     background-color: #fff;
     width: 268px;
-    height: 300px;
+    /*height: 300px;*/
     float: left;
     border: 1px solid #f5f5f5;
     margin-right: 13px;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    position: relative;
 }
 .rater-main > li img{
      width: 266px;
@@ -612,4 +614,11 @@ li{
 .edit-btn .editoutbtn.active{
     background-color: #ff4a3b;
     color: #ffffff;
+}
+.right{
+    float: right;
+    margin-right: -20px;
+}
+.right>i{
+    margin-right: 10px;
 }

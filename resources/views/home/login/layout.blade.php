@@ -61,7 +61,7 @@
         var name = obj.value;
         if (name.length > 20 || name.length < 3)
         {
-            msg.innerHTML = "昵称长度为6~20个字符";
+            msg.innerHTML = "用户名长度为6~20个字符";
         return false;
         }
         msg.innerHTML ='';

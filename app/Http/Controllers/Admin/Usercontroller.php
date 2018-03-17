@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Schema;
 use Excel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Organ;
+use App\Role;
+use App\Member;
 
 class Usercontroller extends Controller
 {
@@ -19,37 +22,43 @@ class Usercontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, User $user)
+    public function index(Request $request, User $user, Member $member)
     {
         $type = $request->type;
         //搜索关键词
-        $kw = $request->kw;
+        //$kw = $request->kw;
         //角色id筛选
-        $rid = 0;
+        //$rid = '';
         //vip_level筛选
         $vip_level = $request->vip_level;
-        $vip_type = 'member';
+        //$vip_type = 'vip';
         // 'member'
         // 'guest'
         // 'admin'
         // 'rater'
         //机构id
-        $oid = 0;
-        //Controller::organ_role_type(0);
-        $users = $user
-            //角色筛选
-            ->when($rid, function ($query) use ($rid,$oid) {
-                return $query->whereIn('id', Controller::get_uid_by_rid_oid($rid, $oid));
-            })
-            //会员等级筛选
-            ->when($vip_level, function ($query) use ($vip_level,$vip_type,$oid) {
-                return $query->whereIn('id', Controller::get_uid_by_vip($vip_level, $vip_type, $oid));
-            })
-            //关键词筛选
-            ->when($kw, function ($query) use ($kw) {
-                return $query->orWhere('name', 'like', '%'.$kw.'%')->orWhere('phone', 'like', '%'.$kw.'%');
-            })
-            ->orderBy('created_at')->Paginate(10);
+        $oid = organ_info();
+        
+        $users = $member->select('members.*', 'users.*')
+            ->where(['members.organ_id' => $oid])
+            ->leftJoin('users', 'users.id', '=', 'members.uid')
+            ->leftJoin('roles', 'roles.id', '=', 'members.role_id');
+        
+        //角色筛选
+        if (($vip_type = $request->vip_type) != '') {
+            $users = $users->when($vip_type, function ($query) use ($vip_type) {
+                return $query->where([ 'members.role_type' => $vip_type]);
+            });
+        }
+
+        //关键词筛选
+        if (($kw = $request->kw) != '') {
+            $users = $users->when($kw, function ($query) use ($kw) {
+                return $query->whereIn('members.uid', Controller::search_name_or_phone($kw));
+            });
+        }
+                
+        $users = $users->orderBy('members.id')->Paginate(10);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);
     }
 
@@ -218,6 +227,24 @@ class Usercontroller extends Controller
 
     public function role_setting($value='')
     {
-        return view('admin.user.role_setting');
+        $organId = organ_info();
+        $organ = new Organ();
+        $organInfo = $organ->find($organId);
+        $role = new Role();
+        $roles = $role->where('organ_id', '=', $organId)->first();
+        return view('admin.user.role_setting', [ 'organ' => $organInfo, 'roles' => $roles]);
+    }
+    
+    public function set_role(Request $request)
+    {
+        return back();
+        dd($request);
+        $organId = organ_info();
+        $organ = new Organ();
+        $organ_edit = [ 'member_title' => $request->member_title, 'id' => $organId, 'member_content' => $request->member_content];
+        $organInfo = $organ->edit($organ_edit);
+        $role = new Role();
+        $roles = $role->setData($request);
+        return view('admin.user.role_setting', [ 'organ' => $organInfo, 'roles' => $roles]);
     }
 }

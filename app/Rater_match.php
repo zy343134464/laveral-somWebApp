@@ -14,10 +14,10 @@ class Rater_match extends Model
     }
     public function rater_time($mid, $round)
     {
-    	$res = \DB::table('reviews')->where(['match_id'=>$mid, 'round'=>$round])->get();
-    	if (count($res)) {
-    		return $res[0]->end_time;
-    	}
-    	return time();
+        $res = \DB::table('reviews')->where(['match_id'=>$mid, 'round'=>$round])->get();
+        if (count($res)) {
+            return $res[0]->end_time;
+        }
+        return time();
     }
 }

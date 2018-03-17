@@ -25,14 +25,48 @@ body {
     color: #000;
 }
 
-.skin-blue .sidebar-menu > li:hover > a,
-.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.treeview > a:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 44px;
+    width: 8px;
+    height: 8px;
+    box-sizing: border-box;
+    margin: -6px 0 0 -4px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    transform-origin: 75% 75%;
+    -webkit-transform-origin: 75% 75%;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    /*transition: transform 1s;
+    -webkit-transition: transform 1s;*/
+}
+.skin-blue .sidebar-menu > li.treeview.menu-open > a:after {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.skin-blue .sidebar-menu > li.active > a {
+    color: #d0a45d !important;
+    background: inherit;
+}
 .skin-blue .sidebar-menu > li.menu-open > a {
-    background-color: #191919;
+    background: inherit;
+}
+.skin-blue .sidebar-menu > li.treeview.active > a {
+    color: #ccc !important;
+    background: inherit;
 }
 
 .skin-blue .sidebar-menu .treeview-menu>li.active>a, .skin-blue .sidebar-menu .treeview-menu>li>a:hover{
-    background-color: #d0a45d;
+    background-color: inherit;
+    color: #d0a45d !important;
+}
+
+.skin-blue .sidebar-menu > li.treeview > a:hover:after {
+    border-color: #000;
 }
 
 .table > tbody > tr > td,
@@ -84,6 +118,11 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
     padding-left: 0;
     padding-right: 0;
 }
+.main-header {
+    position: fixed;
+    top: 0;
+    padding: 0;
+}
 
 .wrapper > .main-header > .logo:hover {
     background-color: #191919;
@@ -92,6 +131,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .wrapper > .main-header > .navbar-static-top {
     background-color: #fff;
     margin-left: 244px;
+    border-bottom: 1px solid #ddd
 }
 
 .main-header > .navbar-static-top > .navbar-left ul {
@@ -153,6 +193,8 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 /*侧边栏菜单*/
 .wrapper > .main-sidebar {
     width: 244px;
+   position: absolute;
+   left: 0;
     background-color: #333333;
 }
 
@@ -172,16 +214,20 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 }
 
 .main-sidebar > .sidebar > .sidebar-menu li a {
-    border-left: none;
-    padding-left: 5px;
-    color: #73787b;
-    font-size: 18px;
+    padding: 0;
+    border: none;
+    line-height: 50px;
+    padding-left: 40px;
+    text-align: left;
+    font-size: 16px;
+    color: #ccc;
+    cursor: pointer;
 }
 
 .main-sidebar > .sidebar > .sidebar-menu li a:hover
 {
-    color: #000;
-    background-color: #d0a45d;
+    color: #000 !important;
+    background-color: #d0a45d !important;
 }
 
 .main-sidebar > .sidebar > .sidebar-menu .treeview-menu {
@@ -191,12 +237,13 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 }
 
 .main-sidebar > .sidebar > .sidebar-menu .treeview-menu li {
-    line-height: 40px;
+    line-height: 50px;
+    height: 50px;
 }
 
-/*.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a {
-    color: #bebebe;
-}*/
+.main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a {
+    position: relative;
+}
 
 .main-sidebar > .sidebar > .sidebar-menu .treeview-menu li a:hover
 {
@@ -205,6 +252,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 
 /*右边内容*/
 .content-wrapper {
+    margin-top: 68px;
     margin-left: 244px;
     background-color: #f5f5f5;
 }
@@ -260,3 +308,11 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .content-wrapper > .content-header .optionalfiltrate {
     margin-left: -150px;
 } 
+/*限制多行文字*/
+.impose{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}

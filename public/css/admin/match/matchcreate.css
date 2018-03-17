@@ -112,12 +112,14 @@ span.sure{
     font-size: 16px;
 }
 .match-theme .nextPage{
-    text-align: center
+    text-align: center;
+    height: 73px;
+    bottom: 0;
+    width: 1092px;
+    background: #f5f5f5;
+    position: fixed;
 }
 .match-theme .nextPage .btn-default{
-    position: fixed;
-    bottom:20px;
-    margin-left: -59px;
     background-color: #262626;
     border: 0;
     border-radius: 0;
@@ -262,15 +264,18 @@ span.sure{
 /*评委/嘉宾*/
 .match-guest{
     margin-top: 30px;
-    text-align: center
+    text-align: center;
+    padding-bottom: 50px
 }
 .match-guest .nextPage{
+    position: fixed;
+    bottom:0;
+    width: 1090px;
+    background-color: #f5f5f5;
+    padding: 20px 0;
     text-align: center;
 }
 .match-guest .nextPage .btn-default{
-    position: fixed;
-    bottom:20px;
-    margin-left: -59px;
     background-color: #262626;
     border: 0;
     border-radius: 0;
@@ -320,6 +325,7 @@ li{
     width: 262px;
     height: 350px;
     margin-bottom:10px;
+    overflow: hidden;
 }
 .match-guest .content ul li.addjudge{
     text-align: center;
@@ -346,7 +352,7 @@ li{
     background-color: #cccccc;
 }
 .match-guest .content img{
-    width: 262px;
+    width: 260px;
     height: 195px;
 }
 .match-guest .content .judge-content{
@@ -356,8 +362,10 @@ li{
     margin-bottom: 0;
     color: #000;
 }
-.match-guest .content .judge-content p{
+.match-guest .content .judge-content p.detail {
     color: #666666;
+    word-wrap:break-word;
+    display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;   
 }
 .match-guest .content .judge-content p:last-child{
     margin-bottom: 0;
@@ -1010,3 +1018,4 @@ li{
     font-size: 30px;
     margin-right: 10px;
 }
+

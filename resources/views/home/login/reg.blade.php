@@ -27,7 +27,7 @@
                         <button type="submit" class="btn btn-default yanzheng">发送验证码<tton>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text"  class="form-control" placeholder="昵称" name="name" onblur="checkName(this)" value="">
+                        <input type="text"  class="form-control" placeholder="用户账号" name="name" onblur="checkName(this)" value="">
                     </div>
                     <div class="form-group has-feedback">
                         <input type="password"  class="form-control" placeholder="6-20位密码" name="password" id="password">

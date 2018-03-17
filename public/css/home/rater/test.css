@@ -1,0 +1,8 @@
+.textbutton{background: #262626;width: calc(100% - 40px);line-height: 30px;border: 0;color: #d0a45d;text-align: center;margin: 20px auto 0;display: block;outline: none}
+.rater-btn p{line-height: 20px;font-size: 14px;color: #666666}
+.rater-btn .testeli{white-space: nowrap;overflow: hidden;}
+.choosebox{height: 100%;width: 100%;position: absolute;padding: 20px;top:0;left:0;display: none;background: white; box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;}
+.choosebox div{line-height:20px;border-bottom:1px solid #e5e5e5}
+.choosebox div span{width: 50%;text-align: center;display: block;cursor: pointer;}
+.choosebox li{line-height: 30px;cursor: pointer;}
+.choosebox li input[type="checkbox"]{margin-right: 10px;position: relative;top: 2px}

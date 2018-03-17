@@ -48,7 +48,7 @@
 
         <div class="wrapper">
             <!--头部导航-->
-            <header class="main-header">
+            <header class="main-header container">
                 <!-- Logo -->
                 <a href="{{url('/')}}" class="logo">
                     <img src="{{ url('img/images/som-logo.png') }}" alt="som图标">
@@ -78,7 +78,7 @@
                                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
                                     </li>
                                     <li role="presentation">
-                                        <a role="menuitem" tabindex="-1"  href="{{ url('/') }}">前台首页</a>
+                                        <a role="menuitem" tabindex="-1"  href="{{ url('/') }}">首页</a>
                                     </li>
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>

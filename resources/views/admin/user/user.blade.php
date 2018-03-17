@@ -7,6 +7,7 @@
 @endsection()
  
 
+
 @section('body')
     <!-- 头部 -->
     <section class="content-header">
@@ -117,7 +118,7 @@
                                 </td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->phone }}</td>
-                                <td>{{ $user->role($user->id,0) }}</td>
+                                <td>{{ $user->role_type }}</td>
                                 <td>{{date('Y-m-d', $user->reg_time)}}</td>
                                 <td>
                                     <a href="{{ url('admin/user/edit').'/'.$user->id }}"><i class="fa fa-edit"></i></a>

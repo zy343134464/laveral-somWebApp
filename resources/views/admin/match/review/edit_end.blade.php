@@ -3,6 +3,7 @@
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
+    <link rel="stylesheet" href="{{ url('css/home/rater/test.css') }}"/>
 @endsection
 
 
@@ -67,16 +68,30 @@
             @if( count($pic) )
                 @foreach($pic as $pv)
                     <li>
-                        <div class="rater-img">
-                            <img src="{{ url($pv->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
+                        <div>
+                            <div class="rater-img">
+                                <img src="{{ url($pv->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
+                            </div>
+                            <div class="rater-content">
+                                <h4>{{ $pv->title }}</h4>
+                                <div class="img-Id">{{ $pv->id }}</div>
+                            </div>
+                            <div class="rater-btn" style="padding: 0 20px;" index="{{ $pv->id }}" match="{{ $match->id }}">
+                                <p>{{ $pv->author }}</p>
+                                <!-- <p class="testeli">{{$pv->win($id,$pv->id)}}</p> -->
+                                <p class="testeli">金</p>
+                                <p class="testeli">银</p>
+                                <p class="testeli">铜</p>
+                            </div>
+                            <button class="textbutton">奖项编辑</button>
                         </div>
-                        <div class="rater-content">
-                            <h4>{{ $pv->title }}</h4>
-                            <div class="img-Id">{{ $pv->id }}</div>
-                        </div>
-                        <div class="rater-btn" style="padding-left:20px;" index="{{ $pv->id }}" match="{{ $match->id }}">
-                            {{ $pv->author }} <br>
-                            {{$pv->win($id,$pv->id)}}
+                        <div class="choosebox" index="{{ $pv->id }}">
+                            <div><span style="float:left" class="cancel">取消</span><span style="float:right" class="sure">确认</span><div style="clear:both"></div></div>
+                            <ul>
+                                <li><input type="checkbox" alt="就看看0"/>金</li>
+                                <li><input type="checkbox" alt="就看看1"/>银</li>
+                                <li><input type="checkbox" alt="就看看2"/>铜</li>
+                            </ul>
                         </div>
                     </li>
                 @endforeach
@@ -141,7 +156,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
 @endsection
 
 @section('other_js')

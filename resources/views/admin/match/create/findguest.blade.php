@@ -66,19 +66,19 @@
                         <div class="form-group">
                             <label for="username" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="username" placeholder="" name="name">
+                                <input type="text" class="form-control" id="username" placeholder="" name="name" required oninput="inputTest()">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="grade" class="col-sm-2 control-label">头街</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="grade" placeholder="" name="tag">
+                                <input type="text" class="form-control" id="grade" placeholder="" required name="tag" oninput="inputTest()">
                             </div>
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="introduction" class="col-sm-2 control-label">简介</label>
                             <div class="col-sm-5">
-                                <textarea class="form-control" rows="5" placeholder="50字内" id="introduction" name="detail"></textarea>
+                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" oninput="inputTest()" required></textarea>
                             </div>
                         </div>
                        <div class="guestimg" id="aetherupload-wrapper">
@@ -122,6 +122,27 @@
     };
     
   }
+
+  function inputTest(){
+    var username = $('#username').val(),
+    introduction = $('#introduction').val(),
+    grade =  $('#grade').val();
+    if(username.length>20){
+      $('#username').attr('disabled','disabled');
+      return false;
+    }
+     if(introduction.length>500){
+       $('#introduction').attr('disabled','disabled');
+       return false;
+    }
+     if(grade.length>25){
+       $('#grade').attr('disabled','disabled');
+       return false;
+    }
+   
+  }
+
+  
     // 图片上传
   someCallback = function(){
     // 加载图片

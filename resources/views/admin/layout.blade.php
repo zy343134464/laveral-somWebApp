@@ -39,8 +39,9 @@
          
     @show
     <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
+    <link rel="stylesheet"  href="{{ url('css/font.css') }}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="container">
@@ -48,7 +49,8 @@
 
         <div class="wrapper">
             <!--头部导航-->
-            <header class="main-header">
+            
+            <header class="main-header container">
                 <!-- Logo -->
                 <a href="{{url('/')}}" class="logo">
                     <img src="{{ url('img/images/som-logo.png') }}" alt="som图标">
@@ -69,10 +71,10 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        {{ user('name') }}
                                         <img src="{{ url(user('pic')) }}" class="user-image" alt="User Image">
                                     </a>
-                                    <div class="circle"></div>
+                                    <!-- 红点 -->
+                                    <!-- <div class="circle"></div> -->
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="width:100px;border:1px solid #f5f5f5;">
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
@@ -82,9 +84,6 @@
                                     </li>
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="#">修改密码</a>
                                     </li>
                                     <li role="presentation" class="divider"></li>
                                     <li role="presentation">
@@ -112,12 +111,12 @@
                         </li>
                         <li class="treeview">
                             <a>
-                                <span>比赛管理</span>
+                                <span>赛事管理</span>
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{{url('admin/match/show/block')}}">进行中比赛</a></li>
-                                <li><a href="{{url('admin/match/show/block?status=0')}}">筹备中比赛</a></li>
-                                <li><a href="{{url('admin/match/show/block?status=6')}}">历史记录</a></li>
+                                <li><a href="{{url('admin/match/show/block?status=0')}}">筹备中赛事</a></li>
+                                <li><a href="{{url('admin/match/show/block?status=6')}}">历史赛事</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -130,26 +129,27 @@
                                 <!-- <li><a>会员表单编辑</a></li> -->
                             </ul>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <span>登录页管理</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('admin/information') }}">
+                        </li> -->
+
+                        <!-- 资讯页管理 暂时不开放 -->
+                        <!-- <li class="treeview">
+                            <a>
                                 <span>资讯页管理</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('admin/information/create') }}">
-                                <span>新建资讯页</span>
-                            </a>
-                        </li>
+                            <ul class="treeview-menu">
+                                <li><a href="{{ url('admin/information') }}">资讯页管理</a></li>
+                                <li><a href="{{ url('admin/information/create') }}"><span>新建资讯页</span></a></li>   
+                            </ul>
+                        </li> -->
                     </ul>
                 </section>
                 <!-- /.sidebar -->
             </aside>
-
+          
             <!-- 主内容 -->
             <div class="content-wrapper">
                 @section('body')

@@ -27,6 +27,9 @@
 				<div class="col-sm-2" style="padding-top:6px;">
 					<input type="checkbox" id="only"> 仅限单张
 				</div>
+				<div>
+					<a href="{{ url('admin/match/del_personal/'.$id)}}" class="btn  btn-danger "> 清空本页所有内容</a>
+				</div>
 			</div>
 			<div class="form-group div1">
 				<label for="firstname3" class="col-sm-2 control-label">每组张数</label>
@@ -185,7 +188,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 col-sm-offset-5">
-					<a class="btn btn-warning" data-toggle="modal" data-target="#newform" style="background-color:#d4b179;color:#000;border:none;" title="创建个人表单">创建表单</a>
+					<a class="btn btn-warning" data-toggle="modal" data-target="#newform" style="background-color:#d4b179;color:#000;border:none;" title="创建个人表单">创建报名表</a>
 				</div>
 			</div>
 		</div>
@@ -206,6 +209,9 @@
 				</div>
 				<div class="col-sm-2" style="padding-top:6px;">
 					<input type="checkbox" id="only"> 仅限单张
+				</div>
+				<div>
+					<a href="{{ url('admin/match/del_personal/'.$id)}}" class="btn btn-danger "> 清空本页所有内容</a>
 				</div>
 			</div>
 			<div class="form-group div1">
@@ -365,7 +371,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 col-sm-offset-5">
-					<a class="btn btn-warning" data-toggle="modal" data-target="#newform" style="background-color:#d4b179;color:#000;border:none;" title="创建个人表单">创建表单</a>
+					<a class="btn btn-warning" data-toggle="modal" data-target="#newform" style="background-color:#d4b179;color:#000;border:none;" title="创建个人表单">创建报名表</a>
 				</div>
 			</div>
 		</div>

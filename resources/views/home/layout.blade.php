@@ -13,6 +13,8 @@
     <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url('css/home/layout.css') }}"/>
+     <!-- 时间选择器 -->
+    <link rel="stylesheet" href="{{ url('lib/amazeui/css/amazeui.datetimepicker.css') }}">
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,7 +26,12 @@
     @section('other_css')
             
     @show
-
+    <style>
+    #main .match .pagination > li > a{
+        border-radius: 0px;
+        padding: 6px 15px;
+    }
+    </style>
 </head>
 <body>
 <!--导航条-->
@@ -47,11 +54,10 @@
         </div>
         <div class="col-xs-4 clearfix som">
             <div class="dropdown pull-right personal-center">
-                <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像">
-                <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
-                        data-toggle="dropdown">
-                    {{ user('name') }}
-                    <span class="caret"></span>
+                <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像" id="dropdownMenu1"
+                        data-toggle="dropdown" style="cursor:pointer;">
+                <button type="button" class="btn dropdown-toggle" >
+                   <!--  {{ user('name') }} -->
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation">
@@ -67,9 +73,6 @@
                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
                     </li>
                     @endif
-                    <li role="presentation">
-                        <a role="menuitem" tabindex="-1" href="#">修改密码</a>
-                    </li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('logout') }}">退出</a>
@@ -78,11 +81,10 @@
                 </ul>
             </div>
             <div class="dropdown pull-right language-switch">
-                <img class="chinese-logo" src="{{ url('img/images/chinese.jpg') }}" alt="中国图标">
-                <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
-                        data-toggle="dropdown">
-                    中文
-                    <span class="caret"></span>
+                <img class="chinese-logo" src="{{ url('img/images/chinese.jpg') }}" alt="中国图标" id="dropdownMenu1"
+                        data-toggle="dropdown" style="cursor:pointer;">
+                <button type="button" class="btn dropdown-toggle">
+                        <!--  中文 -->
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation">
@@ -175,6 +177,8 @@
 <!-- 图片上传 -->
 <script src="{{ URL::asset('js/spark-md5.min.js') }}"></script><!--需要引入spark-md5.min.js-->
 <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
+<!-- 时间选择器 -->
+<script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
 <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);

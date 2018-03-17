@@ -20,17 +20,13 @@
                 @if( count($product) )
                     @foreach($product as $v)
                         <li>
-                            <a>
-                                <div class="match-img">
-                                    <img src="{{ url($v->pic) }}">
-                                </div>
-                            </a>
+                            <a href="#" style="background: url('{{ url($v->pic) }}') no-repeat center center;"></a>
                             <div class="match-content">
                                 <h4 class="line-limit-length" style="width:150px;">{{ $v->title }}</h4>
                                 <br>
-                                <p class="line-limit-length"><a href="{{ url('match/detail/'.$v->match_id)}}">{{ (@json_decode($v->match->title))[0] }}</a></p>
+                                <p class="line-limit-length"><a href="{{ url('match/detail/'.$v->match_id)}}" style="color:#666;">{{ (@json_decode($v->match->title))[0] }}</a></p>
                             </div>
-                            <div class="footer">
+                            <div class="footer" style="position: absolute;left: 50%;margin-left: -63px;bottom: 3px;">
                                 <a href="#"><i class="fa fa-eye"></i> 0</a>
                                 <a href="#"><i class="fa fa-thumbs-o-up"></i> 0</a>
                                 <a href="#"><i class="fa fa-comment-o"></i> 0</a>
@@ -62,6 +58,3 @@
 </div>
 @endsection
 
-@section('other_js')
-    
-@endsection

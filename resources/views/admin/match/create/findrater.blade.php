@@ -69,19 +69,19 @@
                         <div class="form-group">
                             <label for="username" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="username" placeholder="" name="name">
+                                <input type="text" class="form-control" id="username" placeholder="不能超过20个字" required name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="grade" class="col-sm-2 control-label">头街</label>
+                            <label for="grade" class="col-sm-2 control-label">头衔</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="grade" placeholder="" name="tag">
+                                <input type="text" class="form-control" id="grade" placeholder="不能超过25个字" required  name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
                             </div>
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="introduction" class="col-sm-2 control-label">简介</label>
                             <div class="col-sm-5">
-                                <textarea class="form-control" rows="5" placeholder="50字内" id="introduction" name="detail"></textarea>
+                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required></textarea>
                             </div>
                         </div>
                         <div class="guestimg" id="aetherupload-wrapper">
@@ -123,10 +123,9 @@
       $('#add').css('display','inline-block')
       $('#new').css('display','none')
     };
-    
   }
-  
-    // 图片上传
+ 
+   // 图片上传
   someCallback = function(){
     // 加载图片
     var path = $('#savedpath')[0].defaultValue;

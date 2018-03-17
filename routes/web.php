@@ -14,8 +14,8 @@
 Route::get('/', 'Home\IndexController@index')->middleware('login');
 Route::get('/news/{id}', 'Home\IndexController@news');
 Route::get('/a', function () {
-    return view('test');
-})->middleware('login');
+    return view('show');
+});
 Route::get('/b/{show}', 'Admin\MatchController@index')->middleware('login');
 
 //资讯页
@@ -25,6 +25,7 @@ Route::get('get_information', 'InformationConroller@get_information');
 //首页ajax赛事(搜索$kw,$cat)
 Route::get('get_match', 'IndexConroller@get_match');
 
+Route::get('mail/send', 'MailController@send');
 //登录注册模块
 Route::get('/login', 'UserController@login');
 Route::post('/dologin', 'UserController@dologin');
@@ -39,13 +40,29 @@ Route::get('admin/user/find/{account}', 'Admin\UserController@account');
 
 //用户中心
 Route::middleware(['login'])->prefix('user')->group(function () {
-    Route::get('/', 'Home\UserController@product');
+    Route::get('/', function () {
+        return redirect()->to('/user/match');
+    });
+
     Route::get('/info', 'Home\UserController@info');
+
     Route::get('/award', 'Home\UserController@award');
+
     Route::get('/consumes', 'Home\UserController@consumes');
+
     Route::get('/organ', 'Home\UserController@organ');
+
     Route::get('/match', 'Home\UserController@user_match');
+
+    Route::get('/match/{id}', 'Home\UserController@match_pic');
+
+    Route::get('/member', 'Home\UserController@member');
+
     Route::post('/editInfo/{id}', 'Home\UserController@editInfo');
+
+    Route::post('/edit_img', 'Home\UserController@edit_img');
+    
+    Route::post('/editPassword/{id}', 'Home\UserController@editPassword');
 });
 
 
@@ -54,24 +71,32 @@ Route::middleware(['login'])->prefix('user')->group(function () {
 //赛事模块
 Route::middleware(['login'])->prefix('match')->group(function () {
     Route::get('/detail/{id}', 'Home\MatchController@detail');
+
     Route::get('/join/{id}', 'Home\MatchController@join');
+
     Route::get('/uploadimg/{id}', 'Home\MatchController@uploadimg');
+    Route::get('/uploadimgs/{id}', 'Home\MatchController@uploadimgs');
+
     Route::post('/douploadimg/{id}', 'Home\MatchController@douploadimg');
+
     Route::get('/editimg/{id}', 'Home\MatchController@editimg');
+
     Route::post('/doeditimg/{id}', 'Home\MatchController@doeditimg');
 });
 
 
 //评委
 Route::middleware(['login','rater'])->prefix('rater')->group(function () {
+    //评委室 审核中
     Route::get('/room', 'Home\IndexController@room');
+    //评委室 历史
     Route::get('/history', 'Home\IndexController@history');
+    // 评审赛事
     Route::get('/review/{mid}/{round}', 'Home\IndexController@review');
+    //评审点击 获取图片详细信息
     Route::get('/rater_pic/{id}', 'Home\IndexController@rater_pic');
+    //ajax评分
     Route::post('/pic', 'Home\IndexController@pic');
-    Route::post('/pic_score', 'Home\IndexController@pic_score');
-
-
 });
 
 
@@ -96,11 +121,11 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         //所有用户信息导出
         Route::get('infoall', 'Admin\UserController@infoall');
         Route::post('addusers', 'Admin\UserController@addusers');
-       //下载Excel表格（用于填写导入用户信息）
+        //下载Excel表格（用于填写导入用户信息）
         Route::get('getfeild', 'Admin\UserController@getfeild');
 
         Route::get('role_setting', 'Admin\UserController@role_setting');
-
+        Route::post('set_role', 'Admin\UserController@set_role');
     });
     //后台咨询模块
     Route::get('information', 'InformationController@index');
@@ -159,18 +184,23 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::post('storeaward/{id}', 'Admin\MatchController@storeaward');
         //个人投稿设定
         Route::get('require_personal/{id}', 'Admin\MatchController@require_personal');
+        Route::get('del_personal/{id}', 'Admin\MatchController@del_personal');
         Route::post('storerequire_personal/{id}', 'Admin\MatchController@storerequire_personal');
         //团体投稿设定
         Route::get('require_team/{id}', 'Admin\MatchController@require_team');
+        Route::get('del_team/{id}', 'Admin\MatchController@del_team');
         Route::post('storerequire_team/{id}', 'Admin\MatchController@storerequire_team');
 
-        Route::get('son/{id}','Admin\MatchController@son');
+        Route::get('son/{id}', 'Admin\MatchController@son');
 
-        Route::get('show_son/{id}','Admin\MatchController@show_son');
+        Route::get('show_son/{id}', 'Admin\MatchController@show_son');
 
-        Route::get('copy_son/{id}','Admin\MatchController@copy_son');
+        Route::get('copy_son/{id}', 'Admin\MatchController@copy_son');
+
+
         //赛事评审
         Route::get('review/{id}', 'Admin\MatchController@review');
+
         Route::post('storereview/{id}', 'Admin\MatchController@storereview');
 
         Route::get('review_room/{id}', 'Admin\MatchController@review_room');
@@ -209,12 +239,18 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::get('get_end_result/{id}', 'Admin\MatchController@get_end_result');
         
         Route::get('end_result_pdf/{id}', 'Admin\MatchController@end_result_pdf');
+        
+        Route::get('match_pic_pdf/{id}', 'Admin\MatchController@match_pic_pdf');
+
+        Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
+
+        Route::post('edit_win_ajax', 'Admin\MatchController@edit_win_ajax');
 
         //ajax搜索评委
         Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
         //ajax新建评委
         Route::post('add_rater/{id}', 'Admin\MatchController@add_rater');
-
-        Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
+        //ajax获取作品信息
+        Route::get('img/{id}', 'Admin\MatchController@img');
     });
 });

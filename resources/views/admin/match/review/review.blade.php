@@ -97,10 +97,8 @@
                             @endif
                         @endif
 
-                        <li><a href="#">导出</a></li>
                     @endif
-
-                    <!-- <li><a>导出</a></li> -->
+                        <li><a href="{{ url('admin/match/match_pic_pdf/'.$id)}}">导出</a></li>
                 </ul>
             </div>
         </div>
@@ -124,7 +122,7 @@
                 ?>
                 @if($type == 2)
                 <li>
-                    <div class="rater-img">
+                    <div class="rater-img2">
                         <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
                     </div>
                     <div class="rater-content">
@@ -137,7 +135,7 @@
                 </li>
                 @else
                 <li>
-                    <div class="rater-img">
+                    <div class="rater-img2">
                         <img src="{{ url($v->pic) }}" data-toggle="modal" data-target="#imgrater{{$type}}">
                     </div>
                     <div class="rater-content">
@@ -147,13 +145,17 @@
                     <div class="rater-content" index="{{ $v->id }}" match="{{ $match->id }}" round="{{$rounding}}" >
                     作者:{{ @$v->author }}  <br>
                     @if($status == 2 || $status == 3 || $status == 4)
+                    
+                    <div class="right">
+                        
+                        <i class="fa fa-edit" title="编辑"></i>
+                    </div>
                     @else
                     票数:{{ (@$v->sum_score($v->id,($round ? $round : $rounding)) ) ? @$v->sum_score($v->id,($round ? $round : $rounding)) :0}}
                     @endif
                     </div>
                     <div class="rater-footer">
-                        <a href="#"><span><i class="fa fa-search"></i></span></a>
-                        <a href="#"><span><i class="fa fa-edit"></i></span></a>
+                        
                     </div>
                 </li>
                 @endif
@@ -169,7 +171,7 @@
     </div>
     <!-- /.row -->
     <div class="paging text-center">
-        {{ $pic->appends(['kw' => $kw,'status'=>@$status])->links() }}
+        {{ $pic->appends(['kw' => $kw,'status'=>$status])->links() }}
     </div>
 </section>
 <!-- /.content -->
@@ -226,5 +228,5 @@
             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
         });
     </script>
-    <script src="{{ url('js/home/rater/rater.js')}}"></script>
+    <script src="{{ url('js/home/rater/rater.js?a=a')}}"></script>
 @endsection

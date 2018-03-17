@@ -11,7 +11,7 @@
 
 @section('body')
     <!--banner 轮播-->
-       <section id="advertisement">
+       <section id="advertisement" class="pd-t">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -19,10 +19,10 @@
             </ol>
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                    <img src="{{ url('img/images/banner1.jpg') }}" alt="图片1" class="img-responsive">
+                    <img src="{{ url('img/images/banner1.jpg') }}" alt="图片1" class="img-responsive" height="630">
                 </div>
                 <div class="item">
-                    <img src="{{ url('img/images/banner2.jpg') }}" alt="图片2" class="img-responsive">
+                    <img src="{{ url('img/images/banner2.jpg') }}" alt="图片2" class="img-responsive" height="630">
                 </div>
             </div>
             <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -45,55 +45,26 @@
             </a>
         </div>
     </section>
-   
+
 
 <!--投资方轮播-->
 <section id="collaborate">
-    <div class="container">
-        <div class="owl-carousel owl-theme">
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest3.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest4.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest5.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest1.jpg') }}" alt=""></div>
-            <div class="item"><img src="{{ url('img/images/invest2.jpg') }}" alt=""></div>
+    <div class="container" style="width:1094px;">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="{{ url('img/images/som-member.jpg') }}" alt="">
+            </div>
         </div>
     </div>
 </section>
 <!--主内容-->
 <section id="main">
-    <div class="container">
+    <div class="container" style="">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <!--加入我们-->
                 <div class="joinus-main">
-                    <ul class="joinus">
+                    <ul class="joinus clearfix">
                         <li>
                             <a href="#"><img src="{{ url('img/images/joneus.jpg') }}" alt=""></a>
                         </li>
@@ -105,37 +76,65 @@
                         </li>
                     </ul>
                 </div>
+                <div class="slideshow">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8" style="position: relative;left:0px;margin-top:20px;">
+                                <section id="advertisement">
+                                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner" role="listbox">
+                                            <div class="item active">
+                                                <img src="{{ url('img/images/banner1.jpg') }}" alt="图片1" class="img-responsive" height="330">
+                                            </div>
+                                            <div class="item">
+                                                <img src="{{ url('img/images/banner2.jpg') }}" alt="图片2" class="img-responsive" height="330">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="zixun">
+                                <div class="news">
+                                    <div class="news-title clearfix">
+                                        <span class="pull-left">资讯 | 活动</span>
+                                        <a href="#" class="pull-right">more</a>
+                                    </div>
+                                    <div class="news-list">
+                                        <ul class="news-list-ul">
+                                            @if( count($news) )
+                                            @foreach($news as $nv)
+                                            <li>
+                                                <!-- <a href="{{ url('news/'.$nv->id) }}">{{$nv->title}}</a> -->
+                                                <a href="">{{$nv->title}}</a>
+                                                <span>{{ date('m-d',strtotime($nv->created_at)) }}</span>
+                                            </li>
+                                            @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--比赛-->
                 <div class="match text-center">
                     <h3>
-                        赛事
+                        <span class="active">赛事资讯</span>
+                        <span>展览资讯</span>
+                        <span>活动专区</span>
                     </h3>
-                    <div class="dropdown" >
-                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            全部赛事
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"  style="font-size:13px;height:30px;">
-                            <li><a href="#">综合赛事</a></li>
-                            <li><a href="#">单项赛事</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <select class="form-control btn btn-default btn-sm dropdown-toggle" onchange="window.location=this.value" style="font-size:13px;height:30px;">
-						<option value="./">所有阶段</option>
-						<option value="?status=3" {{ $status == 3 ? 'selected' :'' }}>征稿中</option>
-						<option value="?status=5" {{ $status == 5 ? 'selected' :'' }}>评审中</option>
-						<option value="?status=6" {{ $status == 6 ? 'selected' :'' }}>已结束</option>
-					</select>
-                    </div>
                     <ul class="match-main text-left clearfix">
 						 @if( count($matches) )
                 @foreach($matches as $v)
                         <li>
                             <a href="{{ url('match/detail/'.$v->id) }}">
                                 <div class="match-img">
-                                    <img src="{{ url($v->pic) }}">
+                                    <img src="{{ url($v->pic) }}" width="355" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
                                 </div>
                             </a>
                             <div class="match-content">
@@ -156,7 +155,7 @@
                                 @elseif($v->status==6)
                                 结束
                                 @endif</span>
-                                <p style="color:#666;">{{ mb_substr($v->detail,0,50) }}</p>
+                                <p style="color:#666;" class="impose">{{ mb_substr($v->detail,0,50) }}</p>
                                 <span class="status-time" style="color:#666;">征稿期： @if($v->collect_start)
                                 {{ date('Y-m-d',$v->collect_start)}}
                                 @else
@@ -180,31 +179,7 @@
 	                @endif
                     </ul>
                     <div class="paging text-center">
-                        {{ $matches->links()}}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="news">
-                    <div class="news-title clearfix">
-                        <span class="pull-left">资讯 | 活动</span>
-                        <a href="#" class="pull-right">more</a>
-                    </div>
-                    <div class="news-somlogo">
-                        <img src="{{ url('img/images/news-somlogo.jpg') }}" alt="">
-                    </div>
-                    <div class="news-list">
-                        <ul class="clearfix">
-                        	@if( count($news) )
-                			@foreach($news as $nv)
-                            <li>
-                                <a href="#">{{$nv->title}}</a>
-                                <span>{{   date('m-s',strtotime($nv->created_at)) }}</span>
-                            </li>
-                            @endforeach
-                            @endif
-
-                        </ul>
+                        {{ $matches->links() }}
                     </div>
                 </div>
             </div>
@@ -212,9 +187,6 @@
     </div>
 </section>
 @endsection
-
-
-
 
 
 @section('other_js')

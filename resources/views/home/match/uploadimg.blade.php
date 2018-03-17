@@ -20,6 +20,7 @@
                     <h3>图片递交要求</h3>
                     <p>图片大小（MB）:{{$personal->size_min}}-{{$personal->size_max}}</p>
                     <p>图片最小边长（像素）:{{$personal->length}}（*作品最短的一边长度必须达到此尺寸或以上）</p>
+                    <p>单次上传最多20个图像</p>
                     <p>{{$personal->introdution_title}}</p>
                     <p>{{$personal->introdution_detail}}</p>
                 </div>
@@ -28,27 +29,16 @@
                     <p>注：大会对输出发展有最终决定和解释权，请密切留意作品入选状态（页面左方菜单栏中上传记录可见）</p>
                 </div>
                 <div class="alreadyimg">
-                    <h3>已上传图片</h3>
-                    <!-- 图片点击轮播 -->
-                    <div class="imgwrapper" style="position: relative;margin:0 auto;">
-                        <div id="poster-pic">
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="guestimg" id="aetherupload-wrapper">
-                    <div class="upload-pic">
-                        <div class="upload-wrapper">
-                            <a class="file">+
-                                <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
-                            </a>
-                            <input type="hidden" name="pic" id="savedpath">
-                            <p class="help-block">将图片拖拽至此释放</p>
-                            <span style="font-size:12px;color:#aaa;" id="output"></span>
-                            <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 100px;margin-left:50%;position:relative;left:-50px;">
-                                <div id="progressbar" style="background:blue;height:6px;width:0;"></div>
-                            </div>
-                        </div>
+                    <h3>上传作品<span>&nbsp;&nbsp;已上传<span id="uploadNum">5</span>&nbsp;&nbsp;剩余<span id="residueNum">5</span></span></h3>
+                    <!-- 图片显示区域 -->
+                    <div class="imgwrapper">
+                      <!-- 上传按钮 -->
+                      <label for="file" class="upload-btn" id="aetherupload-wrapper">
+                        <p>点击添加图片</p>
+                        <!-- <span>支持多张上传，不可超过剩余张数</span> -->
+                        <input type="file" id="file" multiple="multiple" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
+                        <input type="hidden" name="pic" id="savedpath">
+                      </label>
                     </div>
                 </div>
                 <div class="nextPage">
@@ -69,35 +59,67 @@
     <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
     <script src="{{ url('js/home/uploadcenter/uploadimg.js')}}"></script>
     <script>
+      var pathArr = [];
+      var pathId = 0;
+      var imgNum = 0;
+
+      var imgMaxNum = 2; //最大上传数量
+
+      $(function() {
+        imgNumShow()
+      })
+
+      function imgNumShow() {
+        $('#uploadNum').html(imgNum);
+        $('#residueNum').html(parseInt(imgMaxNum) - imgNum);
+      }
+
     // 图片上传
       someCallback = function(){
+        imgNum ++;
+        $('#file').removeAttr("disabled").val('');
+        if(imgNum >= parseInt(imgMaxNum)) {
+          $('#aetherupload-wrapper').hide();
+        }
         // 加载图片
         var path = $('#savedpath')[0].defaultValue;
-        var image=$("<image src=\\uploadtemp\\"+path+"/>");
-        $("#poster-pic").append(image);
+        var $imgObj = $('<div class="upload-item"><image src=\\uploadtemp\\'+path+'/></div>');
+
+        var pathItem = {id: pathId, path: path};
+        pathArr.push(pathItem);
 
         // 点击删除按钮
-        var $resetBtn = $("<div class='form-group closeposition'><div class='col-sm-4 col-sm-offset-2'><div class='close'><i class='fa fa-close'></i></div></div></div>");
-        $(".imgwrapper").append($resetBtn);
+        var $resetBtn = $('<a href="javascript:void(0)" class="upload-del" data-id="'+ pathItem.id +'" title="删除图片"><i class="fa fa-close"></i></a>');
+        $imgObj.append($resetBtn);
+        $(".imgwrapper").append($imgObj);
 
         $resetBtn.on('click',function(){
-          $('#poster-pic').children().remove();
-          $('.file').find('#file').removeAttr("disabled");
-          $resetBtn.remove();
-          $('#output').html('');
-          $('#progressbar').css('width','0');
-          $('#file').val('');
-        })
-      }
-        
+          var _this = $(this);
+          var pid = _this.attr('data-id');
+          _this.parents('.upload-item').remove();
+          $('#aetherupload-wrapper').show();
+          for(var i=0; i<pathArr.length; i++) {
+            if(pathArr[i].id === parseInt(pid)) {
+              pathArr.splice(i, 1);
+            }
+          }
+          console.log(pathArr);
+        });
 
+        pathId ++;
+      }
+      
+      var minsize = '{{$personal->size_min}}';
+      var maxsize = '{{$personal->size_max}}';
       //限制文件大小
-        var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
-        function fileChange(target,id) { 
-          var fileSize = 0; 
-          var filetypes =[".jpg",".png",".jpeg",".jepg"]; 
-          var filepath = target.value; 
-        var filemaxsize = 1024*20;//20M 
+      var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+      function fileChange(target,id) { 
+        console.log(target.files);
+        var fileSize = 0; 
+        var filetypes =[".jpg",".png",".jpeg",".jepg"]; 
+        var filepath = target.value; 
+        var fileminsize = 1024 * parseInt(minsize);
+        var filemaxsize = 1024 * parseInt(maxsize);
         if(filepath){ 
           var isnext = false; 
           var fileend = filepath.substring(filepath.indexOf(".")); 
@@ -132,12 +154,12 @@
 
         var size = fileSize / 1024; 
         if(size>filemaxsize){ 
-          alert("附件大小不能大于"+filemaxsize/1024+"M！"); 
+          alert("附件大小不能大于"+ minsize +"M！"); 
           target.value =""; 
           return false; 
         } 
-        if(size<=0){ 
-          alert("附件大小不能为0M！"); 
+        if(size<=fileminsize){ 
+          alert("附件大小不能小于"+ minsize +"M！"); 
           target.value =""; 
           return false; 
         } 

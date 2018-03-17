@@ -1,4 +1,6 @@
 $(function () {
+  
+  
 
   /*赛事主题*/
 
@@ -9,6 +11,7 @@ $(function () {
     var varCount = 1;
       //新增按钮点击
       $('#addVar').on('click', function(){
+        console.log(123)
         varCount++;
         $node = '<div class="form-group"><label for="var'+varCount+'" id="var'+varCount+'" class="col-sm-2 control-label"></label>'
         + '<div class="col-sm-8"><input type="text" name="title[]" class="form-control" for="var'+varCount+'" id="var'+varCount+'"></div>'
@@ -190,9 +193,9 @@ $(function () {
       $('#addVar3').on('click', function(){
         varCount++;
         $node = '<div class="form-group">'
-        + '<div class="col-sm-2 col-sm-offset-1"><input type="text" name="name[]" class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder="奖项名称"></div>'
-        + '<div class="col-sm-2" style="margin-left:-20px;"><input type="number" name="num[]" min="1" class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder="位"></div>'
-        + '<div class="col-sm-4" style="margin-left:-20px;"><input type="text" name="detail[]" class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder=""></div>'
+        + '<div class="col-sm-2 col-sm-offset-1"><input type="text" name="name[]"  required class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder="奖项名称"></div>'
+        + '<div class="col-sm-2" style="margin-left:-20px;"><input type="number" name="num[]" required min="1" class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder="位"></div>'
+        + '<div class="col-sm-4" style="margin-left:-20px;"><input type="text" name="detail[]" required class="form-control" for="var'+varCount3+'" id="var'+varCount3+'" placeholder=""></div>'
         + '<span class="removeVar3">-</span></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().before($node);

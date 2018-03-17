@@ -57,7 +57,3 @@
 
 
 @endsection
-
-@section('other_js')
-
-@endsection

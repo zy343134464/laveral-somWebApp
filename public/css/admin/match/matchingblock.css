@@ -112,13 +112,14 @@ li{
     background-color: #fff;
     width: 358px;
     height: 368px;
+    overflow: hidden;
     float: left;
     border: 1px solid #f5f5f5;
     margin-right: 15px;
     margin-bottom: 20px;
 }
 .match-main > li img{
-     width: 358px;
+     width: 355px;
      height: 200px;
 }
 

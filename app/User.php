@@ -91,18 +91,18 @@ class User extends Authenticatable
     public function edit(Request $request, $uid)
     {
         $user = $this->find($uid);
-        if(!isset($request->name)) {
+        if (!isset($request->name)) {
             return false;
         }
-        if ( $user ) {
+        if ($user) {
             $user->name = $request->name;
             $user->country = $request->country ? $request->country : '';
             $user->sex = $request->sex ? $request->sex : 0;
             $user->city = $request->city ? $request->city : '';
-            $user->birthday = $request->birthday;
+            $user->birthday = $request->birthday ? $request->birthday : '2000-01-01';
             $user->introdution = $request->introdution ? $request->introdution : '';
-            if ( $request->pic != '' ) {
-                $path = save_match_pic($request->pic);
+            if ($request->pic != '') {
+                $path = save_user_pic($request->pic);
                 $user->pic = $path;
             }
             $user->job = $request->job ? $request->job : '';
@@ -122,16 +122,16 @@ class User extends Authenticatable
     {
         $result = [ 'status' => false, 'msg' => ''];
         $user = $this->find($uid);
-        if ( $user ) {
-            if ( !checkpw($request->currentpassword, $user->password)) {
+        if ($user) {
+            if (!checkpw($request->currentpassword, $user->password)) {
                 $result['msg'] = '原有密码错误';
                 return $result;
             }
-            if ($request->surenewpassword == '' || $request->newpassword == '' ) {
+            if ($request->surenewpassword == '' || $request->newpassword == '') {
                 $result['msg'] = '新密码不能为空';
                 return $result;
             }
-            if ($request->surenewpassword != $request->newpassword ) {
+            if ($request->surenewpassword != $request->newpassword) {
                 $result['msg'] = '新密码输入不一致';
                 return $result;
             }
@@ -144,5 +144,4 @@ class User extends Authenticatable
             return $result;
         }
     }
-    
 }

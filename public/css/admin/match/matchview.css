@@ -1,27 +1,61 @@
+#advertisement {
+	padding-top: 74px;
+}
 #matchview{
 	background-color: #f5f5f5;
-	padding-top: 52px;
+	padding : 74px 20px;
+	position: relative;
 }
 #matchview .side{
-	position: fixed;
-	top: 14%;
-	left: 18%;
+	/*width: 270px;*/
+	color: #999999;
+	text-align: center;
 	background-color: #fff;
 	border: 1px solid #f5f5f5;
+}
+#matchview .side.fix{
+	position: fixed;
+	top: 74px;
+	left: 0;
+	transform:translateX(110%); 
+	width: 238px;
+	z-index: 100;
+}
+#matchview .col-sm-12 {
+	width: 1380px;
+}
+#matchview .col-sm-2 {
+	width: 270px;
+	padding: 0 30px 0 0;
+}
+#matchview .col-sm-10 {
+	width: 1080px;
+	padding: 0;
+}
+#matchview .side-up {
+	border-bottom: 1px solid #f5f5f5;
 }
 #matchview .side input{
 	margin-right: 10px;
 }
-#matchview .side .introduce{
-	color: #999999;
+#matchview .side .introduce,#matchview .sign-up{
+	/*color: #999999;*/
 	font-size: 20px;
-	padding-right: 15px;
+	/*padding-right: 15px;*/
 }
-#matchview .side li{
-	padding-left: 40px;
+#matchview .side li,#matchview .sign-up{
+	/*padding-left: 40px;*/
 	padding-top: 20px;
-	border-bottom: 1px solid #f5f5f5;
-	padding-bottom: 20px;
+	padding-bottom: 30px;
+}
+ 
+#matchview .sign-up div,#matchview .sign-up div.sign-up-btn,#matchview .sign-up div.sign-up-div a {
+	display: inline-block;
+	width: 170px;
+	height: 46px;
+	color: #999;
+	margin-bottom: 32px;
+	line-height: 46px;
 }
 #matchview .side li > a{
 	text-decoration: none;
@@ -30,8 +64,15 @@
 	color: #999999;
 	font-size: 18px;
 }
-#matchview .side li.current{
+
+#matchview .side li.current,#matchview .sign-up div.sign-up-div a,#matchview .sign-up div.sign-up-btn{
 	background: #323232;
+	color: #d4b179;
+	font-weight: bold;
+}
+#matchview .sign-up .back-top-btn{
+	color: #d4b179;
+	margin-bottom: 0;
 }
 #matchview .side .title{
 	font-size: 18px;
@@ -58,49 +99,57 @@
     padding: 6px 38px;
     margin-bottom: 34px;
 }
-#matchview .edit{
-	padding-left: 30px;
-}
+ 
 #matchview .bigtitle h2{
 	font-size: 42px;
 	color: #d4b179;
 	padding-top: 26px;
 	padding-bottom: 26px;
 	margin: 0;
-	background-color: #fbfbfb;
+	font-weight: bold;
+	background-color: #fff;
 }
 #matchview .lift-target .addpadding{
 	padding-left: 20px;
+	font-weight: bold;
 	padding-right: 20px;
+}
+#matchview .lift-target .lift-target-img img{
+	float: left;
+	width: 880px;
+	height: 495px;
 }
 #matchview .lift-target{
 	background-color: #fff;
-	padding-top: 40px;
-	padding-bottom: 40px;
+	padding-top: 1px;
+	padding:0 100px 40px 100px;
 }
 
 #matchview .lift-target h3{
-	font-size: 30px;
-	font-weight: bold;
+	font-size: 32px;
 	color: #d4b179;
-	padding-top: 46px;
-	padding-bottom: 46px;
+	margin: 0;
+	padding: 40px 0 24px 0;
 }
 #matchview .lift-target h4{
 	color: #323232;
-	padding-top: 30px;
-	padding-bottom: 10px;
+	/* padding-top: 30px;
+	padding-bottom: 10px; */
 }
-#matchview .lift-target .t1 .content img{
-	width: 600px;
-	height: 400px;
+ 
+#matchview .lift-target  .content{
+	line-height:32px;
+	font-size: 18px;
+	text-align: center;
 }
-#matchview .lift-target .t1 .content p{
-	line-height: 28px;
-	padding-top: 30px;
+#matchview .lift-target  .content p {
 	padding-bottom: 30px;
-	padding-left: 100px;
-	padding-right: 100px;
+}
+#matchview .lift-target .t1 .content p {
+	text-align: left;
+}
+#matchview .lift-target  .content .content-lh45{
+	line-height: 45px;
 }
 #matchview .lift-target .t2 .content h4{
 	color: #323232;
@@ -111,47 +160,106 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
-#matchview .lift-target .t3 .content{
-	padding-top: 40px;
+ 
+#matchview .lift-target .t3 .content ul{
+	  position: relative;
 }
 #matchview .lift-target .t3 .content ul li{
     vertical-align: top;
-    position: relative;
-    display: inline-block;
-    padding-right: 50px;
+    width: 25%;
+    margin-bottom: 20px;
+    display: inline-block; 
+    text-align: center;
 }
+#matchview .lift-target .t3 .Personal-info {
+	position: absolute;
+	top:145px;
+	left: 5px;
+	background-color: #fff;
+	text-align: left;
+	 vertical-align: top;
+	 width: 880px;
+	 padding: 8px 22px;
+	 z-index: 100;
+	 border: 1px solid #d4b179;
+	 display: none;
+}
+ .fl{
+ 	float: left;
+ }
+#matchview .lift-target .t3 ul li .Personal-info img{
+	position: absolute;
+	top:50%;
+	transform:translateY(-50%);
+	margin-right: 10px;
+}
+/*#matchview .lift-target .t3 ul li .Personal-info img:hover .Personal-info {
+	display: block;
+}*/
 #matchview .lift-target .t3 .content ul li:last-child{
     padding-right: 0;
 }
-#matchview .lift-target .t3 .content ul li img{
+#matchview .lift-target .t3 .content ul li .title-img{
     width: 132px;
     height: 132px;
     border-radius: 50%;
 }
-#matchview .lift-target .t3 .content ul li p{
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 12px;
+#matchview .lift-target .t3 .Personal-desc {
+	padding-left: 235px;
+	min-height: 235px;
+}
+#matchview .lift-target .t3 .Personal-desc p{
+    padding-top: 20px;
+    padding-bottom: 0;
     color: #000000;
     font-size: 20px;
+    font-weight: bold;
 }
-#matchview .lift-target .t4 .content h4{
-	font-size: 28px;
+#matchview .lift-target .t3 .Personal-identity {
+	font-size: 14px;
+	color: #000;
+	padding: 10px 0 5px 0;
 }
-#matchview .lift-target .t4 .content h5{
+#matchview .lift-target .t3 .Personal-msg {
+	font-size: 14px;
+	color: #000;
+	line-height: 21px;
+	color: #d4b179;
+	/* display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 10;
+	overflow: hidden; */
+}
+
+#matchview .lift-target .lh32{
+	font-size: 18px;
+	line-height: 32px;
+}
+#matchview .lift-target .content h4{
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 30px;
+}
+#matchview .lift-target .t4 .content {
+	padding: 0 100px;
+}
+#matchview .lift-target  .content h5{
 	font-size: 20px;
+	line-height: 32px;
+	font-weight: bold;
+}
+#matchview .lift-target .t4 p.lh32 {
+	text-align: left;
+	padding: 0;
+}
+#matchview .lift-target .t5 p.lh32 {
+	padding: 0;
 }
 #matchview .lift-target .t4 .content img{
 	width: 400px;
 	height: 200px;
 }
-#matchview .lift-target .t4 .content p{
-	padding-top: 20px;
-	line-height: 28px;
-	padding-left: 200px;
-	padding-right: 200px;
-	padding-bottom: 10px;
-}
+ 
 #matchview .lift-target .t4 .content .trigon{
 	margin: 0 auto;
 	width: 0;
@@ -160,23 +268,18 @@
     border-right: 20px solid transparent;
     border-left: 20px solid transparent;
 }
-#matchview .lift-target .t5 .content h4{
-	color: #323232;
-	font-weight: 600;
+#matchview .footer {
+	padding-top: 20px;
+	position: absolute;
+	bottom: -64px;
+	width: 1080px;
+	padding: 15px 0;
+	background-color: #f5f5f5;
 }
-#matchview .lift-target .t5 .content p{
-	font-size: 18px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-#matchview .lift-target .t6 .content h4{
-	color: #323232;
-	font-weight: 600;
-}
-#matchview .lift-target .t6 .content p{
-	font-size: 18px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+
+#matchview .footer.fix{
+	position: fixed;
+	bottom: 0px;
 }
 #matchview .footer .btn-default{
     background-color: #262626;
@@ -185,7 +288,101 @@
     font-size: 16px;
     color: #d0a45d;
     padding: 6px 38px;
-    margin-top: 84px;
-    margin-bottom: 140px;
     margin-right: 20px;
 }
+
+/*弹出层*/
+.layer{
+	display: none;
+	position: fixed;;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.34);
+}
+a:hover{
+	text-decoration: none;
+	color: #494640;
+}
+.layer-close {
+	position: absolute;
+	top: 0;
+	right: 0px;
+	color: rgba(0,0,0,.3);
+	padding: 5px;
+	font-size: 22px;
+	background-color: rgba(255,255,255,.3);
+}
+.layer-cont {
+	color: #494640;
+	overflow: hidden;
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	overflow: hidden;
+	transform:translateX(-50%);
+	width: 650px;
+	/*height: 550px;*/
+	background-color: #fff;
+	border: 1px solid #d4b179;
+}
+.statement {
+	/*display: none*/
+}
+.statement h5 {
+	font-size: 28px;
+	padding: 20px 0;
+	text-align: center;
+}
+.statement-div{
+	text-align: center;
+	padding: 20px 0;
+	font-size:18px
+}
+.layer-check-input {
+	vertical-align: middle;
+}
+.statement-content {
+	text-align: left;
+	font-size: 17px;
+	line-height: 26px;
+	padding: 0 60px;
+}
+.layer-btn {
+	border: none;
+	padding: 10px 24px;
+	background-color: #f4f4f4;
+	color: #666;
+}
+.regist-info{
+	/*padding: 20px;*/
+	font-size: 18px;
+	display: none
+}
+.form-horizontal{
+	height: 100%
+}
+input::-webkit-inner-spin-button { visibility: hidden; }
+.layer-btn.current {
+	background-color: #4d4d4d;
+	color: #bea070;
+}
+.control-label{
+	 color: #b1a070;
+	 font-weight: normal;
+}
+.control-label.info-title {
+	font-size: 20px;
+	padding: 10px 0;
+	 font-weight: bold;
+}
+ .Confirm-msg {
+ 	padding: 80px  0 30px 150px;
+ }
+ .Confirm-msg div {
+ 	margin-top: 20px;
+ }
+ .right{
+	 float:right;
+ }

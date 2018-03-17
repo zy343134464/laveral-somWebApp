@@ -2,6 +2,9 @@
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/admin/match/matchcreate.css') }}">
+
+    <link rel="stylesheet" href="{{url('css/home/user/cropper.css')}}">
+    <link rel="stylesheet" href="{{url('css/home/user/capture-16-9.css')}}">
 @endsection
 
 
@@ -54,6 +57,37 @@
         </ul>
     </div>
 </div>
+ <div class="pop-mask" style="display: none;"></div>
+    <div id="popCapture" class="pop-capture pop-info" style="display: none;">
+        <a href="javascript:void:void(0)" class="pop-close pop-hide"></a>
+        <h1 class="capture-title">上传头像</h1>
+        <!-- Content -->
+        <div class="capture-container">
+            <div class="capture-info">
+                <!-- <h3>Demo:</h3> -->
+                <div class="img-container">
+                    <img src="" id="image" alt="">
+                    <label id="upload" for="inputImage">点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
+                </div>
+
+                <div class="manage-btn-box">
+                    <label class="manage-btn btn-upload" for="inputImage">重新上传</label>
+                    <a href="javascript:void(0)" class="manage-btn btn-plus">＋</a>
+                    <a href="javascript:void(0)" class="manage-btn btn-minus">－</a>
+                </div>
+                <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+            </div>
+            <div class="capture-show">
+                <!-- <h3>Preview:</h3> -->
+                <div class="docs-preview clearfix">
+                    <div class="img-preview preview-lg"></div>
+                </div>
+                <p class="preview-title">头像预览</p>
+                <a href="javascript:void(0)" class="capture-btn btn-confirm">确定</a>
+                <a href="javascript:void(0)" class="capture-btn btn-cancel pop-hide">取消</a>
+            </div>
+        </div>
+    </div>
 <!-- 新建比赛内容 -->
 @section('body2')
 
@@ -70,5 +104,13 @@
                 $(this).parent().addClass('active');
             }
         });
+        function popShow(id) {
+            $('.pop-mask').show();
+            $('#'+id).show();
+        }
     </script>
+
+    <script src="{{url('js/cropper.js')}}"></script>
+    <script src="{{url('js/jquery-cropper.js')}}"></script>
+    <script src="{{url('js/home/capture/capture-16-9.js')}}"></script>
 @endsection

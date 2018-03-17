@@ -6,6 +6,7 @@
 <?php $__env->stopSection(); ?>
  
 
+
 <?php $__env->startSection('body'); ?>
     <!-- 头部 -->
     <section class="content-header">
@@ -116,7 +117,7 @@
                                 </td>
                                 <td><?php echo e($user->name); ?></td>
                                 <td><?php echo e($user->phone); ?></td>
-                                <td><?php echo e($user->role($user->id,0)); ?></td>
+                                <td><?php echo e($user->role_type); ?></td>
                                 <td><?php echo e(date('Y-m-d', $user->reg_time)); ?></td>
                                 <td>
                                     <a href="<?php echo e(url('admin/user/edit').'/'.$user->id); ?>"><i class="fa fa-edit"></i></a>
