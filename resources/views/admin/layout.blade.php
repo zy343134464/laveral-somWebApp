@@ -114,8 +114,8 @@
                                 <span>赛事管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{url('admin/match/show/block')}}">进行中比赛</a></li>
                                 <li><a href="{{url('admin/match/show/block?status=0')}}">筹备中赛事</a></li>
+                                <li><a href="{{url('admin/match/show/block')}}">进行中比赛</a></li>
                                 <li><a href="{{url('admin/match/show/block?status=6')}}">历史赛事</a></li>
                             </ul>
                         </li>

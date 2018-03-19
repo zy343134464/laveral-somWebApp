@@ -13,7 +13,7 @@ var AetherUpload = {
 
             this.progressBarDom = this.wrapperDom.find("#progressbar"),
 
-            this.savedPathDom = this.wrapperDom.find("#savedpath"),
+            this.savedPathDom = $("#savedpath"),
 
             this.file = this.fileDom[0].files[0],
 

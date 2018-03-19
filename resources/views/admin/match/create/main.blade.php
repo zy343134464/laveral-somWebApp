@@ -88,5 +88,25 @@
 		<div class="nextPage">
 			<input type="submit" value="下一页" class="btn btn-default">
 		</div>
+
+@endsection
+@section('other_js')
+    <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
+    <script>        
+        $('.navbar-nav li a').each(function(){
+            if($($(this))[0].href==String(window.location)){
+                $(this).parent().parent().find('li').removeClass('active')
+                $(this).parent().addClass('active');
+            }
+        });
+        function popShow(id) {
+            $('.pop-mask').show();
+            $('#'+id).show();
+        }
+    </script>
+
+    <script src="{{url('js/cropper.js')}}"></script>
+    <script src="{{url('js/jquery-cropper.js')}}"></script>
+    <script src="{{url('js/home/capture/capture-16-9.js')}}"></script>
 @endsection
 

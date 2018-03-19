@@ -136,21 +136,37 @@ li {
     color: #8e8e8e;
     font-size: 24px;
     position: absolute;
-    left: 10px;
+    left: 360px;
     top: 10px;
 }
 
 .personal-search input {
     border: none;
     background-color: #f5f5f5;
-    border-bottom: 2px solid #c8c8c8;
+    border: 2px solid #c8c8c8;
     padding-top: 12px;
     padding-bottom: 12px;
-    padding-left: 44px;
+    padding-left: 10px;
     margin-bottom: 32px;
     min-width: 400px;
     outline: none;
     font-size: 16px;
+}
+
+.personal-top {
+    width: 1070px;
+    height: 40px;
+    overflow: hidden;
+}
+.personal-top .submit-btn {
+    float: right;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #d0a45d;
+    font-size: 16px;
+    color: #fff;
 }
 
 /*参赛作品*/
@@ -179,11 +195,59 @@ li {
     box-shadow: 0 3px 4px rgba(0,0,0,.1);
     -webkit-box-shadow: 0 3px 4px rgba(0,0,0,.1);
 }
-.product .match-main > li a {
-    display: block;
+.product .match-main > li .match-img {
     width: 100%;
     height: 200px;
-    background-size: cover !important;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    position: relative;
+}
+.product .match-main > li .match-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.product .match-main > li .match-img .match-check-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 200px;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    display: none;
+}
+.product .match-main > li .match-img:hover .match-check-mask {
+    display: block;
+}
+
+.product .match-main > li .match-img .edit-info-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 200px;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+}
+.product .match-main > li .match-img .edit-info-mask .edit-info-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 116px;
+    height: 40px;
+    border: 1px solid #fff;
+    margin: -21px 0 0 -59px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px; 
+    color: #fff;
 }
 
 .product .match-main .match-content {
@@ -193,30 +257,54 @@ li {
     font-size: 12px;
     color: #d2d2d2;
     padding-bottom: 4px;
-    border-bottom: 2px solid #e9e9e9;
+    border-bottom: 1px solid #f5f5f5;
 }
 
+.product .match-main > li.match-check-item {
+    width: 260px;
+}
+
+
 .product .match-main .match-content h4 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
+    width: 290px;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: normal;
     margin-bottom: 5px;
-    color: #686868;
+    color: #191919;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .product .match-main .match-content p {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    font-size: 14px;
-    color: #bdbdbd;
+    line-height: 20px;
+    font-size: 12px;
+    color: #191919;
 }
 .product .match-main .match-content .status {
     position: absolute;
     right: 0;
-    top: 0;
-    padding-left: 20px;
-    padding-right: 4px;
+    top: 10px;
+    width: 50px;
+    height: 17px;
+    box-sizing: border-box;
+    line-height: 17px;
     font-size: 12px;
     color: #fff;
+    background-color: #ffb11b;
+    padding-left: 10px;
+}
+.product .match-main .match-content .status:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-width: 9px 0 9px 6px;
+    border-color: transparent transparent transparent #fff;
+    border-style: solid;
+    margin-top: -9px;
 }
 .product .match-main .match-content .status.status-solicit {
     background-color: #d4b179;
@@ -231,16 +319,24 @@ li {
     background-color: #999999;
 }
 .product .match-main .footer{
-    padding-top: 2px;
-    text-align: center;
-    vertical-align: top;
+    height: 37px;
+    position: relative;
 }
 .product .match-main .footer a{
-    padding-left: 6px;
-    padding-right: 6px;
-    color: #d2d2d2;
-    font-size: 16px;
-
+    position: absolute;
+    top: 0;
+    width: 37px;
+    height: 37px;
+    line-height: 37px;
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+.product .match-main .footer a.del-btn {
+    right: 0;
+}
+.product .match-main .footer a.edit-btn{
+    right: 37px;
 }
 /* 获奖记录 */
 #personal .award table {
@@ -497,4 +593,141 @@ li {
     right: 0;
     top: 0;
     opacity: 0;
+}
+
+.pagination>li a,
+.pagination>li span {
+    margin: 0 3px;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    padding: 0;
+    font-size: 16px;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #d0a45d;
+    border-color: #d0a45d;
+}
+
+/*评委投票模态框*/
+#imgrater1 .modal-title{
+    font-size: 14px;
+    color: #999999;
+}
+#imgrater1 .modal-body >ul>li{
+    float: left;
+}
+#imgrater1 .modal-body >ul>li .img{
+    position: relative;
+    width: 480px;
+    height: 360px;
+}
+#imgrater1 .img img{
+    width: 480px;
+    height: 360px;
+}
+#imgrater1 .img span{
+    font-size: 30px;
+    position: absolute;
+    top: 45%;
+    color: #6a6a6a;
+    cursor: pointer;
+}
+#imgrater1 .img .prev{
+    left: -30px;
+}
+#imgrater1 .img .next{
+    right: -30px;
+}
+#imgrater1 .btnrater{
+    padding-top: 20px;
+
+}
+#imgrater1 .btnrater .passbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #508c1b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #508c1b;
+}
+#imgrater1 .btnrater .passbtn:hover{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .passbtn.active{
+    background-color: #508c1b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .whilebtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #666666;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #666666;
+}
+#imgrater1 .btnrater .whilebtn:hover{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .whilebtn.active{
+    background-color: #666666;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .outbtn{
+    margin-right: 4px;
+    font-size: 14px;
+    color: #ff4a3b;
+    border: none;
+    padding: 4px 20px;
+    background-color: #ffffff;
+    border:1px solid #ff4a3b;
+}
+#imgrater1 .btnrater .outbtn:hover{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater1 .btnrater .outbtn.active{
+    background-color: #ff4a3b;
+    color: #ffffff;
+}
+#imgrater1 .nextbtn{
+    background-color: #262626;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    color: #d0a45d;
+    padding: 3px 14px;
+    position: relative;
+    left: 130px;
+    top: 1px;
+    margin-bottom: 120px;
+}
+
+@media (min-width: 768px){
+    #imgrater1 .modal-dialog.modal100 {
+        width: 1200px;
+        margin: 30px auto;
+    }
+}
+#imgrater1 .wrapperinfro{
+    padding-left: 100px;
+    width: 500px;
+}
+#imgrater1 .wrapperinfro li{
+    padding-top: 20px;
+}
+#imgrater1 .wrapperinfro li span:first-child{
+    display: inline-block;
+    width: 80px;
+    color: #999999;
+}
+
+.modal {
+    z-index: 10000;
 }

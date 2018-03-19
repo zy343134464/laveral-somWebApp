@@ -25,18 +25,38 @@
             <h3>{{@json_decode($match->title)[1]}}</h3>
             </div>
             <div class="rater-nav clearfix">
-                <ul class="nav navbar-nav">
-                    <li ><a href="?status=1">征稿期</a></li>
+                <ul class="nav navbar-nav num_times">
+                    <li>
+                        <a href="?status=1">征稿期</a>
+                        <div class="time" style="display:none;">
+                            剩下:<span>2天 4:58</span>
+                            <span>　</span>
+                        </div>
+                    </li>
+                    @if($status >4  || $status == 1)
                     @for($i=1;$i<$match->sum_round($match->id) + 1;$i++)
-                    <li><a href="?round={{$i}}&status=2">第{{$i}}轮评审</a></li>
+                    <li>
+                        <a href="?round={{$i}}&status=2">第{{$i}}轮评审</a>
+                        <div class="time" style="display:none;">
+                            剩下:<span>{{$time}}</span>
+                            <span>　</span>
+                        </div>
+                    </li>
                     @endfor
-                    <li><a href="?status=3">赛事结束</a></li>
+                    <li>
+                        <a href="?status=3">赛事结束</a>
+                        <div class="time" style="display:none;">
+                            剩下:<span>2天 4:58</span>
+                            <span>　</span>
+                        </div>
+                    </li>
+                    @endif
                 </ul>
-                <div class="progress"></div>
+                <!-- <div class="progress"></div>
                 <div class="time" >
-                    <!-- 剩下:<span>2天 4:58</span> -->
+                    剩下:<span>2天 4:58</span>
                     <span>　</span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-xs-12 clearfix">
@@ -58,7 +78,7 @@
             @elseif($status ==6)
             已结束
             @else
-            评审中 轮次:{{$rounding}}
+            评审中 轮次:<span class="number_of_times">{{$rounding}}</span>    
             @endif
             </div>
             <div class="col-xs-10 text-right" style="padding-top:10px;">
@@ -171,7 +191,7 @@
     </div>
     <!-- /.row -->
     <div class="paging text-center">
-        {{ $pic->appends(['kw' => $kw,'status'=>$status])->links() }}
+        {{ $pic->appends(['kw' => $kw,'status'=>$statusing])->links() }}
     </div>
 </section>
 <!-- /.content -->

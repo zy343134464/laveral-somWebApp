@@ -221,8 +221,9 @@
     padding-bottom: 32px;
 }
 #imgdetail .imgdetail-content img{
+    display: block;
     width: 346px;
-    height: 222px;
+    height: auto;
 }
 #imgdetail .imgdetail-content .detail label{
     font-size: 18px;

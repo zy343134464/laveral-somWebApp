@@ -31,7 +31,7 @@ class Match extends Model
     {
         $match = $this->find($id);
         if (count($match)) {
-            $num = Production::where(['match_id'=>$id,'status'=>1])->count();
+            $num = Production::where(['match_id'=>$id,'status'=>2])->count();
             return $num;
         }
         return 0;
@@ -40,7 +40,7 @@ class Match extends Model
     {
         $match = $this->find($id);
         if (count($match)) {
-            $res = Production::where(['match_id'=>$id,'status'=>1])->get();
+            $res = Production::where(['match_id'=>$id,'status'=>2])->get();
             $num = [];
             foreach ($res as $v) {
                 if (!in_array($v->user_id, $num)) {
@@ -264,7 +264,8 @@ class Match extends Model
 
             if ($request->pic) {
                 $pic = save_match_pic($request->pic);
-                del_match_pic($opic);
+                // ----------------
+                //del_match_pic($opic);
             } else {
                 $pic = $opic;
             }
@@ -706,6 +707,7 @@ class Match extends Model
                 }
             }
             $result = $this->rater_match($id);
+            
             if (!$result) {
                 throw new \Exception();
             }
@@ -828,7 +830,7 @@ class Match extends Model
                 if ($match->status == 3 || $match->status == 2) {
 
                     // 获取作品
-                    $res = \DB::table('productions')->select('id')->where('match_id', $mid)->where('status', 1)->get();
+                    $res = \DB::table('productions')->select('id')->where('match_id', $mid)->where('status', 2)->get();
                     $pid =[];
                     if (count($res)) {
                         foreach ($res as  $v) {
@@ -855,7 +857,7 @@ class Match extends Model
                     \DB::table('rater_match')->where([
                         'match_id'=>$mid,
                         'round'=> 1
-                    ])->update(['total'=>$total,'status'=> 1]);
+                    ])->update(['total'=>$total ? $total : 0,'status'=> 1]);
                     // 第一轮作品
                     \DB::table('result')->where([
                             'match_id'=>$mid,
@@ -918,8 +920,9 @@ class Match extends Model
             $num = $review->promotion;
             if ($num == 0) {
                 if ($this->last_round($id)) {
+                    return 'last';
                 }
-                return redirect()->to('admin/match/get_end_result/'.$id);
+                return '入围数为0，请检查设置';
             }
             $res = Sum::where(['match_id'=>$id,'round'=>$round])->orderBy('sum', 'desc')->get(['id','production_id','sum'])->toArray();
             if (!count($res)) {
@@ -1092,13 +1095,32 @@ class Match extends Model
                 return false;
             }
             $match_id = $res->id;
-            $pic_id = \DB::table('productions')->insertGetId([
+
+            $arr = $request->pic;
+            $pic_id_arr = [];
+
+            if(is_array($arr)) {
+                foreach ($arr as $value) {
+
+                    $pic_id = \DB::table('productions')->insertGetId([
+                        'match_id'=>$match_id,
+                        'user_id'=>$user_id,
+                        'pic'=>uploadimg($value),
+                        'type'=>0,
+                    ]);
+                    $pic_id_arr[] = $pic_id;
+                }
+            } else {
+
+                $pic_id = \DB::table('productions')->insertGetId([
                     'match_id'=>$match_id,
                     'user_id'=>$user_id,
                     'pic'=>uploadimg($request->pic),
                     'type'=>0,
                 ]);
-            return $pic_id;
+                $pic_id_arr[] = $pic_id;
+            }
+            return $pic_id_arr;
         } catch (\Exception $e) {
             return false;
         }
@@ -1112,31 +1134,60 @@ class Match extends Model
     public function editimg(Request $request, $id)
     {
         try {
-            $pic = \DB::table('productions')->where('id', $id)->first();
-            if (!$pic) {
-                return false;
-            }
-            $info = \DB::table('require_personal')->where('match_id', $pic->match_id)->first();
-            $res = json_decode($info->production_info);
+
+            //自定义文件信息
+            // $pic = \DB::table('productions')->where('id', $id)->first();
+            // if (!$pic) {
+            //     return false;
+            // }
+
+            // $info = \DB::table('require_personal')->where('match_id', $pic->match_id)->first();
+            // if (!$info) {
+            //     return false;
+            // }
+            // $res = json_decode($info->production_info);
+            // $temp = [];
+
+            // foreach ($res[0] as $k => $v) {
+            //     if ($res[1][$k]) {
+            //         if (isset($request->$v)) {
+            //             $str = $request->$v;
+            //         } else {
+            //             $str = '';
+            //         }
+            //     }
+            //     $temp[$v] = $str;
+            // }
+            $user_id = user();
+            $arr = $request->id;
+            if(!count($arr))  return false;
             $temp = [];
-            foreach ($res[0] as $k => $v) {
-                if ($res[1][$k]) {
-                    if (isset($request->$v)) {
-                        $str = $request->$v;
-                    } else {
-                        $str = '';
-                    }
+            foreach ($arr as $pid) {
+                $title = 'title'.$pid;
+                $author = 'author'.$pid;
+                $detail = 'detail'.$pid;
+                if($request->$title == ''  ||  $request->$author  == '' ||  $request->$detail == '') {
+                    $status = 1;
+                } else {
+                    $status = 2;
                 }
-                $temp[$v] = $str;
+                \DB::table('productions')->where('id', $pid)->update([
+                        'title'=>$request->$title,
+                        'author'=>$request->$author,
+                        'detail'=>$request->$detail,
+                        'match_id'=>$id,
+                        'user_id'=>$user_id,
+                        'status'=>$status,
+                    ]);
+               
             }
-            if (!$info) {
-                return false;
-            }
-            \DB::table('productions')->where('id', $id)->update($temp);
+            return true;
         } catch (\Exception $e) {
             return false;
         }
     }
+    
+    
     /**
      * 获取赛事信息
      * @param  [type] $id [description]
@@ -1199,7 +1250,7 @@ class Match extends Model
                         'round' => $round,
                         'match_id' => $mid,
                         'status' => 0,
-                        'total' => $total
+                        'total' => $total ? $total :0
                     ]);
                 }
             }

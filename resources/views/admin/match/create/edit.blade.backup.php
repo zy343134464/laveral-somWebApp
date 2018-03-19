@@ -126,7 +126,7 @@
   	var collect_start = {{ $match->collect_start}};
   	var collect_end = {{ $match->collect_end}};
   	var public_time = {{ $match->public_time}};
-
+    console.log(collect_start+"开始",collect_end+"jieshu",public_time+"公不");
   	function timestampToTime(timestamp) {
         var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         Y = date.getFullYear() + '-';

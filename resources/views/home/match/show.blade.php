@@ -192,7 +192,7 @@
             <p>
                @if(count($match->personal))
                @foreach($match->personal as $personal)
-                     {{ mb_substr($personal->notice,0,700) }}            
+                     {{ mb_substr($personal->notice,0,500) }}            
                 @endforeach
                @endif
             </p>
@@ -208,11 +208,11 @@
     </div>
        <form class="form-horizontal" method="post">
          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-3 control-label info-title">填写报名信息</label>
+            <label for="inputEmail3" class="col-sm-3 control-label info-title" style="color:#d4b179">填写报名信息</label>
           </div>
           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">报名类型</label>
-           <div class="radio col-sm-7">
+            <label for="inputEmail3" class="col-sm-3 control-label">报名类型</label>
+           <div class="radio col-sm-7 team-div">
                 <label>
                   <input type="radio" value="personal" name="status" class="layer-check-input">个人
                 </label>
@@ -221,17 +221,46 @@
                 </label>
               </div>
           </div>
-          <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">生日</label>
+
+          <div class="form-group team-personal" style="display:none">
+            <label for="inputPassword3" class="col-sm-3 control-label">姓名</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="date-input" required name="birth" value="1988-02-1">
+              <input type="text" class="form-control" id="date-input" required name="personal_name" placeholder="请输入您的姓名?">
+            </div>
+          </div>
+ 
+           <div class="form-group team-group" style="display:none">
+            <label for="inputPassword3" class="col-sm-3 control-label">单位名称</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="date-input" required name="group_name" placeholder="请输入单位名称?">
             </div>
           </div>
 
-         <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">手机号码</label>
+          <!-- <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">生日</label>
             <div class="col-sm-7">
-              <input type="number" class="form-control" required name="phone_number" placeholder="请输入手机号码?">
+              <input type="text" class="form-control" id="date-input" required name="birth" value="1988-02-1">
+            </div>
+          </div> -->
+
+           <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">邮箱</label>
+            <div class="col-sm-7">
+              <input type="email" class="form-control" id="date-input" required name="email"  placeholder="请输入您的邮箱?">
+            </div>
+          </div>
+
+
+         <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">电话</label>
+            <div class="col-sm-7">
+              <input type="number" class="form-control"  name="phone_number" placeholder="请输入电话号码?">
+            </div>
+          </div>
+           <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">地址</label>
+            <div class="col-sm-7">
+              <input type="email" class="form-control" id="date-input" required name="birth" placeholder="请输入您的地址?">
             </div>
           </div>
 

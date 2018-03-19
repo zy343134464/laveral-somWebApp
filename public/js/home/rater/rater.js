@@ -1,4 +1,86 @@
 $(function(){
+
+	 $('.textbutton').click(function(){
+	 	
+	 	var ulId = this.parentNode.nextSibling.nextSibling.getElementsByTagName('ul')[0]
+	 	var we = this.parentNode.nextSibling.nextSibling;
+	 	var showneir = this.parentNode.getElementsByClassName('testeli')[0];
+	 	var zuopinId = this.parentNode.getElementsByClassName('img-Id')[0].innerHTML;
+		 var arrId = [];
+		 
+		
+		 for(let i=0;i<=ulId.getElementsByTagName('li').length-1;i++){
+				ulId.getElementsByTagName('li')[i].className = '';
+				if(showneir.innerHTML==ulId.getElementsByTagName('li')[i].innerHTML){
+					ulId.getElementsByTagName('li')[i].className = 'color';
+				}
+			}	
+	 	ulId.onclick = function(e){
+	 		var target = e.target;
+	 		var num_data = parseInt(target.getAttribute("data-id"));
+	 		
+	 		if(target.className!='color'){
+	 			arrId.push(num_data);
+	 			target.className = 'color';
+	 		}else{
+				arrId.pop(num_data);
+				target.className = '';
+			 }
+	 		
+	 	}
+	 	
+	 	this.parentNode.nextSibling.nextSibling.getElementsByClassName('sure')[0].onclick = function(){
+	 			we.style.display = 'none';
+	 			var string1 = '';
+	 			for(let i=0;i<ulId.getElementsByTagName('li').length;i++){
+	 				if(ulId.getElementsByTagName('li')[i].className == 'color'){
+	 					string1 += ulId.getElementsByTagName('li')[i].innerHTML;
+	 				}
+	 			}
+	 			showneir.innerHTML = string1;
+	 			
+	 			$.ajax({
+					url:'/admin/match/edit_win_ajax',
+					type: 'post',
+					dataType: 'json',
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+					},
+					data: {
+						production_id : parseInt(zuopinId),
+						win_id : arrId
+						
+					},
+					success: function(data){
+						console.log(data)
+						data = JSON.parse(data)
+					}
+				})
+				
+	 	}
+	 })
+
+	// 根据赛事进度给第几轮显示时间
+	var timeNum = $('.number_of_times').text();
+	$('.num_times li').eq(parseInt(timeNum)).find('.time').show();
+
+	
+	$('.on').eq($('.number_times').val()).find('.time').show();
+
+	//左侧移动效果
+	window.onscroll = function(){
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		// console.log(scrollTop)
+		document.getElementsByClassName('sidebar')[0].style.paddingTop = (scrollTop+20)+'px';
+	}
+	//赛事进度方法
+	var num_time = parseInt($('.number_of_times').text());
+	for(let i=0;i<=num_time;i++){
+		$('.num_times li')[i].className = 'on';				
+	}
+	
+	
+	
 /*管理员编辑赛果*/
 $('.edit-btn').on('click','button',function(){
 		var raterbtn = $(this).parent();
@@ -35,9 +117,8 @@ $('.edit-btn').on('click','button',function(){
 		$(this).addClass('active')
 	})
 */
-	var lock = true;		//点击锁
-	var lock2;				//是否相同作品
-	var identical;
+	var lock;				//是否入围
+	var identical;        
 	$('.rater-btn').on('click','button',function(){
 		
 		var raterbtn = $(this).parent();				//获取父级节点
@@ -46,27 +127,26 @@ $('.edit-btn').on('click','button',function(){
 		var btnValue = $(this).attr('value');			//获取按钮值
 		var imgId = $(this).parent().prev().find('.img-Id').text();		//获取该作品的id
 
-		lock2 = imgId==identical?true:false;
 		
-		identical = imgId;
+		identical = imgId;							//将点击的作品替换之前的作品
 		var _this = $(this);
 		
 		var commented = document.getElementsByClassName('text-right')[0].getElementsByTagName('span')[0];		//获取已评的节点
 		var No_comment = document.getElementsByClassName('text-right')[0].getElementsByTagName('span')[1];		//获取未评的节点
-		var state1 = raterbtn[0].getElementsByClassName('active')[0].value;		//获取按钮改变前状态
-		// if(btnValue==1){
-		// 	commented.innerHTML = parseInt(commented.innerHTML)+1;
-		// 	No_comment.innerHTML = parseInt(No_comment.innerHTML)-1;
-			
-		// }else if(btnValue==2){
-		// 	commented.innerHTML = parseInt(commented.innerHTML)-1;
-		// 	No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
-		// 	lock = false;
-		// }else if(btnValue==3&&lock==true){
-		// 	commented.innerHTML = parseInt(commented.innerHTML)-1;
-		// 	No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
-		// 	lock = false;
-		// }
+		
+		if(raterbtn.find('button').hasClass('active')){
+			var state1 = raterbtn[0].getElementsByClassName('active')[0].value;		//获取按钮改变前状态
+			lock = state1==1?true:false;			//作品入围为true，否则false
+		}else{
+			if($(this).val()==1){
+				commented.innerHTML = parseInt(commented.innerHTML)+1;
+				No_comment.innerHTML = parseInt(No_comment.innerHTML)-1;
+			}
+		}
+		
+
+		
+
 		var ajax = function(){
 			return $.ajax({
 				url:'/rater/pic',
@@ -88,24 +168,21 @@ $('.edit-btn').on('click','button',function(){
 			})
 		}
 		ajax().then(function(){
-			var state2 = raterbtn[0].getElementsByClassName('active')[0].value;			//获取按钮改变后状态
-			if(lock2==false){
-				lock=true;
-			}else{
-				lock=false;
-			}
-			if(state1!=state2&&btnValue==1){
-				commented.innerHTML = parseInt(commented.innerHTML)+1;
-				No_comment.innerHTML = parseInt(No_comment.innerHTML)-1;
-				lock=true;
-			}else if(state1!=state2&&btnValue!=1&&lock==true){
-				commented.innerHTML = parseInt(commented.innerHTML)-1;
-				No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
-				lock=false;
-			}else if(state1!=state2&&btnValue!=1&&lock==true){
-				commented.innerHTML = parseInt(commented.innerHTML)-1;
-				No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
-				lock=false;
+			if(raterbtn.find('button').hasClass('active')){
+				var state2 = raterbtn[0].getElementsByClassName('active')[0].value;			//获取按钮改变后状态
+					if(state1!=state2&&btnValue==1){
+						commented.innerHTML = parseInt(commented.innerHTML)+1;
+						No_comment.innerHTML = parseInt(No_comment.innerHTML)-1;
+						lock=true;
+					}else if(state1!=state2&&btnValue!=1&&lock==true){					//是否点击的不是同一个按钮而且没入围
+						commented.innerHTML = parseInt(commented.innerHTML)-1;
+						No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
+						lock=false;
+					}else if(state1!=state2&&btnValue!=1&&lock==true){
+						commented.innerHTML = parseInt(commented.innerHTML)-1;
+						No_comment.innerHTML = parseInt(No_comment.innerHTML)+1;
+						lock=false;
+					}
 			}
 		})
 	})
@@ -120,26 +197,35 @@ $('.edit-btn').on('click','button',function(){
 		
 		modelImg.attr('src',imgSrc);						//修改显示的img标签路径
 
-		var btnactive = $(this).next().next();
+		//点击作品替换显示详情的分数
+		if($('.score_input')[0]){
+			var btnactive = $(this).next().next();
+			var now_num = parseInt(btnactive.text().substr(btnactive.text().indexOf(':')+1))
+			if(now_num){
+				$('.score_input')[0].value = now_num;
+			}else{
+				$('.score_input')[0].value = '';
+			}
+		}
 		
-		var passbtnactive = btnactive.find('.passbtn').hasClass("active");
-		var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
-		var outbtnactive = btnactive.find('.outbtn').hasClass("active");
-		if (passbtnactive) {
-			$('.btnrater .passbtn').addClass('active')
-			$('.btnrater .whilebtn').removeClass('active')
-			$('.btnrater .outbtn').removeClass('active')
-		};
-		if (whilebtnactive) {
-			$('.btnrater .whilebtn').addClass('active')
-			$('.btnrater .passbtn').removeClass('active')
-			$('.btnrater .outbtn').removeClass('active')
-		};
-		if (outbtnactive) {
-			$('.btnrater .whilebtn').removeClass('active')
-			$('.btnrater .passbtn').removeClass('active')
-			$('.btnrater .outbtn').addClass('active')
-		};
+		// var passbtnactive = btnactive.find('.passbtn').hasClass("active");
+		// var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
+		// var outbtnactive = btnactive.find('.outbtn').hasClass("active");
+		// if (passbtnactive) {
+		// 	$('.btnrater .passbtn').addClass('active')
+		// 	$('.btnrater .whilebtn').removeClass('active')
+		// 	$('.btnrater .outbtn').removeClass('active')
+		// };
+		// if (whilebtnactive) {
+		// 	$('.btnrater .whilebtn').addClass('active')
+		// 	$('.btnrater .passbtn').removeClass('active')
+		// 	$('.btnrater .outbtn').removeClass('active')
+		// };
+		// if (outbtnactive) {
+		// 	$('.btnrater .whilebtn').removeClass('active')
+		// 	$('.btnrater .passbtn').removeClass('active')
+		// 	$('.btnrater .outbtn').addClass('active')
+		// };
 
 		//按顺序获取列表内的作品id
 		var arrId = [];		//id数组
@@ -156,6 +242,7 @@ $('.edit-btn').on('click','button',function(){
 		  method: 'get',
 		  success: function(data){
 			  var oData = data.data;
+			  console.log(data)
 			picInfro(oData)
 		  }
 		})
@@ -172,40 +259,51 @@ $('.edit-btn').on('click','button',function(){
 		}
 
 		var _this = $(this)
-		var index = $(this).parent().index();
-		var lengthLi = $(this).parent().parent().find('li').length;
-
+		var index = $(this).parent().index();				//获取当前li在ul中的索引
+		var lengthLi = $(this).parent().parent().find('li').length;		//获取li的个数
+		
 		$('.next').on('click',function(){
-			if (index ===(lengthLi-1)) {
+			
+			if (index ===(lengthLi-1)) {		//当点击的到最后一个li时不在往下运行
 				return
 			};
-			index++;
-			var nextImgSrc = _this.parent().parent().find('li').eq(index).find('img').attr('src');
-			modelImg.attr('src','');
-			modelImg.attr('src',nextImgSrc);
-			var imgId = _this.parent().parent().find('li').eq(index).find('.img-Id').text();
-			var btnactive = _this.parent().parent().find('li').eq(index).find('.rater-btn');
-			var passbtnactive = btnactive.find('.passbtn').hasClass("active");
-			var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
-			var outbtnactive = btnactive.find('.outbtn').hasClass("active");
-			if (passbtnactive) {
-				$('.btnrater .passbtn').addClass('active')
-				$('.btnrater .whilebtn').removeClass('active')
-				$('.btnrater .outbtn').removeClass('active')
-			};
-			if (whilebtnactive) {
-				$('.btnrater .whilebtn').addClass('active')
-				$('.btnrater .passbtn').removeClass('active')
-				$('.btnrater .outbtn').removeClass('active')
-			};
-			if (outbtnactive) {
-				$('.btnrater .whilebtn').removeClass('active')
-				$('.btnrater .passbtn').removeClass('active')
-				$('.btnrater .outbtn').addClass('active')
-			};
-			console.log(btnactive)
+			index++;							//li索引自增
+			var nextImgSrc = _this.parent().parent().find('li').eq(index).find('img').attr('src');		//获取下一个作品的图片路径
+			modelImg.attr('src','');			//清空显示详情的路径
+			modelImg.attr('src',nextImgSrc);	//替换路径
+			var imgId = _this.parent().parent().find('li').eq(index).find('.img-Id').text();			//获取下一个作品的id
+			var btnactive = _this.parent().parent().find('li').eq(index).find('.rater-btn');			//获取下一个作品的分数节点
+			// var passbtnactive = btnactive.find('.passbtn').hasClass("active");						//搜索下一个作品的类名为passbtn有无类名active
+			//点击下一个作品替换显示详情的分数
+			var next_num = parseInt(btnactive.text().substr(btnactive.text().indexOf(':')+1));
+			if($('.score_input')[0]){
+				if(next_num){
+					$('.score_input')[0].value = next_num;
+				}else{
+					$('.score_input')[0].value = '';
+				}
+			}
+			// var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
+			// console.log('123',btnactive.find('.whilebtn'))
+			// var outbtnactive = btnactive.find('.outbtn').hasClass("active");
+			// if (passbtnactive) {
+			// 	$('.btnrater .passbtn').addClass('active')
+			// 	$('.btnrater .whilebtn').removeClass('active')
+			// 	$('.btnrater .outbtn').removeClass('active')
+			// };
+			// if (whilebtnactive) {
+			// 	$('.btnrater .whilebtn').addClass('active')
+			// 	$('.btnrater .passbtn').removeClass('active')
+			// 	$('.btnrater .outbtn').removeClass('active')
+			// };
+			// if (outbtnactive) {
+			// 	$('.btnrater .whilebtn').removeClass('active')
+			// 	$('.btnrater .passbtn').removeClass('active')
+			// 	$('.btnrater .outbtn').addClass('active')
+			// };
+			// console.log(btnactive)
 
-			console.log(imgId)
+			// console.log(imgId)
 			$.ajax({
 			  url: '/rater/rater_pic/'+imgId,
 			  method: 'get',
@@ -237,25 +335,34 @@ $('.edit-btn').on('click','button',function(){
 
 			var imgId = _this.parent().parent().find('li').eq(index).find('.img-Id').text();
 			var btnactive = _this.parent().parent().find('li').eq(index).find('.rater-btn');
-			var passbtnactive = btnactive.find('.passbtn').hasClass("active");
-			var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
-			var outbtnactive = btnactive.find('.outbtn').hasClass("active");
-			if (passbtnactive) {
-				$('.btnrater .passbtn').addClass('active')
-				$('.btnrater .whilebtn').removeClass('active')
-				$('.btnrater .outbtn').removeClass('active')
-			};
-			if (whilebtnactive) {
-				$('.btnrater .whilebtn').addClass('active')
-				$('.btnrater .passbtn').removeClass('active')
-				$('.btnrater .outbtn').removeClass('active')
-			};
-			if (outbtnactive) {
-				$('.btnrater .whilebtn').removeClass('active')
-				$('.btnrater .passbtn').removeClass('active')
-				$('.btnrater .outbtn').addClass('active')
-			};
-			console.log(imgId)
+			//点击上一个作品替换显示详情的分数
+			var prev_num = parseInt(btnactive.text().substr(btnactive.text().indexOf(':')+1));
+			if($('.score_input')[0]){
+				if(prev_num){
+					$('.score_input')[0].value = prev_num;
+				}else{
+					$('.score_input')[0].value = '';
+				}
+			}
+			// var passbtnactive = btnactive.find('.passbtn').hasClass("active");
+			// var whilebtnactive = btnactive.find('.whilebtn').hasClass("active");
+			// var outbtnactive = btnactive.find('.outbtn').hasClass("active");
+			// if (passbtnactive) {
+			// 	$('.btnrater .passbtn').addClass('active')
+			// 	$('.btnrater .whilebtn').removeClass('active')
+			// 	$('.btnrater .outbtn').removeClass('active')
+			// };
+			// if (whilebtnactive) {
+			// 	$('.btnrater .whilebtn').addClass('active')
+			// 	$('.btnrater .passbtn').removeClass('active')
+			// 	$('.btnrater .outbtn').removeClass('active')
+			// };
+			// if (outbtnactive) {
+			// 	$('.btnrater .whilebtn').removeClass('active')
+			// 	$('.btnrater .passbtn').removeClass('active')
+			// 	$('.btnrater .outbtn').addClass('active')
+			// };
+			// console.log(imgId)
 			$.ajax({
 			  url: '/rater/rater_pic/'+imgId,
 			  method: 'get',
@@ -341,19 +448,29 @@ $('.edit-btn').on('click','button',function(){
 
 		/*评委评分确认*/
 		$('.btnrater').on('click','.sure',function(){
-				   var raterbtn = $(this).parent().parent();
+				var raterbtn = $(this).parent().parent();
 				var raterbtnMatch = raterbtn.attr('match');
 				var raterbtnRound = raterbtn.attr('round');
 				var btnType = raterbtn.attr('type');
 				var btnValue = $('.score_input');
 				var imgId1 = _this.parent().parent().find('li').eq(index).find('.img-Id').text();
 				var arr = [];
-
+				var showId = $(this).parent().parent().parent().next()[0].getElementsByTagName('ul')[0].getElementsByTagName('li')[0].getElementsByTagName('span')[1].innerHTML;
+				//显示的id
+				
+				// btnValue.val()
+				
+				//确认后改变页面的分数
+				for(let i=0;i<$('.rater-main .img-Id').length;i++){
+					if($('.rater-main .img-Id')[i].innerHTML==showId){
+						$('.rater-main .img-Id')[i].parentNode.nextSibling.nextSibling.innerHTML = '综合分:'+btnValue.val();
+					}
+				}
 				for(var i=0 ;i<btnValue.length;i++){
 					arr[i] = btnValue.eq(i).val()
 				}
 				
-				console.log(raterbtnMatch,raterbtnRound,btnType,JSON.stringify(arr))
+				// console.log(raterbtnMatch,raterbtnRound,btnType,JSON.stringify(arr))
 
 				$.ajax({
 					url:'/rater/pic',
@@ -366,7 +483,7 @@ $('.edit-btn').on('click','button',function(){
 						"res": ""+JSON.stringify(arr)+""
 					},
 					success: function(data){
-						console.log(data);
+						// console.log(data);
 					}
 				})
 		   })
@@ -433,10 +550,8 @@ $('.edit-btn').on('click','button',function(){
 				ajax(arrId[num])
 			}
 		})
-
-		
-
 	})
+	
 })
 
 
@@ -462,6 +577,6 @@ $('.edit-btn').on('click','button',function(){
     		}
     	})
     	data.pid = $(this).parents('.choosebox').attr('index');
-    	console.log(data)
+    	// console.log(data)
 
     })

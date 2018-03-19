@@ -51,16 +51,23 @@ Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/consumes', 'Home\UserController@consumes');
 
     Route::get('/organ', 'Home\UserController@organ');
-
+    //参赛中心
     Route::get('/match', 'Home\UserController@user_match');
-
+    //赛事作品
     Route::get('/match/{id}', 'Home\UserController@match_pic');
 
     Route::get('/member', 'Home\UserController@member');
 
+    Route::get('/pic/{id}', 'Home\UserController@pic');
+
+    Route::post('/del_pic', 'Home\UserController@del_pic');
+
+    Route::post('/pic/{id}', 'Home\UserController@editpic');
+
     Route::post('/editInfo/{id}', 'Home\UserController@editInfo');
 
     Route::post('/edit_img', 'Home\UserController@edit_img');
+
     
     Route::post('/editPassword/{id}', 'Home\UserController@editPassword');
 });
@@ -232,6 +239,7 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
 
         Route::post('badboy', 'Admin\MatchController@badboy');
 
+
         Route::get('end_match/{id}', 'Admin\MatchController@end_match');
 
         Route::get('show_end/{id}', 'Admin\MatchController@show_end');
@@ -245,7 +253,6 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::get('get_rater_info/{id}', 'Admin\MatchController@get_rater_info');
 
         Route::post('edit_win_ajax', 'Admin\MatchController@edit_win_ajax');
-
         //ajax搜索评委
         Route::get('search_rater', 'Admin\MatchController@ajax_search_rater');
         //ajax新建评委

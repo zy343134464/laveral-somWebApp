@@ -64,10 +64,10 @@ class Production extends Model
         }
     }
 
-    public function win($mid, $pid)
+    public function win($pid)
     {
         try {
-            $result = \DB::table('result')->select('win_id')->where(['match_id'=>$mid, 'production_id'=>$pid])->get();
+            $result = \DB::table('result')->select('win_id')->where(['production_id'=>$pid])->get();
             $string ='';
             foreach ($result as $key => $value) {
                 $res = \DB::table('win')->select('name')->where('id', $value->win_id)->first();
@@ -191,6 +191,9 @@ class Production extends Model
                 return ['data'=>true,'msg'=>'success with score'.$total];
             } else {
                 // 投票
+                //获取评审
+                $reviews = \DB::table('reviews')->where(['match_id'=>$request->match_id, 'round'=>$request->round])->first();
+                
                 \DB::table('score')->insert([
                     'match_id'=>$request->match_id,
                     'production_id'=>$request->id,

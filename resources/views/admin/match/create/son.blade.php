@@ -50,19 +50,7 @@
             <h4 class="name">{{json_decode($v->title)[0]}}</h4>
             <p class="tag">{{ $v->tag}}</p>
             <p class="detail" style="display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;">{{ mb_substr($v->detail,0,30)}}</p>
-            <p>征稿期: 
-                                @if($v->collect_start)
-                                {{ date('Y-m-d',$v->collect_start)}}
-                                @else
-                                未设置
-                                @endif
-                            -
-                                @if($v->collect_end)
-                                {{ date('Y-m-d',$v->collect_end)}}
-                                @else
-                                未设置
-                                @endif
-           </p>
+           
           </div>
           <div class="judge-edit">
             <a href="{{ url('admin/match/edit/'.$v->id)}}" class="btn" style="right:76px;"><i class="fa fa-edit"></i></a>

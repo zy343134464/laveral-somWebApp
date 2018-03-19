@@ -83,9 +83,6 @@
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
                                     </li>
-                                    <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="#">修改密码</a>
-                                    </li>
                                     <li role="presentation" class="divider"></li>
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('logout') }}">退出</a>

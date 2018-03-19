@@ -224,7 +224,7 @@
     </div>
     <!-- /.row -->
     <div class="paging text-center">
-        {{ $matches->appends(['kw' => $kw,'status'=>@$status])->links() }}
+        {{ $matches->appends(['kw' => $kw,'status'=>$status])->links() }}
     </div>
 </section>
 <!-- /.content -->

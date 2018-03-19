@@ -87,6 +87,19 @@
             </div>
         </div>
     </div>
+
+    <!-- 提示弹窗 -->
+    <div id="popPrompt" class="pop-prompt fade">
+        <h1 class="prompt-title"></h1>
+        <p class="prompt-text"></p>
+        <div class="prompt-btn">
+            <a href="javascript:void(0)" class="btn-succeed">确定</a>
+            <a href="javascript:$('#popPrompt').hide().removeClass('in'); $('.pop-mask').hide()" class="btn-close">取消</a>
+        </div>
+
+        <a href="javascript:$('#popPrompt').hide().removeClass('in'); $('.pop-mask').hide()" class="pop-close">&times;</a>
+    </div>
+
 </section>
 
 <script>
@@ -101,7 +114,24 @@
 
     function popShow(id) {
         $('.pop-mask').show();
-        $('#'+id).show();
+        $('#'+id).show().addClass('in');
+    }
+
+    function promptShow(title, text, fun) {
+        var promptObj = $('#popPrompt');
+        if(title) {
+            promptObj.find('.prompt-title').html(title)
+        }
+        if(text) {
+            promptObj.find('.prompt-text').html(text)
+        }
+        if(fun && typeof fun === 'function') {
+            promptObj.find('.prompt-btn').show();
+            promptObj.find('.prompt-btn .btn-succeed').unbind().bind('click', fun);
+        } else {
+            promptObj.find('.prompt-btn').hide();
+        }
+        popShow('popPrompt');
     }
 </script>
 

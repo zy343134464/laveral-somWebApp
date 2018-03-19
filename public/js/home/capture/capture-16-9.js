@@ -1,6 +1,5 @@
  $(function() {
   'use strict';
-
   var console = window.console || { log: function () {} };
   var URL = window.URL || window.webkitURL;
   var $image = $('#image');
@@ -23,9 +22,9 @@
   // Cropper
   $image.cropper(options);
 
+   
   // Import image
   var $inputImage = $('#inputImage');
-
   if (URL) {
       $inputImage.change(function () {
         var files = this.files;
@@ -47,6 +46,7 @@
             }
 
             uploadedImageURL = URL.createObjectURL(file);
+
             $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options).siblings('label').hide();;
             $inputImage.val('');
             $('.manage-btn-box').show();
@@ -57,6 +57,7 @@
       });
   } else {
       $inputImage.prop('disabled', true).parent().addClass('disabled');
+      $('#posters_picture').attr('src',posters_imgSrc);
   }
 
   // 放大缩小
@@ -73,7 +74,6 @@
     var $this = $(this);
     var result = $image.cropper('getCroppedCanvas', {});
     var src = result.toDataURL(uploadedImageType);
-
     // console.log(uploadedImageURL);
     // console.log($image.cropper("getData"));
     // console.log(src);

@@ -156,11 +156,11 @@
                          <!--    <div class="t6">
                             </div> -->
                         </div>
-                        <div class="footer fix">
-                            <a href="{{ url('admin/match/showedit/') }}" class="btn btn-default"> 还原</a>
-                            <a href="{{ url('admin/match/edit/') }}" class="btn btn-default"> 返回编辑</a>
-                            <button class="btn btn-defult">保存 </button>
-                            <a href="{{ url('admin/match/push_match/') }}" class="btn btn-default"> 发布比赛</a>
+                        <div class="footer" id="footer_page">
+                            <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default"> 还原</a>
+                            <a href="{{ url('admin/match/edit/'.$id) }}" class="btn btn-default"> 返回编辑</a>
+                            <button class="btn btn-default">保存 </button>
+                            <a href="{{ url('admin/match/push_match/'.$id) }}" class="btn btn-default"> 发布比赛</a>
                         </div>
                     </div>
                 </div>

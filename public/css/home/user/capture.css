@@ -11,7 +11,7 @@ h1, label {margin: 0; padding: 0}
 	opacity: 0.8;
 	-moz-opacity:0.8;
 	-webkit-opacity:0.8;
-	z-index: 1000;
+	z-index: 9999;
 }
 .pop-capture {
 	position: fixed;
@@ -21,7 +21,7 @@ h1, label {margin: 0; padding: 0}
 	height: 450px;
 	background-color: #fff;
 	margin: -225px 0 0 -250px;
-	z-index: 1001;
+	z-index: 10000;
 }
 .capture-title {
 	line-height: 50px;

@@ -1,7 +1,10 @@
 $(function () {
-  
-  
-
+  // var qwe = $('.form-horizontal .sheave').length;
+      
+  //     console.log($('.form-horizontal .sheave')[0])
+  // $('.form-horizontal .sheave')[0].getElementsByClassName('text-right')[1].style.display = 'none';
+      
+       
   /*赛事主题*/
 
     // 赛事详情页设置新增标题
@@ -163,7 +166,7 @@ $(function () {
     $('#ratertag').val(raterTag.text());
     $('#raterdetail').val(raterDetail.text());
     $('#hidden').val(raterId.text());
-    $('#poster-pic').find('img').attr('src',raterPic);
+    $('#aetherupload-wrapper').html('<img src="'+ raterPic +'">').css({'padding-top': 0, 'border-radius': '50%'});
     $('.savedraterpath').val(raterPicTo);
   })
 
@@ -181,7 +184,7 @@ $(function () {
     $('#ratertag').val(raterTag.text());
     $('#raterdetail').val(raterDetail.text());
     $('#hidden').val(raterId.text());
-    $('#poster-pic').find('img').attr('src',raterPic);
+    $('#aetherupload-wrapper').html('<img src="'+ raterPic +'">').css({'padding-top': 0, 'border-radius': '50%'});
     $('.savedraterpath').val(raterPicTo);
   })
 

@@ -38,19 +38,18 @@
                         </li>
                          -->
                         <li>
-                            <a href="{{ url('user/match/'.$v->id) }}">
-                                <div class="match-img">
-                                    <img src="{{ url($v->pic) }}" width="355" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
-                                </div>
-                            </a>
+                            <div class="match-img">
+                                <img src="{{ url($v->pic) }}" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
+                                <a href="{{ url('user/match/'.$v->id) }}" class="match-check-mask">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
                             <div class="match-content">
-                                <h4>{{ (json_decode($v->title))[0]}}</h4>
-                                <span class="status status-solicit">
-                                
-                                已投稿
+                                <a href="{{ url('match/detail/'.$v->id) }}"><h4  title="{{ (json_decode($v->title))[0]}}">{{ (json_decode($v->title))[0]}}</h4></a>
+                                <span class="status status-solicit">已投稿</span>
+                                <span class="status">未投稿</span>
 
-                                </span>
-                                <span class="status-time" style="color:#666;">
+                                <p class="status-time" style="color:#666;">
                                 征稿期： @if($v->collect_start)
                                 {{ date('Y-m-d',$v->collect_start)}}
                                 @else
@@ -62,14 +61,16 @@
                                 @else
                                 未设置
                                 @endif
-                                
-                                </span>
+                                </p>
                             </div>
                             <div class="footer">
+                                <a href="javascript:void(0)" class="del-btn"><i class="fa fa-close"></i></a>
+                            </div>
+                            <!-- <div class="footer">
                                 <a href="#"><i class="fa fa-eye"></i> 0</a>
                                 <a href="#"><i class="fa fa-thumbs-o-up"></i> 0</a>
                                 <a href="#"><i class="fa fa-comment-o"></i> 0</a>
-                            </div>
+                            </div> -->
                         </li>
                          @endforeach
                          
@@ -97,4 +98,5 @@
         </div>
     </div>
 </div>
+
 @endsection

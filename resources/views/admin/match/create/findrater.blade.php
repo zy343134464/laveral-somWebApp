@@ -3,6 +3,8 @@
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/admin/match/matchcreate.css') }}">
+    <link rel="stylesheet" href="{{url('css/home/user/cropper.css')}}">
+    <link rel="stylesheet" href="{{url('css/home/user/capture.css')}}">
 @endsection
 
 
@@ -81,25 +83,25 @@
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="introduction" class="col-sm-2 control-label">简介</label>
                             <div class="col-sm-5">
-                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required></textarea>
+                                <textarea class="form-
+
+                                control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required></textarea>
                             </div>
                         </div>
-                        <div class="guestimg" id="aetherupload-wrapper">
+                        <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
                             <div class="upload-pic">
                                 <div class="upload-wrapper">
-                                    <a class="file">+
-                                        <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
-                                    </a>
-                                    <input type="hidden" name="pic" id="savedpath">
-                                    <p class="help-block">添加个人图片</p>
+                                    <a class="file">+</a>
+                                    <p class="help-block">添加个人图片</p><!-- 
                                     <span style="font-size:12px;color:#aaa;" id="output"></span>
                                     <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 56px;margin-left:70px;">
                                         <div id="progressbar" style="background:blue;height:6px;width:0;"></div>
                                     </div>
-                                    <div id="poster-pic"></div>
+                                    <div id="poster-pic"></div> -->
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="pic" id="savedpath">
                         <div class="modal-footer">
                             <div class="col-sm-5" style="margin-left:-5px;">
                                 <input type="submit" class="btn btn-default" value="确认提交"></input>
@@ -111,9 +113,58 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<div class="pop-mask" style="display: none;"></div>
+    <div id="popCapture" class="pop-capture pop-info" style="display: none;">
+        <a href="javascript:void:void(0)" class="pop-close pop-hide"></a>
+        <h1 class="capture-title">上传头像</h1>
+        <!-- Content -->
+        <div class="capture-container">
+            <div class="capture-info">
+                <!-- <h3>Demo:</h3> -->
+                <div class="img-container">
+                    <img src="" id="image" alt="">
+                    <label id="upload" for="inputImage">点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
+                </div>
+
+                <div class="manage-btn-box">
+                    <label class="manage-btn btn-upload" for="inputImage">重新上传</label>
+                    <a href="javascript:void(0)" class="manage-btn btn-plus">＋</a>
+                    <a href="javascript:void(0)" class="manage-btn btn-minus">－</a>
+                </div>
+                <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+            </div>
+            <div class="capture-show">
+                <!-- <h3>Preview:</h3> -->
+                <div class="docs-preview clearfix">
+                    <div class="img-preview preview-lg"></div>
+                </div>
+                <p class="preview-title">头像预览</p>
+                <a href="javascript:void(0)" class="capture-btn btn-confirm">确定</a>
+                <a href="javascript:void(0)" class="capture-btn btn-cancel pop-hide">取消</a>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('other_js')
+    <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
+    <script>        
+        $('.navbar-nav li a').each(function(){
+            if($($(this))[0].href==String(window.location)){
+                $(this).parent().parent().find('li').removeClass('active')
+                $(this).parent().addClass('active');
+            }
+        });
+        function popShow(id) {
+            $('.pop-mask').show();
+            $('#'+id).show();
+        }
+    </script>
+
+    <script src="{{url('js/cropper.js')}}"></script>
+    <script src="{{url('js/jquery-cropper.js')}}"></script>
+    <script src="{{url('js/home/capture/capture-1-1.js')}}"></script>
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
 @endsection
 

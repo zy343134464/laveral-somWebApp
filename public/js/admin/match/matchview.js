@@ -66,22 +66,20 @@ function checkFuc(ele){
 $(window).on("scroll",Check);
 
 function Check(){
-
 	var wst = $(window).scrollTop(),
-		foot_h = $("#footer").height()+74,
-		ele_top = $("#advertisement").height(),
 		key =0,
 		flag = true,
+		ele_top = $('#matchview').offset().top,
 		height=getClientHeight(),
-		theight=getScrollTop(), 
+		theight=getScrollTop(),
 		rheight=getScrollHeight(),
-		bheight=rheight-theight-height; 
-		console.log(ele_top,wst+'---------',array[0]);
-
+		bheight=rheight-theight-height,
+		side_h = $(json.control1).height(),
+		cont_top = $('#footer').offset().top,
+		side_up_h = $('.sign-up div').height();
 	for(var i =0; i<array.length; i++){
 		key++;
 		if(flag){
-
 			if(wst >= array[array.length-key]-300){
 				var index = array.length-key;
 				flag = false;
@@ -90,31 +88,46 @@ function Check(){
 			}
 		}
 	}
-	
 	if(wst>ele_top){
-		$(json.control1).addClass('fix');
-		$(json.control2).children().eq(0).addClass(json.current).siblings().removeClass(json.current);
-		if(wst>1380){
-			$('#matchview .footer').removeClass('fix');
+		$(json.control1).stop().animate({
+					"top": wst-ele_top+'px'
+				},0);
+		var foot_h = height-side_h;
+		console.log(cont_top+"cont_top",wst+"wst---",cont_top>wst);
+		if(bheight<152&&side_h>560){
+			console.log(bheight);
+			$(json.control1).stop().animate({
+					"top": wst-ele_top-(side_up_h*3+20)+'px'
+				},0);
+			$('#matchview #footer_page').removeClass('fix')
+		}
+		else if(bheight<60&&side_h>480){
+			$(json.control1).stop().animate({
+					"top": wst-ele_top-(side_up_h*2-10)+'px'
+				},0);
+		}
+		if(cont_top-ele_top-74>wst){
+			$('#matchview #footer_page').addClass('fix')
+		}else{
+			$('#matchview #footer_page').removeClass('fix')
 		}
 
-		if(bheight<foot_h){
-			
-			$("html,body").css({"overflow-Y":"hidden"});
-			console.log(foot_h+"foot");
-		}
-
-	}else  {
-		$(json.control1).removeClass('fix');
-		 $('#matchview .footer').addClass('fix');
+	}else{
+		$(json.control1).stop().animate({
+					"top": '0px'
+				},0);
 	}
 	Selected(index);
 }
+
+
+
 $(json.sign_up).on("click",'div',function(){
 	var status = $(this).data('status');
 	$(this).addClass(json.current).siblings().removeClass(json.current);
 	if (status=='sign') {
 		$(json.layer).show();
+		$('body').css('overflow','hidden');
 		checkFuc('.statement-div .checkbox input');
 	}else{
 		$("html,body").stop().animate({
@@ -127,6 +140,7 @@ $(json.sign_up).on("click",'div',function(){
 
 $(json.layer).on("click",'.layer-close',function(){ 
 	$(json.layer).hide(); 
+	$('body').css('overflow','auto');
 })
 
 $(json.layer).on("click",'.layer-check-input',function(){
@@ -134,7 +148,16 @@ $(json.layer).on("click",'.layer-check-input',function(){
 });
 
 
-
+$('.team-div').on('click','input',function(){
+	var teamVal = $(this).val();
+	if(teamVal=='personal'){
+		$('.team-personal').show();
+		$('.team-group').hide()
+	}else{
+		$('.team-group').show();
+		$('.team-personal').hide();
+	}
+})
 
 $(json.control2).on("click",'li',function(){
 	$(window).off("scroll");

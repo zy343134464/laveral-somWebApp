@@ -16,7 +16,7 @@ class Checkrater
     public function handle($request, Closure $next)
     {
         $id = \Cookie::get('user_id');
-        $res = \DB::table('rater_match')->select('id')->where(['user_id'=>$id])->whereIn('status', [1,2])->first();
+        $res = \DB::table('rater_match')->select('id')->where(['user_id'=>$id])->whereIn('status', [0,1,2])->first();
         
         if (count($res)) {
             return $next($request);

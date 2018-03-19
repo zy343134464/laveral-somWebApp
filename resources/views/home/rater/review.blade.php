@@ -34,18 +34,27 @@
             @endif
             </div>
         </div>
+
+        <input type="hidden" class="number_times" value={{$round - 1}}>
+
         <div class="col-xs-12 text-center">
             <div class="rater-nav clearfix">
                 <ul class="nav navbar-nav">
                     @for($i=1;$i<$match->sum_round($match->id) + 1;$i++)
-                    <li><a href="?round={{$i}}&status=2">第{{$i}}轮评审</a></li>
+                    <li class="on">
+                        <a href="?round={{$i}}&status=2">第{{$i}}轮评审</a>
+                        <div class="time" style="display:none;">
+                            剩下:<span>{{ $time }}</span>
+                            <span>　</span>
+                        </div>
+                    </li>
                     @endfor
                 </ul>
-                <div class="progress"></div>
-                <div class="time" >
-                    <!-- 剩下:<span>2天 4:58</span> -->
+                <!-- <div class="progress"></div> -->
+                <!-- <div class="time" >
+                    剩下:<span>2天 4:58</span>
                     <span>　</span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-xs-12 clearfix">
@@ -197,9 +206,9 @@
                             <div>
                             @if($type == 2)
                             @foreach((json_decode($review->setting,true))['dimension'] as $rk=>$rv)
-                                {{$rv}}: <input type="text" class="score_input"
+                                {{$rv}}: <input type="number" class="score_input"
                                 min="{{(json_decode($review->setting))->min }}" 
-                                max="{{ (json_decode($review->setting))->min }}" 
+                                max="{{ (json_decode($review->setting))->max }}" 
                                 index="{{ ((json_decode($review->setting,true)))['percent'][$rk] }}" style="width:40px;margin:5px 4px">
                             @endforeach
                             @endif

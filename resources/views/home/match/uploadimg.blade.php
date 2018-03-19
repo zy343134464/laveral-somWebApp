@@ -36,10 +36,10 @@
                       <label for="file" class="upload-btn" id="aetherupload-wrapper">
                         <p>点击添加图片</p>
                         <!-- <span>支持多张上传，不可超过剩余张数</span> -->
-                        <input type="file" id="file" multiple="multiple" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
-                        <input type="hidden" name="pic" id="savedpath">
+                        <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
                       </label>
                     </div>
+                    <div id="submitPath"></div>
                 </div>
                 <div class="nextPage">
                     <input type="submit" class="btn btn-default" value="下一步">
@@ -47,6 +47,7 @@
             </div>
         </div>
     </form>
+    <input type="hidden" name="pic" id="savedpath">
     </div>
 </main> 
 
@@ -63,7 +64,9 @@
       var pathId = 0;
       var imgNum = 0;
 
-      var imgMaxNum = 2; //最大上传数量
+      var imgMaxNum = 10; //最大上传数量
+
+      var minLen = '{{$personal->length}}'; // 最小边长
 
       $(function() {
         imgNumShow()
@@ -77,39 +80,54 @@
     // 图片上传
       someCallback = function(){
         imgNum ++;
-        $('#file').removeAttr("disabled").val('');
         if(imgNum >= parseInt(imgMaxNum)) {
           $('#aetherupload-wrapper').hide();
         }
         // 加载图片
         var path = $('#savedpath')[0].defaultValue;
-        var $imgObj = $('<div class="upload-item"><image src=\\uploadtemp\\'+path+'/></div>');
 
-        var pathItem = {id: pathId, path: path};
-        pathArr.push(pathItem);
+        var $img = new Image();
+        $img.onload = function() {
+          if($img.width < parseInt(minLen) || $img.height < parseInt(minLen)) {
+            alert('作品最短的一边长度必须大于' + minLen + 'px');
+          } else {
+            var $imgObj = $('<div class="upload-item"></div>');
 
-        // 点击删除按钮
-        var $resetBtn = $('<a href="javascript:void(0)" class="upload-del" data-id="'+ pathItem.id +'" title="删除图片"><i class="fa fa-close"></i></a>');
-        $imgObj.append($resetBtn);
-        $(".imgwrapper").append($imgObj);
+            var pathItem = {id: pathId, path: path};
+            pathArr.push(pathItem);
 
-        imgNumShow();
+            submitShow()
 
-        $resetBtn.on('click',function(){
-          var _this = $(this);
-          var pid = _this.attr('data-id');
-          _this.parents('.upload-item').remove();
-          imgNum --;
-          $('#aetherupload-wrapper').show();
-          for(var i=0; i<pathArr.length; i++) {
-            if(pathArr[i].id === parseInt(pid)) {
-              pathArr.splice(i, 1);
-            }
+            // 点击删除按钮
+            var $resetBtn = $('<a href="javascript:void(0)" class="upload-del" data-id="'+ pathItem.id +'" title="删除图片"><i class="fa fa-close"></i></a>');
+            $imgObj.append($img).append($resetBtn);
+            $(".imgwrapper").append($imgObj);
+
+            imgNumShow();
+
+            $resetBtn.on('click',function(){
+              var _this = $(this);
+              var pid = _this.attr('data-id');
+
+              $('#aetherupload-wrapper').show();
+              for(var i=0; i<pathArr.length; i++) {
+                if(pathArr[i].id === parseInt(pid)) {
+                  pathArr.splice(i, 1);
+                }
+              }
+
+              submitShow();
+
+              _this.parents('.upload-item').remove();
+              imgNum --;
+              imgNumShow();
+            });
+            pathId ++;
           }
-          imgNumShow();
-        });
-
-        pathId ++;
+          $('#file').removeAttr("disabled").val('');
+        }
+        $img.src = '\\uploadtemp\\' + path;
+        
       }
       
       var minsize = '{{$personal->size_min}}';
@@ -117,7 +135,6 @@
       //限制文件大小
       var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
       function fileChange(target,id) { 
-        console.log(target.files);
         var fileSize = 0; 
         var filetypes =[".jpg",".png",".jpeg",".jepg"]; 
         var filepath = target.value; 
@@ -153,7 +170,7 @@
           fileSize = file.Size; 
         } else { 
           fileSize = target.files[0].size; 
-        } 
+        }
 
         var size = fileSize / 1024; 
         if(size>filemaxsize){ 
@@ -165,7 +182,17 @@
           alert("附件大小不能小于"+ minsize +"M！"); 
           target.value =""; 
           return false; 
-        } 
+        }
+        var fileReader = new FileReader();
       } 
+
+      function submitShow() {
+        var $input;
+        $('#submitPath').html('');
+        for(var i=0; i<pathArr.length; i++) {
+          $input = $('<input type="hidden" name="pic[]" id="path'+ i +'" value="'+ pathArr[i].path +'">');
+          $('#submitPath').append($input);
+        }
+      }
     </script>
 @endsection

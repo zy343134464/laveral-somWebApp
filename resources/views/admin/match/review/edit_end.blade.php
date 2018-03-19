@@ -4,11 +4,19 @@
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
     <link rel="stylesheet" href="{{ url('css/home/rater/test.css') }}"/>
+    <meta name="_token" content="{{ csrf_token() }}"/>
 @endsection
 
 
 @section('body')
-
+<style>
+    .rater-main > li {
+        height: 360px;
+    }
+    .num_tims li{
+        border-bottom:4px solid #d0a45d;
+    }
+</style>
 <!-- 主内容 -->
 <section class="content">
     <div class="row clearfix">
@@ -25,18 +33,33 @@
             <h3>{{@json_decode($match->title)[1]}}</h3>
             </div>
             <div class="rater-nav clearfix">
-                <ul class="nav navbar-nav">
-                    <li ><a href="{{url('admin/match/review_room/'.$id)}}">征稿期</a></li>
+                <ul class="nav navbar-nav num_tims">
+                    <li >
+                        <a href="{{url('admin/match/review_room/'.$id)}}">征稿期</a>
+                        <div class="time"  style="display:none;">
+                            剩下:<span>2天 4:58</span>
+                            <span>　</span>
+                        </div>    
+                    </li>
                     @for($i=1;$i<$match->sum_round($match->id) + 1;$i++)
-                    <li><a href="{{url('admin/match/review_room/'.$id.'?round='.$i.'&status=2')}}">第{{$i}}轮评审</a></li>
+                    <li>
+                        <a href="{{url('admin/match/review_room/'.$id.'?round='.$i.'&status=2')}}">第{{$i}}轮评审</a>
+                        <div class="time" style="display:none;">
+                            剩下:<span>2天 4:58</span>
+                            <span>　</span>
+                        </div>
+                    </li>
                     @endfor
-                    <li><a href="?status=3">赛事结束</a></li>
+                    <li>
+                        <a href="?status=3">赛事结束</a>
+                        <div class="time"  style="display:block;">
+                            剩下:<span>2天 4:58</span>
+                            <span>　</span>
+                        </div>
+                    </li>
                 </ul>
-                <div class="progress"></div>
-                <div class="time" >
-                    <!-- 剩下:<span>2天 4:58</span> -->
-                    <span>　</span>
-                </div>
+                <!-- <div class="progress"></div> -->
+                
             </div>
         </div>
         <div class="col-xs-12 clearfix">
@@ -78,19 +101,22 @@
                             </div>
                             <div class="rater-btn" style="padding: 0 20px;" index="{{ $pv->id }}" match="{{ $match->id }}">
                                 <p>{{ $pv->author }}</p>
-                                <!-- <p class="testeli">{{$pv->win($id,$pv->id)}}</p> -->
-                                <p class="testeli">金</p>
-                                <p class="testeli">银</p>
-                                <p class="testeli">铜</p>
+
+                                <p class="testeli">{{$pv->win($pv->id)}}</p>
+                                
                             </div>
                             <button class="textbutton">奖项编辑</button>
                         </div>
                         <div class="choosebox" index="{{ $pv->id }}">
                             <div><span style="float:left" class="cancel">取消</span><span style="float:right" class="sure">确认</span><div style="clear:both"></div></div>
-                            <ul>
-                                <li><input type="checkbox" alt="就看看0"/>金</li>
-                                <li><input type="checkbox" alt="就看看1"/>银</li>
-                                <li><input type="checkbox" alt="就看看2"/>铜</li>
+                            <ul id="ul_num">
+                                @if(count($win))
+                                @foreach($win as $wv)
+                                <li data-id='{{$wv->id}}'>{{$wv->name}}</li>
+                                @endforeach
+                                @else
+                                <li>未设置胜出</li>
+                                @endif
                             </ul>
                         </div>
                     </li>
@@ -110,7 +136,13 @@
     </div>
 </section>
 <!-- /.content -->
-
+<!-- <div>
+    <ul>
+        <li><input type="checkbox" index="1" >金</li>
+        <li><input type="checkbox"  index="2" >银</li>
+        <li><input type="checkbox"  index="3">铜</li>
+    </ul>
+</div> -->
 <!-- 评委投票（Modal） -->
 <div class="modal fade" id="imgrater1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal100">

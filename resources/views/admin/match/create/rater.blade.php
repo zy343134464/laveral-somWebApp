@@ -2,6 +2,12 @@
 @section('title', '评委/嘉宾')
 
 @section('body2')
+<style>
+  .match-guest .content ul>li{
+    width: 266px;
+  }
+  
+</style>
 <div class="match-guest">
 	<!-- <ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="{{ url('admin/match/rater/'.$id) }}" >评委</a></li>
@@ -10,7 +16,7 @@
 	<div class="content">
 		<ul class="judgelist">
 			<li class="addjudge">
-				<a href="{{ url('admin/match/findrater/'.$id) }}">
+				<a  data-toggle="modal" data-target="#matchnew2" id="new">
 					<div class="add-button">+</div>
 					<p>添加评委/嘉宾</p>
 				</a>
@@ -56,7 +62,7 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="id" id="hidden">
                             <div class="form-group">
-                                <label for="username" class="col-sm-2 control-label">姓1名</label>
+                                <label for="username" class="col-sm-2 control-label">姓名</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="ratername" name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
                                 </div>
@@ -73,23 +79,21 @@
                                     <textarea class="form-control" rows="5" placeholder="500字内" id="raterdetail" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)"></textarea>
                                 </div>
                             </div>
-                           <div class="guestimg" id="aetherupload-wrapper">
+                           <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
                                 <div class="upload-pic">
                                     <div class="upload-wrapper">
-                                        <a class="file">+
-                                            <input type="file" id="file" onchange="if(fileChange(this)!==false){aetherupload(this,'file').success(someCallback).upload()}">
-                                        </a>
-                                        <input type="hidden" name="pic" id="savedpath" class="savedraterpath">
+                                        <a class="file">+</a>
                                         <p class="help-block">添加个人图片</p>
                                         <span style="font-size:12px;color:#aaa;" id="output"></span>
-                                        <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 56px;margin-left:70px;">
+                                        <!-- <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 56px;margin-left:70px;">
                                             <div id="progressbar" style="background:blue;height:6px;width:0;"></div>
                                         </div>
                                         <div id="poster-pic"><img src=""></div>
-                                        <div class='form-group closeposition'><div class='col-sm-4 col-sm-offset-2'><div class='close'><i class='fa fa-close'></i></div></div></div>
+                                        <div class='form-group closeposition'><div class='col-sm-4 col-sm-offset-2'><div class='close'><i class='fa fa-close'></i></div></div></div> -->
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="pic" id="savedpath" class="savedraterpath">
                             <div class="modal-footer">
                                 <div class="col-sm-5" style="margin-left:-5px;">
                                     <button class="btn btn-default" id="editraterBtn">确认提交</button>
@@ -101,11 +105,91 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+    <!-- 新建赛事模态框 -->
+<div class="modal fade" id="matchnew2" tabindex="-1" role="dialog" aria-labelledby="matchnewlabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="matchnewlabel">
+                    新建评委
+                </h4>
+            </div>
+            <div class="modal-body">
+               <div class="match-new">
+                    <form class="form-horizontal" role="form" action="{{ url('admin/match/newrater/'.$id) }}" method="post">
+                    {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="username" placeholder="不能超过20个字" required name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="grade" class="col-sm-2 control-label">头衔</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="grade" placeholder="不能超过25个字" required  name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label for="introduction" class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-5">
+                                <textarea class="form-
+
+                                control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required></textarea>
+                            </div>
+                        </div>
+                        <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
+                            <div class="upload-pic">
+                                <div class="upload-wrapper">
+                                    <a class="file">+</a>
+                                    <p class="help-block">添加个人图片</p><!-- 
+                                    <span style="font-size:12px;color:#aaa;" id="output"></span>
+                                    <div class="progress " style="height: 6px;margin-bottom: 2px;margin-top: 10px;width: 56px;margin-left:70px;">
+                                        <div id="progressbar" style="background:blue;height:6px;width:0;"></div>
+                                    </div>
+                                    <div id="poster-pic"></div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="pic" id="savedpath">
+                        <div class="modal-footer">
+                            <div class="col-sm-5" style="margin-left:-5px;">
+                                <input type="submit" class="btn btn-default" value="确认提交"></input>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 	<div class="nextPage">
 		<a href="{{ url('admin/match/award/'.$id) }}" class="btn btn-default">下一页</a>
 	</div>
 	
 </div>
+@endsection
+@section('other_js')
+    <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
+    <script>        
+        $('.navbar-nav li a').each(function(){
+            if($($(this))[0].href==String(window.location)){
+                $(this).parent().parent().find('li').removeClass('active')
+                $(this).parent().addClass('active');
+            }
+        });
+        function popShow(id) {
+            $('.pop-mask').show();
+            $('#'+id).show();
+        }
+    </script>
+
+    <script src="{{url('js/cropper.js')}}"></script>
+    <script src="{{url('js/jquery-cropper.js')}}"></script>
+    <script src="{{url('js/home/capture/capture-1-1.js')}}"></script>
 @endsection
 <script>
     // 图片上传

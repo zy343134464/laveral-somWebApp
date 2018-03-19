@@ -66,10 +66,20 @@ class IndexController extends Controller
     {
         function simple_arr($arr)
         {
-            foreach ($arr as &$arr_v) {
-                $arr_v = $arr_v->production_id;
+
+            if(is_array($arr)) {
+
+                foreach ($arr as &$arr_v) {
+                    $arr_v = $arr_v->production_id;
+                }
+                return $arr;
+            } else {
+                $arr = json_decode($arr,true);
+                foreach ($arr as &$arr_v) {
+                    $arr_v = $arr_v->production_id;
+                }
+                return $arr;
             }
-            return $arr;
         }
         $match = Match::find($mid);
         $status = $request->status;
@@ -93,10 +103,14 @@ class IndexController extends Controller
         if (!count($arr)) {
             return back()->with('msg', '该阶段尚未开始');
         }
-        $arr = json_decode($arr->production_id);
+        $arr = json_decode($arr->production_id,true);
 
         $pic = $production->whereIn('id', $arr);
         $review = \DB::table('reviews')->select('type', 'setting', 'end_time')->where(['match_id'=>$mid,'round'=>$round])->first();
+        $time = $review->end_time - time();
+
+        $time = $this->secsToStr($time);
+
         if (!count($review)) {
             return back()->with('msg', '获取数据失败');
         }
@@ -140,7 +154,17 @@ class IndexController extends Controller
             
         $pic = $pic->Paginate(16);
 
-        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review]);
+        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review,'round'=>$round,'time'=>$time,]);
+    }
+    public function   secsToStr($times) {
+        $result = '00:00:00';  
+        if ($times>0) {  
+                $hour = floor($times/3600);  
+                $minute = floor(($times-3600 * $hour)/60);  
+                $second = floor((($times-3600 * $hour) - 60 * $minute) % 60);  
+                $result = $hour.'小时'.$minute.'分'.$second.'秒';  
+        }  
+        return $result;
     }
     /**
      * 评委评分

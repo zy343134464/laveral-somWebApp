@@ -17,6 +17,13 @@ class UserController extends Controller
 {
     const PAGE_NUM = 10;
     
+    /**
+     * 作品中心 暂时跟换为  match_pic()
+     * @param  Request    $request    [description]
+     * @param  Production $production [description]
+     * @param  integer    $page       [description]
+     * @return [type]                 [description]
+     */
     public function product(Request $request, Production $production, $page=1)
     {
         $uid = user('id');
@@ -46,13 +53,13 @@ class UserController extends Controller
         if (!$user_id) {
             return back();
         }
-        $match_id = User_match::select('match_id')->where('user_id', $user_id)->where('status', 1)->get();
+        $match_id = User_match::select('match_id','id')->where('user_id', $user_id)->where('status', 1)->get();
         $arr = [];
         foreach ($match_id as $v) {
             $arr[] = $v->match_id;
         }
-        $match = Match::whereIn('id', $arr)->Paginate(3);
-        
+        $match = Match::whereIn('id', $arr)->orderBy('id','desc')->Paginate(6);
+
         return view('home.user.match', ['match'=>$match]);
     }
     public function match_pic(Request $request, $id)
@@ -63,7 +70,11 @@ class UserController extends Controller
             return back();
         }
 
-        $product = Production::where('user_id', $user_id)->where('match_id', $id)->where('status', 1)->Paginate(12);
+        $product = Production::where('user_id', $user_id)->where('match_id', $id);
+        if ($request->search != '') {
+            $product = $product->where('productions.title', 'like', '%'. $request->search . '%');
+        }
+        $product = $product->orderBy('id', 'desc')->Paginate(12);
 
        
         return view('home.user.product', ['product' => $product]);
@@ -171,6 +182,43 @@ class UserController extends Controller
 
 
         return json_encode($path ? $path : '');
+    }
+
+    public function pic(Request $request, $id)
+    {
+        $product = Production::find($id);
+
+        return view('home.user.product_one',['product'=>$product]);
+    }
+
+    public function editpic(Request $request, $id)
+    {
+        if($request->title == ''  ||  $request->author  == '' ||  $request->detail == '') {
+            $status = 1;
+        } else {
+            $status = 2;
+        }
+        $res = \DB::table('productions')->where('id',$id)->first();
+
+        $mid = $res->match_id;
+
+        \DB::table('productions')->where('id', $id)->update([
+                'title'=>$request->title,
+                'author'=>$request->author,
+                'detail'=>$request->detail,
+                'status'=>$status,
+            ]);
+        return redirect()->to('user/match/'.$mid);
+    }
+    public function del_pic(Request $request)
+    {
+        $id = $request->id;
+        \DB::table('productions')->where('id', $id)->delete();
+        $res = \DB::table('productions')->find($id);
+        if(count($res)) {
+            return json_encode([0]);
+        }
+        return json_encode([1]);
     }
     /**
      * 修改密码

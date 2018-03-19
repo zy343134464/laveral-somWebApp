@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="grade" class="col-sm-2 control-label">头街</label>
+                            <label for="grade" class="col-sm-2 control-label">头衔</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control" id="grade" placeholder="" required name="tag" oninput="inputTest()">
                             </div>

@@ -200,6 +200,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 
 .main-sidebar > .sidebar {
     padding-top: 20px;
+    transition: all 0.5s;
 }
 
 .main-sidebar > .sidebar > .organization-logo {
@@ -315,4 +316,20 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+}
+
+
+.form-group{
+    position: relative;
+}
+.competition_time{
+    width:300px;
+    float: right;
+    margin-right: 160px;
+}
+.competition_time>li{
+    display: block !important;
+    color: #999999;
+    font-size: 12px;
+    /*width: 100px;*/
 }

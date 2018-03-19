@@ -109,7 +109,7 @@ function user($str = '')
     }
     $id = \Cookie::get('user_id');
     if (isset($id)) {
-        $res = \DB::table('users')->find($id);
+        $res = \DB::table('users')->select($str)->find($id);
         if(!count($res)) { 
             logout();
             return 'error';
@@ -127,7 +127,7 @@ function is_admin()
 {
     $id = \Cookie::get('user_id');
     if(!isset($id)) return false;
-    $res = \DB::table('admins')->where('user_id',$id)->first();
+    $res = \DB::table('admins')->select('is_admin')->where('user_id',$id)->first();
     if(!count($res) || !$res->is_admin) return false;
     return true;
 
@@ -138,10 +138,10 @@ function is_admin()
  */
 function is_rater()
 {
-    $res = \DB::table('rater_match')->where(['user_id'=>user('id')])->whereIn('status',[1,2])->first();
+    $res = \DB::table('rater_match')->select('status')->where(['user_id'=>user('id')])->whereIn('status',[0,1,2])->first();
     if(count($res)) return true;
 
-    return false;;
+    return false;
 
 }
 /**

@@ -1,5 +1,5 @@
 @extends('admin.match.create.layout')
-@section('title', '新建比赛')
+@section('title', '编辑比赛')
 
 @section('body2')
 <div class="match-theme">
@@ -11,14 +11,15 @@
 			</div>
 			<h4>赛事海报</h4>
 			<div class="form-group" id="aetherupload-wrapper" >
-				<div class="col-sm-4 col-sm-offset-2" >
-          <input type="hidden" class="pic" name="pic" value="$match->pic">
+				<div class="col-sm-4 col-sm-offset-2 Modify-div-cont" >
+          <input type="hidden" class="pic" name="pic" value="{{$match->pic}}">
 					<div class="upload-pic  pv" onclick="popShow('popCapture')">
-						<img src="{{ url($match->pic) }}" style="width:100%"  title="点击修改海报">
-						
+						<img src="{{ url($match->pic) }}" style="width:100%" id="posters_picture" title="点击修改海报">
 				</div>
+				<div class="form-group  Modify-div" onclick="popShow('popCapture')"><div class="col-sm-4 col-sm-offset-2"><div class="close"><i class="fa fa-close"></i></div></div></div>
       </div>
 			</div>
+			
 		<div class="match-detailpage">
 			<h4 style="padding-bottom:0;">基本信息</h4>
 			<!-- {{ $errors->first() }} -->{{ session('msg') }}
@@ -81,7 +82,70 @@
     @endif
 		<div class="nextPage">
 		<input type="submit" value="下一页" class="btn btn-default">
-		</div>
+		</div> 	
 	</form>
 </div>
+@endsection
+
+<script>
+  
+
+  window.onload = function(){
+  	var collect_start = {{ $match->collect_start}};
+  	var collect_end = {{ $match->collect_end}};
+  	var public_time = {{ $match->public_time}};
+  	function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
+        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
+        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+        return Y+M+D+h+m;
+    }
+    
+  	if(collect_start){
+  		$('.collectstart-datetime-lang').val(timestampToTime(collect_start))
+  	}
+
+  	if(collect_end){
+  		$('.collectend-datetime-lang').val(timestampToTime(collect_end))
+  	}
+
+  	if(public_time){
+  		$('.reviewstart-datetime-lang').val(timestampToTime(public_time))
+  	}
+
+
+  	$('.closeposition').on('click',function(){
+  		 $('#poster-pic').children().remove();
+	      $('.file').find('#file').removeAttr("disabled");
+	      $('.closeposition').remove();
+	      $('#output').html('');
+	      $('#progressbar').css('width','0');
+	      $('#file').val('');
+  	});
+  }
+    
+
+</script>
+
+@section('other_js')
+    <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
+    <script>        
+        $('.navbar-nav li a').each(function(){
+            if($($(this))[0].href==String(window.location)){
+                $(this).parent().parent().find('li').removeClass('active')
+                $(this).parent().addClass('active');
+            }
+        });
+        function popShow(id) {
+            $('.pop-mask').show();
+            $('#'+id).show();
+        }
+    </script>
+
+    <script src="{{url('js/cropper.js')}}"></script>
+    <script src="{{url('js/jquery-cropper.js')}}"></script>
+    <script src="{{url('js/home/capture/capture-16-9.js')}}"></script>
 @endsection
