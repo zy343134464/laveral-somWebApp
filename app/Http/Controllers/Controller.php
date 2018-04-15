@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Excel;
 
 class Controller extends BaseController
 {
@@ -29,6 +30,25 @@ class Controller extends BaseController
             $arr[] = $v->uid;
         }
         return $arr;
+    }
+    /**
+     * Excel导出
+     * @param  [array] $cellData Excel数据
+     * @param  string $filename 文件名
+     * @return [file]           [下载]
+     */
+    public function downloadExcel($cellData, $filename = 'Excel')
+    {
+        Excel::create($filename, function ($excel) use ($cellData) {
+            $excel->sheet('sheet', function ($sheet) use ($cellData) {
+                $sheet->fromArray($cellData);
+                $sheet->setWidth(array(
+                    'A' => 10,
+                    'B' => 10,
+                    'C' => 10
+                ));
+            });
+        })->export('xls');
     }
     /**
      * get_uid_by_vip  根据角色等级、类型和机构id获取用户id集合(一维索引数组)

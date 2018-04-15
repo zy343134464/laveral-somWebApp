@@ -6,6 +6,7 @@
 @endsection
 
 @section('body2')
+<!-- 个人资料 -->
 <div class="basic-information">
 	<div class="box">
 		<div class="box-header with-border">

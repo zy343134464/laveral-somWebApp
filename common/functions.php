@@ -68,8 +68,9 @@ function refresh_organ()
  * @param [type] $uid [description]
  * @param [type] $min 保存时长
  */
-function set_user_id_cookie($uid, $min)
+function set_user_id_cookie($uid, $min = '')
 {
+    $min = $min ? $min : env('COOKIETIME') ;
     Cookie::queue('user_id', $uid, $min);
 }
 
@@ -86,7 +87,7 @@ function logout()
  * @param  [type] $str 需要查询的内容
  * @return [type]      返回结果
  */
-function organ($str)
+function organ($str = 'id')
 {
     //$res = \DB::table('organs')->where('host',$_SERVER['SERVER_NAME'])->first();
     $res = \DB::table('organs')->select($str)->where('id', 1)->first();
@@ -102,11 +103,11 @@ function organ($str)
  * @param  string $str 默认为空,获取id
  * @return [type]      [description]
  */
-function user($str = '')
+function user($str = 'id')
 {
-    if($str == '') {
-        $str = 'id';
-    }
+    // if($str == '') {
+    //     $str = 'id';
+    // }
     $id = \Cookie::get('user_id');
     if (isset($id)) {
         $res = \DB::table('users')->select($str)->find($id);
@@ -181,33 +182,71 @@ function match($id, $str)
 function save_match_pic($date)
 {
     //过滤已经保存的图片
-    //第一种上传:base64
-    if($date[0] == 'd') {
+    try {
         
-        list($msec, $sec) = explode(' ', microtime());
+        //第一种上传:base64
+        if($date[0] == 'd') {
+            
+            list($msec, $sec) = explode(' ', microtime());
 
-        $url = explode(',', $date);
+            $url = explode(',', $date);
 
-        $name = 'img/match/'.md5($_SERVER["REQUEST_TIME"] .$msec.$sec).'.jpg';
-
-        file_put_contents($name, base64_decode($url[1]));//返回的是字节数
-
-        return $name;
-    }
-
-    //过滤已经保存的图片
-    //第二种即时上传
-    if($date[0] == 'f') {
-        $date = 'uploadtemp/'.$date;
-        $new = 'img/match/'.substr($date, strripos($date, '\\') + 1);
-        if (!Storage::disk('pic')->exists($new)) {
-            if (Storage::disk('pic')->exists($date)) {
-                Storage::disk('pic')->move($date, $new);
+            if($date[11] == 'p') {
+                //png格式保存
+                $postfix = '.png';
+            } elseif($date[11] == 'j') {
+                //jpg格式保存
+                $postfix = '.jpg';
+            } else {
+                return 'img/404.jpg';
             }
+
+            $name = 'img/match/'.md5($_SERVER["REQUEST_TIME"] .$msec.$sec).$postfix;
+
+            file_put_contents($name, base64_decode($url[1]));//返回的是字节数
+            
+            //生成所列图
+            save_pic_s($name);
+
+            return $name;
         }
-        return $new;
+
+        //过滤已经保存的图片
+        //第二种即时上传
+        if($date[0] == 'f') {
+            $date = 'uploadtemp/'.$date;
+            $new = 'img/match/'.substr($date, strripos($date, '\\') + 1);
+            if (!Storage::disk('pic')->exists($new)) {
+                if (Storage::disk('pic')->exists($date)) {
+                    Storage::disk('pic')->move($date, $new);
+                }
+            }
+            return $new;
+        }
+        //组图上传_
+        if($date[0] == 'u') {
+            if($date[11] == 't') {
+                //上传作品
+                $new = 'img/produtions/'.substr($date, 16);
+            } else {
+                //上传赛事海报(应该报废)
+                $new = 'img/match/'.substr($date, 11);
+            }
+
+            $new = 'img/produtions/'.substr($date, 16);
+            if (!Storage::disk('pic')->exists($new)) {
+                if (Storage::disk('pic')->exists($date)) {
+                    Storage::disk('pic')->move($date, $new);
+                }
+            }
+            return $new;
+        }
+
+        return $date;
+    } catch (\Exception $e) {
+        dd($e);
+        return false;
     }
-    return $date;
     // 即时上传插件  1
     // //过滤已经保存的图片
     // $path = 'uploadtemp/'.$path;
@@ -278,9 +317,48 @@ function del_match_pic($path)
     if (Storage::disk('pic')->exists($path)) {
         $res = \DB::table('matches')->where('pic',$path)->limit(2)->get();
         if(count($res) == 2) return false;
+        //删除大图
         Storage::disk('pic')->delete($path);
+
+        $jpg =  strrchr($path, '.');
+
+        $tag = strrpos($path, '.');
+
+        $tag_pre = substr($path,0, $tag);
+
+        $path2 = $tag_pre.'_s'.$jpg;
+        //删除缩略图
+        Storage::disk('pic')->delete($path2);
+
     }
     
+}
+/**
+ * 前端图片展示优先级  缩略图 > 原图 > 404
+ * @param  [type] $path [description]
+ * @return [type]       [description]
+ */
+function show_pic($path)
+{
+
+    $jpg =  strrchr($path, '.');
+
+    $tag = strrpos($path, '.');
+
+    $tag_pre = substr($path,0, $tag);
+
+    $path2 = $tag_pre.'_s'.$jpg;
+
+    if (Storage::disk('pic')->exists($path2)) {
+        return url($path2);
+    }
+
+    if (Storage::disk('pic')->exists($path)) {
+        return url($path);
+    }
+
+    return url('img/404.jpg');
+
 }
 /**
  * 删除用户头像
@@ -369,4 +447,93 @@ function arrtorater($arr,$k,$type)
         }
         return $str;
     }
+}
+function check_pic($id)
+{
+    $pic = \DB::table('productions')->find($id);
+    if(count($pic)) {
+        return true;
+    }
+    return false;
+}
+/**
+ * 等比例生成缩略图
+ * @param  [type]  $imgSrc        原图路径
+ * @param  integer $resize_width  修改后的宽
+ * @param  integer $resize_height 修改后的高
+ * @param  boolean $isCut         是否剪裁图片
+ * @return [type]                 [description]
+ */
+function save_pic_s($imgSrc, $resize_width = 354, $resize_height = 230, $isCut = false) {
+    $imgSrc =  public_path($imgSrc);
+    //图片的类型
+    $type = substr(strrchr($imgSrc, "."), 1);
+    //初始化图象
+    if ($type == "jpg") {
+        $im = imagecreatefromjpeg($imgSrc);
+    }
+    if ($type == "gif") {
+        $im = imagecreatefromgif($imgSrc);
+    }
+    if ($type == "png") {
+        $im = imagecreatefrompng($imgSrc);
+    }
+    //目标图象地址
+    $full_length = strlen($imgSrc);
+    $type_length = strlen($type);
+    $name_length = $full_length - $type_length;
+    $name = substr($imgSrc, 0, $name_length - 1);
+    $dstimg = $name . "_s." . $type;
+
+    $width = imagesx($im);
+    $height = imagesy($im);
+
+    //生成图象
+    //改变后的图象的比例
+    $resize_ratio = ($resize_width) / ($resize_height);
+    //实际图象的比例
+    $ratio = ($width) / ($height);
+    if (($isCut) == 1) { //裁图
+        if ($ratio >= $resize_ratio) { //高度优先
+            $newimg = imagecreatetruecolor($resize_width, $resize_height);
+            imagecopyresampled($newimg, $im, 0, 0, 0, 0, $resize_width, $resize_height, (($height) * $resize_ratio), $height);
+            ImageJpeg($newimg, $dstimg);
+        }
+        if ($ratio < $resize_ratio) { //宽度优先
+            $newimg = imagecreatetruecolor($resize_width, $resize_height);
+            imagecopyresampled($newimg, $im, 0, 0, 0, 0, $resize_width, $resize_height, $width, (($width) / $resize_ratio));
+            ImageJpeg($newimg, $dstimg);
+        }
+    } else { //不裁图
+        if ($ratio >= $resize_ratio) {
+            $newimg = imagecreatetruecolor($resize_width, ($resize_width) / $ratio);
+            imagecopyresampled($newimg, $im, 0, 0, 0, 0, $resize_width, ($resize_width) / $ratio, $width, $height);
+            ImageJpeg($newimg, $dstimg);
+        }
+        if ($ratio < $resize_ratio) {
+            $newimg = imagecreatetruecolor(($resize_height) * $ratio, $resize_height);
+            imagecopyresampled($newimg, $im, 0, 0, 0, 0, ($resize_height) * $ratio, $resize_height, $width, $height);
+            ImageJpeg($newimg, $dstimg);
+        }
+    }
+    ImageDestroy($im);
+}
+/**
+ * 作品信息
+ * @return [array] 
+ */
+function production_info()
+{
+    $arr = [];
+
+    $arr['author'] = '作者姓名';
+    $arr['detail'] = '文字描述';
+    $arr['title'] = '作品标题';
+    $arr['represent'] = '代表单位';
+    $arr['year'] = '年份';
+    $arr['country'] = '国籍';
+    $arr['location'] = '拍摄地点';
+    $arr['size'] = '作品尺寸';
+
+    return $arr;
 }

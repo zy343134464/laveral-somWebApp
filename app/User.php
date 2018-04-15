@@ -62,10 +62,10 @@ class User extends Authenticatable
     {
         $this->phone = $request->phone;
         $this->password = pw($request->password);
-        if ($request->name) {
+        if ($request->name != '') {
             $this->name = $request->name;
         } else {
-            $this->name = '未命名用户'.time();
+            $this->name = $request->phone;
         }
         $this->source_organ_id = organ('id');
         $res = $this->save();

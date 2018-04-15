@@ -1,0 +1,261 @@
+#app{
+    background-color: #f5f5f5;
+    padding-top: 74px;
+}
+.head{
+    margin: 30px 0;
+}
+.head>h4{
+    background:#fff;
+    padding:33px 80px;
+    font-weight: bold;
+}
+.group_img_num{
+    background:#fff;
+    margin: 40px 0;
+}
+.group_img_title{
+    /* height:  */
+    padding:16px 70px;
+    border-bottom: 1px solid #E9E9E9;
+}
+.group_img_title>span:nth-of-type(1){
+    font-size: 20px;
+}
+.group_img_title>span{
+    padding: 0 10px;
+}
+.group_img_quantity{
+    padding: 30px 80px;
+    overflow: hidden;
+}
+.group_img_quantity>span{
+    position: relative;
+    float: left;
+    display: block;
+    width: 66px;
+    height: 66px;
+    line-height: 66px;
+    text-align: center;
+    background: #F5F5F5;
+    font-weight: bold;
+    margin: 0 50px;
+    box-sizing: border-box;
+}
+.group_img_quantity>span:nth-of-type(1){
+    margin-left:0px;
+}
+.group_img_quantity>span>i{
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    right: -26px;
+}
+.group_img_icon{
+    background: url('http://a.com/img/remove.png') no-repeat -3px -2px;
+}
+.group_img_quantity>.add_group_img{
+    font-size: 46px;
+    line-height: 60px;
+    color: #D4B178;
+    font-weight: normal;
+}
+
+.selectImg{
+    background:#fff;
+    margin: 40px 0 0;
+    padding: 0 80px;
+    overflow: hidden;
+}
+.selectImg>h4{
+    padding: 20px 0;
+}
+.imgMain{
+    width: 176px;
+    padding-bottom: 30px;
+    position: relative;
+    float: left;
+    margin-right: 50px;
+}
+.imgMain>h4{
+    text-align: center;
+    padding: 10px 0;
+    font-size: 24px;
+}
+.imgMain>span{
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 2px 0;
+    font-size: 20px;
+    box-sizing: border-box;
+    border: 1px solid #8D8D8D;
+    border-top: none;
+}
+.img{
+    width: 100%;
+    height: 176px;
+    box-sizing: border-box;
+    /* border: 1px solid #8D8D8D; */
+}
+.img>img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.imgMain>i{
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 60px;
+    right: -26px;
+}
+.add_img{
+    float: left;
+    width: 176px;
+    height: 176px;
+    background: #F5F5F5;
+    margin-top: 66px;
+}
+.add_img>span{
+    display: block;
+    font-size: 20px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #9D9D9D;
+}
+.add_img>span:nth-of-type(1){
+    height: 116px;
+    line-height: 146px;
+    font-size: 60px;
+    color: #D4B178;
+}
+
+.production_message{
+    background:#fff;
+    padding: 30px 80px;
+}
+.production_message>h4{
+    padding: 0px 0 20px;
+}
+.production_message>div{
+    position: relative;
+}
+.production_message>div>input{
+    width: 100%;
+    height: 50px;
+    background: #F5F5F5;
+    border: 1px solid #D6D6D6;
+    margin-bottom:35px; 
+    font-size: 17px;
+    padding-left: 30px;
+    padding-right: 80px;
+}
+.production_message>div>i{
+    position: absolute;
+    font-style: normal;
+    top: 16px;
+    right: 34px;
+    color: #ABAAA8;
+}
+
+.more_describe{
+    background: #fff;
+    padding: 10px 80px 100px;
+}
+.more_describe>.more_describe_top{
+    padding: 20px 0;
+}
+.more_describe>.more_describe_top>input{
+    width: 42%;
+    height: 45px;
+    border: 1px solid #D6D6D6;
+    background: #F5F5F5;
+    padding-left:30px;
+    font-size: 17px;
+}
+.more_describe>.more_describe_top>input:nth-of-type(2){
+    float: right;
+}
+.more_describe_bottom{
+    width: 500px;
+    height: 45px;
+    display: flex;
+}
+.more_describe_bottom>input{
+   flex: 1;
+   border: 1px solid #D6D6D6;
+   background: #F5F5F5;
+   font-size: 17px;
+   text-align: center;
+}
+.more_describe_bottom>span{
+    flex: 1;
+    text-align: center;
+    line-height: 55px;
+    font-size: 24px;
+}
+
+.bottom{
+    margin: 40px 0 100px 0;
+    text-align: center;
+}
+.submit{
+    width: 164px;
+    height: 45px;
+    border: none;
+    color: #D4B178;
+    background: #424242;
+    font-size: 20px;
+}
+
+.must{
+    position: absolute;
+    top:16px;
+    right: -20px;
+    color: red;
+    font-size:20px;
+}
+
+.progress_bar{
+    margin-right: 20px;
+    position: relative;
+}
+.progress_bar>span{
+    width: 80%;
+    height: 20px !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid #000;
+}
+.progress_bar>span>i{
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    border-radius: 10px;
+    font-size: 12px;
+    position: absolute;
+    color: #000;
+    font-style: normal;
+}
+.progress_bar span span{
+    background:#D4B178;
+    width: 0%;
+    height: 100%;
+    line-height: 20px;
+    display: block;
+    border-radius: 10px;
+    transition: all 0.5s;
+    
+}

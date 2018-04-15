@@ -3,7 +3,7 @@
 
 @section('body2')
 <div class="match-theme">
-	<form class="form-horizontal" role="form" action="{{ url('admin/match/storereview/'.$id) }}" method="post">
+	<form class="form-horizontal form-lun" role="form" action="{{ url('admin/match/storereview/'.$id) }}" method="post">
 		{{ csrf_field() }}
 		@if(count($review))
 		@foreach($review as $k=>$v)
@@ -23,7 +23,7 @@
 					<div class="form-group">
 						<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 						<div class="col-sm-5">
-							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]" value="@if($v->end_time && $v->type == 1){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
+							<input size="14" type="text" placeholder="请选择日期和时间"  class="elect-datetime-lang am-form-field form-control" name="end_time1[]" value="@if($v->end_time && $v->type == 1){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 						</div>
 						<ul class="competition_time">
 							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -66,11 +66,11 @@
 						<span class="addVar6">+</span>
 					</div>
 				</div>
-				<div class="reviewgrade{{ $k+1}}" style="{{ $v->type == 1 ? 'display:none;': ''}}">
+				<div class="reviewgrade{{ $k+1}} {{ $v->type == 1 ? '': 'dimensionality'}}" style="{{ $v->type == 1 ? 'display:none;': ''}}">
 					<div class="form-group">
 						<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 						<div class="col-sm-5">
-							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]" value="@if($v->end_time && $v->type == 2){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
+							<input size="14" type="text" placeholder="请选择日期和时间" class="elect-datetime-lang am-form-field form-control" name="end_time2[]" value="@if($v->end_time && $v->type == 2){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 						</div>
 						<ul class="competition_time">
 							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -92,43 +92,50 @@
 						<div class="col-sm-2" style="margin-left: -74px;">
 							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]" value="@if($v->type == 2){{(json_decode($v->setting,true))['max']}}@endif">
 						</div>
-						<div class="col-sm-6">
-							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
+						
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" name="reference2[]" value="@if($v->type == 2){{(json_decode($v->setting,true))['reference']}}@endif">
 							</div>
-						</div>
 					</div>
 
 						@if($v->type == 2)
-						@foreach((json_decode($v->setting,true))['dimension'] as $kk=>$vv)
-					<div class="form-group">
-						<label class="col-sm-2 control-label">分数构成设定</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}">
+					
+					
+						<div class="form-group">
+							<label class="col-sm-2 control-label">分数构成设定</label>
+							@foreach((json_decode($v->setting,true))['dimension'] as $kk=>$vv)
+							<div>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}">
+								</div>
+								<div class="col-sm-2" style="margin-left:-20px;">
+									<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]"
+									value="{{(json_decode($v->setting,true))['percent'][$kk]}}">
+								</div>
+								<span class="removeVar4">-</span>
+								<br>
+							</div>
+							@endforeach
 						</div>
-						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k}}][]"
-							value="{{(json_decode($v->setting,true))['percent'][$kk]}}">
-						</div>
-						<span class="removeVar4">-</span>
-					</div>
-						@endforeach
+					
+						
 						@else
 						<div class="form-group">
-						<label class="col-sm-2 control-label">分数构成设定{{$k+1}}</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" >
+							<label class="col-sm-2 control-label">分数构成设定</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" >
+							</div>
+							<div class="col-sm-2" style="margin-left:-20px;">
+								<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]">
+							</div>
+							<span class="removeVar4">-</span>
 						</div>
-						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][{{$k}}][]"
-							>
-						</div>
-						<span class="removeVar4">-</span>
-					</div>
 						@endif
-					<p><span class="col-sm-offset-2 addVar4" index="{{$k+1}}">+</span></p>
-
+						<p><span class="col-sm-offset-2 addVar4" index="{{$k+1}}">+</span></p>
+					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">参与评委</label>
 						<div class="col-sm-10">
@@ -176,7 +183,7 @@
 					<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]">
+						<input size="14" type="text" placeholder="请选择日期和时间" class="elect-datetime-lang form-control" name="end_time1[]">
 					</div>
 					<ul class="competition_time">
 							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -209,13 +216,19 @@
 							</ul>
 						</div>
 					</div>
+					<div class="removeadd text-right a">
+						轮数增加：
+						<!-- <span class="removeVar6">-</span> -->
+						<span class="addVar6">+</span>
+					</div>
 				</div>
 				<div class="reviewgrade1" style="display:none;">
 				<!-- ssssss -->
 					<div class="form-group">
 						<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 						<div class="col-sm-5">
-							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
+							<input size="14" type="text" placeholder="请选择日期和时间" 
+							class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 						<ul class="competition_time">
 							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -237,12 +250,12 @@
 						<div class="col-sm-2" style="margin-left: -74px;">
 							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]">
 						</div>
-						<div class="col-sm-6">
-							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="reference2[]">
+								<input type="text" class="form-control" name="reference2[]" value="">
 							</div>
-						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">分数构成设定</label>
@@ -250,7 +263,7 @@
 							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][0][]">
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][0][]">
+							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][0][]">
 						</div>
 						<span class="removeVar4">-</span>
 					</div>
@@ -269,6 +282,11 @@
 								</li>
 							</ul>
 						</div>
+					</div>
+					<div class="removeadd text-right a">
+						轮数增加：
+						<!-- <span class="removeVar6">-</span> -->
+						<span class="addVar6">+</span>
 					</div>
 				</div>
 			</div>
@@ -290,7 +308,8 @@
 					<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]">
+						<input size="14" type="text" placeholder="请选择日期和时间" 
+						class="elect-datetime-lang am-form-field form-control" name="end_time1[]">
 					</div>
 					<ul class="competition_time">
 						<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -328,11 +347,12 @@
 						<span class="addVar6">+</span>
 					</div>
 				</div>
-				<div class="reviewgrade2">
+				<div class="reviewgrade2 dimensionality">
 					<div class="form-group">
 						<label for="time" class="col-sm-2 control-label">评选结束时间</label>
 						<div class="col-sm-5">
-							<input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
+							<input size="14" type="text" placeholder="请选择日期和时间" 
+							class="elect-datetime-lang am-form-field form-control" name="end_time2[]">
 						</div>
 						<ul class="competition_time">
 							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
@@ -354,12 +374,12 @@
 						<div class="col-sm-2" style="margin-left: -74px;">
 							<input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]">
 						</div>
-						<div class="col-sm-6">
-							<label class="col-sm-2" style="padding-top:6px;">参考:</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" name="reference2[]">
-							</div>
 						</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="reference2[]" value="">
+							</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">分数构成设定</label>
@@ -367,7 +387,7 @@
 							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][1][]">
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control" placeholder="100%" name="setting2[percent][1][]">
+							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][1][]">
 						</div>
 						<span class="removeVar4">-</span>
 					</div>
@@ -454,13 +474,14 @@
 				<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">开始时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="peoplestrat-datetime-lang am-form-field form-control" name="hot_start" value="{{date('Y-m-d h:i:s', $pop->start)}}">
+						<input size="14" type="text" placeholder="请选择日期和时间" 
+						class="peoplestrat-datetime-lang am-form-field form-control" name="hot_start" value="{{date('Y-m-d h:i:s', $pop->start)}}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">结束时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="peopleend-datetime-lang am-form-field form-control" name="hot_end" value="{{date('Y-m-d h:i:s', $pop->end)}}">
+						<input size="14" type="text" placeholder="请选择日期和时间"  class="peopleend-datetime-lang am-form-field form-control" name="hot_end" value="{{date('Y-m-d h:i:s', $pop->end)}}">
 					</div>
 				</div>
 			</div>
@@ -483,20 +504,22 @@
 				<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">开始时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="peoplestrat-datetime-lang am-form-field form-control" name="hot_start">
+						<input size="14" type="text" placeholder="请选择日期和时间" class="peoplestrat-datetime-lang am-form-field form-control" name="hot_start">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="time" class="col-sm-2 control-label">结束时间</label>
 					<div class="col-sm-5">
-						<input size="14" type="text" placeholder="请选择日期和时间" readonly class="peopleend-datetime-lang am-form-field form-control" name="hot_end">
+						<input size="14" type="text" placeholder="请选择日期和时间"  class="peopleend-datetime-lang am-form-field form-control" name="hot_end">
 					</div>
 				</div>
 			</div>
 		</div>
 		@endif
 		<div class="nextPage">
-			<input type="submit" class="btn btn-default" value="确认提交">
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-right:10px;" onclick="return addInput(0)">保存</button>
+			<button type="submit" class="btn btn-default" onclick="return addInput(1)">确认提交</button>
+			<a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default" style="padding:10px 15px;margin-left:10px;">预览</a>
 		</div>
 	</form>
 </div>
@@ -550,8 +573,8 @@
 				            <div class="modal-body">
 				               <div class="match-new">
 				                    <form class="form-horizontal" role="form" name="addguest">
-				                    {{ csrf_field() }}
-				                        <div class="form-group">
+					                    {{ csrf_field() }}
+					                        <div class="form-group">
 				                            <label class="col-sm-3 control-label">手机号</label>
 				                            <div class="col-sm-8">
 				                                <input type="text" class="form-control" name="phone">
@@ -586,8 +609,51 @@
 </div>
 
 <script>
+	var status = true;
+					//表单提交事件
+		    function addInput (id){
+				// 分数维度判断开始
+				for(let i=0;i<$('.dimensionality').length;i++){
+					var number = 0;
+					for(let j=0;j<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;j++){
+						number +=parseInt($('.dimensionality')[i].getElementsByClassName('scoreInput')[j].value);
+					}
+					if(number>100){
+						alert('分数维度大于100！');
+						for(let o=0;o<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;o++){
+							$('.dimensionality')[i].getElementsByClassName('scoreInput')[o].style.border='1px solid red';
+						}
+						return false;
+					}else if(number<100){
+						alert('分数维度小于100！');
+						for(let o=0;o<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;o++){
+							$('.dimensionality')[i].getElementsByClassName('scoreInput')[o].style.border='1px solid red';
+						}
+						return false;
+					}else if(number==100){
+						for(let o=0;o<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;o++){
+							$('.dimensionality')[i].getElementsByClassName('scoreInput')[o].style.border='1px solid #ccc';
+						}
+					}else{
+						alert('分数维度不等于100！');
+						for(let o=0;o<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;o++){
+							$('.dimensionality')[i].getElementsByClassName('scoreInput')[o].style.border='1px solid red';
+						}
+						return false;
+					}
+				}
+				// 分数维度判断结束
+		    	console.log(id);
+		       	if(status=='false'){
+		       		return status;
+		       	}else{
+		       		status=false;
+		       	}
+		        var $inputTpl = '<input type="hidden" name="jump" value="'+id+'">';
+		        $('.nextPage').prepend($inputTpl);
+		       $("form.form-lun").submit();
+			  };
 window.onload = function(){
-	
 	  /*评选设定*/
 
     // 鼠标移动效果出现删除按钮
@@ -607,9 +673,9 @@ window.onload = function(){
       //新增按钮点击
       $('form').on('click','.addVar4',function(){
         varCount4++;
-        $node = '<div class="form-group"><label for="var'+varCount4+'" id="var'+varCount4+'" class="col-sm-2 control-label"></label>'
+        $node = '<div class="form-group as"><label for="var'+varCount4+'" id="var'+varCount4+'" class="col-sm-2 control-label"></label>'
         + '<div class="col-sm-2"><input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+($(this).attr('index')-1)+'][]"></div>'
-        +'<div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control" placeholder="100%" name="setting2[percent]['+($(this).attr('index')-1)+'][]"></div>'
+        +'<div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+($(this).attr('index')-1)+'][]"></div>'
         + '<span class="removeVar4">-</span></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().before($node);
@@ -660,41 +726,25 @@ window.onload = function(){
       $node = '<div class="match-review sheave"><div class="reviewsecond"><h4>第'+bigNumber+'轮</h4><div class="form-group"><label class="col-sm-2 control-label">评委方式</label><div class="col-sm-2">'
       + '<select class="form-control reviewselect'+sheave+'" name="type[]"><option value="vote">评委投票</option><option value="grade" selected>评委评分</option></select></div>'
       + '</div><div class="reviewvote'+sheave+'" style="display:none;"><div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label>'
-      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div><ul class="competition_time"><li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li><li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li></ul></div><div class="form-group NameNum">'
+      + '<div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" class="elect-datetime-lang am-form-field form-control" name="end_time1[]"></div><ul class="competition_time"><li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li><li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li></ul></div><div class="form-group NameNum">'
       + '<label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion1[]"></div></div>'
-      + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote]['+sheave+'][]"></div></div>'
+      + '<div class="form-group"><label for="number" class="col-sm-2 control-label">评委票数</label><div class="col-sm-2"><input type="number" min="0" class="form-control" id="number" placeholder="" name="setting1[vote][0][]"></div></div>'
       + '<div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectvote"><li class="addjudgethumb">'
-      + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+'">'
-      + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" readonly class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
+      + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="vote">+</div></a></li></ul></div></div></div><div class="reviewgrade'+sheave+' dimensionality">'
+      + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
       + '</div><ul class="competition_time"><li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li><li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li></ul></div><div class="form-group NameNum"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
-      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]"></div><div class="col-sm-6"><label class="col-sm-2" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
-      + '<input type="text" class="form-control" name="reference2[]"></div></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div class="col-sm-2">'
-      + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
+      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
+      + '<input type="text" class="form-control" name="reference2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div class="col-sm-2">'
+      + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
       + '</div><span class="removeVar4">-</span></div>'
       + '<p><span class="col-sm-offset-2 addVar4" index='+sheave+'>+</span></p><div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectgrade"><li class="addjudgethumb">'
       + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="grade">+</div></a></li></ul></div></div><div class="removeadd text-right">'
       + '轮数增减：<span class="removeVar6">-</span> <span class="addVar6">+</span></div></div></div></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().parent().parent().parent().parent('.form-horizontal').children('.match-review').eq(-2).before($node);
-        $(this).parent().css("display","none");
-
-        // 评选结束时间
-		  $.fn.datetimepicker.dates['zh-CN'] = {
-		    days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-		    daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-		    daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-		    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-		    monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-		    today: "今日",
-		    suffix: [],
-		    meridiem: ["上午", "下午"]
-		  };
-
-		  $('.elect-datetime-lang').datetimepicker({
-		    language:  'zh-CN',
-		    format: 'yyyy-mm-dd hh:ii'
-		  });
+       // $(this).parent().css("display","none");
+       	   $('.elect-datetime-lang').datetimepicker({step:10,format:'Y-m-d H:i', minDate:y_m_d});
 		  conceal();
       });
 
@@ -703,61 +753,44 @@ window.onload = function(){
       $("form").on('change','.reviewselect'+i+'',function() {
         let n = $(this).val();
         if(n === "vote"){
-          $(".reviewgrade"+i+"").hide();
+		  $(".reviewgrade"+i+"").hide();
+		  $(".reviewgrade"+i+"").removeClass('dimensionality');
           $(".reviewvote"+i+"").show();
         }else if(n === "grade"){
           $(".reviewvote"+i+"").hide();
-          $(".reviewgrade"+i+"").show();
+		  $(".reviewgrade"+i+"").show();
+		  $(".reviewgrade"+i+"").addClass('dimensionality');
         }
       });
     }
-    
-     // 评选结束时间
-		  $.fn.datetimepicker.dates['zh-CN'] = {
-		    days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-		    daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-		    daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-		    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-		    monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-		    today: "今日",
-		    suffix: [],
-		    meridiem: ["上午", "下午"]
-		  };
+   
 
-		  $('.elect-datetime-lang').datetimepicker({
-		    language:  'zh-CN',
-		    format: 'yyyy-mm-dd hh:ii'
-		  });
-
-    //删除按钮点击
+    //删除按钮点击    
+console.log($('.match-review.sheave').length,$('.match-review.sheave').length>1);
     $('form').on('click','.removeVar6', function(){
-      $(this).parent().parent().parent().parent().remove();
-      var sheaveprev = sheave-2;
-    //   console.log($('.match-review').eq(sheaveprev).find('.removeadd').show());
-	  sheave--;
-	  conceal();
-    });
+console.log($('.match-review.sheave').length);
 
-    /*参与评委搜索功能*/
-    var formrater = $('form[name=searchrater]');
-    
-      formrater.on('submit',function(e){
-        e.preventDefault();
-        $('.judgedata').html('');
-        var string = formrater.serialize();
-        $.ajax({
+    	if($('.match-review.sheave').length>1){
+    		 $(this).parent().parent().parent().parent().remove();
+		      var sheaveprev = sheave-2;
+		    //   console.log($('.match-review').eq(sheaveprev).find('.removeadd').show());
+			  sheave--;
+			  conceal();
+    	}
+     
+	});
+	$.ajax({
           url: '/admin/match/search_rater',
           method: 'get',
           async: false,
-          data: string,
+          data: '',
           success: function(data){
-            var oData = JSON.parse(data);
+			var oData = JSON.parse(data);
+			$('.judgedata').html('');
             viewrater(oData);
           }
-        })
-
-        /*显示评委*/
-        function viewrater(oData){
+		})
+	function viewrater(oData){
           var judgedataUl = $('.judgedata');
           
           for(var i = 0;i<oData.length;i++){
@@ -790,6 +823,23 @@ window.onload = function(){
             a.append(model);
           }
         }
+    /*参与评委搜索功能*/
+    var formrater = $('form[name=searchrater]');
+      formrater.on('submit',function(e){
+        e.preventDefault();
+        $('.judgedata').html('');
+		var string = formrater.serialize();
+		console.log('123',string)
+        $.ajax({
+          url: '/admin/match/search_rater',
+          method: 'get',
+          async: false,
+          data: string,
+          success: function(data){
+            var oData = JSON.parse(data);
+            viewrater(oData);
+          }
+		})
       })
  
     /*添加评委到赛事*/
@@ -885,39 +935,26 @@ window.onload = function(){
 
 	})
 
-	 // 人气奖开始时间
-	 $.fn.datetimepicker.dates['zh-CN'] = {
-	 	days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-	 	daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-	 	daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-	 	months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-	 	monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-	 	today: "今日",
-	 	suffix: [],
-	 	meridiem: ["上午", "下午"]
-	 };
-
-	 $('.peoplestrat-datetime-lang').datetimepicker({
-	 	language:  'zh-CN',
-	 	format: 'yyyy-mm-dd hh:ii'
-	 });
-
-	 // 人气奖结束时间
-	 $.fn.datetimepicker.dates['zh-CN'] = {
-	 	days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-	 	daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-	 	daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-	 	months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-	 	monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-	 	today: "今日",
-	 	suffix: [],
-	 	meridiem: ["上午", "下午"]
-	 };
-
-	 $('.peopleend-datetime-lang').datetimepicker({
-	 	language:  'zh-CN',
-	 	format: 'yyyy-mm-dd hh:ii'
-	 });
+	var currtTime = new Date;
+    var y_m_d = currtTime.getFullYear()+"-"+(currtTime.getMonth()+1)+'-'+currtTime.getDate();
+	 //评选结束时间
+      $('.elect-datetime-lang').datetimepicker({step:10,format:'Y-m-d H:i', minDate:y_m_d});
+      //人气投票开始时间
+      $('.peoplestrat-datetime-lang').datetimepicker({
+      	step:10,format:'Y-m-d H:i',minDate:y_m_d});
+       //人气投票开始时间
+      $('.peopleend-datetime-lang').datetimepicker({
+      		step:10,
+      		format:'Y-m-d H:i',
+      		minDate:y_m_d,
+	        onClose: function(dateText, inst) {
+	         var  startTime = $('.peoplestrat-datetime-lang').val();
+	              endTime = $('.peopleend-datetime-lang').val();
+	          if(startTime>endTime){
+	            $('.peopleend-datetime-lang').val(startTime);
+	          }
+	        }  
+      	});
 }
 
 </script>

@@ -186,6 +186,8 @@ return [
         Stevenyangecho\UEditor\UEditorServiceProvider::class,
         //PDF20180301
         Barryvdh\DomPDF\ServiceProvider::class,
+        //weibo 20180403
+        SocialiteProviders\Manager\ServiceProvider::class,
 
     ],
 
@@ -240,6 +242,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         //PDF
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        //weibo 20180403
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

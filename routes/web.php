@@ -14,9 +14,20 @@
 Route::get('/', 'Home\IndexController@index')->middleware('login');
 Route::get('/news/{id}', 'Home\IndexController@news');
 Route::get('/a', function () {
+    echo public_path('img/match/8fabd8dae112e76895f7e934a6a8a63d.jpg');
+    exit;
     return view('show');
 });
-Route::get('/b/{show}', 'Admin\MatchController@index')->middleware('login');
+Route::get('/b', 'Admin\MatchController@b');
+
+
+
+// 引导用户到新浪微博的登录授权页面
+Route::get('api/weibo', 'Home\MatchController@weibo');
+// 用户授权后新浪微博回调的页面
+Route::get('api/callback', 'Home\MatchController@callback');
+
+
 
 //资讯页
 Route::get('informations/{id}', 'InformationConroller@show_information');
@@ -28,10 +39,25 @@ Route::get('get_match', 'IndexConroller@get_match');
 Route::get('mail/send', 'MailController@send');
 //登录注册模块
 Route::get('/login', 'UserController@login');
+
 Route::post('/dologin', 'UserController@dologin');
+
 Route::get('/logout', 'UserController@logout');
+
+Route::get('/forget', 'UserController@forget');
+
+Route::post('/forget', 'UserController@set_password');
+
+Route::post('/password', 'UserController@password');
+
 Route::get('/reg', 'UserController@reg');
+
 Route::post('/doreg', 'UserController@doreg');
+
+Route::get('/username', 'UserController@username');
+
+Route::post('/username', 'UserController@setusername');
+
 Route::get('admin/user/find/{account}', 'Admin\UserController@account');
 
 
@@ -57,53 +83,59 @@ Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/match/{id}', 'Home\UserController@match_pic');
 
     Route::get('/member', 'Home\UserController@member');
-
+    //编辑作品
     Route::get('/pic/{id}', 'Home\UserController@pic');
+    //处理编辑作品
+    Route::post('/pic/{id}', 'Home\UserController@editpic');
 
     Route::post('/del_pic', 'Home\UserController@del_pic');
-
-    Route::post('/pic/{id}', 'Home\UserController@editpic');
 
     Route::post('/editInfo/{id}', 'Home\UserController@editInfo');
 
     Route::post('/edit_img', 'Home\UserController@edit_img');
-
-    
+   
     Route::post('/editPassword/{id}', 'Home\UserController@editPassword');
 });
 
 
 
 
-//赛事模块
+//赛事模块---上传作品
 Route::middleware(['login'])->prefix('match')->group(function () {
+
     Route::get('/detail/{id}', 'Home\MatchController@detail');
 
-    Route::get('/join/{id}', 'Home\MatchController@join');
+    Route::get('/statement/{id}', 'Home\MatchController@statement');
 
+    Route::get('/form/{id}', 'Home\MatchController@form');
+
+    Route::post('/join/{id}', 'Home\MatchController@join');
+    //上传图片
     Route::get('/uploadimg/{id}', 'Home\MatchController@uploadimg');
-    Route::get('/uploadimgs/{id}', 'Home\MatchController@uploadimgs');
+   
+    //Route::post('/douploadimg/{id}', 'Home\MatchController@douploadimg');
+    //ajax提交组图
+    Route::post('/douploadimgs/{id}', 'Home\MatchController@douploadimgs');
+    //组图上传图片插件
+    Route::post('/upload', 'Home\MatchController@upload');
+    //ajax获取用户在赛事中的所有作品
+    Route::post('/ajax/pic/{id}', 'Home\MatchController@ajax_match_pic');
 
-    Route::post('/douploadimg/{id}', 'Home\MatchController@douploadimg');
-
-    Route::get('/editimg/{id}', 'Home\MatchController@editimg');
-
-    Route::post('/doeditimg/{id}', 'Home\MatchController@doeditimg');
 });
 
 
 //评委
 Route::middleware(['login','rater'])->prefix('rater')->group(function () {
     //评委室 审核中
-    Route::get('/room', 'Home\IndexController@room');
+    Route::get('/room', 'Home\RaterController@room');
     //评委室 历史
-    Route::get('/history', 'Home\IndexController@history');
+    Route::get('/history', 'Home\RaterController@history');
     // 评审赛事
-    Route::get('/review/{mid}/{round}', 'Home\IndexController@review');
+    Route::get('/review/{mid}/{round}', 'Home\RaterController@review');
     //评审点击 获取图片详细信息
-    Route::get('/rater_pic/{id}', 'Home\IndexController@rater_pic');
+    Route::get('/rater_pic/{id}', 'Home\RaterController@rater_pic');
     //ajax评分
-    Route::post('/pic', 'Home\IndexController@pic');
+    Route::post('/pic', 'Home\RaterController@pic');
 });
 
 
@@ -123,13 +155,17 @@ Route::middleware(['login','admin'])->prefix('admin')->group(function () {
         Route::post('update', 'Admin\UserController@update');
 
         Route::get('del/{id}', 'Admin\UserController@destroy');
+
         //根据id，用户信息导出
         Route::get('info/{id}', 'Admin\UserController@info');
+
+        Route::post('info', 'Admin\UserController@exc_info');
         //所有用户信息导出
         Route::get('infoall', 'Admin\UserController@infoall');
+        //Excel导入用户
         Route::post('addusers', 'Admin\UserController@addusers');
         //下载Excel表格（用于填写导入用户信息）
-        Route::get('getfeild', 'Admin\UserController@getfeild');
+        Route::get('getfeild', 'Admin\UserController@get_excel');
 
         Route::get('role_setting', 'Admin\UserController@role_setting');
         Route::post('set_role', 'Admin\UserController@set_role');

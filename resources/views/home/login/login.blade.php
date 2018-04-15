@@ -39,7 +39,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-4 siginin">
-                            <a href="#">忘记密码</a> | <a href="{{ url('reg') }}">注册</a>
+                            <a href="{{ url('forget') }}">忘记密码</a> | <a href="{{ url('reg') }}">注册</a>
                         </div>
                         <!-- /.col -->
                     </div>

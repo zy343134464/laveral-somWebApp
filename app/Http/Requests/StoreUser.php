@@ -27,7 +27,6 @@ class StoreUser extends FormRequest
         return [
             //'phone'=>['required',env('RULE_PHONE')],
             'phone' => 'required|unique:users',
-            'name' => 'required|min:3|max:20',
             'password' => 'required|min:6|max:20',
             'password2' => 'same:password',
         ];

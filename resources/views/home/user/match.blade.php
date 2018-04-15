@@ -14,6 +14,7 @@
         <input type="text" placeholder="关键字搜索" name="search">
     </form>
 </div>
+ {{-- dd($match) --}}
 
 <div class="product">
     <div class="row">
@@ -46,9 +47,11 @@
                             </div>
                             <div class="match-content">
                                 <a href="{{ url('match/detail/'.$v->id) }}"><h4  title="{{ (json_decode($v->title))[0]}}">{{ (json_decode($v->title))[0]}}</h4></a>
+                                @if( $v->production_sum($v->id,user()) )
                                 <span class="status status-solicit">已投稿</span>
+                                @else
                                 <span class="status">未投稿</span>
-
+                                 @endif
                                 <p class="status-time" style="color:#666;">
                                 征稿期： @if($v->collect_start)
                                 {{ date('Y-m-d',$v->collect_start)}}

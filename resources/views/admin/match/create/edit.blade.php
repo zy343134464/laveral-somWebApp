@@ -30,6 +30,34 @@
 				<label for="firstname" class="col-sm-2 control-label">赛事类别</label>
 				<div class="col-sm-2">
 					<input type="text" class="form-control" id="firstname" placeholder="" name="type" value="{{$match->type }}">
+
+					<ul id="list">
+						<li>风光</li>
+						<li>肖像
+							<ul>
+								<li>儿童</li>
+								<li>家庭</li>
+								<li>私房</li>
+							</ul>
+						</li>
+						<li>婚纱
+							<ul>
+								<li>婚礼</li>
+								<li>旅拍</li>
+							</ul>
+						</li>
+						<li>艺术创意</li>
+						<li>水下</li>
+						<li>商业广告
+							<ul>
+								<li>食品</li>
+								<li>产品</li>
+								<li>珠宝</li>
+								<li>其他</li>
+							</ul>
+						</li>
+						<li>其他 – 自定义</li>
+					</ul>
 				</div>
 			</div>
 			<?php
@@ -52,8 +80,8 @@
 			<p><span id="addVar" class="col-sm-offset-2">+</span></p>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">详情内容<span class="sure">*</span></label>
-				<div class="col-sm-5">
-					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail" required>{{$match->detail}}</textarea>
+				<div class="col-sm-8">
+					<textarea class="form-control" rows="6" placeholder="400字内 赛事内容"  name="detail"  style="width: 716px;resize:vertical;box-sizing:border-box;"  cols="5" rows="10" required>{{$match->detail}}</textarea>
 				</div>
 			</div>
 		</div>
@@ -63,19 +91,19 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">征稿开始时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectstart-datetime-lang am-form-field form-control" name="collect_start"  required>
+					<input size="14" type="text" placeholder="请选择日期和时间"  class="collectstart-datetime-lang form-control" name="collect_start"  required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">征稿结束时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="collectend-datetime-lang am-form-field form-control" name="collect_end"  required>
+					<input size="14" type="text" placeholder="请选择日期和时间"  class="collectend-datetime-lang form-control" name="collect_end"  required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">赛果公布日期</label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间" readonly class="reviewstart-datetime-lang am-form-field form-control" name="public_time">
+					<input size="14" type="text" placeholder="请选择日期和时间" class="reviewstart-datetime-lang form-control" name="public_time">
 				</div>
 			</div>
 		</div>
@@ -88,8 +116,6 @@
 @endsection
 
 <script>
-  
-
   window.onload = function(){
   	var collect_start = {{ $match->collect_start}};
   	var collect_end = {{ $match->collect_end}};
@@ -132,7 +158,10 @@
 
 @section('other_js')
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
-    <script>        
+    <script>     
+    	$('#firstname').click(function(){
+			$('#list').show();
+		})   
         $('.navbar-nav li a').each(function(){
             if($($(this))[0].href==String(window.location)){
                 $(this).parent().parent().find('li').removeClass('active')
@@ -143,6 +172,14 @@
             $('.pop-mask').show();
             $('#'+id).show();
         }
+        document.getElementById('list').onclick = function(e){
+			var target = event.target;
+			if(target.innerHTML.indexOf('<')<0){
+				$('#firstname').val(target.innerHTML);
+				$('#list').hide();
+			}
+		}
+         
     </script>
 
     <script src="{{url('js/cropper.js')}}"></script>

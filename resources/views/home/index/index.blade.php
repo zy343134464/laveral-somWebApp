@@ -134,7 +134,7 @@
                         <li>
                             <a href="{{ url('match/detail/'.$v->id) }}">
                                 <div class="match-img">
-                                    <img src="{{ url($v->pic) }}" width="355" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
+                                    <img src="{{ show_pic($v->pic) }}" width="355" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
                                 </div>
                             </a>
                             <div class="match-content">

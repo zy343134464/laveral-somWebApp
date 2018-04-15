@@ -54,6 +54,7 @@ class UserController extends Controller
             return back();
         }
         $match_id = User_match::select('match_id','id')->where('user_id', $user_id)->where('status', 1)->get();
+        $match_id = User_match::select('match_id','id')->where('user_id', $user_id)->get();
         $arr = [];
         foreach ($match_id as $v) {
             $arr[] = $v->match_id;
@@ -69,15 +70,16 @@ class UserController extends Controller
         if (!$user_id) {
             return back();
         }
-
-        $product = Production::where('user_id', $user_id)->where('match_id', $id);
+        $match = Match::where('id',$id)->first();
+        if(!count($match))  return back();
+        $product = Production::where('user_id', $user_id)->where(['match_id' => $id, 'status' => 2 ]);
         if ($request->search != '') {
             $product = $product->where('productions.title', 'like', '%'. $request->search . '%');
         }
         $product = $product->orderBy('id', 'desc')->Paginate(12);
 
        
-        return view('home.user.product', ['product' => $product]);
+        return view('home.user.product', ['product' => $product,'id' => $id,'match' => $match]);
     }
 
     public function consumes(Request $request)
@@ -183,7 +185,12 @@ class UserController extends Controller
 
         return json_encode($path ? $path : '');
     }
-
+    /**
+     * 编辑作品
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
     public function pic(Request $request, $id)
     {
         $product = Production::find($id);
@@ -191,6 +198,12 @@ class UserController extends Controller
         return view('home.user.product_one',['product'=>$product]);
     }
 
+    /**
+     * 处理编辑作品
+     * @param  Request $request [description]
+     * @param  [type]  $id      [description]
+     * @return [type]           [description]
+     */
     public function editpic(Request $request, $id)
     {
         if($request->title == ''  ||  $request->author  == '' ||  $request->detail == '') {
@@ -198,7 +211,10 @@ class UserController extends Controller
         } else {
             $status = 2;
         }
-        $res = \DB::table('productions')->where('id',$id)->first();
+
+        $res = \DB::table('productions')->where(['id'=>$id])->first();
+
+        if($res->status == 3) return back()->with('msg','已投稿,不可再修改');
 
         $mid = $res->match_id;
 
@@ -210,6 +226,11 @@ class UserController extends Controller
             ]);
         return redirect()->to('user/match/'.$mid);
     }
+    /**
+     * 删除作品
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function del_pic(Request $request)
     {
         $id = $request->id;
@@ -220,6 +241,7 @@ class UserController extends Controller
         }
         return json_encode([1]);
     }
+
     /**
      * 修改密码
      * @param Request $request

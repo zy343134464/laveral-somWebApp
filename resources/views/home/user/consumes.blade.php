@@ -7,6 +7,7 @@
 
 @section('body2')
 <div class="consumes">
+	<!-- 消费记录 -->
 	<table cellpadding="4" cellspacing="10" width="100%">
 		<thead>
 			<th>缴费项目</th>

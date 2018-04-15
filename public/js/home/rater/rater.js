@@ -1,7 +1,31 @@
-$(function(){
+function layerFunc(json,func){ //弹出层
+		var flag;
+		var layerTpl = ' <div class="alert alert-danger alert-dismissible layer_alert fade in" role="alert">'+
+'        <div class="alert_div">'+
+'          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>'+
+'            '+
+'              <h4>'+json.title+'</h4>'+
+'              <div class="alert-cont">'+
+'                  <p>'+json.msg+'</p>'+
+'                  <p>'+
+'                    <button type="button" class="btn btn-danger" data-dismiss="alert" aria-label="Close" data-status="true">确定</button>'+
+'<button type="button" class="btn btn-default" style="margin-left:10px;"  data-dismiss="alert" aria-label="Close" data-status="false">取消</button>'+
+'                  </p>'+
+'               </div>'+
+'            </div>'+
+'        </div>';
+    $('body').append(layerTpl);
 
+		$('body').on('click','.layer_alert button',function(){
+			 flag = $(this).data('status');
+			  if(func){
+			    	func(flag);
+			    }
+		})
+	};
+$(function(){
+	
 	 $('.textbutton').click(function(){
-	 	
 	 	var ulId = this.parentNode.nextSibling.nextSibling.getElementsByTagName('ul')[0]
 	 	var we = this.parentNode.nextSibling.nextSibling;
 	 	var showneir = this.parentNode.getElementsByClassName('testeli')[0];
@@ -492,7 +516,6 @@ $('.edit-btn').on('click','button',function(){
 
 	// 查看图片
 	$('.rater-main').on('click','.rater-img2',function(){
-		console.log(123)
 		var imgId = $(this).next().find('.img-Id').text();		//图片id
 		
 		var modelImg = $('.wrapperimg img');		//显示的img标签路径
@@ -553,8 +576,18 @@ $('.edit-btn').on('click','button',function(){
 	})
 	
 })
-
-
+	
+	 //点击图片放大
+	 $('.modal.fade').on('click','.img img',function(){
+	 	var imgSrc = $(this).attr('src'),
+	 		imgHtml = '<div class="modal_img_cont"><img src="'+imgSrc+'" alt="" class="modal_show_img"><span><button type="button" class="close">×</button> </span> </div>';
+	 		console.log(imgSrc);
+	 		$('.modal.fade').append(imgHtml);
+	 })
+	 //关闭放大图片
+	 $('.modal.fade').on('click','.modal_img_cont',function(e){
+	 	$(this).addClass('active')
+	 })
 
 	$('.textbutton').click(function(){
 		$('.choosebox').hide();
@@ -579,4 +612,5 @@ $('.edit-btn').on('click','button',function(){
     	data.pid = $(this).parents('.choosebox').attr('index');
     	// console.log(data)
 
+   
     })

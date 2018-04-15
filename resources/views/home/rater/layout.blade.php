@@ -67,9 +67,9 @@
                                 </a>
                             </li>
                             <!-- User Account: style can be found in dropdown.less -->
-                            <li class="dropdown user user-menu">
+                            <li class="dropdown user user-menu" >
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        {{ user('name') }}
+                                        
                                         <img src="{{ url(user('pic')) }}" class="user-image" alt="User Image">
                                     </a>
                                     <div class="circle"></div>
@@ -80,10 +80,15 @@
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1"  href="{{ url('/') }}">首页</a>
                                     </li>
+                                    @if(is_admin())
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1"  href="{{ url('admin') }}">管理员后台</a>
+                                    </li>
+                                    @endif
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('rater/room') }}">评委评审室</a>
                                     </li>
-                                    <li role="presentation" class="divider"></li>
+                                    
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="{{ url('logout') }}">退出</a>
                                     </li>
@@ -168,6 +173,7 @@
             $(this).parent().addClass('active');
         }
     });
+    
 
 </script>
 @section('other_js')

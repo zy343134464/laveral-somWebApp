@@ -4,7 +4,7 @@
 @section('body2')
 <style>
   .match-guest .content ul>li{
-    width: 266px;
+    width: 262px;
   }
   
 </style>
@@ -33,7 +33,7 @@
                         <div style="display:none;" id="hiddenId">{{ $v->id}}</div>
                         <h4 class="name" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->name}}</h4>
                         <p class="tag" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->tag}}</p>
-                        <p class="detail impose" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;word-wrap:break-word">{{ $v->detail}}</p>
+                        <p class="detail impose" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;word-wrap:break-word;text-overflow:ellipsis;">{{ $v->detail}}</p>
                     </div>
                     <div class="judge-edit">
                         <a href="#" class="btn editraterBtn" data-toggle="modal" data-target="#matchnew"><i class="fa fa-edit"></i></a>
@@ -76,7 +76,7 @@
                             <div class="form-group" style="margin-bottom:0;">
                                 <label for="introduction" class="col-sm-2 control-label">简介</label>
                                 <div class="col-sm-5">
-                                    <textarea class="form-control" rows="5" placeholder="500字内" id="raterdetail" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="500字内" id="raterdetail" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" style="resize:vertical;"></textarea>
                                 </div>
                             </div>
                            <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
@@ -136,9 +136,7 @@
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="introduction" class="col-sm-2 control-label">简介</label>
                             <div class="col-sm-5">
-                                <textarea class="form-
-
-                                control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required></textarea>
+                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required style="resize:vertical;"></textarea>
                             </div>
                         </div>
                         <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
@@ -154,10 +152,10 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="pic" id="savedpath">
+                        <input type="hidden" name="pic" id="savedpath2">
                         <div class="modal-footer">
                             <div class="col-sm-5" style="margin-left:-5px;">
-                                <input type="submit" class="btn btn-default" value="确认提交"></input>
+                                <input type="submit" class="btn btn-default" value="确认提交" index="1"></input>
                             </div>
                         </div>
                     </form>
@@ -192,6 +190,7 @@
     <script src="{{url('js/home/capture/capture-1-1.js')}}"></script>
 @endsection
 <script>
+
     // 图片上传
   someCallback = function(){
     // 加载图片
@@ -222,6 +221,14 @@
         $('#progressbar').css('width','0');
         $('#file').val('');
     });
+
+     
+        $('form').on('click','input[type="submit"]',function(e){
+            $(this).attr('disabled','disabled');
+            $(this).val('上传中。。。');
+            $('form').submit();
+          
+        })
   }
 
   

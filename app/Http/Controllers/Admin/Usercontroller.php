@@ -7,7 +7,7 @@ use App\Admin\User;
 use App\Http\Requests\StoreUser;
 use App\Http\Controllers\ExcelController;
 use Illuminate\Support\Facades\Schema;
-use Excel;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Organ;
@@ -52,13 +52,20 @@ class Usercontroller extends Controller
         }
 
         //关键词筛选
-        if (($kw = $request->kw) != '') {
-            $users = $users->when($kw, function ($query) use ($kw) {
-                return $query->whereIn('members.uid', Controller::search_name_or_phone($kw));
-            });
-        }
+        // if (($kw = $request->kw) != '') {
+        //     $users = $users->when($kw, function ($query) use ($kw) {
+        //         return $query->whereIn('members.uid', Controller::search_name_or_phone($kw));
+        //     });
+        // }
                 
         $users = $users->orderBy('members.id')->Paginate(10);
+
+        //临时代替
+        $kw = $request->kw;
+        $users = User::when($kw,function ($query) use ($kw) {
+            return $query->orWhere('phone', 'like', '%'.$kw.'%')
+                 ->orWhere('name', 'like', '%'.$kw.'%');
+        })->orderBy('id','desc')->Paginate(10);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);
     }
 
@@ -85,18 +92,6 @@ class Usercontroller extends Controller
         $res = $user->reg($request);
         
         return redirect()->route('user_index');
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Match  $match
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
     }
 
 
@@ -164,63 +159,123 @@ class Usercontroller extends Controller
         }
         return json_encode($msg);
     }
-
-   
+    /**
+     * ajax 导出用户资料
+     * @param string $value [description]
+     */
+    public function exc_info(Request $request)
+    {
+        $str = $request->id;
+        $arr = json_decode($str,true);
+    }
+    /**
+     * 导出单个用户信息
+     * @param  User   $user [description]
+     * @param  [type] $id   [description]
+     * @return [type]       [description]
+     */
     public function info(User $user, $id)
     {
-        $date[] = $user->find($id)->toArray();
-        $this->downloadExcel($date);
-    }
+        $res = $user->select('name','phone','sex','email')->find($id);
+        $data = [];
+        $data[] = ['用户名','手机号','性别','email'];
 
+        $info = [];
+        $info[] = $res->name;
+        $info[] = $res->phone;
+        $info[] = $res->sex ? '女': '男';
+        $info[] = $res->email;
+
+        $data[] = $info;
+        $this->downloadExcel($data,'用户'.$res->name.'资料');
+    }
+    /**
+     * 根据机构id 导出所有用户信息
+     * @param  User   $user [description]
+     * @return [type]       [description]
+     */
     public function infoall(User $user)
     {
-        $date = $user->get()->toArray();
-        $this->downloadExcel($date);
-    }
+        $data = [];
+        $data[] = ['用户名','手机号','性别','email'];
 
-    public function getfeild()
-    {
-        $date =  Schema::getColumnListing('users');
-        for ($i=0; $i < count($date) - 1; $i++) {
-            if ($date[$i + 1] == 'created_at' || $date[$i + 1] == 'updated_at') {
-                continue;
+        $organ_id = organ_info();
+
+        $user_id = \DB::table('members')->select('uid')->where('organ_id',$organ_id)->get();
+
+        if(count($user_id)) {
+            $arr = [];
+            foreach ($user_id as $uv) {
+                if(in_array($uv->uid,$arr)) continue;
+                $arr[] = $uv->uid;
             }
-            $res[0][] = $date[$i + 1];
+
+            $res = $user->select('name','phone','sex','email')->whereIn('id',$arr)->get();
+
+            $res = $user->select('name','phone','sex','email')->get();
+
+            foreach ($res as $value) {
+                $info = [];
+                $info[] = $value->name;
+                $info[] = $value->phone;
+                $info[] = $value->sex ? '女': '男';
+                $info[] = $value->email;
+
+                $data[] = $info;
+            }
         }
-        $this->downloadExcel($res, '批量新建用户');
+        $this->downloadExcel($data,'用户资料');
+    }
+    /**
+     * 导入Excel模板下载
+     * @return [type] [description]
+     */
+    public function get_excel()
+    {
+        //$data =  Schema::getColumnListing('users');
+        $data = [];
+        $data[] = ['用户名','手机号(必填)','性别(默认男)','密码(默认123456)','email'];
+
+        $this->downloadExcel($data, 'Excel模板');
     }
 
-
+    /**
+     * Excel 导入用户
+     * @param  Request $request [description]
+     * @param  User    $user    [description]
+     * @return [type]           [description]
+     */
     public function addusers(Request $request, User $user)
     {
-        if ($request->file('excel')->isValid()) {
-            $path = $request->excel->path();
-        } else {
-            return redirect()->to('admin/user');
-        }
-        $this->uploadExcel($path);
-        $date =  $this->temp;
+        try {
+            
+            if ($request->file('excel')->isValid()) {
+                $path = $request->excel->path();
+            } else {
+                return redirect()->to('admin/user');
+            }
+            $this->uploadExcel($path);
+            $data =  $this->temp;
 
-        foreach ($date as $k=>$v) {
-            //$user->
-            //-------------------导入信息待定---------------------
+            foreach ($data as $k=>$v) {
+                
+                //-------------------导入信息待定---------------------
+            }
+            //$data = json_encode([$data],256);
+
+            return json_encode(['data'=>$data,'msg'=>'成功','status'=>true],256);
+        } catch (\Exception $e) {
+            return json_encode(['data'=>$data,'msg'=>$e->getMessage(),'status'=>false],256);
         }
     }
 
 
-    public function downloadExcel($cellData, $filename = 'userinfo')
-    {
-        Excel::create($filename, function ($excel) use ($cellData) {
-            $excel->sheet('sheet', function ($sheet) use ($cellData) {
-                $sheet->fromArray($cellData);
-            });
-        })->export('xls');
-    }
+    
 
 
     public function uploadExcel($path)
     {
-        Excel::load($path, function ($reader) {
+        \Excel::load($path, function ($reader) {
             $this->temp = $reader->all()->toArray();
         });
     }

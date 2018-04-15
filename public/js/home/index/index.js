@@ -21,4 +21,7 @@ $(function(){
     $('#collaborate .owl-prev').append('<i class="fa fa-angle-left"></i>')
     $('#collaborate .owl-next').text('');
     $('#collaborate .owl-next').append('<i class="fa  fa-angle-right"></i>')
+    $('header').on('click','.pull-right.personal-center',function(){
+        $(this).toggleClass('open');
+    })
 })

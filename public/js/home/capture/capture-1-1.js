@@ -85,6 +85,7 @@
     $('.guestimg').html('<img src="'+ src +'">').css({'padding-top': 0, 'border-radius': '50%'});
 
     $('#savedpath').val(src);
+    $('#savedpath2').val(src);
 
     // 关闭弹窗
     $this.parents('.pop-info').hide();

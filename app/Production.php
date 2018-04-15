@@ -17,6 +17,10 @@ class Production extends Model
         $res = \DB::table('sum_score')->where(['production_id'=>$id,'round'=>$round])->first();
         return @$res->sum;
     }
+    public function get_sum()
+    {
+         return $this->hasMany('App\Sum_score');
+    }
     public function score($mid, $round, $id, $uid = '')
     {
         if (!$uid) {
@@ -83,6 +87,7 @@ class Production extends Model
     public function review($request, $type = 1)
     {
         try {
+            \DB::beginTransaction();
             // 过滤
             if (!$request->id || !$request->match_id ||!$request->round) {
                 if ($request->type == 1 && !$request->value) {
@@ -93,29 +98,43 @@ class Production extends Model
                     }
                 }
             }
+            $num  = \DB::table('rater_match')->select('finish','total')->where([
+                'match_id'=>$request->match_id,
+                'user_id'=> user('id'),
+                'round'=> $request->round
+            ])->first();
+            if(count($num)) {
+                if($num->finish >= $num->total) {
+                    return ['data'=>false,'msg'=>'你已经全部评审完毕'];
+                }
+            }
+
             // 赛事轮次审核
             $match = \DB::table('matches')->find($request->match_id);
 
-            if ($match->round < $request->round) {
-                return ['data'=>false,'msg'=>'尚未开始第'.$request->round.'轮评审'];
-            } elseif ($match->round > $request->round) {
-                return ['data'=>false,'msg'=>'评审已结束'];
-            }
+            // if ($match->round < $request->round) {
+            //     return ['data'=>false,'msg'=>'尚未开始第'.$request->round.'轮评审'];
+            // } elseif ($match->round > $request->round) {
+            //     return ['data'=>false,'msg'=>'评审已结束'];
+            // }
             // 旧记录
             $old = \DB::table('score')->where([
                 'match_id'=>$request->match_id,
                 'production_id'=>$request->id,
                 'round'=>$request->round,
                 'rater_id'=>user('id'),
-                ])->get();
+                ])->first();
             if (count($old)) {
-                if ($old[0]->res == $request->res) {
+                if ($old->res == $request->res) {
                     return ['data'=>true,'msg'=>'success without ed'];
                 }
-                $old_value = $old[0]->res;
-                $old_sum = $old[0]->sum;
+                
+                $old_sum = $old->sum;
+
+                $old = (array)$old;
+
             } else {
-                $old_value = 0;
+                $old = [];
                 $old_sum = 0;
             }
             //删除旧记录
@@ -131,55 +150,82 @@ class Production extends Model
                 //获取评审
                 $reviews = \DB::table('reviews')->where(['match_id'=>$request->match_id, 'round'=>$request->round])->first();
                 $percent = (json_decode($reviews->setting, true))['percent'];
-                $score = [];
+                $count = count($percent);
+
+                $temp = $score = [];
                 $total = 0;
+                $data = json_decode($request->res);
                 foreach ($percent as $key => $value) {
-                    $score[$key] = $value * json_decode($request->res)[$key] ;
-                    $total += $value * json_decode($request->res)[$key] ;
+                    $score[$key] = $value * $data[$key] ;
+                    $total += $value * $data[$key] ;
+                    $temp['p'.$key] = $data[$key];
                 }
-                \DB::table('score')->insert([
+                $temp =array_merge($temp,[
                     'match_id'=>$request->match_id,
                     'production_id'=>$request->id,
                     'round'=>$request->round,
-                    'rater_id'=>user('id'),
+                    'rater_id'=>user(),
                     'res'=>json_encode($score),
                     'sum'=>$total
-                    ]);
+                    ]) ;
+                $newId = \DB::table('score')->insertGetId($temp);
+                unset($temp);
+
                 // 总分表数据处理
                 $res = \DB::table('sum_score')->where([
                         'match_id'=>$request->match_id,
                         'production_id'=>$request->id,
-                        'round'=>$request->round,
-                    ])->get();
+                        'round'=>$request->round
+                    ])->first();
+
+               
                 if (count($res)) {
+                    $res = json_decode(json_encode($res),true);
                     if (count($old)) {
+                        $temp = ['sum'=> ($res['sum'] * $res['sum_rater'] - $old_sum + $total) / $res['sum_rater']];
+                        foreach (json_decode($request->res) as $sk => $sv) {
+                            $temp['p'.$sk] = $res['p'.$sk] + $sv - $old['p'.$sk];
+                        }
+
                         \DB::table('sum_score')->where([
                             'match_id'=>$request->match_id,
                             'production_id'=>$request->id,
                             'round'=>$request->round,
-                        ])->update(['sum'=>$res[0]->sum - $old_sum + $total]);
+                        ])->update($temp);
+                        
                     } else {
+
+                        $temp = ['sum'=>($res['sum'] * $res['sum_rater']  + $total) / ($res['sum_rater'] + 1),'sum_rater'=> $res['sum_rater'] + 1];
+                        foreach (json_decode($request->res) as $sk => $sv) {
+                            $temp['p'.$sk] = $res['p'.$sk] + $sv;
+                        }
+
                         \DB::table('sum_score')->where([
                             'match_id'=>$request->match_id,
                             'production_id'=>$request->id,
                             'round'=>$request->round,
-                        ])->update(['sum'=>$res[0]->sum + $total ,'sum_rater'=> $res[0]->sum_rater + 1]);
+                        ])->update($temp);
                     }
+
+
                 } else {
-                    \DB::table('sum_score')->insert([
+                    $temp = [
                         'match_id'=>$request->match_id,
                         'production_id'=>$request->id,
                         'round'=>$request->round,
                         'sum'=>$total ,
                         'sum_rater'=> 1
-                    ]);
+                    ];
+
+                    foreach (json_decode($request->res) as $sk => $sv) {
+                        $temp['p'.$sk] =  $sv;
+                    }
+
+                    \DB::table('sum_score')->insert($temp);
+                    
                 }
 
-                $num  = \DB::table('rater_match')->select('finish')->where([
-                    'match_id'=>$request->match_id,
-                    'user_id'=> user('id'),
-                    'round'=> $request->round
-                ])->first();
+                //评委进度更新
 
                 if (!count($old)) {
                     \DB::table('rater_match')->where([
@@ -188,60 +234,76 @@ class Production extends Model
                         'round'=> $request->round
                     ])->update(['finish'=> $num->finish + 1 ]);
                 }
+                \DB::commit();
                 return ['data'=>true,'msg'=>'success with score'.$total];
             } else {
                 // 投票
-                //获取评审
-                $reviews = \DB::table('reviews')->where(['match_id'=>$request->match_id, 'round'=>$request->round])->first();
-                
+               
                 \DB::table('score')->insert([
                     'match_id'=>$request->match_id,
                     'production_id'=>$request->id,
                     'round'=>$request->round,
                     'rater_id'=>user('id'),
-                    'res'=>$request->value
+                    'res'=>$request->value,
+                    'sum'=>$request->value
                     ]);
                 // 总分表数据处理
-                $res = \DB::table('sum_score')->where([
+                //判断是否有记录
+                if (count($old)) {
+                    if ($request->value == 1) {
+                        //旧记录非入围时加一
+                        if ($old['res'] != 1) {
+
+                            \DB::table('sum_score')->where([
+                                'match_id'=>$request->match_id,
+                                'production_id'=>$request->id,
+                                'round'=>$request->round,
+                            ])->increment('sum');
+
+
+                        }
+                    } elseif ($request->value == 2 || $request->value == 3) {
+                        //旧记录入围时减一
+                        if ($old['res'] == 1) {
+                            \DB::table('sum_score')->where([
+                                'match_id'=>$request->match_id,
+                                'production_id'=>$request->id,
+                                'round'=>$request->round,
+                            ])->decrement('sum');
+                        }
+                        
+                    }
+                    //其他不做处理
+                    
+                } else {
+                    $res = \DB::table('sum_score')->where([
                         'match_id'=>$request->match_id,
                         'production_id'=>$request->id,
                         'round'=>$request->round,
                     ])->get();
-                //判断是否有记录
-                if (count($res)) {
+
                     if ($request->value == 1) {
-                        //旧记录非入围时加一
-                        if ($old_value != 1) {
-                            $sum = $res[0]->sum + 1;
+                        //没记录入围时,票数1
+                        if (count($res)) {
                             \DB::table('sum_score')->where([
                                 'match_id'=>$request->match_id,
                                 'production_id'=>$request->id,
-                                'round'=>$request->round,
-                            ])->update(['sum'=>$sum]);
-                        }
-                    } elseif ($request->value == 2 || $request->value == 3) {
-                        //旧记录入围时减一
-                        if ($old_value == 1) {
-                            $sum = $res[0]->sum - 1;
-                            \DB::table('sum_score')->where([
+                                'round'=>$request->round
+                            ])->update(['sum'=>$res[0]->sum  + 1,'sum_rater'=>$res[0]->sum_rater  + 1]);
+                            
+                        } else {
+
+                            \DB::table('sum_score')->insert([
                                 'match_id'=>$request->match_id,
                                 'production_id'=>$request->id,
                                 'round'=>$request->round,
-                            ])->update(['sum'=>$sum]);
+                                'sum'=>1,
+                                'sum_rater'=>1,
+                            ]);
+                            
                         }
-                    } else {
-                        //其他不做处理
                     }
-                } else {
-                    if ($request->value == 1) {
-                        //没记录入围时票数1
-                        \DB::table('sum_score')->insert([
-                            'match_id'=>$request->match_id,
-                            'production_id'=>$request->id,
-                            'round'=>$request->round,
-                            'sum'=>1
-                        ]);
-                    }
+
                 }
                 // 更新评委已完成数
                 $num  = \DB::table('rater_match')->select('finish')->where([
@@ -249,23 +311,41 @@ class Production extends Model
                     'user_id'=> user('id'),
                     'round'=> $request->round
                 ])->first();
+
                 if ($request->value == 1) {
+                    if(count($old)) {
+                        if($old['res'] == 1) {
+
+                        } else {
+
+                            \DB::table('rater_match')->where([
+                                'match_id'=>$request->match_id,
+                                'user_id'=> user('id'),
+                                'round'=> $request->round
+                            ])->increment('finish');
+                        }
+                    } else {
+                        \DB::table('rater_match')->where([
+                            'match_id'=>$request->match_id,
+                            'user_id'=> user('id'),
+                            'round'=> $request->round
+                        ])->increment('finish');
+                    }
+
+                } elseif (count($old) && $old['res'] == 1) {
                     \DB::table('rater_match')->where([
                         'match_id'=>$request->match_id,
                         'user_id'=> user('id'),
                         'round'=> $request->round
-                    ])->update(['finish'=> $num->finish + 1 ]);
-                } elseif ($old_value == 1) {
-                    \DB::table('rater_match')->where([
-                        'match_id'=>$request->match_id,
-                        'user_id'=> user('id'),
-                        'round'=> $request->round
-                    ])->update(['finish'=> $num->finish - 1 ]);
+                    ])->decrement('finish');
                 }
+                \DB::commit();
                 return ['data'=>true,'msg'=>'success with vote'];
             }
         } catch (\Exception $e) {
-            return ['data'=>false,'msg'=>$e];
+            \DB::rollback();
+            dd($e) ;
+            return ['data'=>false,'msg'=>'error : '.$e->getMessage()];
             ;
         }
     }

@@ -24,12 +24,19 @@
 <!-- 主内容 -->
 <section class="content">
     <div class="row clearfix">
-    <form method="get">
+    <form method="get" >
         <div class="col-xs-12">
             <!--搜索框-->
             <div class="search-form">
                 <i class="fa fa-search"></i>
                 <input type="text" placeholder="请输入赛事标题" name="kw" value="{{$kw ? $kw : ''}}">
+                @if(isset($_GET['status']))
+                <input type="hidden" name="status" value="{{$_GET['status']}}">
+                @endif
+                @if(isset($_GET['cat']))
+                <input type="hidden" name="cat" value="{{$_GET['cat']}}">
+                @endif
+
             </div>
         </div>
     </form>
@@ -101,7 +108,7 @@
                 @foreach($matches as $v)
                 <li>
                     <div class="match-img">
-                        <a href="{{ url('match/detail/'.$v->id) }}"><img src="{{ url($v->pic) }}"></a>
+                        <a href="{{ url('admin/match/showedit/'.$v->id) }}"><img src="{{ show_pic($v->pic) }}"></a>
                     </div>
                     <div class="match-content">
                         <h4>{{ (json_decode($v->title))[0]}}</h4>

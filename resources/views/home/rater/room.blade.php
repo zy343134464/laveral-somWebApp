@@ -3,6 +3,7 @@
 @section('title', '评委室')
 
 @section('other_css')
+    <script src="{{ url('js/vue.js') }}"></script>
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
 @endsection
 
@@ -10,7 +11,7 @@
 @section('body')
 
 <!-- 主内容 -->
-<section class="content">
+<section class="content" id="app">
     <div class="row clearfix">
         <div class="col-xs-12">
             <!--搜索框-->
@@ -24,12 +25,12 @@
             <div class="col-xs-2">
                 <div class="matchtime">
                     <select class="form-control">
-                        <option>时间筛选</option>
-                        <option>2016</option>
+                        <option v-for="tab in tabs">@{{tab}}</option>
+                        <!-- <option>2016</option>
                         <option>一年内</option>
                         <option>一个月内</option>
                         <option>一周内</option>
-                        <option>三天内</option>
+                        <option>三天内</option> -->
                     </select>
                 </div>
             </div>
@@ -83,7 +84,20 @@
 </section>
 <!-- /.content -->
 
+<script>
+    var app = new Vue({
+			el: '#app',
+			data: {
+				tabs:['时间筛选','2016','一年内','一个月内','一周内','三天内']
+            }
+    })
+</script>
+<script>
+     $('header').on('click','.user.user-menu',function(){
+       $(this).toggleClass('open');
 
+    })
+</script>
 @endsection
 
 @section('other_js')

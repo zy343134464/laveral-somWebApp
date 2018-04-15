@@ -3,6 +3,7 @@
 <?php $__env->startSection('title', '会员管理'); ?>
 <?php $__env->startSection('other_css'); ?>
     <link rel="stylesheet" href="<?php echo e(url('css/admin/user/user.css')); ?>">
+    <meta name="_token" content="<?php echo e(csrf_token()); ?>"/>
 <?php $__env->stopSection(); ?>
  
 
@@ -57,11 +58,18 @@
                     </div>
                 </form>
                 <!--批量导出-->
-                <div class="batch-export">
+                <!-- <div class="batch-export">
                     <div class="dropdown">
                         <button class="btn btn-success dropdown-toggle toggle-vis" type="button">
                             导出
                         </button>
+                    </div>
+                </div> -->
+                <div class="batch-export">
+                    <div class="dropdown">
+                        <a class="btn btn-success dropdown-toggle toggle-vis" type="button" href="<?php echo e(url('admin/user/infoall')); ?>">
+                            导出
+                        </a>
                     </div>
                 </div>
                 <div class="batch-enter">
@@ -70,10 +78,14 @@
                             导入
                             <i class="fa fa-sort-down"></i>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                        <ul class="dropdown-menu" id="excal_ul" aria-labelledby="dropdownMenu3">
                             <li><a href="<?php echo e(url('admin/user/getfeild')); ?>">下载模板</a></li>
                             <li role="presentation" class="divider"></li>
-                            <li><a href="#">上传模板</a></li>
+                            <li id="excel_moban">
+                                上传模板
+                                <input type="file" name="excel" id="excel_input" accept=".doc,.docx,.xls,.xlsx" onchange ="uploadFile(this,1)"/>
+                               
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -118,7 +130,7 @@
                                 <td><?php echo e($user->name); ?></td>
                                 <td><?php echo e($user->phone); ?></td>
                                 <td><?php echo e($user->role_type); ?></td>
-                                <td><?php echo e(date('Y-m-d', $user->reg_time)); ?></td>
+                                <td><?php echo e(date('Y-m-d', strtotime($user->created_at))); ?></td>
                                 <td>
                                     <a href="<?php echo e(url('admin/user/edit').'/'.$user->id); ?>"><i class="fa fa-edit"></i></a>
                                 </td>
@@ -145,6 +157,7 @@
                 <!-- /.box -->
             </div>
             <!-- /.col -->
+             
         </div>
         <!-- /.row -->
     </section>
@@ -152,5 +165,70 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('other_js'); ?>
     <script src="<?php echo e(url('js/admin/user/user.js')); ?>"></script>
+    <script>
+    function getFileType(filePath){  //获取文件的后缀名
+        var startIndex = filePath.lastIndexOf(".");  
+        if(startIndex != -1)  
+            return filePath.substring(startIndex+1, filePath.length);  
+        else return "";  
+    }
+    function uploadFile(obj, type) {  
+  var filePath = $("#excel_input").val(); 
+  console.log(filePath); 
+
+         if("" != filePath){  
+             var fileType = getFileType(filePath);  
+            //判断上传的附件是否为图片  
+            console.log(fileType);
+            if("doc"!=fileType && "docx"!=fileType && "xls"!=fileType && "xlsx"!=fileType ){
+                    $("#excel_input").val("");  
+                    alert("请上传表格文件");  
+                }  
+                else{  
+                    //获取附件大小（单位：KB）  
+                    var fileSize = document.getElementById("excel_input").files[0].size / 1024;  
+                    if(fileSize > 500){  
+                        alert("文件大小不能超过500KB");
+                         $("#excel_input").val("");   
+                    }  else{
+                        var formData = new FormData();
+
+                        var name = $("#excel_input").val();
+
+                        formData.append("excel",$("#excel_input")[0].files[0]);
+
+                        formData.append("name",name);
+
+                        //formData.append('excel',excel_val);
+
+                        console.log(formData);
+
+                        $.ajax({ 
+                           type: 'POST',
+                            
+                           processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
+                           contentType : false, // 不设置Content-type请求头
+                           headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            },
+                            url : "/admin/user/addusers", 
+                            data:formData,
+                            dataType : 'json',// 返回值类型 一般设置为json  
+                            success : function(data) {// 服务器成功响应处理函数  
+                                 alert("上传成功");  
+                                    // window.location.reload();//上传成功后刷新页面
+                                    },  
+                            error : function(data){  
+                                alert("服务器异常");  
+                            }  
+                        });  
+                    }
+                }  
+        }  
+
+   
+    return false; 
+}
+    </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

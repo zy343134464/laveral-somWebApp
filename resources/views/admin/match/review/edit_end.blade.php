@@ -1,5 +1,5 @@
 @extends('admin.layout')  
-@section('title', '评审室')
+@section('title', '评审室_最后一轮编辑')
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
@@ -101,9 +101,7 @@
                             </div>
                             <div class="rater-btn" style="padding: 0 20px;" index="{{ $pv->id }}" match="{{ $match->id }}">
                                 <p>{{ $pv->author }}</p>
-
                                 <p class="testeli">{{$pv->win($pv->id)}}</p>
-                                
                             </div>
                             <button class="textbutton">奖项编辑</button>
                         </div>

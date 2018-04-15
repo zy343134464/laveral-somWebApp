@@ -110,6 +110,9 @@
                 $(this).parent().addClass('active');
             }
         });  
+        $('header').on('click','.personal-center.pull-right',function(){
+             $(this).toggleClass('open');
+    })
     }
 
     function popShow(id) {
@@ -133,6 +136,8 @@
         }
         popShow('popPrompt');
     }
+
+
 </script>
 
 @endsection

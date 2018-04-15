@@ -54,11 +54,8 @@
         </div>
         <div class="col-xs-4 clearfix som">
             <div class="dropdown pull-right personal-center">
-                <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像" id="dropdownMenu1"
-                        data-toggle="dropdown" style="cursor:pointer;">
-                <button type="button" class="btn dropdown-toggle" >
-                   <!--  {{ user('name') }} -->
-                </button>
+                <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像" id="dropdownMenu1" data-toggle="dropdown" style="cursor:pointer;">
+               
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="{{ url('user') }}">个人中心</a>
@@ -83,17 +80,15 @@
             <div class="dropdown pull-right language-switch">
                 <img class="chinese-logo" src="{{ url('img/images/chinese.jpg') }}" alt="中国图标" id="dropdownMenu1"
                         data-toggle="dropdown" style="cursor:pointer;">
-                <button type="button" class="btn dropdown-toggle">
-                        <!--  中文 -->
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <!-- <button type="button" class="btn dropdown-toggle">                </button> -->
+              <!--   <ul class="dr中文opdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="#">中文版</a>
                     </li>
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="#">国际版</a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </div>
     </div>
@@ -182,6 +177,7 @@
 <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);
+   
 </script>
     @section('other_js')
             

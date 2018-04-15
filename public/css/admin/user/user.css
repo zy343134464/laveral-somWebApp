@@ -383,3 +383,14 @@
     position: relative;
     left: 0px;
 }
+.batch-enter .dropdown-menu li{
+    position: relative;
+    text-align: center;
+
+}
+#excel_input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}

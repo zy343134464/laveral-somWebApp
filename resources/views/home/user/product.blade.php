@@ -7,11 +7,17 @@
 @section('body2')
 
 <div class="personal-top">
-    <a href="javascript:void(0)" class="submit-btn">投稿</a>
-</div>
+    <!-- 还在征稿期就是 -->
+   @if( $match->status == 3 )
+    <a href="{{ url('match/uploadimg/'.$id) }}" class="submit-btn">继续投稿</a>
+    @else
+    <a href="#" class="btn btn-warning">截止投稿</a>
+     @endif
 
+</div>
 <div class="product">
-    <div class="row">
+     
+    <div class="row
         <div class="col-sm-12">
             <ul class="match-main text-left clearfix">
                 @if( count($product) )
@@ -30,6 +36,8 @@
                                     </a>
                                 @endif
                             </div>
+                            <p>作品标题:{{ mb_substr($v->title,0, 10,'UTF8') }} </p>
+                            <p>作品作者:{{ mb_substr($v->author,0, 10,'UTF8') }} </p>
                             @if( $v->status != 3 )
                             <div class="footer">
                                 <a href="javascript:imgDel({{ $v->id }})" class="del-btn"><i class="fa fa-close"></i></a>
@@ -106,6 +114,8 @@
 
 @section('other_js')
     <script>
+   var solicit_end  = '{{ $match }}';
+
         function imgShow(id) {
             $('#imgrater1').show().addClass('in');
             

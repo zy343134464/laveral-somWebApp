@@ -108,6 +108,16 @@
             $('.pop-mask').show();
             $('#'+id).show();
         }
+       if($('#only2').is(":checked")){$('.div2').hide()}else{$('.div2').show()};
+       $('form').on('click','input[name="group_limit"]',function(){
+            var radio_val = $(this).val();
+            console.log(radio_val);
+            if(radio_val==1){
+                $('.div1').hide()
+            }else{
+                $('.div1').show()
+            }
+       })
     </script>
 
     <script src="{{url('js/cropper.js')}}"></script>

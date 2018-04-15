@@ -15,15 +15,38 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     protected $temp;
-    /**
-     * 用户列表首页
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, User $user)
-    {
-    }
 
+    public function username(Request $request)
+    {
+        return view('home.login.username');
+    }
+    public function password(Request $request)
+    {
+        $user_id = user();
+        if($request->password == $request->password2 && $request->password != '' && $user_id) {
+            Homeuser::where('id',$user_id)->update(['password'=>pw($request->password)]);
+            return redirect()->to('login')->with('msg','修改成功');
+        } else {
+            return back()->with('msg','修改失败');
+        }
+    }
+    public function setusername(Request $request)
+    {
+        $user_id = user();
+        try {
+            
+            if($request->name  != '' && $user_id) {
+
+                Homeuser::where('id',$user_id)->update(['name'=>mb_substr($request->name,0,30,'utf-8')]);
+
+                return redirect()->to('/')->with('msg','注册成功');
+            } else {
+                return back()->with('msg','修改失败');
+            }
+        } catch (\Exception $e) {
+            return back()->with('msg','修改失败');
+        }
+    }
 
     /**
      * 显示reg用户页
@@ -42,11 +65,12 @@ class UserController extends Controller
      * @param  storeUser 表单认证
      * @return 重定向
      */
-    public function doreg(StoreUser $request, Homeuser $user)
+    public function doreg(storeUser $request, Homeuser $user)
     {
         $res = $user->reg($request);
+        set_user_id_cookie($user->id);
         if ($res) {
-            return redirect()->to('/');
+            return redirect()->to('/username');
         } else {
             return redirect()->back()->with('msg', '服务器故障...请稍后再试...');
         }
@@ -57,6 +81,7 @@ class UserController extends Controller
      */
     public function login()
     {
+
         return view('home.login.login');
     }
     /**
@@ -78,23 +103,35 @@ class UserController extends Controller
     {
         $res = $user->login($request);
         if ($res) {
-            //dd(\Cookie::get('user_id'));
+            
             return redirect()->to('/');
         } else {
             return redirect()->to('login')->with('msg', '密码错误,请重新登录')->withInput();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Match  $match
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+
+    public function forget()
     {
-        //
+        return view('home.login.forgetpass');
     }
+
+
+    public function set_password(Request $request)
+    {
+        try {
+            
+            if($request->phone != "" && $request->check != "" ) {
+                $res = Homeuser::where('phone',$request->phone)->first();
+                set_user_id_cookie($res->id);
+                return view('home.login.password');
+            }
+            return back()->with('msg','修改失败');
+        } catch (\Exception $e) {
+            return back()->with('msg','修改失败');
+        }
+    }
+
 
 
     /**

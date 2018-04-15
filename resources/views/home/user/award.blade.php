@@ -6,6 +6,7 @@
 @endsection
 
 @section('body2')
+<!-- 获奖信息 -->
 <div class="award">
 	<table cellpadding="4" cellspacing="10" width="100%">
 		<thead>

@@ -1,5 +1,5 @@
 @extends('admin.layout')  
-@section('title', '评审室')
+@section('title', '评审室——编辑每一轮')
 
 @section('other_css')
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col-xs-12 clearfix">
-            <div class="col-xs-2" style="margin-left:-15px;">
+            <div class="col-xs-1" style="margin-left:-15px;">
                 <div class="rater">
                     <select class="form-control"  onchange="window.location=this.value">
                         <option value="" >全部作品</option>
@@ -49,10 +49,44 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-10 text-right" style="padding-top:10px;">
+
+            <!--  <div class="col-xs-1" style="margin-left:15px;">
+                <!-- 投票排名
+           <div class="rater">
+                    <select class="form-control"  onchange="window.location=this.value">
+                        <option value="" >入围/淘汰</option>
+                        <option value="" >入围 </option>
+                        <option value="" >淘汰 </option>
+                    </select>
+                </div>
+            </div> -->
+ <!-- 分数维度排名 -->
+        <!--<div class="col-xs-1" style="margin-left:15px;">
+               
+                <div class="rater">
+                    <select class="form-control"  onchange="window.location=this.value">
+                        <option value="" >综合</option>
+                        <option value="" >分数维度 </option>
+                        <option value="" >分数维度 </option>
+                    </select>
+                </div>
+            </div>
+             <div class="col-xs-1" style="margin-left:15px;">
+                 <div class="rater">
+                      <select class="form-control"  onchange="window.location=this.value">
+                            <option value="" selected>入围/淘汰</option>
+                            <option value="" >入围 </option>
+                            <option value="" >淘汰 </option>
+                      </select>
+                </div>
+             </div> -->
+<!-- 维度end -->
+
+            <div class="col-xs-12 text-right" style="padding-top:10px;">
             <!-- 赛事: -->
             </div>
-            <div class="col-xs-10 text-right" style="padding-top:10px;">
+            <div class="col-xs-12 text-right" style="padding-top:10px;">
+                <span>入围人数：1/30</span>
                 <a href="{{url('admin/match/reset_result/'.$id)}}"type="button" class="btn btn-warning">恢复评审数据</a>
                
                 <a href="{{url('admin/match/next_round/'.$id)}}" type="button" class="btn btn-warning">下一轮</a>

@@ -1,0 +1,153 @@
+#app{
+    background-color: #f5f5f5;
+    padding-top: 74px;
+    padding-bottom: 50px;
+}
+.body_top>ul{
+    width:500px;
+    height:150px;
+    margin: 0 auto;
+    display: flex;
+}
+.body_top>ul>li{
+    flex: 1;
+    text-align: center;
+    color: #ccc;
+    position: relative;
+}
+.top_num{
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    background:#ccc;
+    color: #fff;
+    font-style: normal;
+    text-align: center;
+    margin: 50px auto 10px;
+}
+.mainCourse>.top_border{
+    border:2px solid #D0A45D;
+}
+.mainCourse>.top_num{
+    background:#D0A45D;
+}
+.top_border{
+    display: block;
+    position: absolute;
+    border: 2px solid #ccc;
+    width: 80%;
+    left: -38%;
+    top: 42%;
+}
+.tar{
+    text-align: right;
+    margin-top: 12px;
+}
+a:hover{
+    text-decoration: none
+}
+/*赛事声明*/
+.statement { 
+
+}
+.statement h5 ,.regist-info h2 {
+     background-color: #fff;
+    font-size: 20px;
+    color: #999;
+    margin: 0;  
+   height: 60px;
+   line-height: 60px;
+   text-align: center;
+    border: 1px solid #e7e7e7;
+   border-bottom: none;
+}
+.statement-div{
+    text-align: center;
+    font-size: 16px;
+   
+}
+.layer-check-input {
+    vertical-align: middle;
+}
+.statement-content {
+    border: 1px solid #e7e7e7;
+    padding: 40px 56px 50px 56px;
+   font-size:16px;
+    line-height: 32px;
+     background-color: #fff;
+}
+.statement-div .checkbox{
+    padding: 5px 0 20px; 
+}
+.layer-btn {
+    border: none;
+    padding: 13px 38px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    color: #ccc;
+    background-color: #fff;
+}
+input[ type="checkbox" ]{
+    vertical-align: middle;
+}
+.layer-btn.current,.regist-info .layer-btn.current{
+    background-color: #d0a45d;
+    color:#000;
+}
+
+/*报名表*/
+form {
+    width: 760px;
+    margin: 0 auto
+}
+.regist-info .form-cont {
+    background-color: #fff;
+    border: 1px solid #e7e7e7;
+    padding: 50px 0;
+}
+.regist-info{
+    /*padding: 20px;*/
+    font-size: 18px;
+    
+}
+.Confirm-msg{
+    text-align: center;
+}
+.form-horizontal{
+    height: 100%;
+    
+}
+input::-webkit-inner-spin-button { visibility: hidden; }
+.layer-btn.current {
+    background-color: #4d4d4d;
+    color: #bea070;
+}
+.control-label{
+     color: #999;
+     font-weight: normal;
+}
+.control-label.info-title {
+    font-size: 20px;
+    padding: 10px 0;
+     font-weight: bold;
+}
+.form-group {
+    font-size: 14px;
+    height: 50px;
+    
+}
+.regist-info .form-group input[type="radio"]{
+     vertical-align: middle;
+}
+.Confirm-msg .checkbox{
+    padding: 10px 0 20px;
+}
+.team-group{
+    display: none
+}
+label span {
+    color:red;
+     
+}

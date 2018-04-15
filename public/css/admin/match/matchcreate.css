@@ -41,6 +41,16 @@ span.sure{
     margin-top: 10px;
     padding-bottom: 80px;
 }
+/*.input-hint-div .form-control {
+    margin-right: 10px;
+}*/
+.input-hint{
+    position: absolute;
+    right:0;
+    top: 8px;
+    color: #999;
+    transform: translateX(65%);
+}
 
 .match-theme h4 {
     margin: 0;
@@ -58,6 +68,12 @@ span.sure{
 .match-theme input,
 .match-theme textarea{
 	background-color: #fafafa;
+}
+.form-group textarea{
+    width: 100%;
+    resize:vertical;
+    box-sizing:border-box;
+    min-height:200px
 }
 .match-theme input:focus,
 .match-theme textarea:focus{
@@ -236,7 +252,7 @@ span.sure{
     height: 186px;
 }
 /*组委会信息*/
-.match-theme #addVar1{
+.match-theme #addVar1,.match-theme #addVar1_btn{
     position: relative;
     left: 4px;
     display:inline-block;
@@ -247,7 +263,7 @@ span.sure{
     border:2px solid #eeeeee;
     color: #dddddd;
 }
-.match-theme .removeVar1{
+.match-theme .removeVar1,.match-theme .removeVar1_btn{
     margin:auto;
     padding: 1px 15px;
     font-size: 20px;
@@ -257,7 +273,8 @@ span.sure{
     border:2px solid #eeeeee;
 }
 .match-theme #addVar1:hover,
-.match-theme .removeVar1:hover{
+.match-theme .removeVar1:hover,.match-theme #addVar1_btn:hover,
+.match-theme .removeVar1_btn:hover{
     cursor: pointer;
 }
 
@@ -1068,3 +1085,38 @@ li{
     margin-right: 10px;
 }
 
+#list{
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+    width: 80%;
+    border: 1px solid #D2D6DE;
+}
+#list ul{
+    display: none;
+    border: 1px solid #D2D6DE;
+}
+#list li{
+    padding-left: 10px;
+    position: relative;
+   
+}
+#list>li ul{
+    position: absolute;
+    background: #fff;
+    left: 120px;
+    width: 100%;
+    top: 0;
+}
+#list li:hover ul{
+    display: block;
+}
+#list li:hover{
+    background: #FAFAFA;
+}
+
+
+.as div{
+    width: 14%;
+}

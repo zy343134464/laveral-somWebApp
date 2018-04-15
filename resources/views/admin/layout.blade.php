@@ -197,6 +197,8 @@
         }
     });
 
+
+
 </script>
 @section('other_js')
 

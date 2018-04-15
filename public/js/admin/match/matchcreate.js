@@ -14,7 +14,6 @@ $(function () {
     var varCount = 1;
       //新增按钮点击
       $('#addVar').on('click', function(){
-        console.log(123)
         varCount++;
         $node = '<div class="form-group"><label for="var'+varCount+'" id="var'+varCount+'" class="col-sm-2 control-label"></label>'
         + '<div class="col-sm-8"><input type="text" name="title[]" class="form-control" for="var'+varCount+'" id="var'+varCount+'"></div>'
@@ -29,59 +28,20 @@ $(function () {
         varCount--;
       });
 
-    // 征稿开始时间
-   
-    $.fn.datetimepicker.dates['zh-CN'] = {
-      days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-      daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-      daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-      months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      today: "今日",
-      suffix: [],
-      meridiem: ["上午", "下午"]
-    };
-
-    $('.collectstart-datetime-lang').datetimepicker({
-      language:  'zh-CN',
-      format: 'yyyy-mm-dd hh:ii'
-    });
-
-      // 征稿结束时间
-      $.fn.datetimepicker.dates['zh-CN'] = {
-        days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-        daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-        daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-        months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-        monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-        today: "今日",
-        suffix: [],
-        meridiem: ["上午", "下午"]
-      };
-
-      $('.collectend-datetime-lang').datetimepicker({
-        language:  'zh-CN',
-        format: 'yyyy-mm-dd hh:ii'
+      //自定义添加和删除
+       $('form').on('click','#addVar1_btn', function(){
+          varCount++;
+          $htmlTpl = '<div class="form-group"><label for="firstname7" class="col-sm-2 control-label"></label><div class="col-sm-4"><input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="diy_info[]" value=""></div><div class="col-sm-2"><select name="diy_required[]"><option value ="1">必填</option><option value="0" selected>选填</option></select> </div><div class="col-sm-2"><span class="removeVar1_btn">-</span></div></div>';
+          //新表单项添加到“新增”按钮前面
+          $(this).parent().before($htmlTpl);
       });
-
-      // 赛果公布日期
-      $.fn.datetimepicker.dates['zh-CN'] = {
-        days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-        daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-        daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-        months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-        monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-        today: "今日",
-        suffix: [],
-        meridiem: ["上午", "下午"]
-      };
-
-      $('.reviewstart-datetime-lang').datetimepicker({
-        language:  'zh-CN',
-        format: 'yyyy-mm-dd hh:ii'
+      $('form').on('click', '.removeVar1_btn', function(){
+          $(this).parents('.form-group').remove();
+          varCount--;
       });
+     
 
-
+      
       /*组委会评选*/
 
     // 比赛合作方信息
@@ -239,4 +199,47 @@ $(function () {
           $('.div2').show();
         }
       })
+      
+     //征稿开始时间
+     var currtTime = new Date;
+        var y_m_d = currtTime.getFullYear()+"-"+(currtTime.getMonth()+1)+'-'+currtTime.getDate();
+        var times = currtTime.getHours()+':'+currtTime.getMinutes();
+        console.log(times);
+    $.datetimepicker.setLocale('zh');
+      $('.collectstart-datetime-lang').datetimepicker({
+        step:10,
+        format:'Y-m-d H:i',
+        minDate: y_m_d,
+        minTime: times
+      }); 
+      //征稿结束时间
+      $('.collectend-datetime-lang').datetimepicker({
+        step:10,
+        format:'Y-m-d H:i',
+        minDate:y_m_d,
+        onClose: function(dateText, inst) {
+         var  startTime = $('.collectstart-datetime-lang').val();
+              endTime = $('.collectend-datetime-lang').val();
+          if(startTime>endTime){
+            $('.collectend-datetime-lang').val(startTime);
+          }
+        }  
+        
+      })
+      //赛果公布时间
+      $('.reviewstart-datetime-lang').datetimepicker({
+        step:10,
+        format:'Y-m-d H:i',
+        minDate:y_m_d,
+        onClose: function(dateText, inst) {
+         var  startTime = $('.collectend-datetime-lang').val();
+              endTime = $('.reviewstart-datetime-lang').val();
+          if(startTime>endTime){
+            $('.reviewstart-datetime-lang').val(startTime);
+          }
+        }  
+
+      });
+
 })
+//

@@ -10,6 +10,24 @@
 
 <!-- 主内容 -->
 <section class="content">
+    <!-- 评审准则说明 -->
+    <div class="alert alert-danger alert-dismissible layer_alert fade in" role="alert">
+        <div class="alert_div">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            
+              <h4>评审说明</h4>
+              <div class="alert-cont">
+                  <p>本轮赛事以打分方式评审60-69分及格，70-79分良好,80-89分良好,90-99分优秀，100分满分</p>
+                  <p>
+                    <button type="button" class="btn btn-danger" data-dismiss="alert" aria-label="Close">明白了</button>
+                  </p>
+               </div>
+            </div>
+        </div>
+        
+    <!-- end -->
+
+
     <div class="row clearfix">
         <div class="col-xs-12">
             <!--搜索框-->
@@ -42,7 +60,7 @@
                 <ul class="nav navbar-nav">
                     @for($i=1;$i<$match->sum_round($match->id) + 1;$i++)
                     <li class="on">
-                        <a href="?round={{$i}}&status=2">第{{$i}}轮评审</a>
+                        <a href="?round={{$i}}&status=2">第{{$i}}轮评审111</a>
                         <div class="time" style="display:none;">
                             剩下:<span>{{ $time }}</span>
                             <span>　</span>
@@ -68,6 +86,7 @@
                         <option  value="?status=3" {{ @$status === '3' ? 'selected' :'' }}>待定 {{ $sum[3] }}</option>
                         <option  value="?status=0" {{ @$status === '0' ? 'selected' :'' }}>未评 {{ $sum[0] }}</option>
                     </select>
+                   
                 </div>
             </div>
             @else
@@ -182,6 +201,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
+
 </div>
 
 <!-- 评委评分（Modal） -->
@@ -238,6 +258,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
+  
 </div>
 @endsection
 
@@ -251,6 +272,7 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
         });
+
     </script>
     <script>
     var setting = "{{$review->setting}}";

@@ -7,6 +7,7 @@
 
 @section('body2')
 <div id="enroll">
+	<!-- 机构资料 -->
 	<form class="form-horizontal" role="form">
 		<div class="userdetail">
 			<ul class="nav nav-tabs" role="tablist">

@@ -97,11 +97,11 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
     height: 36px;
     border-radius: 50%;
     position: relative;
-    left: 10px;
+    left: -10px;
 }
 
 #header .topbar .dropdown {
-    padding-left: 14px;
+    padding:0 14px;
 }
 
 #header .topbar .language-switch {
