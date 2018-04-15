@@ -527,8 +527,8 @@ function production_info()
     $arr = [];
 
     $arr['author'] = '作者姓名';
-    $arr['detail'] = '文字描述';
     $arr['title'] = '作品标题';
+    $arr['detail'] = '文字描述';
     $arr['represent'] = '代表单位';
     $arr['year'] = '年份';
     $arr['country'] = '国籍';

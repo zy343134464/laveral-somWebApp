@@ -107,7 +107,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">分数构成设定</label>
 							@foreach((json_decode($v->setting,true))['dimension'] as $kk=>$vv)
-							<div>
+							<div style="padding: 0 0 20px 16.7%">
 								<div class="col-sm-2">
 									<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}">
 								</div>
@@ -116,7 +116,6 @@
 									value="{{(json_decode($v->setting,true))['percent'][$kk]}}">
 								</div>
 								<span class="removeVar4">-</span>
-								<br>
 							</div>
 							@endforeach
 						</div>
@@ -734,10 +733,10 @@ window.onload = function(){
       + '<div class="form-group"><label for="time" class="col-sm-2 control-label">评选结束时间</label><div class="col-sm-5"><input size="14" type="text" placeholder="请选择日期和时间" class="elect-datetime-lang am-form-field form-control" name="end_time2[]">'
       + '</div><ul class="competition_time"><li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li><li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li></ul></div><div class="form-group NameNum"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
-      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" placeholder="分" name="max2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
-      + '<input type="text" class="form-control" name="reference2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div class="col-sm-2">'
+      + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" paceholder="分" name="max2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
+      + '<input type="text" class="form-control" name="reference2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div style="padding:0 0 0 16.7%;"><div class="col-sm-2">'
       + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
-      + '</div><span class="removeVar4">-</span></div>'
+      + '</div><span class="removeVar4">-</span></div></div>'
       + '<p><span class="col-sm-offset-2 addVar4" index='+sheave+'>+</span></p><div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectgrade"><li class="addjudgethumb">'
       + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="grade">+</div></a></li></ul></div></div><div class="removeadd text-right">'
       + '轮数增减：<span class="removeVar6">-</span> <span class="addVar6">+</span></div></div></div></div>';

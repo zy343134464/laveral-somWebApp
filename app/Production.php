@@ -21,6 +21,40 @@ class Production extends Model
     {
          return $this->hasMany('App\Sum_score');
     }
+    public function info($id)
+    {
+        try {
+            $res = $this->find($id);
+            $info = [];
+            if($res->cat == 0) {
+                $require = \DB::table('require_personal')->where(['match_id'=>$res->match_id])->first();
+            } else {
+                $require = \DB::table('require_team')->where(['match_id'=>$res->match_id])->first();
+            }
+            $must = json_decode($require->production_info,true)[0];
+            $diy = json_decode($require->diy_info,true)[0];
+
+            $info['id'] = $res->id;
+            $pic = json_decode($res->pic);
+            $info['pic'] = $pic ? $pic : $res->pic;
+            $field = production_info();
+            $no = 0;
+            foreach ($must as $mv) {
+                $no += 1;
+                $info['info'][$no]['key'] = $field[$mv];
+                $info['info'][$no]['value'] = $res->$mv;
+            }
+            $diy = json_decode($res->diy_info,true);
+            foreach ($diy as $value) {
+                $no += 1;
+                $info['info'][$no] = $value;
+            }
+            return $info;
+            
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
     public function score($mid, $round, $id, $uid = '')
     {
         if (!$uid) {

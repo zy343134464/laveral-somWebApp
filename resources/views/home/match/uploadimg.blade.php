@@ -55,26 +55,64 @@
               <!-- 要求内容 -->
               <div class="require_content" v-show="!show1">
 
-                <ul class="require_data">
-                  <li><h4>图片递交要求</h4></li>
-                  <li><span>图片大小：3-5（MB）</span></li>
-                  <li><span>图片最小边长：1000(像素)（*作品最短的一边必须到达此尺寸或以上）</span></li>
-                  <li><span>单次上传最多20个图像</span></li>
-                  <ul class="join_form">
-                    <li><span>参赛作品形式:</span></li>
-                    <li><i class="li_style"></i><span>彩色、黑白胶片和数字作品均可参赛，请保留原始正片、负片或数字作品原始文件，以便获奖作品可以印刷发表。</span></li>
-                    <li><i class="li_style"></i><span>谢绝提供电脑创意或改变原始影像的作品，即参赛照片仅可做高度、对比度、色彩饱和度的适度调整，不得做合成、添加、大幅度改变色彩等技术处理。</span></li>
-                    <li><i class="li_style"></i><span>网络投稿照片长边要求1800-3000像素，分辨率为300dpi，小与5M。参赛作品类别</span></li>
-                    <li><i class="li_style"></i><span>参赛作品内容分为四个类别：</span></li>
-                    <ul class="production_class">
-                      <li>1、<span>Nacure/自然（动物、植物、自然风光）；</span></li>
-                      <li>2、<span>Place/地方（城市建筑、历史遗迹、人造景观）；</span></li>
-                      <li>3、<span>People/人物（以人物为主体的影像及肖像）；</span></li>
-                      <li>4、<span>Phooo Essay/图片故事（记录影响人类当下生活，人与社会、自然的故事，组照张数为6-10张）。特别设置手机摄影作品专区。</span></li>
-                      <li><span>注：大会对输出发展有最终决定和解释权，请密切留意作品入选状态（页面左方菜单栏中上传记录可见）</span></li>
-                    </ul>
-                  </ul>
-                </ul>
+              <ul>
+                        <li>
+                          <span class="require_list">收费类型:</span><span class="require_content">
+                          @if($personal->pay == 1)
+                          每张/组收费
+                          @elseif($personal->pay == 2)
+                          报名费
+                          @else
+                          免费  
+                          @endif
+
+                          </span>
+                        </li>
+                        @if($personal->pay != 0)
+                        <li>
+                          <span class="require_list">单价:</span><span class="require_content">{{ $personal->price }} 人民币</span>
+                        </li>
+                        <li>
+                          <span class="require_list">收费说明:</span><span class="require_content">{{$personal->pay_detail}}</span>
+                        </li>
+                        @endif
+                       
+                          @if($personal->pay == 1)
+                          <!-- 仅限单张 -->
+                        <li>
+                          <span class="require_list">单张:</span><span class="require_content"> {{$personal->group_min}} 至 {{$personal->group_max}} 张</span>
+                        </li>
+                          @elseif($personal->pay == 2)
+                          <!-- 仅限组图 -->
+                        <li>
+                          <span class="require_list">组图:</span><span class="require_content">{{$personal->group_min}} 至 {{$personal->group_max}} 组</span>
+                        </li>
+                        <li>
+                          <span class="require_list">每组张数:</span><span class="require_content">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
+                        </li>
+                          @else
+                          <!-- 不限 -->
+                        <li>
+                          <span class="require_list">单张/组图:</span><span class="require_content">{{$personal->group_min}} 至 {{$personal->group_max}}</span>
+                        </li>
+                        <li>
+                          <span class="require_list">每组张数:</span><span class="require_content">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
+                        </li>
+                          @endif
+                        <li>
+                          <span class="require_list">图片大小:</span><span class="require_content">{{ $personal->size_min }} 至 {{ $personal->size_max }} MB</span>
+                        </li>
+                        <li>
+                          <span class="require_list">最小边长:</span><span class="require_content">{{ $personal->length }} px</span>
+                        </li>
+                         <li>
+                          <span class="require_list gundan">补充说明:</span>
+                          <div class="require_content bucong">
+                            <p class="title">{{ $personal->introdution_title }}</p>
+                            {!! str_replace(array("\r\n", "\r", "\n"), "<br/>", $personal->introdution_detail) !!}
+                        </div>
+                        </li>
+                      </ul>
 
               </div>
             <!-- 图片内容 -->
@@ -147,9 +185,10 @@
                   <!-- <li><span class="Return"><a href="{{ url('user/match') }}">我的赛事</a></span></li> -->
                   <li>
                     <span class="on">
-                      <button class="contribute_before" @click="contributeFunc($event)" v-show="isClass" v-if="uio==1">投稿</button>
-                      <button class="contribute_before" data-toggle="modal" data-target="#myModal1" @click="contributeFunc" v-show="isClass" v-if="uio==0">投稿</button>
-                      <button class="contribute_before" @click="submitProduction($event)"  data-status="1" v-show="!isClass">投稿</button>
+                      <button class="contribute_before" @click="contributeFunc($event)" v-show="isClass" v-if="uio==1&&cat!=2">投稿</button>
+                      <button class="contribute_before" data-toggle="modal" data-target="#myModal1" @click="contributeFunc" v-show="isClass" v-if="uio==0&&cat!=2">投稿</button>
+                      <button class="contribute_before" @click="submitProduction($event)"  data-status="1" v-show="!isClass" v-if="cat!=2">投稿</button>
+                      <button class="contribute_before" @click="contributeFunc($event)" v-if="cat==2">继续投稿</button>
                     </span>
                   </li>
                   <li><span @click="submitProduction($event)" data-status="0">保存</span></li>
@@ -268,14 +307,14 @@ var groupObjs = {'pic':[]};      //组图图片数据
         ImgArrs:{},
         groupShow:0,
         remain:20,                //单张剩余投稿数
-        uio:0
+        uio:0,
+        cat: '{{$match->cat}}'
       },
       mounted(){
         this.init()     //初始化
         this.mustMessageFunc();
-        
         this.uio = JSON.parse('{!! $personal->group_limit !!}' );
-        
+        console.log(this.cat)
         setInterval(function(){
           if(document.getElementsByTagName('body')[0].style.paddingRight != 0){
             document.getElementsByTagName('body')[0].style.paddingRight = '0px';

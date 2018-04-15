@@ -97,7 +97,12 @@ class RaterController extends Controller
             return back()->with('msg', '获取数据失败');
         }
         $type = $review->type;
-
+        $tip = json_decode($review->setting,true);
+        if(isset($tip['reference'])) {
+            $tip = $tip['reference'];
+        } else {
+            $tip = '';
+        }
         $sum = [];
         if ($type == 1) {
             $finish_pass = \DB::table('score')->select('production_id')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user(),'res'=>1])->get()->toArray();
@@ -136,7 +141,7 @@ class RaterController extends Controller
             
         $pic = $pic->Paginate(16);
 
-        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review,'round'=>$round,'time'=>$time,]);
+        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review,'round'=>$round,'time'=>$time,'tip'=>$tip]);
     }
     /**
      * 评审点击 获取图片详细信息

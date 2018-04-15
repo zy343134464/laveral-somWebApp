@@ -44,15 +44,39 @@ class Match extends Model
      */
     public function production_sum($id,$user_id =  '')
     {
-        $match = $this->find($id);
+        try {
+            $match = $this->find($id);
+            $num = 0;
 
-        if (count($match)) {
-            $num = Production::where(['match_id'=>$id,'status'=>2])->when($user_id,function($query) use($user_id){
-                return $query->where('user_id',$user_id);
-            })->count();
-            return $num;
+            if (count($match)) {
+                if($match->cat == 1) {
+                    $son = $this->select('id')->where('pid',$id)->get();
+
+                    foreach ($son as $key => $value) {
+                        $temp = 0;
+
+                        $temp = Production::where(['match_id'=>$value,'status'=>2])->when($user_id,function($query) use($user_id){
+                                return $query->where('user_id',$user_id);
+                            })->count();
+
+                        $num += $temp;
+                    }
+                } else {
+                    $num = Production::where(['match_id'=>$id,'status'=>2])->when($user_id,function($query) use($user_id){
+                            return $query->where('user_id',$user_id);
+                        })->count();
+                }
+
+
+                return $num;
+            }
+            return 0;
+            
+
+                        
+        } catch (\Exception $e) {
+            return 0;
         }
-        return 0;
     }
     /**
      * 赛事参与人数

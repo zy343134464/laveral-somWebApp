@@ -17,7 +17,7 @@
 </div>
 <div class="product">
      
-    <div class="row
+    <div class="row">
         <div class="col-sm-12">
             <ul class="match-main text-left clearfix">
                 @if( count($product) )

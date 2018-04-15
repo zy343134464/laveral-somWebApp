@@ -9,22 +9,23 @@
 @section('body')
 
 <!-- 主内容 -->
-<section class="content">
+<section class="content"> 
     <!-- 评审准则说明 -->
+    @if($tip)
     <div class="alert alert-danger alert-dismissible layer_alert fade in" role="alert">
         <div class="alert_div">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
             
               <h4>评审说明</h4>
               <div class="alert-cont">
-                  <p>本轮赛事以打分方式评审60-69分及格，70-79分良好,80-89分良好,90-99分优秀，100分满分</p>
+                  <p>{{ $tip }}</p>
                   <p>
                     <button type="button" class="btn btn-danger" data-dismiss="alert" aria-label="Close">明白了</button>
                   </p>
                </div>
             </div>
         </div>
-        
+    @endif  
     <!-- end -->
 
 
@@ -95,14 +96,16 @@
                     <select class="form-control"  onchange="window.location=this.value">
                         <option value="?status=" {{ isset($status)   ? '' :'selected' }}>全部作品</option>
                         <option value="?status=1" {{ @$status == '1' ? 'selected' :'' }}>已评 {{ $sum[1] }}</option>
-                        <option  value="?status=0" {{ @$status === '0' ? 'selected' :'' }}>未评 {{ $sum[0] }}</option>
+                        <option value="?status=1" {{ @$status == '1' ? 'selected' :'' }}>未评 {{ $sum[1] }}</option>
                     </select>
                 </div>
             </div>
             @endif
             <div class="col-xs-10 text-right" style="padding-top:10px;">
-                已评: <span style="padding-right:20px;">{{ $sum[1] }}</span>
-                未评: <span>{{ $sum[0] }}</span>
+
+                  <span style="display:{{ $type == 1 ? 'inline-block' :'none' }}">剩余票数 : {{ $sum[0] }}</span>  <!-- 剩余票数在投票的时候才会显示 -->
+                <span style="padding: 0 10px;">已评: {{ $sum[1] }}</span>
+               <span> 未评: {{ $sum[0] }}</span>
             </div>
         </div>
         
@@ -162,6 +165,11 @@
     <div class="modal-dialog modal100">
         <div class="modal-content">
             <div class="modal-header" style="padding-left:66px;">
+                <div class="col-xs-10 text-right" style="padding-top:10px; text-align: left;">
+                    剩余票数: <span style="padding-right:20px;">{{ $sum[0] }}</span>  <!-- 剩余票数在投票的时候才会显示 -->
+                    已评: <span style="padding-right:20px;">{{ $sum[1] }}</span>
+                    未评: <span>{{ $sum[0] }}</span>
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
@@ -208,7 +216,11 @@
 <div class="modal fade" id="imgrater2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal100">
         <div class="modal-content">
-            <div class="modal-header" style="padding-left:66px;">
+            <div class="modal-header" style="padding-left:30px;">
+                  <div class="col-xs-10 text-right" style="padding-top:10px; text-align: left;">
+                    已评: <span style="padding-right:20px;">{{ $sum[1] }}</span>
+                    未评: <span>{{ $sum[0] }}</span>
+                </div>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
@@ -234,7 +246,7 @@
                             @endif
                             </div>
                             <div class="text-right" style="margin-top:10px;">
-                                <a class="btn btn-warning sure">确认</a>
+                                <a class="btn btn-warning sure" data-dismiss="modal">确认</a>
                             </div>
                         </div>
                     </li>

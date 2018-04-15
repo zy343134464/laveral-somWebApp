@@ -69,6 +69,8 @@ class MatchController extends Controller
     {
         
         $user_id = user();
+        $match = Match::find($id);
+        if(!count($match)) return back();
         if($user_id) {
 
             $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->first();
@@ -76,10 +78,31 @@ class MatchController extends Controller
                 \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'created_at'=>time()]);
 
             }
-            return redirect()->to('match/uploadimg/'.$id);
+            if($match->cat == 1)  {
+                return redirect()->to('match/synthesize/'.$id);
+            } else {
+                return redirect()->to('match/uploadimg/'.$id);
+            }
         } else {
             return back();
         }
+    }
+
+    public function synthesize(Request $request, $id)
+    {
+        try {
+            $res = Match::find($id);
+            if($res->cat == 1) {
+                $son = Match::where(['pid'=>$id])->get();
+            } else {
+                return redirect()->to('/');
+            }
+
+            return view('home.match.synthesize',['match'=>$son]);
+        } catch (\Exception $e) {
+            return redirect()->to('/');
+        }
+        
     }
     /**
      * 上传作品页面
@@ -89,15 +112,26 @@ class MatchController extends Controller
      */
     public function uploadimg(Request $request, $id)
     {
-        $require_personal = \DB::table('require_personal')->where('match_id', $id)->first();
+        try {
+            
+            $match = Match::find($id);
+            if($match->cat == 2) {
+                $personal_id = $match->pid;
+            } else {
+                 $personal_id = $id;
+            }
+            $require_personal = \DB::table('require_personal')->where('match_id', $personal_id)->first();
 
-        if(!count($require_personal)) return back()->with('该赛事未设置投稿要求');
+            if(!count($require_personal)) return back()->with('该赛事未设置投稿要求');
 
-        // $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->get();
-        // if(!count($res)) {
-        //     \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'num'=>20,'status'=>1,'created_at'=>time()]);
-        // }
-        return view('home.match.uploadimg', ['id'=>$id, 'personal'=>$require_personal]);
+            // $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->get();
+            // if(!count($res)) {
+            //     \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'num'=>20,'status'=>1,'created_at'=>time()]);
+            // }
+            return view('home.match.uploadimg', ['id'=>$id, 'personal'=>$require_personal, 'match'=>$match]);
+        } catch (\Exception $e) {
+            return back();
+        }
     }
     
     /**

@@ -63,6 +63,28 @@ class UserController extends Controller
 
         return view('home.user.match', ['match'=>$match]);
     }
+    public function son(Request $request,$id)
+    {
+        try {
+            $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->first();
+
+            if(count($res)) {
+                $res = Match::find($id);
+                if($res->cat == 1) {
+                    $son = Match::where(['pid'=>$id])->get();
+
+                    return view('home.user.son',['match'=>$son]);
+                }
+            } 
+
+            return back();
+            
+            
+        } catch (\Exception $e) {
+            return back();
+        }
+
+    }
     public function match_pic(Request $request, $id)
     {
         $user_id  = user('id');

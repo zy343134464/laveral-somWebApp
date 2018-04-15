@@ -24,24 +24,15 @@
 
                     @if( count($match) )
                     @foreach($match as $v)
-                        <!-- <li>
-                            <a href="#" style="background: url('{{ url($v->pic) }}') no-repeat center center;"></a>
-                            <div class="match-content">
-                                <h4 class="line-limit-length" style="width:150px;">{{ $v->title }}</h4>
-                                <br>
-                                <p class="line-limit-length"><a href="{{ url('match/detail/'.$v->match_id)}}">{{ (@json_decode($v->match->title))[0] }}</a></p>
-                            </div>
-                            <div class="footer">
-                                <a href="#"><i class="fa fa-eye"></i> 0</a>
-                                <a href="#"><i class="fa fa-thumbs-o-up"></i> 0</a>
-                                <a href="#"><i class="fa fa-comment-o"></i> 0</a>
-                            </div>
-                        </li>
-                         -->
                         <li>
                             <div class="match-img">
                                 <img src="{{ url($v->pic) }}" onerror="onerror=null;src='{{url('img/404.jpg')}}'">
+                                @if($v->cat == 1)
+                                <a href="{{ url('user/son/'.$v->id) }}" class="match-check-mask">
+                                @else
                                 <a href="{{ url('user/match/'.$v->id) }}" class="match-check-mask">
+                                @endif
+
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>

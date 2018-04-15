@@ -2,6 +2,7 @@
 @section('title', '评审室')
 
 @section('other_css')
+    <link rel="stylesheet" href="{{ url('css/swiper.min.css') }}"/>
     <link rel="stylesheet" href="{{ url('css/home/rater/rater.css') }}"/>
 @endsection
 
@@ -97,7 +98,7 @@
                 </div>
             </div>
        <script>
-            console.log('{{ $status }}');
+            // console.log('{{ $status }}');
        </script>
              <div class="col-xs-12 text-right" style="padding-top:10px;">
                 @if($round == $rounding )
@@ -141,7 +142,7 @@
                             @endif
 
                         @endif
-                            <li><a href="{{ url('admin/match/match_pic_pdf/'.$id)}}">批量导出</a></li>
+                            <li><a href="{{ url('admin/match/match_pic_pdf/'.$id.(isset($_GET['round']) ? '?round='.$_GET['round'] : ''))}}">批量导出</a></li>
                     </ul>
                 </div>
                 <!-- 评审进度 -->
@@ -172,8 +173,8 @@
                
                 @if($type == 2)
                 <li>
-                    <div class="rater-img2">
-                        <img src="{{ url($v->pic) }}" indexPic="{{ $v->pic }}"  data-toggle="modal" data-target="#imgrater{{$type}}">
+                    <div class="rater-img2"  data-toggle="modal" data-target="#imgrater2" index="{{ $v->id }}">
+                        <img src="" indexPic="{{ $v->pic }}">
                     </div>
                     <div class="rater-content">
                         <h4>{{ $v->title }}</h4>
@@ -190,8 +191,8 @@
 
                 @else
                 <li>
-                    <div class="rater-img2">
-                        <img src="{{ url($v->pic) }}" indexPic="{{ $v->pic }}" data-toggle="modal" data-target="#imgrater{{$type}}">
+                    <div class="rater-img2" data-toggle="modal" data-target="#imgrater2" index="{{ $v->id }}">
+                        <img src="" indexPic="{{ $v->pic }}">
                     </div>
                     <div class="rater-content">
                         <h4>{{ $v->title}}</h4>
@@ -234,7 +235,7 @@
 <!-- /.content -->
 
 <!-- 评委投票（Modal） -->
-<div class="modal fade" id="imgrater1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="imgrater2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal100">
         <div class="modal-content">
             <div class="modal-header" style="padding-left:66px;">
@@ -247,9 +248,28 @@
                 <ul class="clearfix">
                     <li class="wrapperimg">
                         <div class="img">
-                            <img src="">
-                            <span class="prev"><i class="fa fa-chevron-left"></i></span>
-                            <span class="next"><i class="fa fa-chevron-right"></i></span>
+                            <!-- <img src=""> -->
+                            <!--  -->
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <img src="" alt="">
+                                    </div>
+                                </div>
+                                <!-- <div class="swiper-button-next swiper-button-white"></div> -->
+                                <!-- <div class="swiper-button-prev swiper-button-white"></div> -->
+                            </div>
+                            <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+
+                                    <div class="swiper-slide">
+                                        <img src="" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <span class="prev swiper-button-prev"><i class="fa fa-chevron-left"></i></span>
+                            <span class="next swiper-button-next"><i class="fa fa-chevron-right"></i></span>
                         </div>
                         <div class="btnrater" match="{{ $match->id }}" round="{{ $rounding }}">
                            
@@ -274,12 +294,17 @@
                 </ul>
             </div>
         </div><!-- /.modal-content -->
+        <div class="dialog_button dialog2_button">
+            <button type="button" class="continue_add prevButton">《 上一作品</button>
+            <button type="button" class="continue_add nextButton">下一作品 》</button>
+        </div>
     </div><!-- /.modal -->
 </div>
 
 @endsection
 
 @section('other_js')
+<script src="{{ url('js/swiper.min.js') }}"></script>
 <script src="{{ url('js/home/rater/rater.js?a=a')}}"></script>
 <script>
     var clear_result = "{{url('admin/match/clear_result/'.$id)}}", //清除评审
@@ -288,7 +313,25 @@
     $.ajaxSetup({
          headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
      });
-
+    //  模态框显示图片
+    
+    // 组图的显示开始------------------------------------------------------------------------------------
+    var www = window.location.protocol+'//'+window.location.host+'/';
+    for(let i=0;i<$('.rater-img2').length;i++){
+        if($('.rater-img2')[i].getElementsByTagName('img')[0].getAttribute('indexpic').indexOf('[')){  
+            $('.rater-img2')[i].getElementsByTagName('img')[0].src = www+$('.rater-img2')[i].getElementsByTagName('img')[0].getAttribute('indexpic');
+        }else{
+            var arr = JSON.parse($('.rater-img2')[i].getElementsByTagName('img')[0].getAttribute('indexpic'));
+            $('.rater-img2')[i].innerHTML = '';
+            var imgs = '';
+            for(let j=0;j<arr.length;j++){
+                imgs +='<div class="group"><img src="'+www+arr[j]+'" alt=""></div>'
+            }
+            $('.rater-img2')[i].innerHTML = imgs;
+        }
+    }
+    
+    // 组图的显示结束------------------------------------------------------------------------------------
     $(function(){
         var json = JSON.parse('{{ $same}}'); 
         rater_score = $('.rater_score');
@@ -302,7 +345,7 @@
                 }
             };
         };
-
+           
             $('.dropdown-menu').on('click','a',function(){
                 var _id = $(this).data('id');
                 if(_id==0){
@@ -335,7 +378,7 @@
                     })
                  }
             })
-
+            
          })
 
        url_change('dimension');
@@ -363,7 +406,7 @@
         var url_num = window.location.search;
         if(url_num == ''|| url_num ==null || url_num ==undefined ){
            document.getElementsByClassName(ele)[0].getElementsByTagName('option')[i].value ='http://'+ window.location.host+ window.location.pathname+'?'+ele+'='+number;
-           console.log( document.getElementsByClassName(ele)[0].getElementsByTagName('option')[i].value);
+        //    console.log( document.getElementsByClassName(ele)[0].getElementsByTagName('option')[i].value);
         }else{
            document.getElementsByClassName(ele)[0].getElementsByTagName('option')[i].value = changeURLArg(window.location.href,ele,number);
         }

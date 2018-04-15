@@ -41,6 +41,11 @@ class Matchcontroller extends Controller
 
         return view('admin.match.show.block', ['matches'=>$res,'kw'=>$request->kw,'status'=>$request->status,'cat'=>$request->cat]);
     }
+    public function b(Request $request,Production $production)
+    {
+        $info = $production->info(452);
+        dd($info);
+    }
     /**
      * 查看子赛事
      * @param  Request $request [description]
@@ -773,7 +778,7 @@ class Matchcontroller extends Controller
         //$time = 9999;
         if ($status == 1) {
              //征稿中
-            $pic = $production->where('match_id', $id)->Paginate(16);
+            $pic = $production->where(['match_id'=> $id,'status'=>2])->Paginate(16);
         } elseif ($status == 3) {
             $end = \DB::table('result')->where(['match_id'=>$id,'round'=>0])->get();
             if (count($end)) {
@@ -784,7 +789,7 @@ class Matchcontroller extends Controller
         } else {
             if (($statusing == 2 || $statusing == 3 || $statusing == 4) && $match->collect_end < time()) {
                 //征稿中
-                $pic = $production->where('match_id', $id)->Paginate(16);
+                $pic = $production->where(['match_id'=> $id,'status'=>2])->Paginate(16);
             } else {
                 $result = \DB::table('result')->when($round, function ($query) use ($id, $round) {
                     return $query->where(['match_id'=>$id, 'status'=>1, 'round'=>$round]);
@@ -815,9 +820,9 @@ class Matchcontroller extends Controller
                 //                 ->leftJoin('sum_score',[['sum_score.production_id','=','productions.id']])->orderBy('sum_score.sum','desc')->Paginate(16);
                 
 
-                $pic = Production::whereIn('productions.id',$arr)->leftJoin('sum_score',function ($query) use ($round) {
+                $pic = Production::select('productions.id','productions.pic','productions.title','sum_score.sum','sum_score.p0','sum_score.p1','sum_score.p2','sum_score.p3','sum_score.p4','sum_score.p5','sum_score.p6','sum_score.p7','sum_score.p8','sum_score.p9')->whereIn('productions.id',$arr)->leftJoin('sum_score',function ($query) use ($round) {
                         $query->on('productions.id','sum_score.production_id')->where('sum_score.round',$round);
-                    })->orderBy('sum_score.'.$select,$sort)->Paginate(16);        
+                    })->orderBy('sum_score.'.$select,$sort)->Paginate(16);
                 //dd($arr,$pic);
                 // 获取同分
                 if($end) {
@@ -1108,14 +1113,24 @@ class Matchcontroller extends Controller
                 }
                 $product = Production::whereIn('id', $pid)->get();
                 foreach ($product as $pv) {
-                    $title = $pv->title != '' ? $pv->title : '未命名';
-                    $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($pv->pic).'"></div>';
+                    if($pv->type == 1) {
+                        $arr = json_decode($pv->pic,true);
+                        if($arr) {
+                            foreach ($arr as $key => $value) {
+                                $title = $pv->title != '' ? $pv->title.'(组图)__'.($key +1) : '未命名(组图)';
+                                $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($value).'"></div>';
+                            }
+                        }
+                    } else {
+
+                        $title = $pv->title != '' ? $pv->title : '未命名';
+                        $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($pv->pic).'"></div>';
+                    }
                 }
             } else {
                 $html .= '<div ><h3>无数据</h3></div>';
             }
         }
-
         $mpdf=new mPDF('utf-8', 'A3');
         $mpdf->useAdobeCJK = true;
         $mpdf->autoScriptToLang = true;
@@ -1140,10 +1155,33 @@ class Matchcontroller extends Controller
     {
         $mat = Match::find($id);
         $html ='<h1>'.json_decode($mat->title)[0].'</h1>';
-        $product = Production::where(['match_id'=>$id, 'status'=>1])->get();
-        foreach ($product as $pv) {
-            $title = $pv->title != '' ? $pv->title : '未命名';
-            $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($pv->pic).'" ></div>';
+        if(isset($request->round)) {
+            $result = \DB::table('result')->where(['match_id'=>$id, 'round'=>(int) $request->round])->first();
+            $product = Production::whereIn('id',json_decode($result->production_id,true))->get();
+        } else {
+            $product = Production::where(['match_id'=>$id, 'status'=>2])->get();
+        }
+            
+            
+        if(count($product)) {
+
+            foreach ($product as $pv) {
+                if($pv->type == 1) {
+                    $arr = json_decode($pv->pic,true);
+                    if($arr) {
+                        foreach ($arr as $key => $value) {
+                            $title = $pv->title != '' ? $pv->title.'(组图)__'.($key +1)  : '未命名(组图)';
+                            $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($value).'"></div>';
+                        }
+                    }
+                } else {
+
+                    $title = $pv->title != '' ? $pv->title : '未命名';
+                    $html .= '<div style="height:100%;"><h3>'.$title.'</h3><img src="'.url($pv->pic).'"></div>';
+                }
+            }
+        } else {
+            $html .= '<div ><h3>无数据</h3></div>';
         }
         $mpdf=new mPDF('utf-8', 'A3');
         $mpdf->useAdobeCJK = true;

@@ -79,6 +79,8 @@ Route::middleware(['login'])->prefix('user')->group(function () {
     Route::get('/organ', 'Home\UserController@organ');
     //参赛中心
     Route::get('/match', 'Home\UserController@user_match');
+
+    Route::get('/son/{id}', 'Home\UserController@son');
     //赛事作品
     Route::get('/match/{id}', 'Home\UserController@match_pic');
 
@@ -108,6 +110,8 @@ Route::middleware(['login'])->prefix('match')->group(function () {
     Route::get('/statement/{id}', 'Home\MatchController@statement');
 
     Route::get('/form/{id}', 'Home\MatchController@form');
+
+    Route::get('/synthesize/{id}', 'Home\MatchController@synthesize');
 
     Route::post('/join/{id}', 'Home\MatchController@join');
     //上传图片

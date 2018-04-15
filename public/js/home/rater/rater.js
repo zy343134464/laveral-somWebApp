@@ -24,16 +24,13 @@ function layerFunc(json,func){ //弹出层
 		})
 	};
 $(function(){
-	
 	 $('.textbutton').click(function(){
 	 	var ulId = this.parentNode.nextSibling.nextSibling.getElementsByTagName('ul')[0]
 	 	var we = this.parentNode.nextSibling.nextSibling;
 	 	var showneir = this.parentNode.getElementsByClassName('testeli')[0];
 	 	var zuopinId = this.parentNode.getElementsByClassName('img-Id')[0].innerHTML;
-		 var arrId = [];
-		 
-		
-		 for(let i=0;i<=ulId.getElementsByTagName('li').length-1;i++){
+		var arrId = [];
+		for(let i=0;i<=ulId.getElementsByTagName('li').length-1;i++){
 				ulId.getElementsByTagName('li')[i].className = '';
 				if(showneir.innerHTML==ulId.getElementsByTagName('li')[i].innerHTML){
 					ulId.getElementsByTagName('li')[i].className = 'color';
@@ -50,7 +47,6 @@ $(function(){
 				arrId.pop(num_data);
 				target.className = '';
 			 }
-	 		
 	 	}
 	 	
 	 	this.parentNode.nextSibling.nextSibling.getElementsByClassName('sure')[0].onclick = function(){
@@ -282,12 +278,11 @@ $('.edit-btn').on('click','button',function(){
 			imgDetail.text(""+oData.detail+"")
 		}
 
-		var _this = $(this)
+		var _this = $(this);
 		var index = $(this).parent().index();				//获取当前li在ul中的索引
 		var lengthLi = $(this).parent().parent().find('li').length;		//获取li的个数
 		
 		$('.next').on('click',function(){
-			
 			if (index ===(lengthLi-1)) {		//当点击的到最后一个li时不在往下运行
 				return
 			};
@@ -514,65 +509,93 @@ $('.edit-btn').on('click','button',function(){
 
 	})
 
+
+
+	//按顺序获取列表内的作品id
+	var Idarr = [];			//当前页面作品id数组
+	for(let i=0;i<$('.rater-main li').length;i++){
+		Idarr.push(parseInt($('.rater-main li')[i].getElementsByClassName('img-Id')[0].innerHTML))
+	}
+	var number = 0; 			//当前显示的作品索引
+	var www = window.location.protocol+'//'+window.location.host+'/';
+	var imgindex = '';
+	var modelImg = $('.wrapperimg img');		//显示的img标签路径
+	var ImgId = document.getElementsByClassName('imgId')[0];				//显示的编号
+	var imgTitle = document.getElementsByClassName('imgTitle')[0];			//显示的作品标题
+	var imgDetail = document.getElementsByClassName('imgDetail')[0];		//显示的文字描述
 	// 查看图片
+
+
 	$('.rater-main').on('click','.rater-img2',function(){
-		var imgId = $(this).next().find('.img-Id').text();		//图片id
-		
-		var modelImg = $('.wrapperimg img');		//显示的img标签路径
-		var ImgId = document.getElementsByClassName('imgId')[0];				//显示的编号
-		var imgTitle = document.getElementsByClassName('imgTitle')[0];			//显示的作品标题
-		var imgDetail = document.getElementsByClassName('imgDetail')[0];		//显示的文字描述
-		
-
-		//按顺序获取列表内的作品id
-		var arrId = [];		//列表id数组
-		var id_arr = $('.rater-main li .img-Id');
-		for(let i=0;i<id_arr.length;i++){
-			arrId.push(id_arr[i].innerHTML)
-		}
-
-		// console.log(arrId.indexOf(imgId))		//点击的作品id在列表id数组中的索引
-		// console.log(imgId)						//点击的作品id
-		// console.log(arrId)						//列表的作品id数组
-
-		//显示的内容
-		
-		var ajax = function(id){		
-			return $.ajax({
-			            url:'/admin/match/img/'+id,
-			            type: 'get',
-			            data: {
-			            },
-			            success: function(data){
-			                data = JSON.parse(data)
-			//                 console.log(data)
-							modelImg.attr('src','http://a.com/'+data.pic);
-							ImgId.innerHTML = data.id;
-							imgTitle.innerHTML = data.title;
-							imgDetail.innerHTML = data.detail;
-			            }
-			        })
-		}
-
-		
-		ajax(imgId)							//点击列表中的作品后自动渲染
-
-		var num = arrId.indexOf(imgId);		//点击的作品id在列表id数组中的索引
-		//下一个作品详情
-		$('.next').on('click',function(){
-			
-			if(num<arrId.length-1){
-				num++;
-				ajax(arrId[num])
-			}
+		imgindex = $(this)[0].getAttribute('index');		//图片id
+		number = Idarr.indexOf(parseInt(imgindex)); 			//当前显示的作品索引
+		ajaxFunc(imgindex);							
+	})
+	//显示的内容
+var ajax = function(id){		
+	return $.ajax({
+	            url:'/admin/match/img/'+id,
+	            type: 'get',
+	            data: {
+	            },
+	            success: function(data){
+	                data = JSON.parse(data)
+	                if(data.pic.indexOf('[')){										//判断单张还是组图
+						$('.swiper-wrapper').html('');
+						for(let i=0;i<$('.swiper-wrapper').length;i++){
+							var dom = '';
+							dom +='<div class="swiper-slide"><img src="'+www+data.pic+'" alt=""></div>';
+							$('.swiper-wrapper')[i].innerHTML = dom;
+						}
+						ImgId.innerHTML = data.id;
+						imgTitle.innerHTML = data.title;
+						imgDetail.innerHTML = data.detail;
+					}else{
+						$('.swiper-wrapper').html('');
+						for(let i=0;i<$('.swiper-wrapper').length;i++){
+							var dom = '';
+							for(let j=0;j<JSON.parse(data.pic).length;j++){
+								dom +='<div class="swiper-slide"><img src="'+www+JSON.parse(data.pic)[j]+'" alt=""></div>';
+							}
+							$('.swiper-wrapper')[i].innerHTML = dom;
+						}
+						ImgId.innerHTML = data.id;
+						imgTitle.innerHTML = data.title;
+						imgDetail.innerHTML = data.detail;
+					}
+	            }
+	        })
+}
+	function ajaxFunc(imgindex){
+		ajax(imgindex).then(function(){		//点击列表中的作品后自动渲染
+			var galleryTop = new Swiper('.gallery-top', {
+				nextButton: '.swiper-button-next',
+				prevButton: '.swiper-button-prev',
+				spaceBetween: 6,           //slide之间的距离（单位px）
+				observer:true,
+				observeParents:true,
+				
+			});
+			var galleryThumbs = new Swiper('.gallery-thumbs', {
+				spaceBetween: 6,
+				centeredSlides: true,         //false无法使用
+				slidesPerView: 'auto',        //设置slider容器能够同时显示的slides数量(carousel模式)。
+				touchRatio: 0.2,              //触摸距离与slide滑动距离的比率。
+				slideToClickedSlide: true,    //设置为true则点击slide会过渡到这个slide。
+				observer:true,                //vue框架加入
+				observeParents:true           //vue框架加入
+			});
+			galleryTop.params.control = galleryThumbs;
+			galleryThumbs.params.control = galleryTop;
 		})
-		//上一个作品详情
-		$('.prev').on('click',function(){
-			if(num>=1){
-				num--;
-				ajax(arrId[num])
-			}
-		})
+	}
+	$('.prevButton').on('click',function(){
+		console.log(number)
+		// ajaxFunc(imgindex);			
+	})
+	//下一个作品详情
+	$('.nextButton').on('click',function(){
+		console.log(number)
 	})
 	
 })
