@@ -11,7 +11,7 @@
         <div class="row"> 
             <div class="col-xs-12">
                 <!--搜索框-->
-                <form action="{{ url('/admin/user')}}" >
+                <form action="" >
                     <div class="search-form">
                         <button class="btn btn-sm btn-default fa fa-search" style="margin-left:-10px;border:none;"></button>
                         <input type="text" name="kw" placeholder="请输入手机或用户名">
@@ -119,4 +119,6 @@
 @endsection
 @section('other_js')
     <script src="{{ url('js/admin/index/index.js') }}"></script>
+    <script>
+    </script>
 @endsection

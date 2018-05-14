@@ -2,7 +2,7 @@
 @section('title', '编辑比赛')
 
 @section('body2')
-<div class="match-theme">
+<div class="match-theme" status='{{ $match->status }}'>
 	<form class="form-horizontal" role="form" action="{{ url('admin/match/mainedit/'.$id) }}" method="post"  enctype="multipart/form-data">
 	 {{ csrf_field() }}
 	 	<div class="match-poster">
@@ -28,9 +28,9 @@
 			?>
 			<div class="form-group" style="position:relative;top:20px;">
 				<label for="firstname" class="col-sm-2 control-label">赛事类别</label>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" id="firstname" placeholder="" name="type" value="{{$match->type }}">
-
+				<div class="col-sm-4 user_defined_type">
+					<input type="text" class="form-control" id="firstname" placeholder="" name="type" value="{{$match->type }}" style="margin-right:10px;">
+					<i class="type_icon glyphicon glyphicon-menu-down"></i>
 					<ul id="list">
 						<li>风光</li>
 						<li>肖像
@@ -57,7 +57,7 @@
 							</ul>
 						</li>
 						<li>其他 – 自定义</li>
-					</ul>
+					</ul> 
 				</div>
 			</div>
 			<?php
@@ -70,7 +70,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label"></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" placeholder="赛事标题"  name="title[]"  value="{{ $v }}" required>
+					<input type="text" class="form-control" placeholder="赛事标题"  name="title[]"  value="{{ $v }}" required  autocomplete="off">
 				</div>
 				@if($k!=0)
 				<span class="removeVar">-</span>
@@ -91,7 +91,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">征稿开始时间<span class="sure">*</span></label>
 				<div class="col-sm-4">
-					<input size="14" type="text" placeholder="请选择日期和时间"  class="collectstart-datetime-lang form-control" name="collect_start"  required>
+					<input size="14" type="text" placeholder="请选择日期和时间" class="collectstart-datetime-lang form-control" name="collect_start"  required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -116,6 +116,7 @@
 @endsection
 
 <script>
+	
   window.onload = function(){
   	var collect_start = {{ $match->collect_start}};
   	var collect_end = {{ $match->collect_end}};
@@ -158,10 +159,22 @@
 
 @section('other_js')
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
-    <script>     
-    	$('#firstname').click(function(){
+    <script>    
+		$('.type_icon').click(function(){
+			// console.log(123)
 			$('#list').show();
 		})   
+    	$('#firstname').click(function(){
+			// console.log(123)
+			$('#list').show();
+		})   
+		var body = document.body||document.getElementsByTagName("body")[0];
+		body.onclick = function(e){
+			var target = event.target;
+			if(target.className!='form-control'&&target.className!='col-sm-4 as'&&target.className!='type_icon glyphicon glyphicon-menu-down'){
+				$('#list').hide();
+			}
+		}
         $('.navbar-nav li a').each(function(){
             if($($(this))[0].href==String(window.location)){
                 $(this).parent().parent().find('li').removeClass('active')
@@ -171,14 +184,36 @@
         function popShow(id) {
             $('.pop-mask').show();
             $('#'+id).show();
-        }
-        document.getElementById('list').onclick = function(e){
-			var target = event.target;
-			if(target.innerHTML.indexOf('<')<0){
-				$('#firstname').val(target.innerHTML);
-				$('#list').hide();
+            $('#popCapture .capture-title').html('上传赛事海报');
+            $('#popCapture .preview-title').html('赛事海报预览');
+		}
+		if(document.getElementById('list')){
+			document.getElementById('list').onclick = function(e){
+				var target = event.target;
+				// console.log(target)
+				if(target.innerHTML=='其他 – 自定义'){
+					$('#firstname').attr('name','');
+					if($('.user_defined_type').find('input').length==1){
+						var input=document.createElement("input");
+						input.value = "{{$match->type }}";
+						input.name = "type";
+						input.className = "form-control new";
+						$('.user_defined_type')[0].appendChild(input);
+					}
+				}else{
+					$('#firstname').attr('name','type');
+					$('.new').remove();
+				}
+				if(target.innerHTML.indexOf('<')<0){
+					$('#firstname').val(target.innerHTML);
+					$('#list').hide();
+				}else{
+					$('#firstname').val(target.innerHTML.substring(0,target.innerHTML.indexOf('<')));
+					$('#list').hide();
+				}
 			}
 		}
+        
          
     </script>
 

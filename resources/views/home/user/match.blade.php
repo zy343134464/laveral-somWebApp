@@ -3,21 +3,24 @@
 @section('title', '我的赛事')
 
 @section('more_css')
-    
+   <link rel="stylesheet" href="{{ url('lib/commonLsf/css/commonLsf.css') }}"/>  
 @endsection
 
 @section('body2')
-<div class="personal-search">
-    <!--搜索框-->
-    <i class="fa fa-search"></i>
-    <form method="get">
-        <input type="text" placeholder="关键字搜索" name="search">
-    </form>
-</div>
+
  {{-- dd($match) --}}
 
-<div class="product">
-    <div class="row">
+<div class="product  content">
+    <div class="row" >
+        <div class="col-xs-12">
+              <!--搜索框-->
+             <form action="" >
+                <div class="search-form">
+                   <button class="btn btn-sm btn-default fa fa-search" style="margin-left:-10px;border:none;" type="submit"></button>
+                   <input type="text" name="kw" placeholder="请输入手机或用户名" autocomplete="off">
+                 </div>
+            </form>
+        </div>
         <div class="col-sm-12">
             <ul class="match-main text-left clearfix">
                 <!-- 原作品是的标签 -->
@@ -58,7 +61,7 @@
                                 </p>
                             </div>
                             <div class="footer">
-                                <a href="javascript:void(0)" class="del-btn"><i class="fa fa-close"></i></a>
+                                <a href="javascript:void(0)" class="del-btn" onclick="show_confirm(this)" data-id="{{ $v->id }}" title="删除"><i class="fa fa-close"></i></a>
                             </div>
                             <!-- <div class="footer">
                                 <a href="#"><i class="fa fa-eye"></i> 0</a>
@@ -93,4 +96,22 @@
     </div>
 </div>
 
+ <script src="{{ url('lib/commonLsf/js/commonLsf.js') }}"></script>
+<script>
+
+function show_confirm(e){
+    var _e = e,i=1, www = window.location.protocol+'//'+window.location.host;
+     commonLsf.layerFunc({title:'提示',msg:"确认删除吗"},function(flag){
+        if(flag){
+            window.location.href = www+'/user/match/del/'+e.getAttribute('data-id')
+        } 
+    });
+   /* if (r==true){
+        // console.log(e.parentNode.parentNode)
+        var www = window.location.protocol+'//'+window.location.host;
+        console.log(www+'/user/match/del/'+e.getAttribute('data-id'))
+        window.location.href = www+'/user/match/del/'+e.getAttribute('data-id')
+    }*/
+}
+</script>
 @endsection

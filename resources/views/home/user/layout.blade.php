@@ -9,6 +9,27 @@
     <meta name="_token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet" href="{{url('css/home/user/cropper.css')}}">
     <link rel="stylesheet" href="{{url('css/home/user/capture.css')}}">
+    <style>
+        .add_img{
+            display: block;
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            line-height: 46px;
+            text-align: center;
+            font-size: 30px;
+            font-style: normal;
+            color: #fff;
+            top: 100px;
+            left: 124px;
+            background:#ccc;
+        }
+        .capture-info .img-container label{
+            padding-top:152px;
+        }
+    </style>
 @section('more_css')
 
 @show
@@ -29,7 +50,7 @@
             <div class="col-xs-2">
                 <div class="personal-tabs">
                     <ul class="personalUl text-center">
-                        <li>
+                        <li class="active">
                             <a href="{{ url('user/match') }}">我的赛事</a>
                         </li>
                         <li>
@@ -63,10 +84,10 @@
         <!-- Content -->
         <div class="capture-container">
             <div class="capture-info">
-                <!-- <h3>Demo:</h3> -->
+                
                 <div class="img-container">
                     <img src="" id="image" alt="">
-                    <label id="upload" for="inputImage">点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
+                    <label id="upload" for="inputImage"><i class="add_img">+</i> 点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
                 </div>
 
                 <div class="manage-btn-box">

@@ -55,7 +55,7 @@
                     @endif
                         
                 </ul>
-                    <div class="tac"> <a href="" class="btn btn-warning">返回赛事中心</a></div>
+                    <div class="tac"> <a href="{{url('user/match')}}" class="btn btn-warning">返回赛事中心</a></div>
             </div>
         </div>
     </div>

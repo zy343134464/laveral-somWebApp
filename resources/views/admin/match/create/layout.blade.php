@@ -5,6 +5,27 @@
 
     <link rel="stylesheet" href="{{url('css/home/user/cropper.css')}}">
     <link rel="stylesheet" href="{{url('css/home/user/capture-16-9.css')}}">
+    <style>
+        .add_img {
+            display: block;
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border: 1px solid #ccc;
+            background:#ccc;
+            border-radius: 50%;
+            line-height: 36px;
+            text-align: center;
+            font-size: 30px;
+            font-style: normal;
+            color: #fff;
+            top: 100px;
+            left: 124px;
+        }
+        .capture-info .img-container label{
+            padding-top:152px;
+        }
+    </style>
 @endsection
 
 
@@ -67,7 +88,7 @@
                 <!-- <h3>Demo:</h3> -->
                 <div class="img-container">
                     <img src="" id="image" alt="">
-                    <label id="upload" for="inputImage">点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
+                    <label id="upload" for="inputImage"><i class="add_img">+</i>点击添加图片<br>只支持JPG、PNG、GIF，大小不超过2M</label>
                 </div>
 
                 <div class="manage-btn-box">

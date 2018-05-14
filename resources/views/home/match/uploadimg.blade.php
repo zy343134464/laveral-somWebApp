@@ -17,7 +17,7 @@
       <div class="row">
           <div class="col-sm-12">
             <!-- 顶部进展 -->
-            <!-- <div class="body_top">
+            <div class="body_top">
               <ul ref="mainCourse">
                 <li :class=" mainCourseNum!=0?'mainCourse':'' ">
                   <i class="top_num">1</i>
@@ -39,7 +39,7 @@
                   <span>支付</span>
                 </li>
               </ul>
-            </div> -->
+            </div>
             <!-- 主体 -->
             <div class="main">
               <!-- 类别 -->
@@ -55,64 +55,65 @@
               <!-- 要求内容 -->
               <div class="require_content" v-show="!show1">
 
-              <ul>
-                        <li>
-                          <span class="require_list">收费类型:</span><span class="require_content">
-                          @if($personal->pay == 1)
-                          每张/组收费
-                          @elseif($personal->pay == 2)
-                          报名费
-                          @else
-                          免费  
-                          @endif
+              <ul class="require_data">
+                  <li>
+                    <span class="require_list">收费类型:</span><span class="">
+                    @if($personal->pay == 1)
+                    每张/组收费
+                    @elseif($personal->pay == 2)
+                    报名费
+                    @else
+                    免费  
+                    @endif
 
-                          </span>
-                        </li>
-                        @if($personal->pay != 0)
-                        <li>
-                          <span class="require_list">单价:</span><span class="require_content">{{ $personal->price }} 人民币</span>
-                        </li>
-                        <li>
-                          <span class="require_list">收费说明:</span><span class="require_content">{{$personal->pay_detail}}</span>
-                        </li>
-                        @endif
-                       
-                          @if($personal->pay == 1)
-                          <!-- 仅限单张 -->
-                        <li>
-                          <span class="require_list">单张:</span><span class="require_content"> {{$personal->group_min}} 至 {{$personal->group_max}} 张</span>
-                        </li>
-                          @elseif($personal->pay == 2)
-                          <!-- 仅限组图 -->
-                        <li>
-                          <span class="require_list">组图:</span><span class="require_content">{{$personal->group_min}} 至 {{$personal->group_max}} 组</span>
-                        </li>
-                        <li>
-                          <span class="require_list">每组张数:</span><span class="require_content">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
-                        </li>
-                          @else
-                          <!-- 不限 -->
-                        <li>
-                          <span class="require_list">单张/组图:</span><span class="require_content">{{$personal->group_min}} 至 {{$personal->group_max}}</span>
-                        </li>
-                        <li>
-                          <span class="require_list">每组张数:</span><span class="require_content">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
-                        </li>
-                          @endif
-                        <li>
-                          <span class="require_list">图片大小:</span><span class="require_content">{{ $personal->size_min }} 至 {{ $personal->size_max }} MB</span>
-                        </li>
-                        <li>
-                          <span class="require_list">最小边长:</span><span class="require_content">{{ $personal->length }} px</span>
-                        </li>
-                         <li>
-                          <span class="require_list gundan">补充说明:</span>
-                          <div class="require_content bucong">
-                            <p class="title">{{ $personal->introdution_title }}</p>
-                            {!! str_replace(array("\r\n", "\r", "\n"), "<br/>", $personal->introdution_detail) !!}
-                        </div>
-                        </li>
-                      </ul>
+                    </span>
+                  </li>
+                  @if($personal->pay != 0)
+                  <li>
+                    <span class="require_list">单价:</span><span class="">{{ $personal->price }} 人民币</span>
+                  </li>
+                  <li>
+                    <span class="require_list">收费说明:</span><span class="">{{$personal->pay_detail}}</span>
+                  </li>
+                  @endif
+                  
+                    @if($personal->pay == 1)
+                    <!-- 仅限单张 -->
+                  <li>
+                    <span class="require_list">单张:</span><span class=""> {{$personal->group_min}} 至 {{$personal->group_max}} 张</span>
+                  </li>
+                    @elseif($personal->pay == 2)
+                    <!-- 仅限组图 -->
+                  <li>
+                    <span class="require_list">组图:</span><span class="">{{$personal->group_min}} 至 {{$personal->group_max}} 组</span>
+                  </li>
+                  <li>
+                    <span class="require_list">每组张数:</span><span class="">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
+                  </li>
+                    @else
+                    <!-- 不限 -->
+                  <li>
+                    <span class="require_list">单张/组图:</span><span class="">{{$personal->group_min}} 至 {{$personal->group_max}}</span>
+                  </li>
+                  <li>
+                    <span class="require_list">每组张数:</span><span class="">{{$personal->num_min}} 至 {{$personal->num_max}} 张</span>
+                  </li>
+                    @endif
+                  <li>
+                    <span class="require_list">图片大小:</span><span class="">{{ $personal->size_min }} 至 {{ $personal->size_max }} MB</span>
+                  </li>
+                  <li>
+                    <span class="require_list">最小边长:</span><span class="">{{ $personal->length }} px</span>
+                  </li>
+                    <li>
+                    <span class=" gundan">补充说明:</span>
+                    <div class=" bucong">
+                      <p class="title">{{ $personal->introdution_title }}</p>
+                      {!! str_replace(array("\r\n", "\r", "\n"), "<br/>", $personal->introdution_detail) !!}
+                  </div>
+                  </li>
+                  <li class="indication"><span>注：大会对输出发展有最终决定和解释权，请密切留意作品入选状态（页面左方菜单栏中上传记录可见）</span></li>
+              </ul>
 
               </div>
             <!-- 图片内容 -->
@@ -121,7 +122,7 @@
                 <ul>
                   <!-- 添加单张图片 -->
                   <li class="add_Img">
-                    <input type="file" multiple="multiple" accept="image/jpeg,image/png" @change="uploadingImg($event)" style="width:100%;height:100%;position: absolute;z-index:1000;display:block;opacity: 0;">
+                    <input type="file" multiple="multiple" accept="image/jpeg,image/png,image/tiff" @change="uploadingImg($event)" style="width:100%;height:100%;position: absolute;z-index:1000;display:block;opacity: 0;">
                     <i class="add_icon">+</i>
                     <span>上传单张作品</span>
                     <span class="remain">剩余投稿数： @{{remain}}</span>
@@ -141,7 +142,7 @@
                     </div>
                     <div class="Img_title">
                       <span>@{{item.title}}</span>
-                      <i class="redact" data-toggle="modal" data-target="#myModal1" @click="addMessage(index)" v-show="item.status==1||item.status==2"><img src="{{ url('img/redact.png') }}" alt=""></i>
+                      <i class="redact" title="编辑" data-toggle="modal" data-target="#myModal1" @click="addMessage(index)" v-show="item.status==1||item.status==2"><img src="{{ url('img/redact.png') }}" alt=""></i>
                     </div>
                   </li>
                 </ul>
@@ -151,7 +152,7 @@
                 <ul>
                   <!-- 添加组图图片 -->
                   <li class="add_Img">
-                    <input type="file" multiple="multiple" accept="image/jpeg,image/png" @change="uploadingGroup($event)" style="width:100%;height:100%;position: absolute;z-index:1000;display:block;opacity: 0;">
+                    <input type="file" multiple="multiple" accept="image/jpeg,image/png,image/tiff" @change="uploadingGroup($event)" style="width:100%;height:100%;position: absolute;z-index:1000;display:block;opacity: 0;">
                     <i class="add_icon">+</i>
                     <span>上传组图作品</span>
                     <span class="remain">剩余投稿数： @{{remain}}</span>
@@ -188,7 +189,7 @@
                       <button class="contribute_before" @click="contributeFunc($event)" v-show="isClass" v-if="uio==1&&cat!=2">投稿</button>
                       <button class="contribute_before" data-toggle="modal" data-target="#myModal1" @click="contributeFunc" v-show="isClass" v-if="uio==0&&cat!=2">投稿</button>
                       <button class="contribute_before" @click="submitProduction($event)"  data-status="1" v-show="!isClass" v-if="cat!=2">投稿</button>
-                      <button class="contribute_before" @click="contributeFunc($event)" v-if="cat==2">继续投稿</button>
+                      <button class="contribute_before" @click="contributeFunc($event)" data-toggle="modal" data-target="#myModal1" v-if="cat==2">继续投稿</button>
                     </span>
                   </li>
                   <li><span @click="submitProduction($event)" data-status="0">保存</span></li>
@@ -221,11 +222,12 @@
                       <span>如果你确认删除此作品，里面的内容将全部清空</span>
                     </div>
                     <div class="dialog_button">
-                      <button type="button" class="continue_add" data-dismiss="modal" @click="deleteImgAffirm">确认</button>
-                      <button type="button" class="contribute" data-dismiss="modal">取消</button>
+                      <button type="button" class="continue_add affirmBtn" data-dismiss="modal" @click="deleteImgAffirm">确认</button>
+                      <button type="button" class="contribute qwe" data-dismiss="modal">取消</button>
                     </div>
                   </div>
                   <!--  -->
+                  
                 </div>
             </div>
           </div>
@@ -262,7 +264,7 @@
 
                 <ul class="dialog2_right_ul">
                   <li v-for="(item,index) in mustMessage" v-if="item.text!=null||item.text!=undefined">
-                    <input type="text" :name="item.name" :mustFill="item.judge"   ref="input" :num="index" value="">
+                    <input type="text" :name="item.name" :mustFill="item.judge"   ref="input" :num="index" value="" autocomplete="off">
                     <span><i v-if="item.judge==1">*</i><a href="javascript:" :title="item.text">@{{item.text}}</a></span>
                   </li>
                 </ul>
@@ -280,6 +282,19 @@
         <!-- 模态框（Modal）结束 -->
       </div>
       <div class="Img_magnify" @click="hideMagnify"><img src="" alt=""></div>
+      <div class="tishi" style="width:100%;height:100%;position: fixed;background:rgb(0, 0, 0,0.7);left:0;top:0;z-index:10100;display:none;">
+        <div class="delete_affirm" style="background:rgb(255, 255, 255);width:598px;height:260px;position: absolute;left:0;right:0;top:-360px;bottom:0;margin:auto;border-radius:4px;">
+          <h5 style="padding-left:20px;margin:17px 0;">作品提示</h5>
+          <div class="dialog_content">
+            <span v-show="tishi">当前投稿作品数量已满</span>
+            <span v-show="!tishi">当前组图数量已满</span>
+          </div>
+          <div class="dialog_button">
+            <button type="button" class="continue_add" @click="affirm_close">确认</button>
+          </div>
+        </div>
+      </div>
+
     </div>
     
 </div> 
@@ -307,14 +322,15 @@ var groupObjs = {'pic':[]};      //组图图片数据
         ImgArrs:{},
         groupShow:0,
         remain:20,                //单张剩余投稿数
-        uio:0,
-        cat: '{{$match->cat}}'
+        uio:0,                    //0是不限，1是单张，2是组图
+        cat: '{{$match->cat}}',
+        tishi:true
       },
       mounted(){
         this.init()     //初始化
         this.mustMessageFunc();
         this.uio = JSON.parse('{!! $personal->group_limit !!}' );
-        console.log(this.cat)
+        // console.log('{{$personal->group_max}}')
         setInterval(function(){
           if(document.getElementsByTagName('body')[0].style.paddingRight != 0){
             document.getElementsByTagName('body')[0].style.paddingRight = '0px';
@@ -325,6 +341,9 @@ var groupObjs = {'pic':[]};      //组图图片数据
         
       },
       methods:{
+        affirm_close(){
+          $('.tishi').css('display','none');
+        },
         // 提交要求的显示隐藏
         submitRequire(){
           this.show1 = !this.show1;
@@ -343,10 +362,14 @@ var groupObjs = {'pic':[]};      //组图图片数据
         },
         // 上传单张
         uploadingImg(e){
+
           this.show1 = true;
           this.preview(e.target,false);
-          this.remain = 20-(this.ImgArrs[0].length+this.ImgArrs[1].length);
+          this.remain = parseInt('{{$personal->group_max}}')-(this.ImgArrs[0].length+this.ImgArrs[1].length);
           this.loader();
+          if(this.remain<=0){
+            // e.target.attr('disabled');
+          }
         },
         // 图片上传ajax
         Ajax(formData,number,group){
@@ -402,7 +425,7 @@ var groupObjs = {'pic':[]};      //组图图片数据
         uploadingGroup(e){
           this.show1 = true;
           this.preview(e.target,true);
-          this.remain = 20-(this.ImgArrs[0].length+this.ImgArrs[1].length);
+          this.remain = parseInt('{{$personal->group_max}}')-(this.ImgArrs[0].length+this.ImgArrs[1].length);
           this.loader();
         },
         // 图片预览
@@ -415,8 +438,13 @@ var groupObjs = {'pic':[]};      //组图图片数据
                 
                 var obj = {};
                 obj['pic'] = ''; 
-                _this.ImgArrs[0].push(obj);
-
+                if(_this.remain>0&&i<_this.remain){                           //限定作品总数
+                  _this.ImgArrs[0].push(obj);
+                }else{
+                  _this.tishi = true;
+                  $('.tishi').css('display','block');
+                  return false;
+                }
                 _this.number = _this.ImgArrs[0].length-1;     //当前预览与上传的图片索引
                 // 图片数据开始
                 var formData = new FormData();
@@ -428,17 +456,28 @@ var groupObjs = {'pic':[]};      //组图图片数据
             }else{
               var obj = {};
               obj['pic'] = []; 
-              _this.ImgArrs[1].push(obj);
-              
+              // console.log(e.files.length,e.files)
+              if(_this.remain>0){                           //限定作品总数
+                  _this.ImgArrs[1].push(obj);
+              }else{
+                _this.tishi = true;
+                $('.tishi').css('display','block');
+                return false;
+              }
               _this.number = _this.ImgArrs[1].length-1;     //当前预览与上传的图片索引
 
               for(let i=0;i<e.files.length;i++){
                 // 图片数据开始
-                var formData = new FormData();
-                var type = 'image';
-                formData.append("file",e.files[i]);
-                formData.append("type",type);
-                _this.Ajax(formData,_this.number,group);
+                if(i<parseInt('{{$personal->num_max}}')){   //限定每组图片个数
+                  var formData = new FormData();
+                  var type = 'image';
+                  formData.append("file",e.files[i]);
+                  formData.append("type",type);
+                  _this.Ajax(formData,_this.number,group);
+                }else{
+                  _this.tishi = false;
+                  $('.tishi').css('display','block');
+                }
               }
             }
             groupObjs = {'pic':[]};
@@ -456,6 +495,7 @@ var groupObjs = {'pic':[]};      //组图图片数据
         },
         // 投稿
         contributeFunc(e){
+          console.log(this.uio)
           if(this.uio==1){
             this.submitProduction(e);
           }
@@ -677,8 +717,24 @@ var groupObjs = {'pic':[]};      //组图图片数据
               observeParents:true,
               onSlideChangeEnd: function(swiper){
                 // alert(swiper.activeIndex)           //切换结束时，告诉我现在是第几个slide
+                var showOld = _this.showIndexes;        //切换前单张的显示（不能再往下放）
                 _this.showIndexes = swiper.activeIndex;
-                if(_this.dialogNum==4){
+                // console.log(showOld)
+                if(_this.dialogNum==4){                 //在单张模态框时
+                  
+                  var old_input = _this.$refs.input.map(function(x){      //切换前的input框的值的数组
+                    return x.value;
+                  })
+                  // console.log(_this.ImgArrs[0][showOld])
+                  for(let i=0;i<_this.$refs.input.length;i++){            //切换保存数据
+                    for(let j in _this.ImgArrs[0][showOld]){
+                      if(_this.$refs.input[i].name==j){
+                        _this.ImgArrs[0][showOld][j] = _this.$refs.input[i].value;
+                      }
+                    }
+                  }
+                  // _this.returnPreserve();
+                  // console.log(old_input)
                   var Length = 0;
                   for(let i in _this.ImgArrs[0][swiper.activeIndex]){
                     Length++;
@@ -721,14 +777,14 @@ var groupObjs = {'pic':[]};      //组图图片数据
           var _this = this;
           if(this.ImgArrs[0].length==0&&this.ImgArrs[1].length==0&&dom.target.getAttribute('data-status')==1){
             alert('未添加作品！')
-            $('.continue_add').trigger("click");
+            $('.modal').trigger("click");
             return false;
           }
-          $('.continue_add').trigger("click");
+          $('.modal').trigger("click");
           if(dom.target.getAttribute('data-status')==0){
               console.log(this.ImgArrs)
                $.ajax({
-                  url: _this.www+"match/douploadimgs/"+{{ $personal->match_id }}, 
+                  url: _this.www+"match/douploadimgs/"+{{ $match->id }}, 
                   headers: {
                       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                       },
@@ -764,7 +820,7 @@ var groupObjs = {'pic':[]};      //组图图片数据
               }
               console.log(this.ImgArrs)
                $.ajax({
-                  url: _this.www+"match/douploadimgs/"+{{ $personal->match_id }}, 
+                  url: _this.www+"match/douploadimgs/"+{{ $match->id }}, 
                   headers: {
                       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                       },
@@ -790,7 +846,7 @@ var groupObjs = {'pic':[]};      //组图图片数据
           
           var _this = this;
           $.ajax({
-            url: _this.www+"match/ajax/pic/"+{{ $personal->match_id }},
+            url: _this.www+"match/ajax/pic/"+{{ $match->id }},
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 },
@@ -817,7 +873,8 @@ var groupObjs = {'pic':[]};      //组图图片数据
               // console.log(_this.ImgArrs)
             }
           }).then(function(){
-            _this.remain = 20-(_this.ImgArrs[0].length+_this.ImgArrs[1].length);
+            // console.log('{{$num}}')
+            _this.remain = parseInt('{{$personal->group_max}}')-parseInt('{{$num}}')-(_this.ImgArrs[0].length+_this.ImgArrs[1].length);
           })
         },
         // 返回保存
@@ -977,7 +1034,7 @@ var groupObjs = {'pic':[]};      //组图图片数据
             }
           }
           
-          // console.log(this.mustMessage)   //表单列表
+          console.log(this.mustMessage)   //表单列表
         }
          
       }

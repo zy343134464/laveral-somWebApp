@@ -317,7 +317,12 @@
 #main .news .news-list a{
     color: #000;
     font-size: 14px;
+    width: 248px;
     text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #main .news .news-list a:hover{
     color: #d0a45d;

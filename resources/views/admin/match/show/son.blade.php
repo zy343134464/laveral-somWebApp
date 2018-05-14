@@ -16,7 +16,7 @@
        <br>
         <div class="col-xs-12">
             <!--批量导出-->
-            <div class="col-xs-3 pull-right" style="padding-right:0">
+           <!--  <div class="col-xs-3 pull-right" style="padding-right:0">
                 <div class="batch-export pull-right">
                     <div class="dropdown">
                         <button class="btn btn-success dropdown-toggle toggle-vis" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -36,7 +36,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> -->
        <h2>{{json_decode($match->title)[0]}}</h2>
            
         </div>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="footer">
                         <span>
-                            <a href="{{ url('admin/match/edit/'.$v->id) }}"><i class="fa fa-edit"></i></a>
+                            <a href="{{ url('admin/match/match_pic_pdf/'.$v->id)}}" title="导出" style="display:inline-block;width:20px;height:15px;"><img src="{{ url('img/exportIcon.png') }}" style="width:100%;height:100%;display:block;"></a>
                         </span>
                         <span>
                             <a href="{{ url('admin/match/review_room/'.$v->id) }}">评</a>

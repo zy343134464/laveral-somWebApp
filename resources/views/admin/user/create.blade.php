@@ -24,11 +24,11 @@
 						<div class="form-group">
 							<label class="col-sm-1 control-label">用户名</label>
 							<div class="col-sm-2">
-								<input type="text" class="form-control" value="" name="name" required>
+								<input type="text" class="form-control" value="{{ old('name')}}" name="name" required>
 							</div>
 							<label class="col-sm-1 control-label">手机号</label>
 							<div class="col-sm-2">
-								<input type="phone" class="form-control" name="phone" required onblur="checkPhone(this)">
+								<input type="phone" class="form-control" name="phone" required onblur="checkPhone(this)"  value="{{ old('phone')}}">
 							</div>
 							<div class="text-left " style="color:red;margin-top:5px;" id="msg"></div>
 						</div>

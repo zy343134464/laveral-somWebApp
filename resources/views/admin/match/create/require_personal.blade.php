@@ -1,6 +1,9 @@
 @extends('admin.match.create.layout')
 @section('title', '投稿要求-个人')
-
+@section('other_css')
+<link rel="stylesheet" href="{{ url('lib/commonLsf/css/commonLsf.css') }}" />
+<link rel="stylesheet" href="{{ url('css/admin/match/matchcreate.css') }}" />
+@endsection
 @section('body2')
 <div class="match-theme">
 	<form class="form-horizontal" role="form" action="{{ url('admin/match/storerequire_personal/'.$id) }}" method="post" >
@@ -27,7 +30,7 @@
 					</label>
 				</div>
 				<div>
-					<a href="{{ url('admin/match/del_personal/'.$id)}}" class="btn  btn-danger "> 清空本页所有内容</a>
+					<a href="javascript:void(0)" onclick="layerfunc()" class="btn  btn-danger"> 清空本页所有内容</a>
 				</div>
             </div>
             <div class="form-group div2">
@@ -104,7 +107,7 @@
 			<div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">补充说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title" value="{{ $v->introdution_title }}">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title" autocomplete="off"  value="{{ $v->introdution_title }}">
 					<textarea class="form-control" placeholder="400字内" name="introdution_detail">{{ $v->introdution_detail }}</textarea>
 				</div>
 			</div>
@@ -199,15 +202,16 @@
             	$diy_info = isset($diy[0]) ? $diy[0] : [];
             	$diy_required = isset($diy[1]) ? $diy[1] : [];
             ?>
+            
             @if(count($diy_info) && count($diy_required) && count($diy_required) == count($diy_info) && is_array($diy_info))
 			@foreach($diy_info as $diyk => $diyv)
 			<div class="form-group">
-				<label for="firstname7" class="col-sm-2 control-label">自定义信息</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="diy_info[]" value="{{ $diyv}}">
+				<label for="firstname7" class="col-sm-2 control-label" style="width: 18%;"><!-- 自定义 --></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" autocomplete="off" id="firstname7" placeholder="自定义小标题"  name="diy_info[]" value="{{ $diyv}}">
 				</div>
-				<div class="col-sm-2">
-					<select name="diy_required[]">
+				<div class="col-sm-1" style="height:34px;line-height:34px;">
+					<select name="diy_required[]" style="width: 60px;border-radius: 6px;">
 						<option value ="1" {{ $diy_required[$diyk] == 1 ? 'selected': ''}}>必填</option>
 						<option value ="0" {{ $diy_required[$diyk] == 0 ? 'selected': ''}}>选填</option>
 					</select>
@@ -215,11 +219,25 @@
 				
 			</div>
 			@endforeach
+			@else
+			<div class="form-group">
+				<label for="firstname7" class="col-sm-2 control-label" style="width: 18%;"><!-- 自定义 --></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="firstname7" placeholder="自定义小标题"  name="diy_info[]" value="">
+				</div>
+				<div class="col-sm-1" style="height:34px;line-height:34px;">
+						<select name="diy_required[]" style="width: 60px;border-radius: 6px;">
+							<option value ="1">必填</option>
+							<option value ="0" selected>选填</option>
+						</select>
+				</div>
+				
+			</div>
 			@endif
 			<?php
 				unset($diy, $diy_info, $diy_required);
 			?>
-			<p><span id="addVar1_btn" class="col-sm-offset-2">+</span></p>
+			<p><span id="addVar1_btn" class="col-sm-offset-2"  style="margin-left: 197px;">+</span></p>
 		<!-- 	<div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">多语录入</label>
 				<div class="col-sm-9">
@@ -283,7 +301,7 @@
 					
 				</div>
 				<div>
-					<a href="{{ url('admin/match/del_personal/'.$id)}}" class="btn btn-danger "> 清空本页所有内容</a>
+					<a href="javascript:void(0)" onclick="layerfunc()" class="btn btn-danger "> 清空本页所有内容</a>
 				</div>
             </div>
             <div class="form-group div2">
@@ -361,7 +379,7 @@
 			<div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">补充说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title" value="">
+					<input type="text" class="form-control" id="firstname7" autocomplete="off" placeholder="小标题"  name="introdution_title" value="">
 					<textarea class="form-control" placeholder="400字内" name="introdution_detail"></textarea>
 				</div>
 			</div>
@@ -440,19 +458,19 @@
 				</div>
             </div>
 			<div class="form-group">
-				<label for="firstname7" class="col-sm-2 control-label">自定义信息</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="diy_info[]" value="">
+				<label for="firstname7" class="col-sm-2 control-label" style="width: 18%;"><!-- 自定义 --></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="firstname7" placeholder="自定义小标题"  name="diy_info[]" value="">
 				</div>
-				<div class="col-sm-2">
-						<select name="diy_required[]">
+				<div class="col-sm-1" style="height:34px;line-height:34px;">
+						<select name="diy_required[]" style="width: 60px;border-radius: 6px;">
 							<option value ="1">必填</option>
 							<option value ="0" selected>选填</option>
 						</select>
 				</div>
 				
 			</div>
-			<p><span id="addVar1_btn" class="col-sm-offset-2">+</span></p>
+			<p><span id="addVar1_btn" class="col-sm-offset-2" style="margin-left: 197px;">+</span></p>
 			<!-- <div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">多语录入</label>
 				<div class="col-sm-9">
@@ -515,15 +533,16 @@
 
 		      function popupTpl (){
 		      		if(confirm('确定跳转到团体投稿吗？')){
-		      			addInput (1);
-		      		}else{
 		      			addInput (2);
+		      		}else{
+		      			addInput (1);
 		      		};
 		      }
 		</script>
 		<div class="nextPage">
-			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:50px;" onclick="return addInput(0)">保存</button>
-			<button type="submit" class="btn btn-default next-page-btn" style="padding:10px 15px;margin-left:10px;" onclick="return popupTpl()">下一页</button>
+			<button type="submit" class="btn btn-default" style="padding: 10px 35px;" onclick="return addInput(0)">上一页</button>
+			<button type="submit" class="btn btn-default next-page-btn" style="padding: 10px 35px;margin-left:20px;" onclick="return popupTpl()">下一页</button>
+			<button type="submit" class="btn btn-default" style="padding: 10px 35px;margin-left:20px;" onclick="return addInput(3)">保存</button>
 			<!-- <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default" style="padding:10px 15px;margin-left:50px;">预览</a> -->
 		</div>
 	</form>
@@ -1052,4 +1071,20 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+@endsection
+@section('other_js')
+<script src="{{ url('lib/commonLsf/js/commonLsf.js') }}"></script>
+<script type="text/javascript" src="{{ url('js/admin/match/matchcreate.js') }}"></script>
+<script>
+	  var url_a = "{{ url('admin/match/del_personal/'.$id)}}";
+	 function layerfunc() {
+	 	commonLsf.layerFunc({title:'提示',msg:'确定清空本页所有内容吗？'},function(flag){
+	 		if(flag){
+	 			window.location.href = url_a;
+	 		}
+	 	})
+	 }
+	 $('.match-nav .nav  li').removeClass('active');
+	 $('.match-nav .nav  li').eq(4).addClass('active');
+</script>
 @endsection

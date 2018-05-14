@@ -7,9 +7,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('lib/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Ionicons -->
     <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
 
@@ -43,7 +43,7 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
     <link rel="stylesheet"  href="{{ url('css/font.css') }}">
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition">
 <div class="container">
     <div class="row">
 
@@ -151,7 +151,7 @@
             </aside>
           
             <!-- 主内容 -->
-            <div class="content-wrapper">
+            <div class="content-wrapper clearfix">
                 @section('body')
                     
                 @show
@@ -183,11 +183,16 @@
 <script src="{{ URL::asset('js/spark-md5.min.js') }}"></script><!--需要引入spark-md5.min.js-->
 <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
 <!-- 时间选择器 -->
-<script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
+<!-- <script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script> -->
+<script src="{{ url('lib/amazeui/js/jquery.datetimepicker.js') }}"></script>
 <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);
-
+    var www = window.location.protocol+'//'+window.location.host+'/admin';
+    if(window.location.href==www){
+        
+    }
+    
     $('.treeview-menu li a').each(function(){
         if($($(this))[0].href==String(window.location)){
             $(this).parent().parent().parent().parent().find('li').removeClass('active');
@@ -197,11 +202,22 @@
         }
     });
 
-
+    //左侧移动效果--------------------------------------
+	window.onscroll = function(){
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		// console.log(scrollTop)
+		document.getElementsByClassName('sidebar')[0].style.paddingTop = (scrollTop+20)+'px';
+	}
 
 </script>
+
+
 @section('other_js')
 
 @show
+
+@section('more_js')
+@show
+
 </body>
 </html>

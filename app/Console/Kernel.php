@@ -24,9 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        $schedule->command('clearpic')->everyMinute();
+        $schedule->call(function () {
+             \Log::info('任务调度'.time());
+          })->cron('* * * * * * *');
+        $schedule->command('clearpic')->cron('* * * * * * *');
     }
 
     /**

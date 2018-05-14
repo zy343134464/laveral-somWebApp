@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>@yield('title')</title>
      <!-- Bootstrap 3.3.7 -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('lib/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Ionicons -->
     <link href="https://cdn.bootcss.com/ionicons/4.0.0-9/css/ionicons.min.css" rel="stylesheet">
     
@@ -53,6 +53,7 @@
             </div>
         </div>
         <div class="col-xs-4 clearfix som">
+            @if(user())
             <div class="dropdown pull-right personal-center">
                 <img class="users-logo" src="{{ url(user('pic')) }}" alt="头像" id="dropdownMenu1" data-toggle="dropdown" style="cursor:pointer;">
                
@@ -77,6 +78,11 @@
 
                 </ul>
             </div>
+           @else
+            <div class="col-xs-3 dropdown pull-right" style="padding-top:5px">
+                 <a href="{{ url('login') }}" class="" style="color:#000; text-decoration: none;"> 登录/注册</a>
+            </div>
+           @endif
             <div class="dropdown pull-right language-switch">
                 <img class="chinese-logo" src="{{ url('img/images/chinese.jpg') }}" alt="中国图标" id="dropdownMenu1"
                         data-toggle="dropdown" style="cursor:pointer;">
@@ -91,6 +97,7 @@
                 </ul> -->
             </div>
         </div>
+      
     </div>
 </header>
 
@@ -173,11 +180,11 @@
 <script src="{{ URL::asset('js/spark-md5.min.js') }}"></script><!--需要引入spark-md5.min.js-->
 <script src="{{ URL::asset('js/aetherupload.js') }}"></script><!--需要引入aetherupload.js-->
 <!-- 时间选择器 -->
-<script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script>
+<!-- <script src="{{ url('lib/amazeui/js/amazeui.datetimepicker.min.js') }}"></script> -->
 <script>
     var a ='{{ session("msg") }}';
     if(a) alert(a);
-   
+    
 </script>
     @section('other_js')
             

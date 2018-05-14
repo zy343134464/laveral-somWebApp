@@ -113,11 +113,13 @@ function user($str = 'id')
         $res = \DB::table('users')->select($str)->find($id);
         if(!count($res)) { 
             logout();
+            return '';
             return 'error';
         }
         return $res->$str;
     }
     logout();
+    return '';
     return 'error';
 }
 /**
@@ -200,7 +202,7 @@ function save_match_pic($date)
             } else {
                 return 'img/404.jpg';
             }
-
+            //赛事海报、评委头像
             $name = 'img/match/'.md5($_SERVER["REQUEST_TIME"] .$msec.$sec).$postfix;
 
             file_put_contents($name, base64_decode($url[1]));//返回的是字节数
@@ -244,7 +246,6 @@ function save_match_pic($date)
 
         return $date;
     } catch (\Exception $e) {
-        dd($e);
         return false;
     }
     // 即时上传插件  1

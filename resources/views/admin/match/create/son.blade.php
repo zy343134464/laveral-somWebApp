@@ -2,7 +2,7 @@
 @section('title', '综合赛事编辑')
 
 @section('body2')
-<div class="match-guest">
+<div class="match-guest" id="synthesize_match_son">
 	
 	<div class="content">
 		<ul class="judgelist">

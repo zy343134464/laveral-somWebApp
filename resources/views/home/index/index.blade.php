@@ -108,8 +108,8 @@
                                             @if( count($news) )
                                             @foreach($news as $nv)
                                             <li>
-                                                <!-- <a href="{{ url('news/'.$nv->id) }}">{{$nv->title}}</a> -->
-                                                <a href="">{{$nv->title}}</a>
+                                                <a href="{{ url('news/'.$nv->id) }}">{{$nv->title}}</a>
+                                                <!-- <a href="">{{$nv->title}}</a> -->
                                                 <span>{{ date('m-d',strtotime($nv->created_at)) }}</span>
                                             </li>
                                             @endforeach

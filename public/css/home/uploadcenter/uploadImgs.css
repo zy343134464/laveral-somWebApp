@@ -38,7 +38,7 @@
     width: 100%;
     background: #fff;
     position: relative;
-    margin-top: 70px;
+    /* margin-top: 70px; */
 }
 .uploading_class{
     width: 100%;
@@ -520,8 +520,14 @@
     left: 0;
     top:0;
 }
-
-
+.require_list{
+    width: 70px;
+    display: inline-block;
+}
+.indication{
+    color: red;
+    margin-bottom: 30px;
+}
 
 
 

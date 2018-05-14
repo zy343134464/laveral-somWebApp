@@ -50,8 +50,8 @@ h2{
     margin-left: 10px;
     border:1px solid #ddd;
     margin-bottom: 10px;
-    box-shadow: 0 1px rgba(0,0,0,.1);
-    -webkit-box-shadow: 0 1px rgba(0,0,0,.1);
+   /* box-shadow: 0 1px rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 1px rgba(0,0,0,.1);*/
 }
 .product .match-main li:nth-child(3n){
 	 margin-right: 0px;

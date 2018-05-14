@@ -38,6 +38,6 @@ class Clearpic extends Command
      */
     public function handle()
     {
-        Log::info('每分钟输出一次当前的日期时间到日志当中'.date('Y-m-d H:i:s'));
+        \Log::info('每分钟输出一次当前的日期时间到日志当中'.date('Y-m-d H:i:s'));
     }
 }

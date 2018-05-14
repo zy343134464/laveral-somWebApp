@@ -2,10 +2,10 @@ $(function () {
 	$("#slider-forget").slider({
 		width: 360, // width
 		height: 33, // height
-		sliderBg: "#dedede", // 滑块背景颜色
+		sliderBg: "#E8E8E8", // 滑块背景颜色
 		color: "#999", // 文字颜色
 		fontSize: 14, // 文字大小
-		bgColor: "#a8c086", // 背景颜色
+		bgColor: "#7AC23C", // 背景颜色
 		textMsg: "请按住滑块拖动到最右边", // 提示文字
 		successMsg: "验证通过", // 验证成功提示文字
 		successColor: "#fff", // 滑块验证成功提示文字颜色
@@ -22,11 +22,12 @@ $(function () {
         increaseArea: '20%' // optional
     });
     $('.form-group').on('click','.yanzheng',function(event){
+
     	event.preventDefault();
     	 _this = $(this);
        _this.attr("disabled",'disabled');
        
-        var time = 60;
+        var time = 30;
         _this.text(time+' s');
 
         var settime = setInterval(function(){
@@ -40,6 +41,34 @@ $(function () {
                 _this.text('发送验证码');
             }
         },1000)
+        
+        var ajax = function(phone){
+            $.ajax({
+                type: 'POST',
+                url: '/phone',
+                data: {phone:phone},
+                dataType: 'json',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                success: function(data){
+                    if(data.status){
+              
+                        $('.btn-flat').removeAttr('disabled');
+                    }else{
+                        alert(data.msg);
+                        $('.btn-primary').attr('disabled','disabled');
+                    }
+                },
+                error: function(xhr, type){
+                  console.log(xhr, type)
+                }
+            });
+        }
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+        if(myreg.test($('.phone-yx').val())){
+            ajax($('.phone-yx').val());
+        }
     	
     })
 });

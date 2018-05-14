@@ -2,6 +2,7 @@
 	@section('title', '注册')
 
     @section('other_css')
+    <meta name="_token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet" href="{{ url('css/home/login/jquery.slider.css') }}">
 	<link rel="stylesheet" href="{{ url('css/home/login/sigin.css') }}">
     <link rel="stylesheet" href="{{ url('css/home/layout.css') }}">
@@ -10,8 +11,8 @@
     
 <div class="wrapper">
     <header>
-        <a href="http://a.com" class="logo">
-            <img src="http://a.com/img/images/som-logo.png" alt="som图标">
+        <a href="" class="logo" style="text-decoration:none;color:#d0a45d;">
+            <img src="{{ url('img/images/som-logo.png') }}" alt="som图标">
             <span>SOM赛事管理系统</span>
         </a>
     </header>
@@ -23,37 +24,38 @@
                     <img src="{{ url('img/images/som-organization1.jpg') }}" alt="机构logo">
                 </div>
                 <h4 class="login-box-msg">用户注册</h4>
-                <form action="{{ url('doreg') }}" method="post">
+                <form action="{{ url('doreg') }}" method="post" onsubmit="viodForm()">
+                
                     {!! csrf_field() !!}
                     <div class="text-left" style="color:red" id="msg">{{ $errors->first() }}{{ session('msg') }}</div>
                     <div class="form-group has-feedback">
-                        <input type="text"  class="form-control" placeholder="手机号" name="phone" id="phone"  onblur="checkPhone(this)" value="">
+                        <input type="number"  class="form-control" placeholder="手机号" name="phone" id="phone"  value="{{ old('phone') }}" autocomplete="off">  <!-- onblur="checkPhone(this)" -->
                     </div>
 
                     <div id="slider1" class="slider" style="margin-bottom: 15px;"></div>
                     
                     <div class="input_hide" style="display:none;">
                         <div class="form-group has-feedback nickname">
-                            <input type="text" class="form-control pull-left sryanzheng" placeholder="请输入验证码">
-                            <button type="button" class="btn btn-default yanzheng" >发送验证码<tton>
+                            <input type="text" class="form-control pull-left sryanzheng" placeholder="请输入验证码" autocomplete="off" name="code" id="code">
+                            <button type="button" class="btn btn-default regyanzheng yanzheng" >发送验证码<tton>
                         </div>
                         <!-- <div class="form-group has-feedback">
                             <input type="text"  class="form-control" placeholder="用户账号" name="name" onblur="checkName(this)" value="">
                         </div> -->
                         <div class="form-group has-feedback">
-                            <input type="password"  class="form-control" placeholder="6-20位密码" name="password" id="password" onblur="validPwd(this)">
-                            <ul class="pwd_intensity">
+                            <input type="password"  class="form-control" placeholder="6-20位密码" name="password" id="password">
+                           <!--  <ul class="pwd_intensity">
                                 <li></li><li></li><li></li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="form-group has-feedback">
-                            <input type="password"  class="form-control" placeholder="再次输入密码" name="password2" onblur="validPwd(this)">
+                            <input type="password"  class="form-control" placeholder="再次输入密码" name="password2" id="password2" > <!-- onblur="validPwd(this)" -->
                         </div>
                     <!-- /.col -->
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" disabled>注册</button>
                         </div>
                     </div>
                     <!-- /.col -->
@@ -67,8 +69,8 @@
                 </form>
                 <div class="login_icon">
                    <div>
-                    <i class="WeChat_icon"></i>
-                    <i class="qq_icon"></i>
+                    <i class="WeChat_icon fa fa-weixin"></i>
+                    <i class="qq_icon fa fa-qq"></i>
                     <i class="fa fa-weibo"></i>
                    </div>
                 </div>
@@ -146,22 +148,74 @@
                }
             }
         });
- function validPwd(obj){
-      var pwd = obj.value;
-      var pwd1 = document.getElementsByName('password')[0];
-      var pwd2 = document.getElementsByName('password2')[0];
-     
-      if (pwd.length > 20 || pwd.length < 6)
-      {
-        msg.innerHTML = "密码长度为6~20个字符";
-        return false;
-      }
-      if(pwd1.value != pwd2.value){
-        msg.innerHTML = '两次密码不一致,请重新输入';
-        return false;
-      }
-        msg.innerHTML = ''
-}
-
+        function viodForm (){
+            var code = $('#code').val();
+            var password1 =  $('#password').val();
+            var password2 = $('#password2').val();
+            if(code.length<4|| code.length>6){
+                 msg.innerHTML = '验证码不正确';
+                 return false;
+            }
+            if(password1.length<6|| password1.length>20){
+                 msg.innerHTML = '密码格式6-20位的字符';
+                 return false;
+            }
+            console.log(password1,password2)
+            if(password1!== password2){
+                 msg.innerHTML = '两次密码输入不一致';
+                 return false;
+            }
+               // return true;6
+               
+        }
+        $('.regyanzheng').on('click',function(){
+            var phone = $('#phone').val();
+            if(phone.length<11 ){
+                 msg.innerHTML = '手机号码不正确，请重新输入';
+                 $('#phone').val('')
+            }else {
+             
+               $.ajax({
+                    type: 'POST',
+                    url: '/phone',
+                    data: {phone:phone},
+                    dataType: 'json',
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    success: function(data){
+                        if(data.status){
+                            $('.sryanzheng').focus();
+                            console.log($('.btn-flat'))
+                            $('.btn-flat').removeAttr('disabled')
+                        }
+                        
+                    },
+                    error: function(xhr, type){
+                      console.log(xhr, type)
+                    }
+                });
+            }
+        })
+        $('form').on('click','.btn-flat',function(e){
+            e.preventDefault();
+             var code = $('#code').val();
+            var password1 =  $('#password').val();
+            var password2 = $('#password2').val();
+            if(code.length<4|| code.length>6){
+                 msg.innerHTML = '验证码不正确';
+                 return false;
+            }
+            if(password1.length<6|| password1.length>20){
+                 msg.innerHTML = '密码格式6-20位的字符';
+                 return false;
+            }
+            // console.log(password1,password2)
+            if(password1!== password2){
+                 msg.innerHTML = '两次密码输入不一致';
+                 return false;
+            }
+            $('form').submit();
+        })
 </script>
 @endsection

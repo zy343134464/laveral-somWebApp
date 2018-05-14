@@ -14,13 +14,15 @@ h1,h2,h3,h4,h5,p{
 
 .col-sm-10 {
 	padding: 0;
-	width: 990px;
+	/* width: 990px; */
 	background: #fff;
 	padding-bottom: 100px;
 }
 #matchview .col-sm-2{
-	width: 240px;
-	white-space: normal;margin-left: 10px;
+	/* width: 240px; */
+	position: absolute; top:0;right:0;
+	white-space: normal;
+	margin-left: 10px;
 }
 .tac {
 	text-align: center;
@@ -89,7 +91,7 @@ h3{
     background-color: #fff;
     text-align: left;
     vertical-align: top;
-    width: 880px;
+    width: 1005px;
     padding: 8px 22px;
     min-height: 253px;
     z-index: 100;
@@ -149,7 +151,6 @@ h3{
 .slide_btn .btn{
 	box-shadow:0px 7px 8px -4px #ff675b,0 17px 0px -14px #ff8b81 inset, 0 -14px 0px -10px #d21405 inset, 0 -15px 0px -10px #ff675b inset;
 	width: 100%;
-	margin-bottom: 10px;
 	font-size: 22px;
 	border: none;
 	height: 60px;
@@ -187,20 +188,30 @@ h3{
 	position: relative;
 }
 .slide_ul li:last-child{
-	background: url(../../../img/arr_t.jpg) center center no-repeat;
+	background: url(../../../img/arr_t.jpg) center center no-repeat #fff;
 }
 .slide_ul li:last-child a {
 	display: block;
 	height: 100%;
 }
-
-.slide_ul li.current{
-	/*border-left:5px solid #D0A45D;*/
+.slide_ul li a {
+	text-decoration: none;
 	color: #000;
 }
+.slide_ul li.active{
+	border-left:3px solid #D0A45D;
+}
 
-
-
+#navbar li {
+	float: none
+}
+#navbar .nav>li>a{
+	padding: 0;
+}
+ 
+#navbar .nav>li>a:focus,#navbar .nav>li>a:hover{
+	background: transparent;
+}
 /*弹出层*/
 .layer{
 	display: none;
@@ -230,12 +241,12 @@ h3{
  #footer_page.current {
  	position: fixed;
  	bottom: 0;
- 	width: 1000px;
+ 	width: 100%;
  	background-color: #f1f1f1;
- 	height: 60px;
- 	line-height: 60px;
- 	 left: 50%;
- 	transform:translateX(-68%); 
+ 	height: 80px;
+ 	line-height: 80px;
+ 	 left: 44%;
+ 	transform:translateX(-50%); 
  }
  #footer_page .btn-default{
  	background-color: #262626;
@@ -244,13 +255,9 @@ h3{
     font-size: 16px;
     color: #d0a45d;
     padding: 10px 35px;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
  }
- .slide_contrains.current{
-	position: absolute;
-	right: 124px;
-	top: 0;
- }
+
  .slide_contrains{
  	padding: 0
  }
@@ -308,3 +315,112 @@ h3{
  .award_list>li{
 	margin-bottom: 26px;
  }
+
+/*弹出框*/
+ body .layer_alert{
+    position: fixed;
+    left: 0;right: 0;
+    bottom: 0;top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    background-color: rgba(0,0,0,.8)!important;
+}
+.layer_alert .alert_div{
+    position: absolute;
+    padding: 0;
+    left: 50%;top: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    background-color: #fff;
+}
+.layer_alert.alert h4{
+    color: #000;
+    font-weight: normal;
+    height: 49px;
+    line-height: 49px;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    padding-left: 22px;
+}
+.layer_alert  .alert-cont{
+    color: #000;
+    font-size: 16px;
+    line-height: 30px;
+    padding: 29px 52px 50px;
+}
+.layer_alert  p {
+    text-align: center;
+}
+.layer_alert  .btn-danger{
+    background-color: #d0a45d;
+    border: none
+}
+.layer_alert.alert-dismissible .close{
+    top: 10px;
+    right: 13px;
+}
+/*弹出框end*/
+/*赛事简介*/
+.Event_Info_ul{
+	
+}
+.Event_Info_li{
+	font-size: 0px;
+	display: inline-block;
+	border: 1px solid #e2e2e2;
+	height: 218px; 
+	/*width: 280px;*/
+	width: 32%;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	position: relative;
+}
+.Event_Info_li .li-img{
+	display: block;
+	height: 160px;
+	width: 100%;
+}
+.Event_Info_li  p{
+	line-height: 24px;
+	font-size: 15px;
+	color: #999;
+	text-align: left;
+	padding:0 5px;
+}
+.Event_Info_li  p.title{
+	font-size: 16px;
+	color: #000;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.Event_Info_div{
+	position: absolute;
+	top:225px;
+	background-color: #fff;
+	left: 0;
+	 width: 1000px;
+	min-height: 251px;
+	border:1px solid #d1b479;
+	z-index: 1000;
+}
+.Event_Info_div p.title{
+	padding-top: 10px;
+}
+
+.Event_Info_li .Event_Info_div img {
+	float: left;
+	width: 366px;
+	height: 208px;
+	margin: 22px 16px;
+}
+.Event_Info_li .Event_Info_div .Event_Info_msg{
+	text-align: left;
+	font-size: 14px;
+	line-height: 22px;
+	color: #605c5c;
+}
+.Event_Info_li .Event_Info_div .Event_Info_r{
+	padding-left: 400px;
+}

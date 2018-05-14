@@ -2,18 +2,48 @@
 @section('title', '评委/嘉宾')
 
 @section('body2')
+ <link rel="stylesheet" href="{{ url('lib/commonLsf/css/commonLsf.css') }}"/>
 <style>
   .match-guest .content ul>li{
     width: 262px;
   }
-  
+  .judge-content{
+      position: relative;
+    } 
+  #judge_role{
+   float:left;
+   margin-top: 10px;
+   color:#999;
+  }
+  .judge-content .name{
+     overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+      float: left;
+      height: 22px;
+  }
+  .judge-content .detail.impose{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    word-wrap:break-word;
+    text-overflow:ellipsis;
+    padding-right: 5px;
+  }
+   .judge-content .tag{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+   }
 </style>
-<div class="match-guest">
+<div class="match-guest" id="rater_match">
 	<!-- <ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="{{ url('admin/match/rater/'.$id) }}" >评委</a></li>
 		<li role="presentation"><a href="{{ url('admin/match/guest/'.$id) }}" >嘉宾</a></li>
 	</ul> -->
-	<div class="content">
+	<div class="content" style="padding:15px 0;">
 		<ul class="judgelist">
 			<li class="addjudge">
 				<a  data-toggle="modal" data-target="#matchnew2" id="new">
@@ -22,18 +52,27 @@
 				</a>
 			</li>
             @if(count($rater))
+             
             @foreach($rater as $v)
 			<li>
 				<a href="#">
 					<div class="judge-img">
 						<img src="{{ url($v->pic)}}"  index="{{$v->pic}}" class="rater-img">
-                        <a href="{{ url('admin/match/delrater/'.$v->id)}}"><div class="close"><i class="fa fa-close"></i></div></a>
+            <a href="javascript:void(0)" onclick="show_confirm(this)" data-id="{{$v->id}}"  class="close"><i class="fa fa-close"></i></a>
 					</div>
 					 <div class="judge-content text-left">
-                        <div style="display:none;" id="hiddenId">{{ $v->id}}</div>
-                        <h4 class="name" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->name}}</h4>
-                        <p class="tag" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->tag}}</p>
-                        <p class="detail impose" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;word-wrap:break-word;text-overflow:ellipsis;">{{ $v->detail}}</p>
+                        <div style="display:none;" id="hiddenId">{{ $v->id}} </div>
+                        <div class="clearfix">
+                           <h4 class="name">{{ $v->name}} </h4>
+                           @if($v->type==1)
+                            <span id="judge_role" typeId="{{$v->type}}"> (评委) </span>
+                            @else
+                            <span id="judge_role" typeId="{{$v->type}}"> (嘉宾)</span>
+                            @endif
+                        </div>
+                       
+                        <p class="tag" style="">{{ $v->tag}}</p>
+                        <p class="detail impose">{{ $v->detail}}</p>
                     </div>
                     <div class="judge-edit">
                         <a href="#" class="btn editraterBtn" data-toggle="modal" data-target="#matchnew"><i class="fa fa-edit"></i></a>
@@ -53,7 +92,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" id="matchnewlabel">
-                        编辑评委信息
+                        编辑评委/嘉宾信息
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -64,13 +103,22 @@
                             <div class="form-group">
                                 <label for="username" class="col-sm-2 control-label">姓名</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratername" name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
+                                    <input type="text" autocomplete="off" class="form-control" id="ratername" name="name"  required="required" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)" >
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="grade" class="col-sm-2 control-label">头衔</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="ratertag" name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
+                                    <input type="text" autocomplete="off" class="form-control" id="ratertag" name="tag"  required="required" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label for="grade" class="col-sm-2 control-label">角色</label>
+                                <div class="col-sm-5">
+                                    <select name="type" id="part"  class="form-control"> 
+                                      <option value="0">嘉宾</option> 
+                                      <option value="1">评委</option> 
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0;">
@@ -96,7 +144,7 @@
                             <input type="hidden" name="pic" id="savedpath" class="savedraterpath">
                             <div class="modal-footer">
                                 <div class="col-sm-5" style="margin-left:-5px;">
-                                    <button class="btn btn-default" id="editraterBtn">确认提交</button>
+                                    <button class="btn btn-default" id="editraterBtn" type="submit">确认提交</button>
                                 </div>
                             </div>
                         </form>
@@ -114,7 +162,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="matchnewlabel">
-                    新建评委
+                    新建评委/嘉宾
                 </h4>
             </div>
             <div class="modal-body">
@@ -124,19 +172,28 @@
                         <div class="form-group">
                             <label for="username" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="username" placeholder="不能超过20个字" required name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
+                                <input type="text" class="form-control" autocomplete="off" id="username" placeholder="不能超过20个字"  required="required" name="name" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="grade" class="col-sm-2 control-label">头衔</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="grade" placeholder="不能超过25个字" required  name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
+                                <input type="text" class="form-control" autocomplete="off" id="grade" placeholder="不能超过25个字"  required="required"  name="tag" onchange="this.value=this.value.substring(0, 25)" onkeydown="this.value=this.value.substring(0, 25)" onkeyup="this.value=this.value.substring(0, 25)">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label for="grade" class="col-sm-2 control-label">角色</label>
+                            <div class="col-sm-5">
+                                <select name="type" id="part"  class="form-control">
+                                   <option value="0">嘉宾</option>
+                                  <option value="1" selected>评委</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="introduction" class="col-sm-2 control-label">简介</label>
                             <div class="col-sm-5">
-                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)" required style="resize:vertical;"></textarea>
+                                <textarea class="form-control" rows="5" placeholder="500字内" id="introduction" name="detail" onchange="this.value=this.value.substring(0, 500)" onkeydown="this.value=this.value.substring(0, 500)" onkeyup="this.value=this.value.substring(0, 500)"  required="required" style="resize:vertical;"></textarea>
                             </div>
                         </div>
                         <div class="guestimg" id="aetherupload-wrapper" onclick="popShow('popCapture')">
@@ -165,6 +222,7 @@
     </div><!-- /.modal -->
 </div>
 	<div class="nextPage">
+        <a href="{{ url('admin/match/partner/'.$id) }}" class="btn btn-default" style="margin-right:20px;">上一页</a>
 		<a href="{{ url('admin/match/award/'.$id) }}" class="btn btn-default">下一页</a>
 	</div>
 	
@@ -172,6 +230,7 @@
 @endsection
 @section('other_js')
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
+     <script src="{{ url('lib/commonLsf/js/commonLsf.js') }}"></script>
     <script>        
         $('.navbar-nav li a').each(function(){
             if($($(this))[0].href==String(window.location)){
@@ -183,6 +242,19 @@
             $('.pop-mask').show();
             $('#'+id).show();
         }
+
+        //删除提示
+     function show_confirm(e){
+            var www = window.location.protocol+'//'+window.location.host;
+             commonLsf.layerFunc({title:'提示',msg:"确认删除吗"},function(flag){
+                if(flag){
+                     // console.log(e.getAttribute('data-id'))
+                   window.location.href =www+'/admin/match/delrater/'+e.getAttribute('data-id')
+                } 
+            });
+            
+          }
+
     </script>
 
     <script src="{{url('js/cropper.js')}}"></script>
@@ -190,7 +262,6 @@
     <script src="{{url('js/home/capture/capture-1-1.js')}}"></script>
 @endsection
 <script>
-
     // 图片上传
   someCallback = function(){
     // 加载图片
@@ -224,17 +295,23 @@
 
      
         $('form').on('click','input[type="submit"]',function(e){
+          var names  = $('#username').val();
+          var grade  = $('#grade').val();
+          var introduction  = $('#introduction').val();
+          if(names.length==0||grade.length==0||introduction.length==0){
+              commonLsf.layerFunc({title:'提示',msg:"不能为空",closeBtn:1})
+              return false;
+          }
             $(this).attr('disabled','disabled');
             $(this).val('上传中。。。');
-            $('form').submit();
-          
+            $('form').submit(); 
         })
   }
 
   
 
   //限制文件大小
-    var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+{{--    var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
     function fileChange(target,id) { 
       var fileSize = 0; 
       var filetypes =[".jpg",".png"]; 
@@ -283,5 +360,5 @@
       target.value =""; 
       return false; 
     } 
-  } 
+  } --}}
 </script>

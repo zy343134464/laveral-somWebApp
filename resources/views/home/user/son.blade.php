@@ -3,7 +3,25 @@
 @section('title', '我的赛事')
 
 @section('more_css')
-    
+    <style>
+        .product .match-main > .no_data{
+    width:1060px;
+    height:310px;
+}
+.h5{
+    color:#999;
+    height:50px;
+    font-size:16px;
+    line-height:50px;
+    padding-left:20px;
+    border-bottom:1px solid #E9E9E9;
+}
+.my_main{
+    height:260px;
+    line-height:170px;
+    text-align: center;
+}
+    </style>
 @endsection
 
 @section('body2')
@@ -25,8 +43,10 @@
                     @if( count($match) )
                     @foreach($match as $v)
                     <?php
+                        $aa = 0;
                         $num = $v->production_sum($v->id,user()) ;
                         if(!$num) continue;
+                        $aa += $num;
                     ?>
                         <li>
                             <div class="match-img">
@@ -66,7 +86,7 @@
                                 <a href="javascript:void(0)" class="del-btn"><i class="fa fa-close"></i></a>
                             </div>
                             <!-- <div class="footer">
-                                <a href="#"><i class="fa fa-eye"></i> 0</a>
+                                <a href="#"><i class="fa fa-eye"></i> 0</a>.product .match-main > li
                                 <a href="#"><i class="fa fa-thumbs-o-up"></i> 0</a>
                                 <a href="#"><i class="fa fa-comment-o"></i> 0</a>
                             </div> -->
@@ -74,11 +94,26 @@
                          @endforeach
                          
                     @else
-                    <li>
-                        <div style="color:red;">暂无数据</div>
+                    <li class="no_data">
+                        <div style="color:red;margin-bottom:190px;">
+                            <h5 class="h5">已投稿作品</h5>
+                            <div class="my_main">
+                            你已报名参加本次赛事，并有部分上传作品但未投稿任何作品
+                            </div>
+                        </div>
                     </li>
                     @endif
-                             
+                    @if(!$aa)
+                       
+                    <!-- <li>
+                        <div style="color:red;margin-bottom:190px;">
+                            <h5 class="h5">已投稿作品</h5>
+                            <div class="my_main">
+                            你已报名参加本次赛事，并有部分上传作品但未投稿任何作品
+                            </div>
+                        </div>
+                    </li> -->
+                    @endif
             
             </ul>
             <div class="page text-center">

@@ -25,16 +25,15 @@ class IndexController extends Controller
             return $query->where('status', $request->status);
         }, function ($query) use ($request) {
             return $query->whereIn('status', [2,3,4,5]);
-        })->orderBy('id', 'desc')->Paginate(12);
-        $news = $info->limit(9)->orderBy('id', 'desc')->get();
+        })->whereIn('cat',[0,1])->orderBy('push_time', 'desc')->orderBy('id', 'desc')->Paginate(12);
+
+        $news = $info->orderBy('created_at', 'desc')->limit(9)->get();
         
         return view('home.index.index', ['matches'=>$res,'news'=>$news,'status'=>$request->status]);
     }
     
 
-    
-   
-    
+
 
     public function review_score(Request $request, Production $production)
     {
@@ -50,10 +49,36 @@ class IndexController extends Controller
      */
     public function news(Request $request, $id)
     {
-        $new = \DB::table('information')->find($id);
-        if (count($new)) {
-            return view('home.index.new', ['news'=>$new]);
+        try {
+            $new = \DB::table('information')->find($id);
+            if(!count($new)) return back();
+
+            $data = [];
+
+            if ($new->type == 1) {
+                $win = \DB::table('win')->where('match_id',$new->match_id)->orderBy('no')->get();
+
+                foreach ($win as $wv) {
+                    $temp = array('name'=>$wv->name,'pic'=>[]);
+                    $res = \DB::table('result')->select('production_id')->where('win_id',$wv->id)->get();
+                    if(count($res)) {
+                        $pid = [];
+                        foreach ($res as $rv) {
+                            $pid[] = $rv->production_id;
+                        }
+                        $pic = \DB::table('productions')->whereIn('id',$pid)->get();
+                        if(count($pic)) {
+                            $pic = $pic->toArray();
+                            $temp['pic'] = $pic;
+                        }
+                    }
+                    $data[] = $temp;
+                }
+            }
+            return view('home.index.new', ['news'=>$new,'data'=>$data]);
+        } catch (\Exception $e) {
+            return view('home.index.new', ['news'=>$new,'data'=>$data]);
+            return back();
         }
-        return back();
     }
 }

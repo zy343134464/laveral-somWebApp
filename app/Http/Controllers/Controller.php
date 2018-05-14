@@ -43,9 +43,13 @@ class Controller extends BaseController
             $excel->sheet('sheet', function ($sheet) use ($cellData) {
                 $sheet->fromArray($cellData);
                 $sheet->setWidth(array(
-                    'A' => 10,
-                    'B' => 10,
-                    'C' => 10
+                    'A' => 20,
+                    'B' => 20,
+                    'C' => 20,
+                    'D' => 20,
+                    'E' => 20,
+                    'F' => 20,
+                    'G' => 20
                 ));
             });
         })->export('xls');

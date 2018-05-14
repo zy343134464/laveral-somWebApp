@@ -62,10 +62,10 @@ class Usercontroller extends Controller
 
         //临时代替
         $kw = $request->kw;
-        $users = User::when($kw,function ($query) use ($kw) {
+        $users = User::when($kw, function ($query) use ($kw) {
             return $query->orWhere('phone', 'like', '%'.$kw.'%')
                  ->orWhere('name', 'like', '%'.$kw.'%');
-        })->orderBy('id','desc')->Paginate(10);
+        })->orderBy('id', 'desc')->Paginate(10);
         return view('admin.user.user', ['users'=>$users,'kw'=>$kw,'type'=>$type]);
     }
 
@@ -89,8 +89,15 @@ class Usercontroller extends Controller
      */
     public function store(Request $request, User $user)
     {
-        $res = $user->reg($request);
-        
+        //$res = $user->reg($request);
+        $check = $user->where('phone',$request->phone)->first();
+        if(count($check)) {
+            $request->flash();
+            return back()->with('msg','该手机号已注册');
+        }
+        $uid = $user->insertGetId(
+            ['name' => $request->name, 'phone' => $request->phone, 'password' => pw($request->password),'created_at' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME'])]
+        );
         return redirect()->route('user_index');
     }
 
@@ -166,7 +173,7 @@ class Usercontroller extends Controller
     public function exc_info(Request $request)
     {
         $str = $request->id;
-        $arr = json_decode($str,true);
+        $arr = json_decode($str, true);
     }
     /**
      * 导出单个用户信息
@@ -176,7 +183,7 @@ class Usercontroller extends Controller
      */
     public function info(User $user, $id)
     {
-        $res = $user->select('name','phone','sex','email')->find($id);
+        $res = $user->select('name', 'phone', 'sex', 'email')->find($id);
         $data = [];
         $data[] = ['用户名','手机号','性别','email'];
 
@@ -187,7 +194,7 @@ class Usercontroller extends Controller
         $info[] = $res->email;
 
         $data[] = $info;
-        $this->downloadExcel($data,'用户'.$res->name.'资料');
+        $this->downloadExcel($data, '用户'.$res->name.'资料');
     }
     /**
      * 根据机构id 导出所有用户信息
@@ -199,32 +206,31 @@ class Usercontroller extends Controller
         $data = [];
         $data[] = ['用户名','手机号','性别','email'];
 
-        $organ_id = organ_info();
+        // $organ_id = organ_info();
 
-        $user_id = \DB::table('members')->select('uid')->where('organ_id',$organ_id)->get();
+        // $user_id = \DB::table('members')->select('uid')->where('organ_id',$organ_id)->get();
+        // $user_id = [1,2];
+        // if(count($user_id)) {
+        //     $arr = [];
+        //     foreach ($user_id as $uv) {
+        //         if(in_array($uv->uid,$arr)) continue;
+        //         $arr[] = $uv->uid;
+        //     }
 
-        if(count($user_id)) {
-            $arr = [];
-            foreach ($user_id as $uv) {
-                if(in_array($uv->uid,$arr)) continue;
-                $arr[] = $uv->uid;
-            }
+        //     $res = $user->select('name','phone','sex','email')->whereIn('id',$arr)->get();
 
-            $res = $user->select('name','phone','sex','email')->whereIn('id',$arr)->get();
+        $res = $user->select('name', 'phone', 'sex', 'email')->get();
+        foreach ($res as $value) {
+            $info = [];
+            $info[] = $value->name;
+            $info[] = $value->phone;
+            $info[] = $value->sex ? '女': '男';
+            $info[] = $value->email;
 
-            $res = $user->select('name','phone','sex','email')->get();
-
-            foreach ($res as $value) {
-                $info = [];
-                $info[] = $value->name;
-                $info[] = $value->phone;
-                $info[] = $value->sex ? '女': '男';
-                $info[] = $value->email;
-
-                $data[] = $info;
-            }
+            $data[] = $info;
         }
-        $this->downloadExcel($data,'用户资料');
+        // }
+        $this->downloadExcel($data, '用户资料');
     }
     /**
      * 导入Excel模板下载
@@ -248,7 +254,6 @@ class Usercontroller extends Controller
     public function addusers(Request $request, User $user)
     {
         try {
-            
             if ($request->file('excel')->isValid()) {
                 $path = $request->excel->path();
             } else {
@@ -263,9 +268,9 @@ class Usercontroller extends Controller
             }
             //$data = json_encode([$data],256);
 
-            return json_encode(['data'=>$data,'msg'=>'成功','status'=>true],256);
+            return json_encode(['data'=>$data,'msg'=>'成功','status'=>true], 256);
         } catch (\Exception $e) {
-            return json_encode(['data'=>$data,'msg'=>$e->getMessage(),'status'=>false],256);
+            return json_encode(['data'=>$data,'msg'=>$e->getMessage(),'status'=>false], 256);
         }
     }
 

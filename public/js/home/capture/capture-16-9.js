@@ -78,6 +78,10 @@
     // console.log($image.cropper("getData"));
     // console.log(src);
     console.log(src);
+     var i=1;
+    if(src){
+       $('#new_game .Modify-div').addClass('active')   
+     }
 
     // 添加图片
     $('.pic').val(src);

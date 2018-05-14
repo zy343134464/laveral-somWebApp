@@ -33,14 +33,18 @@ class User extends Authenticatable
         $this->phone = $request->phone;
         $this->password = pw($request->password);
         $this->save(); */
+        $check = $this->where('phone',$request->phone)->first();
+        if(count($check)) {
+            return false;
+        }
         $uid = $this->insertGetId(
             ['name' => $request->name, 'phone' => $request->phone, 'password' => pw($request->password),'created_at' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME'])]
         );
         
         //默认成为som会员
-        $memberid = DB::table('members')->insertGetId(
-            ['uid' => $uid, 'organ_id' => organ_info(), 'role_type' => 'vip', 'start_time' => $_SERVER['REQUEST_TIME'], 'role_id' => 11]
-        );
+        // $memberid = DB::table('members')->insertGetId(
+        //     ['uid' => $uid, 'organ_id' => organ_info(), 'role_type' => 'vip', 'start_time' => $_SERVER['REQUEST_TIME'], 'role_id' => 11]
+        // );
         return true;
     }
     public function role($uid, $oid)

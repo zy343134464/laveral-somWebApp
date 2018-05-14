@@ -29,31 +29,32 @@ $(function () {
     
     //密码强度函数
     var $hint = $('.pwd_intensity li');
-    document.getElementById('password').onkeyup = function(){
-        var p = /[a-z]/i;
-        var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
-        
-        if(this.value&&!p.test(this.value)&&!(regEn.test(this.value)||regCn.test(this.value))){     //有值但不是字母或者特殊字符
-            $hint.eq(0).show()
-            $hint.eq(1).hide()
-            $hint.eq(2).hide()
-        }else if(p.test(this.value)&&(regEn.test(this.value)||regCn.test(this.value))){   //有值且是字母或者特殊字符
-            $hint.eq(0).show()
-            $hint.eq(1).show()
-            $hint.eq(2).show()
-        }else if(p.test(this.value)||(regEn.test(this.value)||regCn.test(this.value))){
-            $hint.eq(0).show()
-            $hint.eq(1).show()
-            $hint.eq(2).hide()
-        }else{
-            $hint.eq(0).hide()
-            $hint.eq(1).hide()
-            $hint.eq(2).hide()
+    if(document.getElementById('password')){
+        document.getElementById('password').onkeyup = function(){
+            var p = /[a-z]/i;
+            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+            
+            if(this.value&&!p.test(this.value)&&!(regEn.test(this.value)||regCn.test(this.value))){     //有值但不是字母或者特殊字符
+                $hint.eq(0).show()
+                $hint.eq(1).hide()
+                $hint.eq(2).hide()
+            }else if(p.test(this.value)&&(regEn.test(this.value)||regCn.test(this.value))){   //有值且是字母或者特殊字符
+                $hint.eq(0).show()
+                $hint.eq(1).show()
+                $hint.eq(2).show()
+            }else if(p.test(this.value)||(regEn.test(this.value)||regCn.test(this.value))){
+                $hint.eq(0).show()
+                $hint.eq(1).show()
+                $hint.eq(2).hide()
+            }else{
+                $hint.eq(0).hide()
+                $hint.eq(1).hide()
+                $hint.eq(2).hide()
+            }
+            
+            
         }
-        
-        
     }
-
     //验证手机格式函数
     function checkPhone(e){
         var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 

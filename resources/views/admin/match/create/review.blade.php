@@ -2,7 +2,9 @@
 @section('title', '评选设定')
 
 @section('body2')
+<link rel="stylesheet" href="{{ url('lib/commonLsf/css/commonLsf.css') }}" />
 <div class="match-theme">
+
 	<form class="form-horizontal form-lun" role="form" action="{{ url('admin/match/storereview/'.$id) }}" method="post">
 		{{ csrf_field() }}
 		@if(count($review))
@@ -26,7 +28,7 @@
 							<input size="14" type="text" placeholder="请选择日期和时间"  class="elect-datetime-lang am-form-field form-control" name="end_time1[]" value="@if($v->end_time && $v->type == 1){{date('Y-m-d h:i:s', $v->end_time)}}@endif">
 						</div>
 						<ul class="competition_time">
-							<li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li>
+							<li><span class="over_time"> 征稿结束时间：</span><span>{{$end}}</span></li>
 							<li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li>
 						</ul>
 					</div>
@@ -97,22 +99,21 @@
 					<div class="form-group">
 							<label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="reference2[]" value="@if($v->type == 2){{(json_decode($v->setting,true))['reference']}}@endif">
+								<input type="text" class="form-control" autocomplete="off" name="reference2[]" value="@if($v->type == 2){{(json_decode($v->setting,true))['reference']}}@endif">
 							</div>
 					</div>
 
 						@if($v->type == 2)
-					
-					
+						<span style="color:red;padding-left:190px;">* 评分维度可填写：色彩/创意/构图等</span>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">分数构成设定</label>
 							@foreach((json_decode($v->setting,true))['dimension'] as $kk=>$vv)
-							<div style="padding: 0 0 20px 16.7%">
+							<div style="padding: 0 0 20px 16.7%" class="form-group-weidu">
 								<div class="col-sm-2">
-									<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}">
+									<input type="text" class="form-control weidu" placeholder="维度" name="setting2[dimension][{{$k}}][]" value="{{$vv}}" autocomplete="off">
 								</div>
 								<div class="col-sm-2" style="margin-left:-20px;">
-									<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]"
+									<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]" autocomplete="off"
 									value="{{(json_decode($v->setting,true))['percent'][$kk]}}">
 								</div>
 								<span class="removeVar4">-</span>
@@ -122,15 +123,18 @@
 					
 						
 						@else
+						<span style="color:red;padding-left:190px;">* 评分维度可填写：色彩/创意/构图等</span>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">分数构成设定</label>
-							<div class="col-sm-2">
-								<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][{{$k}}][]" >
+							<div style="padding: 0 0 20px 16.7%" class="form-group-weidu">
+								<div class="col-sm-2">
+									<input type="text" class="form-control weidu" placeholder="维度" name="setting2[dimension][{{$k}}][]" autocomplete="off">
+								</div>
+								<div class="col-sm-2" style="margin-left:-20px;">
+									<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]" autocomplete="off">
+								</div>
+								<span class="removeVar4">-</span>
 							</div>
-							<div class="col-sm-2" style="margin-left:-20px;">
-								<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][{{$k}}][]">
-							</div>
-							<span class="removeVar4">-</span>
 						</div>
 						@endif
 						<p><span class="col-sm-offset-2 addVar4" index="{{$k+1}}">+</span></p>
@@ -256,13 +260,14 @@
 								<input type="text" class="form-control" name="reference2[]" value="">
 							</div>
 					</div>
-					<div class="form-group">
+					<span style="color:red;padding-left:190px;">* 评分维度可填写：色彩/创意/构图等</span>
+					<div class="form-group as">
 						<label class="col-sm-2 control-label">分数构成设定</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][0][]">
+							<input type="text" class="form-control weidu" placeholder="维度" name="setting2[dimension][0][]" autocomplete="off">
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][0][]">
+							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][0][]" autocomplete="off">
 						</div>
 						<span class="removeVar4">-</span>
 					</div>
@@ -377,16 +382,17 @@
 					<div class="form-group">
 							<label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="reference2[]" value="">
+								<input type="text" class="form-control" autocomplete="off" name="reference2[]" value="">
 							</div>
 					</div>
-					<div class="form-group">
+					<span style="color:red;padding-left:190px;">* 评分维度可填写：色彩/创意/构图等</span>
+					<div class="form-group as">
 						<label class="col-sm-2 control-label">分数构成设定</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" placeholder="维度" name="setting2[dimension][1][]">
+							<input type="text" class="form-control weidu" placeholder="维度" name="setting2[dimension][1][]" autocomplete="off">
 						</div>
 						<div class="col-sm-2" style="margin-left:-20px;">
-							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][1][]">
+							<input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent][1][]" autocomplete="off">
 						</div>
 						<span class="removeVar4">-</span>
 					</div>
@@ -423,10 +429,10 @@
 				@foreach($win as $wv)
 				<div class="form-group">
 					<div class="col-sm-2 col-sm-offset-2">
-						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" value="{{ $wv->name }}">
+						<input type="text" class="form-control" autocomplete="off" placeholder="输入奖项名称" name="win_name[]" value="{{ $wv->name }}">
 					</div>
 					<div class="col-sm-1" style="margin-left:-20px;">
-						<input type="number" class="form-control" placeholder="" min="0" name="win_number[]"  value="{{ $wv->num }}">
+						<input type="number" class="form-control" autocomplete="off" placeholder="" min="0" name="win_number[]"  value="{{ $wv->num }}">
 					</div>
 					<span class="removeVar5">-</span>
 				</div>
@@ -444,10 +450,10 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 col-sm-offset-2">
-						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]">
+						<input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" autocomplete="off">
 					</div>
 					<div class="col-sm-1" style="margin-left:-20px;">
-						<input type="number" class="form-control" placeholder="__名" min="0" name="win_number[]">
+						<input type="number" class="form-control" placeholder="__名" min="0" name="win_number[]" autocomplete="off">
 					</div>
 					<span class="removeVar5">-</span>
 				</div>
@@ -516,11 +522,15 @@
 		</div>
 		@endif
 		<div class="nextPage">
-			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-right:10px;" onclick="return addInput(0)">保存</button>
-			<button type="submit" class="btn btn-default" onclick="return addInput(1)">确认提交</button>
-			<a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default" style="padding:10px 15px;margin-left:10px;">预览</a>
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-right:20px;" _href="{{ url('admin/match/require_personal/'.$id) }}" onclick="return addInput(0,2,this)">上一页</button>
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-right:10px;" onclick="return addInput(0,0)">保存</button>
+			<!-- <button type="submit" class="btn btn-default" onclick="return addInput(1)">确认提交</button> href="{{ url('admin/match/showedit/'.$id) }} -->
+			@if( $match->cat !=2)
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:10px;" _href="{{ url('admin/match/showedit/'.$id) }}"  onclick="return addInput(0,1,this)">预览</button>
+			@endif
 		</div>
 	</form>
+	<iframe id="rfFrame" name="rfFrame" src="about:blank" style="display:none;"></iframe>
 </div>
 
 
@@ -543,9 +553,9 @@
 				        {{ csrf_field() }}
 				        <!--搜索框-->
 				        <div class="search-form">
-				            <i class="fa fa-search"></i>
-				            <input type="text" placeholder="关键字搜索" name="kw">
-				        </div>
+			               <button class="btn btn-sm btn-default fa fa-search" style="margin-left:-10px;border:none;"></button>
+			               <input type="text" name="kw" placeholder="请输入手机或用户名">
+			            </div>
 				    </form>
 				    <form name="addrater">
 				        <div class="addguest text-right">
@@ -582,7 +592,7 @@
 				                        <div class="form-group">
 				                            <label for="grade" class="col-sm-3 control-label">用户名</label>
 				                            <div class="col-sm-8">
-				                                <input type="text" class="form-control" name="name">
+				                                <input type="text" class="form-control" name="name" autocomplete="off">
 				                            </div>
 				                        </div>
 				                        <div class="form-group">
@@ -610,11 +620,23 @@
 <script>
 	var status = true;
 					//表单提交事件
-		    function addInput (id){
+		    function addInput (id,judge,e){
 				// 分数维度判断开始
 				for(let i=0;i<$('.dimensionality').length;i++){
 					var number = 0;
+					
+					// if($('.dimensionality .weidu').eq(i).length<0){
+					// 	alert('维度不能为空！');
+					// 	$('.dimensionality .weidu').eq(i).css('border','1px solid red');
+					// 	return false;
+					// };
 					for(let j=0;j<$('.dimensionality')[i].getElementsByClassName('scoreInput').length;j++){
+						if($('.dimensionality')[i].getElementsByClassName('weidu')[j].value==''||$('.dimensionality')[i].getElementsByClassName('weidu')[j].value==undefined||$('.dimensionality')[i].getElementsByClassName('weidu')[j].value.length<=0){
+							$('.dimensionality')[i].getElementsByClassName('weidu')[j].style.border='1px solid red';
+								alert('分数维度未填写！');
+								return false;
+						}
+						 
 						number +=parseInt($('.dimensionality')[i].getElementsByClassName('scoreInput')[j].value);
 					}
 					if(number>100){
@@ -641,16 +663,43 @@
 						return false;
 					}
 				}
-				// 分数维度判断结束
-		    	console.log(id);
-		       	if(status=='false'){
-		       		return status;
-		       	}else{
-		       		status=false;
-		       	}
 		        var $inputTpl = '<input type="hidden" name="jump" value="'+id+'">';
 		        $('.nextPage').prepend($inputTpl);
-		       $("form.form-lun").submit();
+
+		        document.forms[0].target="rfFrame";
+		        $.ajax({  
+	                cache: true,  
+	                type: "POST",  
+	                url:"{{ url('admin/match/storereview/'.$id) }}",  
+	                data:$('.form-lun').serialize(),// 你的formid  
+	                async: false,  
+	                error: function(request) {  
+	                   
+	                },  
+	                success: function(data) {  
+						alert(data)
+						$('.weidu').css('border','1px solid #ccc');
+
+	                	if({{ $match->cat }}==0){			//单项赛事
+							if(judge==0){					//保存按钮点击
+								// alert(data);
+							}else if(judge==1){							//预览按钮点击
+								console.log(e.getAttribute('_href'))
+								window.location.href = e.getAttribute('_href');
+							}else{
+								console.log(e.getAttribute('_href'))
+								window.location.href = e.getAttribute('_href');
+							}
+						}else if({{ $match->cat }}==2){								//子赛事保存
+							console.log('{{ $match->pid }}')
+							var www = window.location.protocol+'//'+window.location.host+'/admin/match/son/';
+							window.location.href = www+'{{ $match->pid }}';
+						}
+						// console.log({{ $match->cat }},judge)http://39.108.168.33:7979/admin/match/son/441
+						
+	                }  
+	            });  
+
 			  };
 window.onload = function(){
 	  /*评选设定*/
@@ -665,6 +714,8 @@ window.onload = function(){
 
 
     // 分数构成设定
+    $('.form-group-weidu:last-child').css('padding-bottom','0px');
+    $('input').attr('autocomplete','off');
 
     //初始参数个数
 
@@ -673,7 +724,7 @@ window.onload = function(){
       $('form').on('click','.addVar4',function(){
         varCount4++;
         $node = '<div class="form-group as"><label for="var'+varCount4+'" id="var'+varCount4+'" class="col-sm-2 control-label"></label>'
-        + '<div class="col-sm-2"><input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+($(this).attr('index')-1)+'][]"></div>'
+        + '<div class="col-sm-2"><input type="text" class="form-control weidu" placeholder="维度" name="setting2[dimension]['+($(this).attr('index')-1)+'][]"></div>'
         +'<div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+($(this).attr('index')-1)+'][]"></div>'
         + '<span class="removeVar4">-</span></div>';
         //新表单项添加到“新增”按钮前面
@@ -692,8 +743,8 @@ window.onload = function(){
       //新增按钮点击
       $('.addVar5').on('click', function(){
         varCount5++;
-        $node = '<div class="form-group"><div class="col-sm-2 col-sm-offset-2"><input type="text" class="form-control" placeholder="输入奖项名称" name="win_name[]" value=""></div>'
-        + '<div class="col-sm-1" style="margin-left:-20px;"><input type="number" class="form-control" placeholder="__名" name="win_number[]" min="0" value=""></div>'
+        $node = '<div class="form-group"><div class="col-sm-2 col-sm-offset-2"><input type="text" autocomplete="off" class="form-control" placeholder="输入奖项名称" name="win_name[]" value=""></div>'
+        + '<div class="col-sm-1" style="margin-left:-20px;"><input type="number" autocomplete="off" class="form-control" placeholder="__名" name="win_number[]" min="0" value=""></div>'
         + '<span class="removeVar5">-</span></div>';
         //新表单项添加到“新增”按钮前面
         $(this).parent().before($node);
@@ -734,8 +785,8 @@ window.onload = function(){
       + '</div><ul class="competition_time"><li><span class="over_time">征稿结束时间：</span><span>{{$end}}</span></li><li><span class="publish_time">赛果公布日期：</span><span>{{$push}}</span></li></ul></div><div class="form-group NameNum"><label for="number" class="col-sm-2 control-label">入围名额</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="___名" name="promotion2[]">'
       + '</div></div><div class="form-group"><label for="number" class="col-sm-2 control-label">分数区间</label><div class="col-sm-2"><input type="text" class="form-control" id="number" placeholder="分" name="min2[]"></div>'
       + '<label class="col-sm-1" style="padding-top:6px;margin-left:-22px;">至</label><div class="col-sm-2" style="margin-left: -74px;"><input type="number" min="0" class="form-control" id="number" paceholder="分" name="max2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label" style="padding-top:6px;">参考:</label><div class="col-sm-4">'
-      + '<input type="text" class="form-control" name="reference2[]"></div></div><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div style="padding:0 0 0 16.7%;"><div class="col-sm-2">'
-      + '<input type="text" class="form-control" placeholder="维度" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
+      + '<input type="text" class="form-control" name="reference2[]" autocomplete="off"></div></div><span style="color:red;padding-left:190px;">*评分维度可填写：色彩/创意/构图等</span><div class="form-group"><label class="col-sm-2 control-label">分数构成设定</label><div style="padding:0 0 0 16.7%;" class><div class="col-sm-2">'
+      + '<input type="text" class="form-control weidu" placeholder="维度" autocomplete="off" name="setting2[dimension]['+(sheave-1)+'][]"></div><div class="col-sm-2" style="margin-left:-20px;"><input type="text" class="form-control scoreInput" placeholder="100%" name="setting2[percent]['+(sheave-1)+'][]">'
       + '</div><span class="removeVar4">-</span></div></div>'
       + '<p><span class="col-sm-offset-2 addVar4" index='+sheave+'>+</span></p><div class="form-group"><label class="col-sm-2 control-label">参与评委</label><div class="col-sm-10"><ul class="judgethumb round'+sheave+' typeSelectgrade"><li class="addjudgethumb">'
       + '<a><div class="add-button" data-toggle="modal" data-target="#matchadd" round="'+sheave+'" typeSelect="grade">+</div></a></li></ul></div></div><div class="removeadd text-right">'
@@ -743,7 +794,11 @@ window.onload = function(){
         //新表单项添加到“新增”按钮前面
         $(this).parent().parent().parent().parent().parent('.form-horizontal').children('.match-review').eq(-2).before($node);
        // $(this).parent().css("display","none");
-       	   $('.elect-datetime-lang').datetimepicker({step:10,format:'Y-m-d H:i', minDate:y_m_d});
+       	//    $('.elect-datetime-lang').datetimepicker({step:10,format:'Y-m-d H:i', minDate:y_m_d});
+		  initDateTime();
+		  $('.elect-datetime-lang').click(function(){
+				initDateTime()
+			})
 		  conceal();
       });
 
@@ -765,9 +820,9 @@ window.onload = function(){
    
 
     //删除按钮点击    
-console.log($('.match-review.sheave').length,$('.match-review.sheave').length>1);
+// console.log($('.match-review.sheave').length,$('.match-review.sheave').length>1);
     $('form').on('click','.removeVar6', function(){
-console.log($('.match-review.sheave').length);
+// console.log($('.match-review.sheave').length);
 
     	if($('.match-review.sheave').length>1){
     		 $(this).parent().parent().parent().parent().remove();
@@ -778,17 +833,21 @@ console.log($('.match-review.sheave').length);
     	}
      
 	});
-	$.ajax({
-          url: '/admin/match/search_rater',
-          method: 'get',
-          async: false,
-          data: '',
-          success: function(data){
-			var oData = JSON.parse(data);
-			$('.judgedata').html('');
-            viewrater(oData);
-          }
+	function initrater(){
+		$.ajax({
+			url: '/admin/match/search_rater',
+			method: 'get',
+			async: false,
+			data: '',
+			success: function(data){
+				var oData = JSON.parse(data);
+				// console.log(oData)
+				$('.judgedata').html('');
+				viewrater(oData);
+			}
 		})
+	}
+	initrater();
 	function viewrater(oData){
           var judgedataUl = $('.judgedata');
           
@@ -806,11 +865,11 @@ console.log($('.match-review.sheave').length);
             judgedata_img.append(img);
             judgedata_img.append(check);
 
-            var judgedata_content = $('<div class="judgedata-content text-left">');
+            var judgedata_content = $('<div class="judgedata-content text-left"> ');
             var input = $('<input type="hidden" value="'+oData[i].id+'">');
             var h4 = $('<h4>'+oData[i].name+'</h4>');
             var p1 = $('<p>'+oData[i].second_name+'</p>');
-            var p2 = $('<p>'+oData[i].introdution+'</p>');
+            var p2 = $('<p style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;">'+oData[i].introdution+'</p>');
 
             a.append(judgedata_content);
             judgedata_content.append(input);
@@ -825,10 +884,10 @@ console.log($('.match-review.sheave').length);
     /*参与评委搜索功能*/
     var formrater = $('form[name=searchrater]');
       formrater.on('submit',function(e){
-        e.preventDefault();
+		e.preventDefault();
         $('.judgedata').html('');
 		var string = formrater.serialize();
-		console.log('123',string)
+		// console.log('123',string)
         $.ajax({
           url: '/admin/match/search_rater',
           method: 'get',
@@ -837,6 +896,7 @@ console.log($('.match-review.sheave').length);
           success: function(data){
             var oData = JSON.parse(data);
             viewrater(oData);
+            $('[name="kw"]').val(' ');
           }
 		})
       })
@@ -897,6 +957,7 @@ console.log($('.match-review.sheave').length);
   });
 
   $('form').on('click','.add-button',function(){
+	initrater();
     $('.add').attr('round',$(this).attr('round'));
     $('.add').attr('typeSelect',$(this).attr('typeSelect'))
   })
@@ -935,24 +996,481 @@ console.log($('.match-review.sheave').length);
 	})
 
 	var currtTime = new Date;
-    var y_m_d = currtTime.getFullYear()+"-"+(currtTime.getMonth()+1)+'-'+currtTime.getDate();
+	var y_m_d = currtTime.getFullYear()+"-"+(currtTime.getMonth()+1)+'-'+currtTime.getDate();
+	// console.log('{{$end}}','{{$push}}')
 	 //评选结束时间
-      $('.elect-datetime-lang').datetimepicker({step:10,format:'Y-m-d H:i', minDate:y_m_d});
+    
+	function analysis(str){
+      var time = str.substring(str.indexOf(' ')+1);
+      var date = str.substring(0,str.indexOf(' '));
+      var Dates = date.split('-').join('/');
+      var obj = [Dates,time];
+      return obj;
+	}
+	var endTime = analysis('{{$end}}')[1];   //征稿结束时间
+	var endDate = analysis('{{$end}}')[0];  //征稿结束日期
+	var reviewstart = analysis('{{$push}}')[1];  //赛果时间
+	var reviewstartDate = analysis('{{$push}}')[0];  //赛果日期
+	// console.log(endTime,endDate)
+	// console.log('{{$push}}')
+
+function initDateTime(){
+	
+	for(let i=0;i<$('.sheave').length;i++){
+		if(i==0){						//判断是第一轮
+			if($('.reviewvote'+(i+2)).length!=0){										//下一轮存在情况下
+				if($('.reviewvote'+(i+2)).css('display')=='none'){						//判断哪一种评委方式显示
+					var nextDatetime = $('.reviewgrade'+(i+2)+' .elect-datetime-lang').val();
+				}else{
+					var nextDatetime = $('.reviewvote'+(i+2)+' .elect-datetime-lang').val();
+				}
+				if(nextDatetime!=''){													//下一轮时间框有值
+					var nextTime = analysis(nextDatetime)[1];   //下一轮时间
+					var nextDate = analysis(nextDatetime)[0];  	//下一轮日期
+					// console.log(nextTime)
+					// console.log(nextDate)
+					$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+						format:'Y-m-d H:i',
+						lang:'ch',
+						step:10,
+						validateOnBlur:false,
+						minDate:endDate,
+						maxDate:nextDate,
+						onSelectDate:function(ct){
+							// console.log(new Date(nextDatetime).getDate())
+							if(ct.getDate()==new Date(nextDatetime).getDate()){		//点击到的时间与下一轮评审结束时间相同
+								// console.log(123)
+								this.setOptions({
+									minTime:false,
+									maxTime:new Date(nextDatetime).getHours()+':'+new Date(nextDatetime).getMinutes()
+								});
+							}else if(ct.getDate()==new Date(endDate).getDate()){
+								this.setOptions({
+									minTime:endTime,
+									maxTime:false
+								});
+							}else{
+								// console.log(321)
+								this.setOptions({
+									minTime:false,
+									maxTime:false
+								});
+							}
+						}
+					});
+					$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+						format:'Y-m-d H:i',
+						lang:'ch',
+						step:10,
+						validateOnBlur:false,
+						minDate:endDate,
+						maxDate:nextDate,
+						onSelectDate:function(ct){
+							// console.log(new Date(nextDatetime).getDate())
+							if(ct.getDate()==new Date(nextDatetime).getDate()){		//点击到的时间与下一轮评审结束时间相同
+								// console.log(123)
+								this.setOptions({
+									minTime:false,
+									maxTime:new Date(nextDatetime).getHours()+':'+new Date(nextDatetime).getMinutes()
+								});
+							}else if(ct.getDate()==new Date(endDate).getDate()){
+								this.setOptions({
+									minTime:endTime,
+									maxTime:false
+								});
+							}else{
+								// console.log(321)
+								this.setOptions({
+									minTime:false,
+									maxTime:false
+								});
+							}
+						}
+					});
+				}else{																		//下一轮时间框无值
+					if('{{$push}}'=='未设置'){												//赛果未设置
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							onSelectDate:function(ct){
+								// console.log(new Date(reviewstartDate).getDate())
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						});
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							onSelectDate:function(ct){
+								
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						});
+					}else{
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								// console.log(new Date(reviewstartDate).getDate())
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						});
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						});
+					}
+					
+				}
+				
+			}else{
+				$('.elect-datetime-lang').datetimepicker({
+					format:'Y-m-d H:i',
+					lang:'ch',
+					step:10,
+					validateOnBlur:false,
+					minDate:endDate,
+					maxDate:reviewstartDate,
+					onSelectDate:function(ct){
+						if(ct.getDate()==new Date(endDate).getDate()){
+							this.setOptions({
+								minTime:endTime,
+								maxTime:false
+							});
+						}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+							this.setOptions({
+								minTime:false,
+								maxTime:reviewstart
+							});
+						}else{
+							this.setOptions({
+								minTime:false,
+								maxTime:false
+							});
+						}
+					}
+				});
+			}
+			
+		}else{
+			// console.log(i)
+			// if($('.reviewvote'+(i+2)).length!=0){										//判断下一轮存在
+			// console.log(0)
+			// 	if($('.reviewvote'+(i+2)).css('display')=='none'){
+			// 		// console.log(123)
+			// 	}
+			// }else{																		//判断下一轮不存在
+			// console.log(3)
+				if($('.reviewvote'+i).css('display')=='none'){						//判断哪一种评委方式显示
+					var prevDatetime = $('.reviewgrade'+i+' .elect-datetime-lang').val();
+				}else{
+					var prevDatetime = $('.reviewvote'+i+' .elect-datetime-lang').val();
+				}
+				// console.log(prevDatetime)
+				
+				if(prevDatetime!=''){												//上一轮有值
+					var prevDate = analysis(prevDatetime)[0];	//上一轮日期
+					var prevTime = analysis(prevDatetime)[1];	//上一轮时间
+					// console.log(prevDate)
+					if('{{$push}}'=='未设置'){
+						// console.log($('.reviewvote'+(i+1)+' .elect-datetime-lang'),prevDate)
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:prevDate,
+							maxDate:false,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(prevDate).getDate()){
+									this.setOptions({
+										minTime:prevTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:prevDate,
+							maxDate:false,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(prevDate).getDate()){
+									this.setOptions({
+										minTime:prevTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+					}else{
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:prevDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(prevDate).getDate()){
+									this.setOptions({
+										minTime:prevTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:prevDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(prevDate).getDate()){
+									this.setOptions({
+										minTime:prevTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+					}
+					
+				}else{			
+					// console.log(reviewstartDate)													//上一轮无值
+					if('{{$push}}'=='未设置'){
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:false,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:false,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+					}else{
+						$('.reviewvote'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+						$('.reviewgrade'+(i+1)+' .elect-datetime-lang').datetimepicker({
+							format:'Y-m-d H:i',
+							lang:'ch',
+							step:10,
+							validateOnBlur:false,
+							minDate:endDate,
+							maxDate:reviewstartDate,
+							onSelectDate:function(ct){
+								if(ct.getDate()==new Date(endDate).getDate()){
+									this.setOptions({
+										minTime:endTime,
+										maxTime:false
+									});
+								}else if(ct.getDate()==new Date(reviewstartDate).getDate()){
+									this.setOptions({
+										minTime:false,
+										maxTime:reviewstart
+									});
+								}else{
+									this.setOptions({
+										minTime:false,
+										maxTime:false
+									});
+								}
+							}
+						})
+					}
+				}
+				
+			// }
+		}
+		
+	}
+}
+initDateTime();
+$('.elect-datetime-lang').click(function(){
+	initDateTime()
+})
       //人气投票开始时间
       $('.peoplestrat-datetime-lang').datetimepicker({
-      	step:10,format:'Y-m-d H:i',minDate:y_m_d});
+		format:'Y-m-d H:i',
+		lang:'ch',
+		step:10,
+		validateOnBlur:false,
+		// minDate:prevDate,
+		// maxDate:reviewstartDate,
+		onSelectDate:function(ct){
+			
+		}
+	  });
        //人气投票开始时间
       $('.peopleend-datetime-lang').datetimepicker({
-      		step:10,
-      		format:'Y-m-d H:i',
-      		minDate:y_m_d,
-	        onClose: function(dateText, inst) {
-	         var  startTime = $('.peoplestrat-datetime-lang').val();
-	              endTime = $('.peopleend-datetime-lang').val();
-	          if(startTime>endTime){
-	            $('.peopleend-datetime-lang').val(startTime);
-	          }
-	        }  
+			format:'Y-m-d H:i',
+			lang:'ch',
+			step:10,
+			validateOnBlur:false,
+			// minDate:prevDate,
+			// maxDate:reviewstartDate,
+			onSelectDate:function(ct){
+				
+			}
       	});
 }
 

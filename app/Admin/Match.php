@@ -20,6 +20,18 @@ class Match extends Model
     {
         return \DB::table('reviews')->where('match_id', $id)->count();
     }
+    public function check_win($id)
+    {
+        return \DB::table('win')->where('match_id', $id)->count();
+    }
+    public function get_cat($id)
+    {
+        $res = $this->find($id);
+        if(count($res)) {
+            return $res->cat;
+        }
+        return '';
+    }
     /**
      * 是否能结束赛事
      * @param  [type] $id [description]
@@ -42,38 +54,35 @@ class Match extends Model
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function production_sum($id,$user_id =  '')
+    public function production_sum($id, $user_id =  '')
     {
         try {
             $match = $this->find($id);
             $num = 0;
 
             if (count($match)) {
-                if($match->cat == 1) {
-                    $son = $this->select('id')->where('pid',$id)->get();
+                if ($match->cat == 1) {
+                    $son = $this->select('id')->where('pid', $id)->get();
 
                     foreach ($son as $key => $value) {
                         $temp = 0;
 
-                        $temp = Production::where(['match_id'=>$value,'status'=>2])->when($user_id,function($query) use($user_id){
-                                return $query->where('user_id',$user_id);
-                            })->count();
+                        $temp = Production::where(['match_id'=>$value->id,'status'=>2])->when($user_id, function ($query) use ($user_id) {
+                            return $query->where('user_id', $user_id);
+                        })->count();
 
                         $num += $temp;
                     }
                 } else {
-                    $num = Production::where(['match_id'=>$id,'status'=>2])->when($user_id,function($query) use($user_id){
-                            return $query->where('user_id',$user_id);
-                        })->count();
+                    $num = Production::where(['match_id'=>$id,'status'=>2])->when($user_id, function ($query) use ($user_id) {
+                        return $query->where('user_id', $user_id);
+                    })->count();
                 }
 
 
                 return $num;
             }
             return 0;
-            
-
-                        
         } catch (\Exception $e) {
             return 0;
         }
@@ -87,7 +96,17 @@ class Match extends Model
     {
         $match = $this->find($id);
         if (count($match)) {
-            $res = Production::where(['match_id'=>$id,'status'=>2])->get();
+            $arr = [$id];
+            if($match->cat == 1) {
+                $son = $this->select('id')->where('pid', $id)->get();
+                if(count($son)) {
+                    foreach ($son as $sv) {
+                        $arr[] = $sv->id;
+                    }
+                }
+            }
+
+            $res = Production::whereIn('match_id',$arr)->where(['status'=>2])->get();
             $num = [];
             foreach ($res as $v) {
                 if (!in_array($v->user_id, $num)) {
@@ -95,6 +114,7 @@ class Match extends Model
                 }
             }
             return count($num);
+            
         }
         return 0;
     }
@@ -155,6 +175,8 @@ class Match extends Model
                 "collect_end" => $request->collect_end ? strtotime($request->collect_end) :0,
                 "public_time" => $request->public_time ? strtotime($request->public_time) :0,
                 "status" => 0,
+                "created_at" => date('Y-m-d H:i:s',time()),
+                "updated_at" => date('Y-m-d H:i:s',time()),
         ]);
 
         return $res;
@@ -179,7 +201,7 @@ class Match extends Model
                 }
             }
         }
-        $this->del_match_info($id);
+        $res = $this->del_match_info($id);
     }
     /**
      * 赛事软删除
@@ -207,7 +229,13 @@ class Match extends Model
         \DB::table('require_team')->where('match_id', $id)->delete();
         \DB::table('raters')->where('match_id', $id)->delete();
         \DB::table('reviews')->where('match_id', $id)->delete();
-        \DB::table('matches')->where('id', $id)->update(['status'=>7]);
+        
+        if($res[0]['status'] == 0) {
+            \DB::table('matches')->where('id', $id)->delete();
+        } else {
+            \DB::table('matches')->where('id', $id)->update(['status'=>7]);
+        }
+        return true;
     }
     /**
      * 复制赛事
@@ -235,6 +263,8 @@ class Match extends Model
                     "public_time" => $info[0]['public_time'],
                     "status" => 0,
                     "pid" => $info[0]['pid'],
+	                "created_at" => date('Y-m-d H:i:s',time()),
+	                "updated_at" => date('Y-m-d H:i:s',time()),
             ]);
 
             $this->copy_info('partners', $id, $new_id);
@@ -267,9 +297,9 @@ class Match extends Model
      */
     public function copy_info($str, $old_id, $new_id)
     {
-        $res = \DB::table($str)->where('match_id', $old_id)->get()->toArray();
+        $res = \DB::table($str)->where('match_id', $old_id)->get();
         if (count($res)) {
-            foreach (json_decode(json_encode($res, JSON_UNESCAPED_UNICODE), true) as $vv) {
+            foreach ($res as $vv) {
                 $temp = [];
                 foreach ($vv as $k => $v) {
                     if ($k == 'match_id') {
@@ -313,6 +343,8 @@ class Match extends Model
                     "public_time" => $info[0]['public_time'],
                     "status" => 0,
                     "pid"=>$pid ? $pid : $info[0]['pid'],
+	                "created_at" => date('Y-m-d H:i:s',time()),
+	                "updated_at" => date('Y-m-d H:i:s',time()),
             ]);
 
             $this->copy_info('require_personal', $id, $new_id);
@@ -336,11 +368,11 @@ class Match extends Model
             $opic = $info->pic;
 
             if ($request->pic && $opic != $request->pic) {
-
                 $pic = save_match_pic($request->pic);
 
-                if($pic) del_match_pic($opic);
-
+                if ($pic) {
+                    del_match_pic($opic);
+                }
             } else {
                 $pic = $opic;
             }
@@ -353,6 +385,7 @@ class Match extends Model
                     "collect_start" => $request->collect_start ? strtotime($request->collect_start) :0,
                     "collect_end" => $request->collect_end ? strtotime($request->collect_end) :0,
                     "public_time" => $request->public_time ? strtotime($request->public_time) :0,
+                	"updated_at" => date('Y-m-d H:i:s',time()),
             ]);
             
             return $info->cat;
@@ -426,7 +459,6 @@ class Match extends Model
      */
     public function award(Request $request, $id)
     {
-
         \DB::table('awards')->where('match_id', $id)->delete();
         if ($request->name) {
             if (count($request->name)) {
@@ -480,10 +512,9 @@ class Match extends Model
         //         $diy_required[] = $request->diy_required[$key];
         //     }
         // }
-        if($request->diy_info) {
-
+        if ($request->diy_info) {
             foreach ($request->diy_info as $key => $value) {
-                if($value != '' && $value != null && $request->diy_required[$key] != '' ) {
+                if ($value != '' && $value != null && $request->diy_required[$key] != '') {
                     $diy_info_temp[] = $value;
                     $diy_required[] = $request->diy_required[$key];
                 }
@@ -537,9 +568,23 @@ class Match extends Model
         $prodution_info[] = $info;
         $prodution_info[] = $required;
 
-        $diy_info[] = $request->diy_info;
-        $diy_info[] = $request->diy_required;
-        
+        //自定义作品信息
+        $diy_info = [];
+        $diy_info_temp = [];
+        $diy_required = [];
+
+        if ($request->diy_info) {
+            foreach ($request->diy_info as $key => $value) {
+                if ($value != '' && $value != null && $request->diy_required[$key] != '') {
+                    $diy_info_temp[] = $value;
+                    $diy_required[] = $request->diy_required[$key];
+                }
+            }
+        }
+
+        $diy_info[] = $diy_info_temp;
+        $diy_info[] = $diy_required;
+
         \DB::table('require_team')->insertGetId([
             'match_id'=>$id,
             'group_min'=>$request->group_min ? $request->group_min : 0,
@@ -597,6 +642,7 @@ class Match extends Model
                 'match_id'=>$id,
                 'name'=>$request->name ? $request->name: '',
                 'pic'=>$pic,
+                'type'=>$request->type ? 1 : 0,
                 'tag'=>$request->tag ? $request->tag: '',
                 'detail'=>$request->detail ? mb_substr($request->detail, 0, 500) : '',
             ]);
@@ -616,6 +662,7 @@ class Match extends Model
             'name' => $request->name,
             'detail' => $request->detail ? mb_substr($request->detail, 0, 500) : '',
             'tag' => $request->tag ? $request->tag : '',
+            'type' => $request->type ? 1 : 0,
             'pic' => save_match_pic($request->pic)
             ]);
     }
@@ -707,14 +754,15 @@ class Match extends Model
         if (count($rater)) {
             return ['msg'=>'','data'=>$uid];
         } else {
-            $role = \DB::table('roles')->where(['organ_id'=>$orgin_id, 'role_type'=>'rater'])->first();
-            $role_id = $role->id;
-            \DB::table('members')->insertGetId([
-                'uid'=>$uid,
-                'organ_id'=>$orgin_id,
-                'role_id'=>$role_id,
-                'role_type'=>'rater',
-            ]);
+            //添加评委待定
+            // $role = \DB::table('roles')->where(['organ_id'=>$orgin_id, 'role_type'=>'rater'])->first();
+            // $role_id = $role->id;
+            // \DB::table('members')->insertGetId([
+            //     'uid'=>$uid,
+            //     'organ_id'=>$orgin_id,
+            //     'role_id'=>$role_id,
+            //     'role_type'=>'rater',
+            // ]);
             return ['msg'=>'','data'=>$uid];
         }
            
@@ -768,8 +816,17 @@ class Match extends Model
     {
         try {
             \DB::beginTransaction();
+            $match = $this->find($id);
+            if($match->status  != 0) {
+                throw new \Exception('赛事已发布,暂不能修改');
+            }
+            if($match->cat  == 2) {
+                $pmatch = $this->find($match->pid);
+
+            }
             \DB::table('reviews')->where('match_id', $id)->delete();
             foreach ($request->type as $k => $v) {
+
                 if ($v == 'vote') {
                     \DB::table('reviews')->insert([
                         'match_id' => $id,
@@ -791,7 +848,9 @@ class Match extends Model
                     foreach ($temp['percent'] as $v) {
                         $percent +=$v;
                     }
-                    if($percent != 100) throw new \Exception('miss 100');
+                    if ($percent != 100) {
+                        throw new \Exception('miss 100');
+                    }
                     
                     \DB::table('reviews')->insert([
                         'match_id' => $id,
@@ -811,10 +870,12 @@ class Match extends Model
             }
 
             \DB::commit();
+            return 'success';
         } catch (\Exception $e) {
             \DB::rollback();
-            dd($e);
-            if($e->getMessage() == 'miss 100') return 100;
+            if ($e->getMessage() == 'miss 100') {
+                return 100;
+            }
             return $e->getMessage();
         }
     }
@@ -871,23 +932,72 @@ class Match extends Model
         }
 
         if ($match[0]->status > 1) {
+            if ($match[0]->cat == 1) {
+                \DB::table('matches')->where('pid', $mid)->update(['push_time'=>time()]);
+                \DB::table('matches')->where('id', $mid)->update(['push_time'=>time()]);
+            } else {
+                \DB::table('matches')->where('id', $mid)->update(['push_time'=>time()]);
+            }
+
             return ['msg'=>'该赛事已经发布,请不要重复发布','data'=>false];
         }
 
-        $required = \DB::table('require_personal')->where('match_id', $mid)->get();
+        $personal = \DB::table('require_personal')->where('match_id', $mid)->get();
+        $team = \DB::table('require_team')->where('match_id', $mid)->get();
 
-        if (!$required) {
-            $res['msg'] = '个人投稿要求信息未填';
+        if (!count($personal) && !count($team)) {
+            $res['msg'] = '投稿要求未设置';
             return $res;
         }
-        $review = \DB::table('reviews')->where('match_id', $mid)->get();
-        if (!$review) {
-            $res['msg'] = '奖项设置未填';
-            return $res;
+        
+        if($match[0]->cat != 1) {
+            $sum_round = $this->sum_round($mid);
+            $win = $this->check_win($mid);
+            if (!$sum_round) {
+                $res['msg'] = '评选设定未设置';
+                return $res;
+            }
+            if (!$win) {
+                $res['msg'] = '胜出机制未设置';
+                return $res;
+            }
+
+            
+        } else {
+            $son = $this->select('id','title')->where('pid',$mid)->get();
+            foreach ($son as $sv) {
+                $sum_round = $this->sum_round($sv->id);
+                $win = $this->check_win($sv->id);
+                if (!$sum_round) {
+                    $res['msg'] = '子赛事--'.json_decode($sv->title)[0].'--评选设定未设置';
+                    return $res;
+                }
+                if (!$win) {
+                    $res['msg'] = '子赛事--'.json_decode($sv->title)[0].'--胜出机制未设置';
+                    return $res;
+                }
+
+            }
+
+        }
+        if ($match[0]->collect_start <= time() || $match[0]->collect_end  <= time() ) {
+            return ['msg'=>'时间设置错误','data'=>false];
         }
         // 修改赛事状态-----3 开始征稿
-        \DB::table('matches')->where('id', $mid)->update(['status'=>2]);
-        $this->start_collect($mid);
+        if ($match[0]->cat == 1) {
+            \DB::table('matches')->where('pid', $mid)->update(['status'=>2,'push_time'=>time()]);
+            \DB::table('matches')->where('id', $mid)->update(['status'=>2,'push_time'=>time()]);
+            $son = \DB::table('matches')->where('pid', $mid)->get();
+            if (count($son)) {
+                foreach ($son as $sonv) {
+                    $this->start_collect($sonv->id);
+                }
+            }
+            $this->start_collect($mid);
+        } else {
+            \DB::table('matches')->where('id', $mid)->update(['status'=>2,'push_time'=>time()]);
+            $this->start_collect($mid);
+        }
         $res['data'] = true;
         return $res;
     }
@@ -980,7 +1090,7 @@ class Match extends Model
                     //  修改赛事状态  --------5 结束赛事开始评审
                     \DB::table('matches')->where('id', $mid)->update(['status'=>5, 'round'=>1]);
                     \DB::table('productions')->whereIn('id', $pid)->update(['round'=>1]);
-                     \DB::commit();
+                    \DB::commit();
                     return ['msg'=>'success','data'=>true];
                 } else {
                     return ['msg'=>'该赛事尚未开始征稿,不能结束','data'=>false];
@@ -1074,7 +1184,6 @@ class Match extends Model
             \DB::table('productions')->whereIn('id', $arr)->update(['round'=>$round +1]);
             return 'success';
         } catch (\Exception $e) {
-            dd($e);
             return false;
         }
     }
@@ -1136,6 +1245,14 @@ class Match extends Model
     public function clear_result($mid, $round)
     {
         try {
+            $match = $this->find($mid);
+            if($round == $this->sum_round($mid)){
+                \DB::table('result')->where(['match_id'=>$mid,'round'=>0])->delete();
+                $result = \DB::table('result')->where('match_id',$mid)->get();
+                foreach ($result as  $rv) {
+                    \DB::table('productions')->whereIn('id',json_decode($rv->production_id,true))->update(['round'=>$rv->round]);
+                }
+            }
             \DB::table('score')->where(['match_id'=>$mid,'round'=>$round])->delete();
             \DB::table('sum_score')->where(['match_id'=>$mid,'round'=>$round])->delete();
             \DB::table('rater_match')->where(['match_id'=>$mid,'round'=>$round])->update(['finish'=>0]);
@@ -1153,10 +1270,12 @@ class Match extends Model
     {
         try {
             $match = $this->find($id);
+
             if ($match->status == 6) {
                 return '赛事已结束';
             }
             $this->where('id', $id)->update(['status'=>6]);
+            
             if ($match->cat == 2) {
                 $res = $this->where('pid', $match->pid)->where('status', '<', 6)->first();
                 if (!count($res)) {
@@ -1171,7 +1290,7 @@ class Match extends Model
             \DB::table('rater_match')->where('match_id', $id)->update(['status'=>2]);
             return 'success';
         } catch (\Exception $e) {
-            return '未知错误';
+            return '未知错误'.$e->getMessage();
         }
     }
     /**
@@ -1207,11 +1326,11 @@ class Match extends Model
             return ['msg'=>'获取数据失败','data'=>false];
         }
     }
-     /**
-     * 下一轮
-     * @param  [type] $mid [description]
-     * @return [type]      [description]
-     */
+    /**
+    * 下一轮
+    * @param  [type] $mid [description]
+    * @return [type]      [description]
+    */
     public function next_round($mid)
     {
         try {
@@ -1243,6 +1362,7 @@ class Match extends Model
             $num = count(json_decode($secure[0]->production_id));
 
             \DB::table('rater_match')->where(['match_id'=>$mid, 'round'=>$round])->update(['status'=>2]);
+
             \DB::table('rater_match')->where(['match_id'=>$mid, 'round'=>$round + 1])->update(['status'=>1,'total'=> $num]);
 
             \DB::table('productions')->where(['match_id'=>$mid, 'round'=>$round])->increment('round');
@@ -1255,13 +1375,14 @@ class Match extends Model
     }
 
     /**
-     * 上传作品(单张)
+     * 上传作品(单张)(不使用)
      * @param  Request $request [description]
      * @param  [type]  $id      [description]
      * @return [type]           [description]
      */
     public function uploadimg(Request $request, $id)
     {
+        dd('上传作品(单张)(不使用)  Match 1277行');
         try {
             $user_id = \Cookie::get('user_id');
             if (!isset($user_id) || !$request->pic) {
@@ -1276,9 +1397,8 @@ class Match extends Model
             $arr = $request->pic;
             $pic_id_arr = [];
 
-            if(is_array($arr)) {
+            if (is_array($arr)) {
                 foreach ($arr as $value) {
-
                     $pic_id = \DB::table('productions')->insertGetId([
                         'match_id'=>$match_id,
                         'user_id'=>$user_id,
@@ -1288,7 +1408,6 @@ class Match extends Model
                     $pic_id_arr[] = $pic_id;
                 }
             } else {
-
                 $pic_id = \DB::table('productions')->insertGetId([
                     'match_id'=>$match_id,
                     'user_id'=>$user_id,
@@ -1303,13 +1422,14 @@ class Match extends Model
         }
     }
     /**
-     * 上传组图
+     * 上传组图(不使用)
      * @param  Request $request [description]
      * @param  [type]  $id      [description]
      * @return [type]           [description]
      */
     public function uploadimgs(Request $request, $id)
     {
+        dd('上传组图(不使用) Match 1324 行');
         try {
             $user_id = \Cookie::get('user_id');
             if (!isset($user_id) || !$request->pic) {
@@ -1327,13 +1447,10 @@ class Match extends Model
 
             $pic_id_arr = [];
 
-            if(is_array($group)) {
+            if (is_array($group)) {
                 foreach ($group as $gkey => $value) {
-
-                  
                 }
             } else {
-
                 $pic_id = \DB::table('productions')->insertGetId([
                     'match_id'=>$match_id,
                     'user_id'=>$user_id,
@@ -1382,13 +1499,15 @@ class Match extends Model
             // }
             $user_id = user();
             $arr = $request->id;
-            if(!count($arr))  return false;
+            if (!count($arr)) {
+                return false;
+            }
             $temp = [];
             foreach ($arr as $pid) {
                 $title = 'title'.$pid;
                 $author = 'author'.$pid;
                 $detail = 'detail'.$pid;
-                if($request->$title == ''  ||  $request->$author  == '' ||  $request->$detail == '') {
+                if ($request->$title == ''  ||  $request->$author  == '' ||  $request->$detail == '') {
                     $status = 1;
                 } else {
                     $status = 2;
@@ -1401,7 +1520,6 @@ class Match extends Model
                         'user_id'=>$user_id,
                         'status'=>$status,
                     ]);
-               
             }
             return true;
         } catch (\Exception $e) {
@@ -1431,7 +1549,7 @@ class Match extends Model
             
            
             $res = \DB::table('connections')->where('match_id', $id)->orderBy('no')->get();
-            if(count($res)){
+            if (count($res)) {
                 $res = $res->toArray();
                 $info->connection = $res;
             } else {
@@ -1439,7 +1557,7 @@ class Match extends Model
             }
 
             $res = \DB::table('partners')->where('match_id', $id)->orderBy('no')->get();
-            if(count($res)){
+            if (count($res)) {
                 $res = $res->toArray();
                 $info->partner = $res;
             } else {
@@ -1448,17 +1566,17 @@ class Match extends Model
             
 
             $res = \DB::table('raters')->where('match_id', $id)->get()->toArray();
-            $info->rater = json_encode($res,JSON_UNESCAPED_UNICODE );
+            $info->rater = json_encode($res, JSON_UNESCAPED_UNICODE);
 
             $res = \DB::table('require_team')->where('match_id', $id)->first();
-            if($res) {
+            if ($res) {
                 $info->team = $res;
             } else {
                 $info->team = [];
             }
 
             $res = \DB::table('require_personal')->where('match_id', $id)->first();
-            if($res) {
+            if ($res) {
                 $info->personal = $res;
             } else {
                 $info->personal = [];
@@ -1467,6 +1585,15 @@ class Match extends Model
 
             $res = \DB::table('awards')->where('match_id', $id)->orderBy('no')->get()->toArray();
             $info->award = $res;
+
+
+            $son = \DB::table('matches')->where('pid',$id)->get();
+            if(count($son)) {
+                $son = $son->toArray();
+            } else {
+                $son = [];
+            }
+            $info->son = $son;
             return $info;
         } catch (\Exception $e) {
             dd($e);

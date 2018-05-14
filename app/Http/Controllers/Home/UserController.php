@@ -53,37 +53,41 @@ class UserController extends Controller
         if (!$user_id) {
             return back();
         }
-        $match_id = User_match::select('match_id','id')->where('user_id', $user_id)->where('status', 1)->get();
-        $match_id = User_match::select('match_id','id')->where('user_id', $user_id)->get();
+        $kw = isset($request->kw) ? $request->kw : '';
+        $match_id = User_match::select('match_id', 'id')->where('user_id', $user_id)->where('status', 0)->get();
         $arr = [];
         foreach ($match_id as $v) {
             $arr[] = $v->match_id;
         }
-        $match = Match::whereIn('id', $arr)->orderBy('id','desc')->Paginate(6);
+        $match = Match::whereIn('id', $arr)->when($kw,function ($query) use ($kw) {
+            return $query->where('title','like','%'.$kw.'%');
+        })->orderBy('id', 'desc')->Paginate(6);
 
         return view('home.user.match', ['match'=>$match]);
     }
-    public function son(Request $request,$id)
+    public function son(Request $request, $id)
     {
         try {
             $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->first();
 
-            if(count($res)) {
+            if (count($res)) {
                 $res = Match::find($id);
-                if($res->cat == 1) {
+                if ($res->cat == 1) {
                     $son = Match::where(['pid'=>$id])->get();
 
-                    return view('home.user.son',['match'=>$son]);
+                    return view('home.user.son', ['match'=>$son]);
                 }
-            } 
+            }
 
             return back();
-            
-            
         } catch (\Exception $e) {
             return back();
         }
-
+    }
+    public function del_match(Request $request, $id)
+    {
+        User_match::where(['user_id'=>user(),'match_id'=>$id])->update(['status'=>1,'updated_at'=>time()]);
+        return back();
     }
     public function match_pic(Request $request, $id)
     {
@@ -92,8 +96,10 @@ class UserController extends Controller
         if (!$user_id) {
             return back();
         }
-        $match = Match::where('id',$id)->first();
-        if(!count($match))  return back();
+        $match = Match::where('id', $id)->first();
+        if (!count($match)) {
+            return back();
+        }
         $product = Production::where('user_id', $user_id)->where(['match_id' => $id, 'status' => 2 ]);
         if ($request->search != '') {
             $product = $product->where('productions.title', 'like', '%'. $request->search . '%');
@@ -217,7 +223,7 @@ class UserController extends Controller
     {
         $product = Production::find($id);
 
-        return view('home.user.product_one',['product'=>$product]);
+        return view('home.user.product_one', ['product'=>$product]);
     }
 
     /**
@@ -228,7 +234,7 @@ class UserController extends Controller
      */
     public function editpic(Request $request, $id)
     {
-        if($request->title == ''  ||  $request->author  == '' ||  $request->detail == '') {
+        if ($request->title == ''  ||  $request->author  == '' ||  $request->detail == '') {
             $status = 1;
         } else {
             $status = 2;
@@ -236,7 +242,9 @@ class UserController extends Controller
 
         $res = \DB::table('productions')->where(['id'=>$id])->first();
 
-        if($res->status == 3) return back()->with('msg','已投稿,不可再修改');
+        if ($res->status == 3) {
+            return back()->with('msg', '已投稿,不可再修改');
+        }
 
         $mid = $res->match_id;
 
@@ -258,7 +266,7 @@ class UserController extends Controller
         $id = $request->id;
         \DB::table('productions')->where('id', $id)->delete();
         $res = \DB::table('productions')->find($id);
-        if(count($res)) {
+        if (count($res)) {
             return json_encode([0]);
         }
         return json_encode([1]);

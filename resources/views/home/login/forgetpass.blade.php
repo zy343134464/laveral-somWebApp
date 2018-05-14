@@ -1,8 +1,9 @@
 @extends('home.login.layout')   
 @section('title', '忘记密码')
 @section('other_css')
- <link rel="stylesheet" href="{{ url('css/home/login/jquery.slider.css') }}">
-  <link rel="stylesheet" href="{{ url('css/home/login/forgetpass.css') }}">
+    <meta name="_token" content="{{ csrf_token() }}"/>
+    <link rel="stylesheet" href="{{ url('css/home/login/jquery.slider.css') }}">
+    <link rel="stylesheet" href="{{ url('css/home/login/forgetpass.css') }}">
 @endsection
 @section('body')
 <div class="wrapper">
@@ -20,15 +21,15 @@
                     {!! csrf_field() !!}
                     <div class="text-left" style="color:red" id="msg">{{ $errors->first() }}{{ session('msg') }}</div>
                     <div class="form-group has-feedback">
-                        <input  type="text" class="form-control phone-yx" name="phone" required placeholder="手机号"  onblur="validphone(this)">
+                        <input  type="text" class="form-control phone-yx" name="phone" required placeholder="手机号"  onblur="validphone(this)"  autocomplete="off" >
                     </div>
                      <div class="form-group has-feedback nickname">
                           <div id="slider-forget" class="slider"></div>
                     </div>
 
                     <div class="form-group has-feedback yz-group hide">
-                            <input type="text" class="form-control pull-left sryanzheng" placeholder="请输入验证码" name="check">
-                            <button class="btn btn-default yanzheng">发送验证码</button>
+                            <input type="text" class="form-control pull-left sryanzheng" placeholder="请输入验证码" name="check"  autocomplete="off" >
+                            <button class="btn btn-default yanzheng" style="width:96px;height:34px;">发送验证码</button>
                     </div>
                      <div class="row">
                          <div class="col-xs-12">
@@ -52,26 +53,20 @@
 <script src="{{ url('js/home/login/jquery.slider.min.js') }}"></script>
 
 <script>
-$('.phone-yx').focus();
+
 
  function validphone(obj){
-    var reg =  /^1[34578]\d{9}$/,
-        yxreg=/\w+[@]{1}\w+[.]\w+/,
-        obj =  $.trim($(obj).val()),
-      //  flag = reg.test(obj)||yxreg.test(obj);
-       flag = true;
-        if(obj.length>1){
-            if(flag){
-                 msg.innerHTML = '';
-                 $('.btn-primary').removeAttr('disabled');
-                 
-            }else{
-                 msg.innerHTML = '格式错误,请重新输入';
-                $(obj).val('');
-                $('.btn-primary').attr('disabled','disabled');
-            }
+     
+    
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+    //    console.log(myreg.test(obj.value))
+        if(myreg.test(obj.value)){
+            msg.innerHTML = '';
+            $('.btn-primary').removeAttr('disabled');
         }else{
-         $('.btn-primary').attr('disabled','disabled');
+            msg.innerHTML = '格式错误,请重新输入';
+            $('.btn-primary').attr('disabled','disabled');
+            return false;
         }
     }
 </script> 

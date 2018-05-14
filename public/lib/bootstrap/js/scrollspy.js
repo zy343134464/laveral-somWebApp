@@ -1,172 +1,247 @@
-/* ========================================================================
- * Bootstrap: scrollspy.js v3.3.7
- * http://getbootstrap.com/javascript/#scrollspy
- * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
+/**
+*  AutoScrollspy v 0.0.7 by Michael A Smith @psalmody
+*  https://github.com/psalmody/dynamic-scrollspy
+*/
+;
+(function($) {
 
+  $.fn.DynamicScrollspy = function(opts) {
+    //define opts
+    opts = (typeof(opts) == 'undefined') ? {} : opts;
+    this.isinit = (typeof(this.isinit) == 'undefined') ? false : self.isinit;
 
-+function ($) {
-  'use strict';
-
-  // SCROLLSPY CLASS DEFINITION
-  // ==========================
-
-  function ScrollSpy(element, options) {
-    this.$body          = $(document.body)
-    this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
-    this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
-    this.selector       = (this.options.target || '') + ' .nav li > a'
-    this.offsets        = []
-    this.targets        = []
-    this.activeTarget   = null
-    this.scrollHeight   = 0
-
-    this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
-    this.refresh()
-    this.process()
-  }
-
-  ScrollSpy.VERSION  = '3.3.7'
-
-  ScrollSpy.DEFAULTS = {
-    offset: 10
-  }
-
-  ScrollSpy.prototype.getScrollHeight = function () {
-    return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
-  }
-
-  ScrollSpy.prototype.refresh = function () {
-    var that          = this
-    var offsetMethod  = 'offset'
-    var offsetBase    = 0
-
-    this.offsets      = []
-    this.targets      = []
-    this.scrollHeight = this.getScrollHeight()
-
-    if (!$.isWindow(this.$scrollElement[0])) {
-      offsetMethod = 'position'
-      offsetBase   = this.$scrollElement.scrollTop()
+    //destroy scrollspy ooption
+    if (opts == 'destroy') {
+      this.isinit = false;
+      this.empty();
+      this.off('activate.bs.scrollspy');
+      $(body).removeAttr('data-spy');
+      return this;
     }
 
-    this.$body
-      .find(this.selector)
-      .map(function () {
-        var $el   = $(this)
-        var href  = $el.data('target') || $el.attr('href')
-        var $href = /^#./.test(href) && $(href)
+    //extend options priorities: passed, existing, defaults
+    this.options = $.extend({}, {
+      tH: 2, //lowest-level header to be included (H2)
+      bH: 6, //highest-level header to be included (H6)
+      genIDs: false, //generate random IDs?
+      offset: 100, //offset for scrollspy
+      ulClassNames: 'hidden-print', //add this class to top-most UL
+      activeClass: '', //active class (besides .active) to add
+      testing: false //if testing, show heading tagName and ID
+    }, this.options, opts);
 
-        return ($href
-          && $href.length
-          && $href.is(':visible')
-          && [[$href[offsetMethod]().top + offsetBase, href]]) || null
-      })
-      .sort(function (a, b) { return a[0] - b[0] })
-      .each(function () {
-        that.offsets.push(this[0])
-        that.targets.push(this[1])
-      })
-  }
+    var self = this;
 
-  ScrollSpy.prototype.process = function () {
-    var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
-    var scrollHeight = this.getScrollHeight()
-    var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
-    var offsets      = this.offsets
-    var targets      = this.targets
-    var activeTarget = this.activeTarget
-    var i
+    //store tree and used random numbers
+    this.tree = {};
+    this.rands = [];
 
-    if (this.scrollHeight != scrollHeight) {
-      this.refresh()
+    //encode any text in header title to HTML entities
+    function encodeHTML(value) {
+      return $('<div></div>').text(value).html();
     }
 
-    if (scrollTop >= maxScroll) {
-      return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+    //returns jQuery object of all headers between tH and bH
+    function selectAllH() {
+      var st = [];
+      for (var i = self.options.tH; i <= self.options.bH; i++) {
+        st.push('H'+i);
+      }
+      return $(st.join(','));
     }
 
-    if (activeTarget && scrollTop < offsets[0]) {
-      this.activeTarget = null
-      return this.clear()
+    //generate random numbers; save and check saved to keep them unique
+    function randID() {
+      var r;
+
+      function rand() {
+        r = Math.floor(Math.random() * (1000 - 100)) + 100;
+       
+      }
+      //get first random number
+      rand();
+      while (self.rands.indexOf(r) >= 0) {
+        //when that random is found, try again until it isn't
+        rand();
+      }
+      //save random for later
+      self.rands.push(r);
+      return r;
+    }
+ 
+    //generate random IDs for elements if requested
+    function genIDs() {
+      selectAllH().prop('id', function() {
+        // if no id prop for this header, return a random id
+        return ($(this).prop('id') === '') ? $(this).prop('tagName') + (randID()) : $(this).prop('id');
+      });
     }
 
-    for (i = offsets.length; i--;) {
-      activeTarget != targets[i]
-        && scrollTop >= offsets[i]
-        && (offsets[i + 1] === undefined || scrollTop < offsets[i + 1])
-        && this.activate(targets[i])
-    }
-  }
+    //check that all have id attribute
+    function checkIDs() {
+      var missing = 0;
+      //check they exist first
+      selectAllH().each(function() {
+        if ($(this).prop('id') === '') {
+          missing++;
+        } else {
+          if ($('[id="' + $(this).prop('id') + '"]').length > 1) throw new Error("DynamicScrollspy: Error! Duplicate id " + $(this).prop('id'));
+        }
 
-  ScrollSpy.prototype.activate = function (target) {
-    this.activeTarget = target
-
-    this.clear()
-
-    var selector = this.selector +
-      '[data-target="' + target + '"],' +
-      this.selector + '[href="' + target + '"]'
-
-    var active = $(selector)
-      .parents('li')
-      .addClass('active')
-
-    if (active.parent('.dropdown-menu').length) {
-      active = active
-        .closest('li.dropdown')
-        .addClass('active')
+      });
+      if (missing > 0) {
+        var msg = "DynamicScrollspy: Not all headers have ids and genIDs: false.";
+        throw new Error(msg);
+      }
+      return missing;
     }
 
-    active.trigger('activate.bs.scrollspy')
-  }
+    //testing - show IDs and tag types
+    function showTesting() {
+      selectAllH().append(function() {
+        // let's see the tag names (for test)
+        return ' (' + $(this).prop('tagName') + ', ' + $(this).prop('id') + ')';
+      });
+    }
 
-  ScrollSpy.prototype.clear = function () {
-    $(this.selector)
-      .parentsUntil(this.options.target, '.active')
-      .removeClass('active')
-  }
+    //setup the tree, (first level)
+    function makeTree() {
+      var tree = self.tree;
+      $('H' + self.options.tH).each(function() {
+        //run the first level
+        tree[$(this).prop('id')] = {
+          dstext: encodeHTML($(this).text()),
+          jqel: $(this)
+        };
+      });
+
+      if (self.options.tH + 1 <= self.options.bH) {
+        //only recurse if more than one level requested
+        itCreateTree(tree);
+      }
+
+      return tree;
+    }
+
+    //iterate through each grandchild+ level of the tree
+    function itCreateTree(what) {
+      for (var k in what) {
+        // skip if text or element
+        if (k == 'dstext' || k == 'jqel') continue;
+        //get the current level
+        var lvl = Number($('#' + k).prop('tagName').replace('H', ''));
+
+        //end if we are at the final level
+        if (lvl >= self.options.bH) return false;
+        //next until
+        $('#' + k).nextUntil('H' + lvl).filter('H' + (lvl + 1)).each(function() {
+          what[k][$(this).prop('id')] = {
+            dstext: encodeHTML($(this).text()),
+            jqel: $(this)
+          };
+        });
+        //keep recursing if necessary
+
+        if (lvl < self.options.bH) itCreateTree(what[k]);
+           
+      }
+    }
+
+    //render tree (setup first level)
+    function renderTree() {
+
+      var ul = $('<ul class="nav ' + self.options.ulClassNames + '"></ul>');
+      self.append(ul);
+      //then iterate three tree
+      $.each(self.tree, function(k) {
+        var c = self.tree[k];
+        var li = '<li id="dsli' + k + '"><a href="#' + k + '">' + c.dstext + '</a></li>';
+        // ul.append(li);
+        itRenderTree(self.tree[k]);
+      });
+
+      return self;
+    }
+
+    //iterate and render each subsequent level
+    function itRenderTree(what) {
+      //if no children, skip
+      if (Object.keys(what).length < 3) return false;
+      //parent element, append sub list
+      var parent = $('#dsli' + what.jqel.prop('id'));
+      var ul = $("<ul class='nav child'></ul>");
+      parent.append(ul);
+      for (var k in what) {
+        //skip if text or element
+        if (k == 'dstext' || k == 'jqel') continue;
+        var c = what[k];
+        ul.append('<li id="dsli' + k + '"><a href="#' + k + '">' + c.dstext + '</a></li>');
+        itRenderTree(what[k]);
+      }
+    }
+ 
+    //initialize plugin
+    function init() {
+      //first time (or after destroy)
+      if (self.isinit === false) {
+        //generate IDs
+        if (self.options.genIDs) {
+          genIDs();
+        } else {
+          checkIDs();
+        }
+
+        if (self.options.testing) showTesting();
+
+        //make the tree
+        makeTree();
+        //render it
+        renderTree();
+
+        var ul = self.children('ul');
+
+        self.children('ul').affix({
+          offset: {
+            top: function() {
+              var c = ul.offset().top,
+                d = parseInt(ul.children(0).css("margin-top"), 10),
+                e = $(self).height();
+              return this.top = c - e - d;
+            },
+            bottom: function() {
+              return this.bottom = $(self).outerHeight(!0);
+            }
+          }
+        });
+
+        $('body').attr('data-spy', 'true').scrollspy({
+         // target: '#' + self.prop('id'),
+          offset: self.options.offset
+        });
+
+        self.isinit = true;
+      } else {
+
+        makeTree();
+
+        renderTree();
+
+        $('[data-spy="scroll"]').each(function() {
+          var $spy = $(this).scrollspy('refresh');
+        });
+
+      }
 
 
-  // SCROLLSPY PLUGIN DEFINITION
-  // ===========================
 
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.scrollspy')
-      var options = typeof option == 'object' && option
+      return self;
 
-      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.scrollspy
-
-  $.fn.scrollspy             = Plugin
-  $.fn.scrollspy.Constructor = ScrollSpy
+    }
 
 
-  // SCROLLSPY NO CONFLICT
-  // =====================
 
-  $.fn.scrollspy.noConflict = function () {
-    $.fn.scrollspy = old
-    return this
-  }
+    return init();
 
+  };
 
-  // SCROLLSPY DATA-API
-  // ==================
-
-  $(window).on('load.bs.scrollspy.data-api', function () {
-    $('[data-spy="scroll"]').each(function () {
-      var $spy = $(this)
-      Plugin.call($spy, $spy.data())
-    })
-  })
-
-}(jQuery);
+}(jQuery));

@@ -113,7 +113,7 @@
 				<div class="form-group">
 					<label for="replaceemail" class="col-sm-2 control-label" style="margin-left: -86px;">更换邮箱</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" id="replaceemail" placeholder="" value="22449499@qq.com">
+						<input type="text" class="form-control" id="replaceemail" placeholder="" value="">
 					</div>
 					<label for="securitycode" class="col-sm-1 control-label">验证码</label>
 					<div class="col-sm-3">

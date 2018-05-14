@@ -10,7 +10,6 @@ class MailController extends Controller
     public function send()
     {
         try {
-            
             $flag = Mail::send('email.test', [], function ($message) {
                 $to = '283606834@qq.com';
                 $message ->to($to)->subject('欢迎注册我们的网站，请激活您的账号！');

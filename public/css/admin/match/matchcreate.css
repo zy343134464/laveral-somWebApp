@@ -43,6 +43,7 @@ span.sure{
 }
 /*.input-hint-div .form-control {
     margin-right: 10px;
+
 }*/
 .input-hint{
     position: absolute;
@@ -101,14 +102,14 @@ span.sure{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 
 #aetherupload-wrapper .Modify-div-cont:hover .Modify-div{
     display: inline-block;
 }
-#aetherupload-wrapper .Modify-div-cont .Modify-div {
+#aetherupload-wrapper .Modify-div-cont .Modify-div,#new_game .Modify-div{
     right:5px;
     display: none;
 }
@@ -129,8 +130,11 @@ span.sure{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
+}
+#aetherupload-wrapper .col-sm-4:hover .Modify-div.active{
+    display:inline-block;
 }
 
 .match-theme #addVar:hover,
@@ -148,11 +152,11 @@ span.sure{
 }
 .match-theme .nextPage{
     text-align: center;
-    height: 73px;
-    bottom: 0;
+    height: 84px;
     width: 1092px;
     background: #f5f5f5;
     position: absolute;
+    bottom: 30px;
 }
 .match-theme .nextPage .btn-default{
     background-color: #262626;
@@ -260,8 +264,8 @@ span.sure{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 .match-theme .removeVar1,.match-theme .removeVar1_btn{
     margin:auto;
@@ -269,8 +273,8 @@ span.sure{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
 }
 .match-theme #addVar1:hover,
 .match-theme .removeVar1:hover,.match-theme #addVar1_btn:hover,
@@ -286,8 +290,8 @@ span.sure{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 .match-theme .removeVar2{
     margin:auto;
@@ -295,8 +299,8 @@ span.sure{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
 }
 .match-theme #addVar2:hover,
 .match-theme .removeVar2:hover{
@@ -310,7 +314,7 @@ span.sure{
     padding-bottom: 50px
 }
 .match-guest .nextPage{
-    position: fixed;
+    position: absolute;
     bottom:0;
     width: 1090px;
     background-color: #f5f5f5;
@@ -393,9 +397,19 @@ li{
     margin-left: -25px;
     background-color: #cccccc;
 }
-.match-guest .content img{
+.match-guest#rater_match  .content img{
     width: 100%;
-    height: 195px;
+    height: 160px;
+    border-radius: 50%;
+}
+#synthesize_match_son .content img{
+    width: 100%;
+    height: 180px;
+}
+#synthesize_match_son .content .judge-img{
+   height: 180px;
+   width: 100%;
+   margin: 0px;
 }
 .match-guest .content .judge-content{
     padding-left: 10px;
@@ -449,6 +463,10 @@ li{
 }
 .match-guest .content .judge-img{
     position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 15px auto;
 }
 .match-guest .content .close{
     text-align: center;
@@ -460,26 +478,44 @@ li{
     color: #fff;
     opacity:1;
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: -40px;
+    top: -8px;
     display: none;
 }
 
 
 /*嘉宾详情页*/
-.match-guestdata .search-form {
+ .match-guestdata .search-form {
     position: relative;
-}
-
-.match-guestdata .search-form .fa-search {
+} 
+  .match-guestdata .search-form .fa-search {
     color: #8e8e8e;
     font-size: 24px;
     position: absolute;
-    left: 10px;
-    top: 10px;
+    left: 364px;
+    top: 8px;
+ }
+ .match-guestdata .search-form input {
+    border: none;
+    background-color: #f5f5f5;
+    border: 2px solid #c8c8c8;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    margin-bottom: 32px;
+    min-width: 400px;
+    outline: none;
+    font-size: 16px;
+  }
+  .match-guestdata   .search-form .fa-search {
+    color: #8e8e8e;
+    font-size: 24px;
+    position: absolute;
+    left: 364px;
+    top: 6px;
 }
 
-.match-guestdata .search-form input {
+/*.match-guestdata .search-form input {
     border: none;
     background-color: #f5f5f5;
     border-bottom: 2px solid #c8c8c8;
@@ -490,7 +526,7 @@ li{
     min-width: 400px;
     outline: none;
     font-size: 16px;
-}
+}*/
 .match-guestdata .addguest .new{
     display: inline-block;
     color: #d0a45d;
@@ -694,8 +730,8 @@ li{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 .match-theme .removeVar3{
     margin:auto;
@@ -703,8 +739,8 @@ li{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
 }
 
 .match-theme #addVar3:hover,
@@ -825,8 +861,8 @@ li{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 .match-theme .removeVar4{
     margin:auto;
@@ -834,8 +870,8 @@ li{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
 }
 
 .match-theme .addVar4:hover,
@@ -851,8 +887,8 @@ li{
     background-color:#fff;
     color:#f1f1f1;
     font-size: 20px;
-    border:2px solid #eeeeee;
-    color: #dddddd;
+    border:2px solid #999;
+    color: #999;
 }
 .match-theme .removeVar5{
     margin:auto;
@@ -860,8 +896,8 @@ li{
     font-size: 20px;
     display:inline-block;
     background-color:#fff;
-    color: #dddddd;
-    border:2px solid #eeeeee;
+    color: #999;
+    border:2px solid #999;
 }
 
 .match-theme .addVar5:hover,
@@ -1090,8 +1126,9 @@ li{
     position: absolute;
     z-index: 1000;
     background: #fff;
-    width: 80%;
+    width: 44%;
     border: 1px solid #D2D6DE;
+    margin-top:33px;
 }
 #list ul{
     display: none;
@@ -1115,8 +1152,31 @@ li{
 #list li:hover{
     background: #FAFAFA;
 }
-
+.user_defined_type{
+    position: relative;
+}
+.user_defined_type input{
+    width:48%;
+    float:left;
+}
+.type_icon{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    display: block;
+    position: absolute;
+    left: 38%;
+    top:2px;
+    font-style: normal;
+    font-size: 20px;
+    color: #999;
+    /* transform: rotate(90deg); */
+}
 
 .as div{
     width: 14%;
+}
+#synthesize_match_son .judge-img .rater-img{
+    
 }

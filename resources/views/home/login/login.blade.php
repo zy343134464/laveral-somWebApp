@@ -33,7 +33,7 @@
                         <div class="col-xs-8 text-left">
                             <div class="checkbox icheck">
                                 <label>
-                                    <input type="checkbox">下次自动登录
+                                    <!-- <input type="checkbox">下次自动登录 -->
                                 </label>
                             </div>
                         </div>
@@ -47,12 +47,13 @@
                 <div class="other-login">
                     <ul>
                         <li>
-                            <i class="fa fa-mobile-phone"></i><br>
-                            <a href="#">短信验证</a>
+                            <a href="{{url('login/sms')}}"><i class="fa fa-mobile-phone"></i><br>
+                            短信验证</a>
                         </li>
                         <li>
-                            <i class="fa fa-weixin"></i><br>
-                            <a href="#">微信</a>
+                            <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx598491fa37be6375&redirect_uri=http%3A%2F%2Fsystem.somonline.org%2Fweixin&response_type=code&scope=snsapi_login&state=<?php echo urlencode($_SERVER['HTTP_HOST'])?>">
+                            <i class="fa fa-weixin" ></i><br>
+                            微信</a>
                         </li>
                         <li>
                             <i class="fa fa-qq"></i><br>

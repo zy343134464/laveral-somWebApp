@@ -20,7 +20,34 @@ class RaterController extends Controller
      */
     public function room(Request $request, Rater_match $rater_match)
     {
-        $matches = $rater_match->where(['user_id'=> user(),'status'=>1])->Paginate(15);
+        if (isset($request->kw)) {
+            $kw = $request->kw;
+        } else {
+            $kw = '';
+        }
+        $time = isset($request->time) ? $request->time : 0;
+        if($time) {
+            $intime = array(0.25 ,1,12);
+            if(in_array($time,$intime)) {
+                $time = time() - 3600 * 24 * 7 * 30 * $time;
+            } elseif($time == 'out') {
+                $time = 'out';
+            } else {
+                $time = 0;
+            }
+        }
+
+        $matches = Rater_match::select('rater_match.round', 'matches.id', 'matches.round as mround', 'matches.title', 'matches.pic')->where(['rater_match.user_id'=> user(),'rater_match.status'=>1])->leftJoin('matches', function ($query) {
+            $query->on('rater_match.match_id', 'matches.id');
+        })->leftJoin('reviews', function ($query) {
+            $query->on('reviews.match_id', 'matches.id')->on('reviews.round','rater_match.round');
+        })->where('matches.title', 'like', '%'.$kw.'%')->when($time,function ($query) use ($time) {
+            if($time == 'out') {
+                return $query->where('reviews.end_time','<',time() - 3600 * 24 * 7 * 30 * 12);
+            }
+            return $query->where('reviews.end_time','>',$time);
+        })->orderBy('reviews.end_time','desc')->Paginate(15);
+        
         return view('home.rater.room', ['matches'=>$matches,'kw'=>'','status'=>'',]);
     }
 
@@ -33,7 +60,34 @@ class RaterController extends Controller
     public function history(Request $request, Rater_match $rater_match)
     {
         // ----------------------------评委评审室.获取评委赛事--------------------------------
-        $matches = $rater_match->where(['user_id'=> user('id'),'status'=>2])->Paginate(15);
+        // $matches = $rater_match->where(['user_id'=> user('id'),'status'=>2])->Paginate(15);
+        if (isset($request->kw)) {
+            $kw = $request->kw;
+        } else {
+            $kw = '';
+        }
+        $time = isset($request->time) ? $request->time : 0;
+        if($time) {
+            $intime = array(0.25 ,1,12);
+            if(in_array($time,$intime)) {
+                $time = time() - 3600 * 24 * 7 * 30 * $time;
+            } elseif($time == 'out') {
+                $time = 'out';
+            } else {
+                $time = 0;
+            }
+        }
+
+        $matches = Rater_match::select('rater_match.round', 'matches.id', 'matches.round as mround', 'matches.title', 'matches.pic')->where(['rater_match.user_id'=> user(),'rater_match.status'=>2])->leftJoin('matches', function ($query) {
+            $query->on('rater_match.match_id', 'matches.id');
+        })->leftJoin('reviews', function ($query) {
+            $query->on('reviews.match_id', 'matches.id')->on('reviews.round','rater_match.round');
+        })->where('matches.title', 'like', '%'.$kw.'%')->when($time,function ($query) use ($time) {
+            if($time == 'out') {
+                return $query->where('reviews.end_time','<',time() - 3600 * 24 * 7 * 30 * 12);
+            }
+            return $query->where('reviews.end_time','>',$time);
+        })->orderBy('reviews.end_time','desc')->Paginate(15);
         return view('home.rater.room', ['matches'=>$matches,'kw'=>'','status'=>'',]);
     }
     /**
@@ -48,15 +102,13 @@ class RaterController extends Controller
     {
         function simple_arr($arr)
         {
-
-            if(is_array($arr)) {
-
+            if (is_array($arr)) {
                 foreach ($arr as &$arr_v) {
                     $arr_v = $arr_v->production_id;
                 }
                 return $arr;
             } else {
-                $arr = json_decode($arr,true);
+                $arr = json_decode($arr, true);
                 foreach ($arr as &$arr_v) {
                     $arr_v = $arr_v->production_id;
                 }
@@ -85,10 +137,10 @@ class RaterController extends Controller
         if (!count($arr)) {
             return back()->with('msg', '该阶段尚未开始');
         }
-        $arr = json_decode($arr->production_id,true);
+        $arr = json_decode($arr->production_id, true);
 
         $pic = $production->whereIn('id', $arr);
-        $review = \DB::table('reviews')->select('type', 'setting', 'end_time')->where(['match_id'=>$mid,'round'=>$round])->first();
+        $review = \DB::table('reviews')->select('type', 'setting', 'end_time', 'promotion')->where(['match_id'=>$mid,'round'=>$round])->first();
         $time = $review->end_time - time();
 
         $time = $this->secsToStr($time);
@@ -97,12 +149,15 @@ class RaterController extends Controller
             return back()->with('msg', '获取数据失败');
         }
         $type = $review->type;
-        $tip = json_decode($review->setting,true);
-        if(isset($tip['reference'])) {
+        $tip = json_decode($review->setting, true);
+        if (isset($tip['reference'])) {
             $tip = $tip['reference'];
         } else {
             $tip = '';
         }
+
+        $promotion = $review->setting;
+
         $sum = [];
         if ($type == 1) {
             $finish_pass = \DB::table('score')->select('production_id')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user(),'res'=>1])->get()->toArray();
@@ -114,7 +169,7 @@ class RaterController extends Controller
             $finish_standby = \DB::table('score')->select('production_id')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user(),'res'=>3])->get()->toArray();
             $sum[3] = count($finish_standby);
 
-            $sum[0] = $secure->total - $sum[1] - $sum[2] - $sum[3];
+            $sum[0] = count($arr) - $sum[1] - $sum[2] - $sum[3];
 
             if ($status == 1) {
                 $pic = $pic->whereIn('id', simple_arr($finish_pass));
@@ -125,10 +180,13 @@ class RaterController extends Controller
             } elseif ($status == '0') {
                 $pic = $pic->whereNotIn('id', simple_arr($finish_pass))->whereNotIn('id', simple_arr($finish_out))->whereNotIn('id', simple_arr($finish_standby));
             }
+            //最搞分最低分
+            $tiptop = 0;
+            $lowest = 0;
         } else {
             $finish_arr = \DB::table('score')->select('production_id')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user()])->get()->toArray();
             $sum[1] = $secure->finish;
-            $sum[0] = $secure->total - $secure->finish ;
+            $sum[0] = count($arr) - $secure->finish ;
 
             if ($status === '0') {
                 $pic = $pic->whereNotIn('id', simple_arr($finish_arr));
@@ -136,12 +194,17 @@ class RaterController extends Controller
                 $pic = $pic->whereIn('id', simple_arr($finish_arr));
             } else {
             }
+            //最高最低分
+            $tiptop = \DB::table('score')->select('sum')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user()])->max('sum');
+            $lowest = \DB::table('score')->select('sum')->where(['match_id'=>$mid,'round'=>$round,'rater_id'=>user()])->min('sum');
         }
             
             
         $pic = $pic->Paginate(16);
 
-        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review,'round'=>$round,'time'=>$time,'tip'=>$tip]);
+
+
+        return view('home.rater.review', ['status'=>$status,'pic'=>$pic,'kw'=>'','match'=>$match,'round'=>$round,'sum'=>$sum,'secure'=>$secure,'type'=>$type, 'review'=>$review,'round'=>$round,'time'=>$time,'tip'=>$tip,'tiptop'=>$tiptop,'lowest'=>$lowest,'promotion'=>$promotion]);
     }
     /**
      * 评审点击 获取图片详细信息
@@ -152,8 +215,10 @@ class RaterController extends Controller
     public function rater_pic(Request $request, $id)
     {
         $data = \DB::table('productions')->find($id);
+        $round  = $request->round;
+        $score = \DB::table('score')->where(['production_id'=>$id,'round'=>$round,'rater_id'=>user()])->first();
         if (count($data)) {
-            return ['msg'=>'','data'=>$data];
+            return ['msg'=>'','data'=>$data,'score'=>$score];
         } else {
             return ['msg'=>'数据错误','data'=>false];
         }
@@ -175,14 +240,15 @@ class RaterController extends Controller
      * @param  [type] $times [description]
      * @return [type]        [description]
      */
-    public function secsToStr($times) {
-        $result = '00:00:00';  
-        if ($times>0) {  
-                $hour = floor($times/3600);  
-                $minute = floor(($times-3600 * $hour)/60);  
-                $second = floor((($times-3600 * $hour) - 60 * $minute) % 60);  
-                $result = $hour.'小时'.$minute.'分'.$second.'秒';  
-        }  
+    public function secsToStr($times)
+    {
+        $result = '00:00:00';
+        if ($times>0) {
+            $hour = floor($times/3600);
+            $minute = floor(($times-3600 * $hour)/60);
+            $second = floor((($times-3600 * $hour) - 60 * $minute) % 60);
+            $result = $hour.'小时'.$minute.'分'.$second.'秒';
+        }
         return $result;
     }
 }

@@ -24,9 +24,7 @@ class MatchController extends Controller
             return back();
         }
         $user_id = user();
-        $join = Production::where(['match_id'=>$id,'status'=>2])->when($user_id,function($query) use($user_id){
-                return $query->where('user_id',$user_id);
-            })->count();
+        $join = \DB::table('user_match')->where(['match_id'=>$id, 'user_id'=>$user_id, ])->count();
         return view('home.match.show', ['match'=>$res,'id'=>$id,'join'=>$join]);
     }
     /**
@@ -36,13 +34,13 @@ class MatchController extends Controller
      * @param  [type]  $id      [description]
      * @return [type]           [description]
      */
-    public function statement(Request $request,Match $match, $id)
+    public function statement(Request $request, Match $match, $id)
     {
         $res = $match->info($id);
         if (!$res) {
             return back();
         }
-        return view('home.match.statement',['match'=>$res,'id'=>$id]);
+        return view('home.match.statement', ['match'=>$res,'id'=>$id]);
     }
     /**
      * 报名表
@@ -51,13 +49,15 @@ class MatchController extends Controller
      * @param  [type]  $id      [description]
      * @return [type]           [description]
      */
-    public function form(Request $request,Match $match,$id)
+    public function form(Request $request, Match $match, $id)
     {
         $res = $match->info($id);
         if (!$res) {
             return back();
         }
-        return view('home.match.form',['match'=>$res,'id'=>$id]);
+        $person = \DB::table('require_personal')->where('match_id',$id)->count();
+        $team = \DB::table('require_team')->where('match_id',$id)->count();
+        return view('home.match.form', ['match'=>$res,'id'=>$id,'team'=>$team,'person'=>$person]);
     }
     /**
      * 参赛填写表单
@@ -67,18 +67,25 @@ class MatchController extends Controller
      */
     public function join(Request $request, $id)
     {
-        
         $user_id = user();
         $match = Match::find($id);
-        if(!count($match)) return back();
-        if($user_id) {
-
+        if (!count($match)) {
+            return back();
+        }
+        if(isset($request->status) && $request->status == 2) {
+            $cat = 1;
+        } else {
+            $cat = 0;
+        }
+        if ($user_id) {
             $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->first();
-            if(!count($res)) {
-                \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'created_at'=>time()]);
-
+            if (!count($res)) {
+                \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'cat'=>$cat,'created_at'=>time()]);
+            } else {
+                \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->delete();
+                \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'cat'=>$cat,'created_at'=>time()]);
             }
-            if($match->cat == 1)  {
+            if ($match->cat == 1) {
                 return redirect()->to('match/synthesize/'.$id);
             } else {
                 return redirect()->to('match/uploadimg/'.$id);
@@ -92,17 +99,16 @@ class MatchController extends Controller
     {
         try {
             $res = Match::find($id);
-            if($res->cat == 1) {
+            if ($res->cat == 1) {
                 $son = Match::where(['pid'=>$id])->get();
             } else {
                 return redirect()->to('/');
             }
 
-            return view('home.match.synthesize',['match'=>$son]);
+            return view('home.match.synthesize', ['match'=>$son]);
         } catch (\Exception $e) {
             return redirect()->to('/');
         }
-        
     }
     /**
      * 上传作品页面
@@ -113,23 +119,32 @@ class MatchController extends Controller
     public function uploadimg(Request $request, $id)
     {
         try {
-            
             $match = Match::find($id);
-            if($match->cat == 2) {
+            if ($match->cat == 2) {
                 $personal_id = $match->pid;
             } else {
-                 $personal_id = $id;
+                $personal_id = $id;
             }
-            $require_personal = \DB::table('require_personal')->where('match_id', $personal_id)->first();
-
-            if(!count($require_personal)) return back()->with('该赛事未设置投稿要求');
-
+            $user_id = user();
+            $cat = \DB::table('user_match')->where(['match_id'=>$personal_id, 'user_id'=>$user_id])->first();
+            $cat = $cat->cat;
+            if($cat){
+                $table = 'require_team';
+            } else {
+                $table = 'require_personal';
+            }
+            $require_personal = \DB::table($table)->where('match_id', $personal_id)->first();
+            if (!count($require_personal)) {
+                return back()->with('msg','该赛事未设置投稿要求');
+            }
+            $num = Production::where(['match_id'=>$id,'user_id'=>$user_id, 'status'=>2,'cat'=>$cat])->count();
             // $res = \DB::table('user_match')->where(['user_id'=>user(),'match_id'=>$id])->get();
             // if(!count($res)) {
             //     \DB::table('user_match')->insert(['user_id'=>user(),'match_id'=>$id,'num'=>20,'status'=>1,'created_at'=>time()]);
             // }
-            return view('home.match.uploadimg', ['id'=>$id, 'personal'=>$require_personal, 'match'=>$match]);
+            return view('home.match.uploadimg', ['id'=>$id, 'personal'=>$require_personal, 'match'=>$match,'num'=>$num]);
         } catch (\Exception $e) {
+            dd($e);
             return back();
         }
     }
@@ -193,12 +208,20 @@ class MatchController extends Controller
      */
     public function douploadimgs(Request $request, Match $match, $id)
     {
-        
         try {
             \DB::beginTransaction();
             $user_id = user();
-            Production::where(['user_id'=>$user_id,'match_id'=>$id])->whereIn('status',[0,1])->delete();
-            $personal = \DB::table('require_personal')->where('match_id',$id)->first();
+            $cat = \DB::table('user_match')->where('user_id',$user_id)->first();
+            $cat = $cat->cat;
+            Production::where(['user_id'=>$user_id,'match_id'=>$id])->whereIn('status', [0,1])->delete();
+
+            $match_res = $match->find($id);
+            if($match_res->cat == 2) {
+                $person_match_id = $match_res->pid;
+            } else {
+                $person_match_id = $id;
+            }
+            $personal = \DB::table('require_personal')->where('match_id', $person_match_id)->first();
 
             $info = json_decode($personal->production_info);
             $diy = json_decode($personal->diy_info);
@@ -206,7 +229,7 @@ class MatchController extends Controller
             $db = [];
             
             //上传组图
-            foreach (json_decode($request->data,true)[1] as $inputv) {
+            foreach (json_decode($request->data, true)[1] as $inputv) {
                 $temp = [];
                 if ($request->method == 1) {
                     $status = 2;
@@ -216,30 +239,29 @@ class MatchController extends Controller
 
 
                 foreach ($info[0] as $infok => $infov) {
-
-                    if(isset($inputv[$infov])) {
+                    if (isset($inputv[$infov])) {
                         $temp[$infov] = $inputv[$infov];
-                        if($inputv[$infov] == '' && $info[1][$infok]) $status = 0;
+                        if ($inputv[$infov] == '' && $info[1][$infok]) {
+                            $status = 0;
+                        }
                     }
-
-                    
-                    
                 }
 
-                if($diy_able) {
+                if ($diy_able) {
                     $diy_info = [];
 
                     foreach ($diy[0] as $diyk => $diyv) {
-                        if(isset($inputv['defined'.$diyk])) {
+                        if (isset($inputv['defined'.$diyk])) {
                             $diy_info[$diyk]['key'] = $diyv;
                             $diy_info[$diyk]['value'] = $inputv['defined'.$diyk];
                         
-                            if($inputv['defined'.$diyk] == '' && $diy[1][$diyk]) $status = 0;
+                            if ($inputv['defined'.$diyk] == '' && $diy[1][$diyk]) {
+                                $status = 0;
+                            }
                         }
                     }
 
-                    $temp['diy_info'] = json_encode($diy_info,JSON_UNESCAPED_UNICODE);
-
+                    $temp['diy_info'] = json_encode($diy_info, JSON_UNESCAPED_UNICODE);
                 }
                 $img_temp = [];
 
@@ -248,18 +270,19 @@ class MatchController extends Controller
                     //$img_temp[] = $img;
                 }
 
-                $temp['pic'] = json_encode($img_temp,JSON_UNESCAPED_UNICODE);
+                $temp['pic'] = json_encode($img_temp, JSON_UNESCAPED_UNICODE);
                 $temp['type'] = 1;
                 $temp['user_id'] = $user_id;
                 $temp['status'] = $status;
                 $temp['match_id'] = $id;
+                $temp['cat'] = $cat;
                 Production::insertGetId($temp);
                 $db[] = $temp;
                 //\DB::commit();
                 //return json_encode(['msg'=>'上传成功','data'=>true],JSON_UNESCAPED_UNICODE);
             }
             //上传单张
-            foreach (json_decode($request->data,true)[0] as $inputv) {
+            foreach (json_decode($request->data, true)[0] as $inputv) {
                 $temp = [];
                 if ($request->method == 1) {
                     $status = 2;
@@ -267,49 +290,52 @@ class MatchController extends Controller
                     $status = 1;
                 }
                 foreach ($info[0] as $infok => $infov) {
-                    if(isset($inputv[$infov])) {
+                    if (isset($inputv[$infov])) {
                         $temp[$infov] = $inputv[$infov];
                     
-                        if($inputv[$infov] == '' && $info[1][$infok]) $status = 0;
+                        if ($inputv[$infov] == '' && $info[1][$infok]) {
+                            $status = 0;
+                        }
                     }
                 }
 
-                if($diy_able) {
+                if ($diy_able) {
                     $diy_info = [];
 
                     foreach ($diy[0] as $diyk => $diyv) {
-                        if(isset($inputv['defined'.$diyk])) {
+                        if (isset($inputv['defined'.$diyk])) {
                             $diy_info[$diyk]['key'] = $diyv;
                             $diy_info[$diyk]['value'] = $inputv['defined'.$diyk];
                         
-                            if($inputv['defined'.$diyk] == '' && $diy[1][$diyk]) $status = 0;
+                            if ($inputv['defined'.$diyk] == '' && $diy[1][$diyk]) {
+                                $status = 0;
+                            }
                         }
                     }
 
 
-                    $temp['diy_info'] = json_encode($diy_info,JSON_UNESCAPED_UNICODE);
+                    $temp['diy_info'] = json_encode($diy_info, JSON_UNESCAPED_UNICODE);
                 }
 
-                $temp['pic'] = save_match_pic($inputv['pic']);;
+                $temp['pic'] = save_match_pic($inputv['pic']);
+                ;
                 $temp['type'] = 0;
                 $temp['user_id'] = $user_id;
                 $temp['status'] = $status;
                 $temp['match_id'] = $id;
-
+                $temp['cat'] = $cat;
                 Production::insertGetId($temp);
                 $db[] = $temp;
             }
             unset($db);
             \DB::commit();
 
-            return json_encode(['msg'=>'上传成功','data'=>true],JSON_UNESCAPED_UNICODE);
-
+            return json_encode(['msg'=>'上传成功','data'=>true], JSON_UNESCAPED_UNICODE);
         } catch (\Exception $e) {
             \DB::rollback();
-            return json_encode(['msg'=>'上传失败','data'=>false],JSON_UNESCAPED_UNICODE);
+            return json_encode(['msg'=>'上传失败'.$e->getmessage(),'data'=>false], JSON_UNESCAPED_UNICODE);
         }
         
-        $match->uploadimgs($request,$id);
     }
 
 
@@ -323,7 +349,16 @@ class MatchController extends Controller
     public function ajax_match_pic(Request $request, Match $match, $id)
     {
         $data = [];
-        $personal = \DB::table('require_personal')->select('diy_info','production_info')->where('match_id',$id)->first();
+
+        $match_res = $match->find($id);
+        
+        if($match_res->cat == 2) {
+            $person_match_id = $match_res->pid;
+        } else {
+            $person_match_id = $id;
+        }
+
+        $personal = \DB::table('require_personal')->select('diy_info', 'production_info')->where('match_id', $person_match_id)->first();
         $must = json_decode($personal->production_info);
         $diy = json_decode($personal->diy_info);
 
@@ -334,16 +369,15 @@ class MatchController extends Controller
 
         $input = production_info();
 
-        $pic = Production::select($field)->where(['user_id'=>user(),'match_id'=>$id,'type'=>0])->whereIn('status',[0,1])->get();
+        $pic = Production::select($field)->where(['user_id'=>user(),'match_id'=>$id,'type'=>0])->whereIn('status', [0,1])->get();
         
 
-        if(count($pic)) {
+        if (count($pic)) {
             $pic = $pic->toArray();
 
             foreach ($pic as &$v) {
-
-                $diy_info = json_decode($v['diy_info'],true);
-                if($must[0]) {
+                $diy_info = json_decode($v['diy_info'], true);
+                if ($must[0]) {
                     // foreach ($must[0] as $mk => $mv) {
                     //     // $temp = [];
                     //     // $temp['key'] = $input[$mv];
@@ -353,15 +387,14 @@ class MatchController extends Controller
                     //     // $v[$mv] = $temp;
 
                     // }
-                    
                 }
                 $temp = [];
 
-                if($diy) {
+                if ($diy) {
                     $temp = [];
-                    if($diy[0]) {
+                    if ($diy[0]) {
                         foreach ($diy[0] as $dk => $dv) {
-                              // $temp[$dk]['key'] = $dv;
+                            // $temp[$dk]['key'] = $dv;
                             // $temp[$dk]['name'] = 'defined'.$dk;
                             
                             // $temp[$dk]['value'] = isset($diy_info[$dk]['value']) ? $diy_info[$dk]['value'] : '';
@@ -374,7 +407,6 @@ class MatchController extends Controller
                         
                     $v['diy_info'] = [];
                 }
-                
             }
         } else {
             $pic = [];
@@ -382,15 +414,14 @@ class MatchController extends Controller
 
         $data[] = $pic;
 
-        $pic = Production::select($field)->where(['user_id'=>user(),'match_id'=>$id,'type'=>1])->whereIn('status',[0,1])->get();
+        $pic = Production::select($field)->where(['user_id'=>user(),'match_id'=>$id,'type'=>1])->whereIn('status', [0,1])->get();
         
 
-        if(count($pic)) {
+        if (count($pic)) {
             $pic = $pic->toArray();
 
             foreach ($pic as &$v) {
-
-                $diy_info = json_decode($v['diy_info'],true);
+                $diy_info = json_decode($v['diy_info'], true);
 
                 // foreach ($must[0] as $mk => $mv) {
                 //     // $temp = [];
@@ -402,9 +433,9 @@ class MatchController extends Controller
                 // }
                 $temp = [];
 
-                if($diy) {
+                if ($diy) {
                     $temp = [];
-                    if($diy[0]) {
+                    if ($diy[0]) {
                         foreach ($diy[0] as $dk => $dv) {
                             // $temp[$dk]['key'] = $dv;
                             // $temp[$dk]['name'] = 'defined'.$dk;
@@ -415,12 +446,10 @@ class MatchController extends Controller
                             
                             //$temp[$dk] = isset($diy_info[$dk]['value']) ? $diy_info[$dk]['value'] : '';
                         }
-                        
                     }
                     $v['diy_info'] = [];
                 }
                 $v['pic'] = json_decode($v['pic']);
-                
             }
         } else {
             $pic = [];
@@ -429,29 +458,6 @@ class MatchController extends Controller
         $data[] = $pic;
 
 
-        return stripslashes(json_encode($data,JSON_UNESCAPED_UNICODE));
+        return stripslashes(json_encode($data, JSON_UNESCAPED_UNICODE));
     }
-    /**
-     * 微博借口test
-     * @return [type] [description]
-     */
-    public function weibo() {
-        return \Socialite::with('weibo')->redirect();
-        // return \Socialite::with('weibo')->scopes(array('email'))->redirect();
-    }
-
-    /**
-     * 微博测试
-     * @return function [description]
-     */
-    public function callback() {
-        $oauthUser = \Socialite::with('weibo')->user();
-
-        var_dump($oauthUser->getId());
-        var_dump($oauthUser->getNickname());
-        var_dump($oauthUser->getName());
-        var_dump($oauthUser->getEmail());
-        var_dump($oauthUser->getAvatar());
-    }
-    
 }

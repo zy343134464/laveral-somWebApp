@@ -1,6 +1,9 @@
 @extends('admin.match.create.layout')
 @section('title', '投稿要求——团体')
-
+@section('other_css')
+<link rel="stylesheet" href="{{ url('lib/commonLsf/css/commonLsf.css') }}" />
+<link rel="stylesheet" href="{{ url('css/admin/match/matchcreate.css') }}" />
+@endsection
 @section('body2')
 <div class="match-theme">
 	<form class="form-horizontal" role="form" action="{{ url('admin/match/storerequire_team/'.$id) }}" method="post" >
@@ -27,7 +30,7 @@
 					</label>
 				</div>
 				<div>
-					<a href="{{ url('admin/match/del_team/'.$id)}}" class="btn  btn-danger"> 清空本页所有内容</a>
+					<a href="javascript:void(0)" onclick="layerfunc()" class="btn  btn-danger"> 清空本页所有内容</a>
 				</div>
             </div>
             <div class="form-group div2">
@@ -44,7 +47,7 @@
 			<div class="form-group div2">
 				<label for="firstname7" class="col-sm-2 control-label">收费说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title"  value="{{ $v->introdution_title }}">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off"   name="introdution_title"  value="{{ $v->introdution_title }}">
 					<textarea class="form-control" placeholder="400字内" name="introdution_detail" >{{ $v->introdution_detail }}</textarea>
 				</div>
 			</div>
@@ -57,6 +60,7 @@
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname" placeholder="张/组"  name="group_max" value="{{ $v->group_max }}">
+					<span class="input-hint">张/组</span>
 				</div>
 				<div class="col-sm-3" style="padding-top:6px;padding-left:30px">
 					<span>
@@ -74,7 +78,7 @@
 				<label for="firstname3" class="col-sm-2 control-label">每组张数</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3" placeholder="张"  name="num_min"   value="{{ $v->num_min }}">
-				</div>x
+				</div>
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="" placeholder="张"  name="num_max" value="{{ $v->num_max }}">
@@ -90,20 +94,19 @@
 				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname4" placeholder="MB" name="size_max"  value="{{ $v->size_max }}">
-					<span class="input-hint">MB</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname3" class="col-sm-2 control-label">最小边长</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3" placeholder="像素"  name="length"  value="{{ $v->length }}">
-					<span class="input-hint">Px</span>
+					<span class="input-hint">px</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">补充说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title" value="{{ $v->introdution_title }}">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off"  name="introdution_title" value="{{ $v->introdution_title }}">
 					<textarea class="form-control" placeholder="400字内" name="introdution_detail" >{{ $v->introdution_detail }}</textarea>
 				</div>
 			</div>
@@ -201,9 +204,9 @@
             @if(count($diy_info) && count($diy_required) && count($diy_required) == count($diy_info) && is_array($diy_info))
 			@foreach($diy_info as $diyk => $diyv)
 			<div class="form-group">
-				<label for="firstname7" class="col-sm-2 control-label">自定义信息</label>
+				<label for="firstname7" class="col-sm-2 control-label" >自定义</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="diy_info[]" value="{{ $diyv}}">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off"  name="diy_info[]" value="{{ $diyv}}">
 				</div>
 				<div class="col-sm-2">
 					<select name="diy_required[]">
@@ -214,11 +217,25 @@
 				
 			</div>
 			@endforeach
+			@else
+			<div class="form-group">
+				<label for="firstname7" class="col-sm-2 control-label">自定义</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off" name="diy_info[]" value="">
+				</div>
+				<div class="col-sm-2">
+					<select name="diy_required[]">
+						<option value ="1">必填</option>
+						<option value ="0" selected>选填</option>
+					</select>
+				</div>
+				
+			</div>
 			@endif
 			<?php
 				unset($diy, $diy_info, $diy_required);
 			?>
-			<p><span id="addVar1_btn" class="col-sm-offset-2">+</span></p>
+			<p><span id="addVar1_btn" class="col-sm-offset-2" style="margin-left:180px;">+</span></p>
 			<!-- <div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">多语录入</label>
 				<div class="col-sm-9">
@@ -282,7 +299,7 @@
 					</label>
 				</div>
 				<div>
-					<a href="{{ url('admin/match/del_team/'.$id)}}" class="btn  btn-danger"> 清空本页所有内容</a>
+					<a href="javascript:void(0)" onclick="layerfunc()" class="btn  btn-danger"> 清空本页所有内容</a>
 				</div>
             </div>
             <div class="form-group div2">
@@ -341,7 +358,7 @@
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3"  name="size_min" step="0" min="0" value="">
 				</div>
-				<label class="col-sm-1 control-label" style="margin-left:-54px;">MB 至</label>
+				<label class="col-sm-1 control-label" style="margin-left:-54px;">至</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname4"  name="size_max"  value="">
 					<span class="input-hint">MB</span>
@@ -351,13 +368,13 @@
 				<label for="firstname3" class="col-sm-2 control-label">最小边长</label>
 				<div class="col-sm-2">
 					<input type="number" class="form-control" id="firstname3" placeholder="像素"  name="length"  value="">
-					<span class="input-hint">Px</span>
+					<span class="input-hint">px</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">补充说明</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="introdution_title" value="">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off"  name="introdution_title" value="">
 					<textarea class="form-control"  placeholder="400字内" name="introdution_detail" ></textarea>
 				</div>
 			</div>
@@ -437,9 +454,9 @@
             </div>
 			
 			<div class="form-group">
-				<label for="firstname7" class="col-sm-2 control-label">自定义信息</label>
+				<label for="firstname7" class="col-sm-2 control-label">自定义</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="firstname7" placeholder="小标题"  name="diy_info[]" value="">
+					<input type="text" class="form-control" id="firstname7" placeholder="小标题" autocomplete="off" name="diy_info[]" value="">
 				</div>
 				<div class="col-sm-2">
 					<select name="diy_required[]">
@@ -449,7 +466,7 @@
 				</div>
 				
 			</div>
-			<p><span id="addVar1_btn" class="col-sm-offset-2">+</span></p>
+			<p><span id="addVar1_btn" class="col-sm-offset-2" style="margin-left:180px;">+</span></p>
 			<!-- <div class="form-group">
 				<label for="firstname7" class="col-sm-2 control-label">多语录入</label>
 				<div class="col-sm-9">
@@ -497,6 +514,7 @@
 		</div>
 		@endif
 		<script>
+				// $('.navbar-nav li').eq(4).addClass('active');
 				var status = true;
 					//表单提交事件
 		       function addInput (id){
@@ -513,15 +531,33 @@
 		      		// if(confirm('确定跳转到团体投稿吗？')){
 		      		// 	addInput (1);
 		      		// }else{
-		      			addInput (2);	
+		      			addInput (1);	
 		      		// };
 		      }
+		    
 		</script>
 		<div class="nextPage">
-			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:50px;" onclick="return addInput(0)">保存</button>
-			<button type="submit" class="btn btn-default next-page-btn" style="padding:10px 15px;margin-left:10px;" onclick="return popupTpl()">下一页</button>
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;" onclick="return addInput(0)">上一页</button>
+			<button type="submit" class="btn btn-default" style="padding:10px 15px;margin-left:20px;" onclick="return addInput(2)">保存</button>
+			<button type="submit" class="btn btn-default next-page-btn" style="padding:10px 15px;margin-left:20px;" onclick="return popupTpl()">下一页</button>
 			<!-- <a href="{{ url('admin/match/showedit/'.$id) }}" class="btn btn-default" style="padding:10px 15px;margin-left:50px;">预览</a> -->
 		</div>
 	</form>
 </div>
+@endsection
+@section('other_js')
+<script src="{{ url('lib/commonLsf/js/commonLsf.js') }}"></script>
+<script>
+	  $('.match-nav .nav  li').removeClass('active');
+	  $('.match-nav .nav  li').eq(4).addClass('active');
+	  var url_a = "{{ url('admin/match/del_team/'.$id)}}";
+	 function layerfunc() {
+	 	commonLsf.layerFunc({title:'提示',msg:'确定清空本页所有内容吗？'},function(flag){
+	 		if(flag){
+	 			window.location.href = url_a;
+	 		}
+	 	})
+	 }
+</script>
+<script type="text/javascript" src="{{ url('js/admin/match/matchcreate.js') }}"></script>
 @endsection

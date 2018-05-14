@@ -5,8 +5,8 @@
 <style>
 		
 	</style>
-<div class="match-theme">
-	<form class="form-horizontal" role="form" action="{{ url('admin/match/store/'.$type) }}" method="post"  enctype="multipart/form-data">
+<div class="match-theme" id="new_game"> 
+	<form class="form-horizontal" role="form" action="{{ url('admin/match/store/'.$type) }}" method="post"  enctype="multipart/form-data" name="haibao">
 	 {{ csrf_field() }}
 	 	<div class="match-poster">
 			<div class="form-group" style="color:red;margin-left:40px;">
@@ -16,6 +16,7 @@
 			<h4>赛事海报</h4>
 			<div class="form-group" id="aetherupload-wrapper">
 				<div class="col-sm-4 col-sm-offset-2">
+					<div class="form-group Modify-div" onclick="popShow('popCapture')"><div class="col-sm-4 col-sm-offset-2"><div class="close"><i class="fa fa-close"></i></div></div></div>
 					<input type="hidden" class="pic" name="pic" >
 					<div class="upload-pic pv" onclick="popShow('popCapture')">
 						<div class="limit">
@@ -44,8 +45,9 @@
 			?>
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">赛事类别</label>
-				<div class="col-sm-2 as" style="position:relative;">
-					<input type="text" class="form-control bs" id="firstname" placeholder="" name="type">
+				<div class="col-sm-4 as user_defined_type" style="position:relative;">
+					<input type="text" class="form-control bs" id="firstname" placeholder="" name="type" style="margin-right:10px;">
+					<i class="type_icon glyphicon glyphicon-menu-down"></i>
 					<ul id="list">
 						<li>风光</li>
 						<li>肖像
@@ -124,21 +126,39 @@
 @section('other_js')
     <script src="{{ url('js/admin/match/matchcreate.js')}}"></script>
     <script>     
+		$('.type_icon').click(function(){
+			$('#list').show();
+		})   
 		$('#firstname').click(function(){
 			$('#list').show();
 		})
 		var body = document.body||document.getElementsByTagName("body")[0];
 		body.onclick = function(e){
 			var target = event.target;
-			
-			if(target.className!='form-control bs'&&target.className!='col-sm-2 as'){
+			if(target.className!='form-control bs'&&target.className!='col-sm-4 as'&&target.className!='type_icon glyphicon glyphicon-menu-down'){
 				$('#list').hide();
 			}
 		}
 		document.getElementById('list').onclick = function(e){
 			var target = event.target;
+			// console.log(target)
+			if(target.innerHTML=='其他 – 自定义'){
+				$('#firstname').attr('name','');
+				if($('.user_defined_type').find('input').length==1){
+					var input=document.createElement("input");
+					input.name = "type";
+					input.className = "form-control new";
+					$('.user_defined_type')[0].appendChild(input);
+				}
+			}else{
+				$('#firstname').attr('name','type');
+				$('.new').remove();
+			}
 			if(target.innerHTML.indexOf('<')<0){
 				$('#firstname').val(target.innerHTML);
+				$('#list').hide();
+			}else{
+				$('#firstname').val(target.innerHTML.substring(0,target.innerHTML.indexOf('<')));
 				$('#list').hide();
 			}
 		}
@@ -152,7 +172,14 @@
         function popShow(id) {
             $('.pop-mask').show();
             $('#'+id).show();
+            $('#popCapture .capture-title').html('上传赛事海报');
+            $('#popCapture .preview-title').html('赛事海报预览');
         }
+        // $('form').submit(function(){
+        // 	var params = serializeForm('haibao');
+        // 	console.log(params);
+        // 	return false;
+        // })
     </script>
 
     <script src="{{url('js/cropper.js')}}"></script>
